@@ -3,7 +3,6 @@
  */
 var webpack = require('webpack')
 var path = require('path')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
     entry: './src/index.js',
@@ -39,14 +38,6 @@ module.exports = {
         }]
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            title: 'Preview Page',
-            filename: 'index.html',
-            files: {
-                css: [],
-                js: ['main.js']
-            }
-        }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': '"development"'
         }),
