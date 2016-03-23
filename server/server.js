@@ -42,7 +42,7 @@ function renderFullPage(html, initialState) {
         <title>loading</title>
       </head>
       <body>
-        <div id="app">loading</div>
+        <div id="root">loading</div>
         <script>
           //window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>

@@ -7,7 +7,7 @@ class IndexPage extends React.Component {
     render() {
         return (
             <div>
-                {this.props.children || 'Welcome to you'}
+                {this.props.children}
             </div>
         )
     }

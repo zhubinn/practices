@@ -6,7 +6,6 @@ import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import Immutable from 'immutable'
 import isPlainObject from 'lodash/isPlainObject'
-import DevTools from 'containers/__debug/DevTools'
 import rootReducer from 'reducers'
 
 const stateTransformer = states => {
