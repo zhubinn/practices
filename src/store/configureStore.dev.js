@@ -23,9 +23,7 @@ const stateTransformer = states => {
 export default function configureStore(initialState) {
     const store = createStore(rootReducer, initialState, compose(
         applyMiddleware(thunk, createLogger({ stateTransformer })),
-        typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ?
-            window.devToolsExtension() :
-            DevTools.instrument()
+        window.devToolsExtension()
     ))
 
     if (module.hot) {

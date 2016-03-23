@@ -5,7 +5,6 @@ import { Router } from 'react-router'
 import { Provider } from 'react-redux'
 
 import routes from '../routes'
-import DevTools from './__debug/DevTools'
 
 var rootEle = document.createElement('div');
 rootEle.id = 'root'
@@ -16,10 +15,7 @@ export default class Root extends React.Component {
         const { store, history } = this.props
         return (
             <Provider store={store}>
-                <div>
-                    <Router history={history} routes={routes}/>
-                    <DevTools/>
-                </div>
+                <Router history={history} routes={routes}/>
             </Provider>
         )
     }
