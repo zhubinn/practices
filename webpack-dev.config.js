@@ -7,7 +7,7 @@ var path = require('path')
 module.exports = {
     entry: './src/index.js',
     output: {
-        publicPath: '',
+        publicPath: 'http://localhost:8082/',
         path: './lib',
         filename: '[name].js',
     },
