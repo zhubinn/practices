@@ -6,10 +6,6 @@ import { Provider } from 'react-redux'
 
 import routes from '../routes'
 
-var rootEle = document.createElement('div');
-rootEle.id = 'root'
-document.body.appendChild(rootEle);
-
 export default class Root extends React.Component {
     render() {
         const { store, history } = this.props

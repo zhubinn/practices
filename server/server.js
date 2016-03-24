@@ -31,7 +31,11 @@ app.use((req, res) => {
 
     // Send the rendered page back to the client
     //res.send(renderFullPage(html, finalState))
-    res.send(renderFullPage())
+    if (req.headers.api) {
+        res.sendFile(__dirname + '/www/data.html')
+    } else {
+        res.send(renderFullPage())
+    }
 })
 
 function renderFullPage(html, initialState) {
@@ -42,7 +46,7 @@ function renderFullPage(html, initialState) {
         <title>loading</title>
       </head>
       <body>
-        <div id="app">loading</div>
+        <div id="root">loading</div>
         <script>
           //window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>
