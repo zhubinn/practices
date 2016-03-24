@@ -31,7 +31,11 @@ app.use((req, res) => {
 
     // Send the rendered page back to the client
     //res.send(renderFullPage(html, finalState))
-    res.send(renderFullPage())
+    if (req.headers.api) {
+        res.sendFile(__dirname + '/www/data.html')
+    } else {
+        res.send(renderFullPage())
+    }
 })
 
 function renderFullPage(html, initialState) {
