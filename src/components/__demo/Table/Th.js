@@ -1,22 +1,19 @@
 /**
- * Created by chenhf on 16-3-23.
+ * Created by chenhf on 16-3-25.
  */
-export default class Th extends React.Component {
-    getKey() {
-        return this.props.key
-    }
-
+export default class Table extends React.Component {
     render() {
         const {
             key,
             text,
+            format,
             style,
             ...other,
             } = this.props
 
         return (
-            <th style={Object.assign({}, style)} {...other}>
-                {text || this.props.children}
+            <th {...other} style={Object.assign({}, style)}>
+                {text}
             </th>
         )
     }

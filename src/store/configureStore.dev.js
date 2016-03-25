@@ -11,12 +11,18 @@ import rootReducer from 'reducers'
 const stateTransformer = states => {
     let finalStates = {}
     for(let key in states) {
+        if (!states.hasOwnProperty(key))
+            continue
+
         const state = states[key]
+
         if (Immutable.Iterable.prototype.isPrototypeOf(state) && typeof state.toObject === 'function') {
-            finalStates[key] = JSON.stringify(state.toObject())
+            finalStates[key] = state.toObject()
+        } else if (isPlainObject(state)) {
+            finalStates[key] = stateTransformer(state)
         }
     }
-    return finalStates
+    return JSON.stringify(finalStates)
 }
 
 export default function configureStore(initialState) {

@@ -2,16 +2,19 @@
  * Created by c on 16/3/21.
  */
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 
 class IndexPage extends React.Component {
     render() {
         return (
             <div>
-                <a href="/__demo/login">Login</a>
+                <Link to="/__demo/login">
+                    login
+                </Link>
                 <br/>
-                <a href="/scrmnumreport/index/index/VISITID/1">crm</a>
-                <br/>
-                <a href="/__demo/index">table</a>
+                <Link to="/__demo/table">
+                    table
+                </Link>
                 {this.props.children}
             </div>
         )

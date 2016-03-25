@@ -2,13 +2,17 @@
  * Created by c on 16/3/21.
  */
 import { Route, IndexRoute } from 'react-router'
-import { IndexPage, NoMatch, DemoIndexPage, DemoLoginPage } from 'containers'
+
+import IndexPage from 'containers/IndexPage'
+import NoMatch from 'containers/NoMatch'
+import DemoTablePage from 'containers/__demo/TablePage'
+import DemoLoginPage from 'containers/__demo/LoginPage'
+
 
 export default (
     <Route path="/" component={IndexPage}>
-        <Route path="scrmnumreport/index/index/VISITID/:id"/>
         <Route path="__demo">
-            <Route path="index" component={DemoIndexPage}/>
+            <Route path="table" component={DemoTablePage}/>
             <Route path="login" component={DemoLoginPage}/>
         </Route>
         <Route path="*" component={NoMatch}/>
