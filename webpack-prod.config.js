@@ -1,8 +1,8 @@
 /**
  * Created by c on 16/3/21.
  */
-var webpack = require ('webpack');
-var path = require ('path');
+var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
     entry: './src/index.js',
@@ -36,18 +36,18 @@ module.exports = {
             loaders: ['style', 'css'],
         }]
     },
-    devtool: 'cheap-eval-source-map	',
+    //devtool: 'source-map',
     plugins: [
-        new webpack.HotModuleReplacementPlugin (),
-        new webpack.NoErrorsPlugin (),
-        new webpack.DefinePlugin ({
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
+        new webpack.DefinePlugin({
             'process.env.NODE_ENV': '"production"'
         }),
-        new webpack.ProvidePlugin ({
+        new webpack.ProvidePlugin({
             "React": "react",
             "ReactDOM": "react-dom",
             "Redux": "redux",
         }),
-        new webpack.optimize.UglifyJsPlugin ()
+        new webpack.optimize.UglifyJsPlugin()
     ]
 };
