@@ -13,6 +13,28 @@ const CLASS = 'className'
 const EMPTY_FORMAT = x => x
 
 class Table extends React.Component {
+    /**
+     * 用于生成columns里的key
+     * @param headCellCreator function, return ReactElement(JSX)
+     * @returns {Function}
+     */
+    static thunk = (headCellCreator) => {
+        return (...args) => {
+            return headCellCreator(...args)
+        }
+    }
+
+    /**
+     * 传递dispatch
+     * @param action Redux的Action
+     * @returns {Function}
+     */
+    static dispatch = action => {
+        return (dispatch, getState) => {
+            return dispatch(action)
+        }
+    }
+
     constructor(props) {
         super(props)
 
@@ -109,28 +131,6 @@ class Table extends React.Component {
                 { this.props.children }
             </table>
         )
-    }
-}
-
-/**
- * 用于生成columns里的key
- * @param headCellCreator function, return ReactElement(JSX)
- * @returns {Function}
- */
-Table.thunk = (headCellCreator) => {
-    return (...args) => {
-        return headCellCreator(...args)
-    }
-}
-
-/**
- * 传递dispatch
- * @param action Redux的Action
- * @returns {Function}
- */
-Table.dispatch = action => {
-    return (dispatch, getState) => {
-        return dispatch(action)
     }
 }
 
