@@ -12,7 +12,7 @@ import {
     CK_REPORT_DELETE,
 } from 'actions/__demo/report'
 
-const report = (state = Immutable.Map({ columns: [], rows: [] }), action) => {
+const report = (state = Immutable.fromJS({ columns: [], rows: [] }), action) => {
     let payload = action.payload
     let rows = state.get('rows')
 
@@ -24,18 +24,17 @@ const report = (state = Immutable.Map({ columns: [], rows: [] }), action) => {
         case CK_REPORT_GETDATA_FAILURE:
             return state.merge(action.payload, { pending: false })
         case CK_REPORT_UPDATE:
-            rows = rows.map((r, i) => {
-                if (i === payload.index) {
-                    return payload.row
-                }
-                return r
+            return state.updateIn(['rows'], function(rows) {
+                return rows.map((map, index, list) => {
+                    return index === payload.index ? payload.row : map
+                })
             })
-            return state.set('rows', rows)
         case CK_REPORT_DELETE:
-            rows = rows.filter((r, i) => {
-                return i !== payload.index
+            return state.updateIn(['rows'], function(rows) {
+                return rows.filter((map, index, list) => {
+                    return index !== payload.index
+                })
             })
-            return state.set('rows', rows)
         default:
             return state
     }
