@@ -19,15 +19,27 @@ const stateTransformer = states => {
         if (Immutable.Iterable.prototype.isPrototypeOf(state) && typeof state.toObject === 'function') {
             finalStates[key] = state.toObject()
         } else if (isPlainObject(state)) {
-            finalStates[key] = stateTransformer(state)
+            finalStates[key] = key === 'routing' ? states : stateTransformer(state)
         }
     }
     return JSON.stringify(finalStates)
 }
 
 export default function configureStore(initialState) {
+    const collapsed = true
+    const colors = {
+        title: () => `red`,
+        prevState: () => `blue`,
+        action: () => `orange`,
+        nextState: () => `green`,
+        error: () => `#F20404`,
+    }
     const store = createStore(rootReducer, initialState, compose(
-        applyMiddleware(thunk, createLogger({ stateTransformer })),
+        applyMiddleware(thunk, createLogger({
+            stateTransformer,
+            collapsed,
+            colors,
+        })),
         window.devToolsExtension()
     ))
 
