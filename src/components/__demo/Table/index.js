@@ -18,7 +18,7 @@ class Table extends React.Component {
      * @param headCellCreator function, return ReactElement(JSX)
      * @returns {Function}
      */
-    static thunk = (headCellCreator) => {
+    static thunk(headCellCreator) {
         return (...args) => {
             return headCellCreator(...args)
         }
@@ -29,7 +29,7 @@ class Table extends React.Component {
      * @param action Redux的Action
      * @returns {Function}
      */
-    static dispatch = action => {
+    static dispatch(action) {
         return (dispatch, getState) => {
             return dispatch(action)
         }

@@ -7,16 +7,16 @@
 npm install
 ```
 #### 启动 静态资源的web服务
-``` 项目初始化
+``` 静态资源的web服务
 npm run debug
 ```
 #### 启动 用于调试的web服务
-``` 项目初始化
+``` 调试的web服务
 node server/index
 ```
 #### 发布前，合并压缩
-``` 项目初始化
-npm run prod
+``` 合并压缩
+npm run build
 ```
 [相关源码](https://github.com/yinker)
 [相关教程](https://github.com/tech-books)
