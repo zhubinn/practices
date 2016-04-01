@@ -15,6 +15,9 @@ class IndexPage extends React.Component {
                 <Link to="/__demo/table">
                     table
                 </Link>
+                <Link to="/__demo/pagination">
+                    pagination
+                </Link>
                 {this.props.children}
             </div>
         )
