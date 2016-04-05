@@ -16,7 +16,7 @@ class IndexPage extends React.Component {
                     table
                 </Link>
                 <br/>
-                <Link to="/userlist/pagination">
+                <Link to="/userlist">
                     userlist
                 </Link>
                 {this.props.children}

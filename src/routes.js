@@ -7,7 +7,7 @@ import IndexPage from 'containers/IndexPage'
 import NoMatch from 'containers/NoMatch'
 import DemoTablePage from 'containers/__demo/TablePage'
 import DemoLoginPage from 'containers/__demo/LoginPage'
-import Userlist from 'containers/userlist/pagination'
+import Userlist from 'containers/userlist/index'
 
 export default (
     <Route path="/" component={IndexPage}>
@@ -15,9 +15,7 @@ export default (
             <Route path="table" component={DemoTablePage}/>
             <Route path="login" component={DemoLoginPage}/>
         </Route>
-        <Route path="userlist">
-            <Route path="pagination" component={Userlist}/>
-        </Route>
+        <Route path="userlist" component={Userlist}/>
         <Route path="*" component={NoMatch}/>
     </Route>
 )

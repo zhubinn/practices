@@ -3,7 +3,7 @@
  */
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Pagination from 'components/userlist/pagination'
+import Pagination from 'components/pagination/index'
 import { demoevent } from 'actions/userlist/index'
 
 class Userlist extends React.Component {
@@ -19,10 +19,11 @@ class Userlist extends React.Component {
     	const { demoeventFn } = this
     	const { userlistdata } = this.props
     	const pending = userlistdata.get ('pending')
+        const preDisabled = userlistdata.get('pagination').get ('preDisabled')
         return (
             <div>
             {pending}
-            <Pagination demoEvent={demoeventFn}/>
+            <Pagination preDisabled = {preDisabled} demoEvent={demoeventFn}/>
             </div>
         )
     }
