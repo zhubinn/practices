@@ -5,15 +5,19 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Todos from 'components/__demo/Todos'
-import  addTodo  from 'actions/__demo/addTodo'
+import  {addTodo, changeStatus, showCompleted, showAll}  from 'actions/__demo/todo'
 
 class TodosPage extends React.Component {
     render () {
-        const { addTodo} = this.props
+        const { addTodo,  changeStatus, showCompleted, showAll} = this.props
 
         const items =  this.props.mapState.items
+
         return (
-            <Todos  add = {addTodo}  items = {items}/>
+            <Todos  add = {addTodo} showCompleted = {showCompleted} showAll = {showAll}
+
+                items = { this.props.mapState.showFilter === 'ALL' ? items : items.filter(function(item){return item.completed})}
+                onclick = {changeStatus}/>
 
         )
     }
@@ -26,5 +30,8 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 export default connect (mapStateToProps, {
-    addTodo
+    addTodo,
+    changeStatus,
+    showCompleted,
+    showAll
 }) (TodosPage)

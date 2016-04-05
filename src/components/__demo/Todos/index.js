@@ -50,7 +50,7 @@ export default class Todos extends React.Component {
 
 
     render() {
-        const { items } = this.props
+        const { items, onclick, showCompleted, showAll } = this.props
 
         return (
             <div className="todos">
@@ -65,12 +65,18 @@ export default class Todos extends React.Component {
                         }}
 
                         key={i}
-                        onClick={}
+                        onClick = {function (e) {
+                            onclick(i)
+                        }}
                         >
                             {item.text}
                         </li>))
                     }
                 </ul>
+                <div>
+                    <button onClick={showCompleted}>completed</button>
+                    <button onClick={showAll}>all</button>
+                </div>
             </div>
         )
     }
