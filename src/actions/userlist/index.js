@@ -3,20 +3,20 @@ import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 
 
-const CK_REPORT_UPDATE = 'CK_REPORT_UPDATE'
+const CK_USERLIST_UPDATE = 'CK_USERLIST_UPDATE'
 
-const update = ()=> {
+const demoevent = ()=> {
 
     return (dispatch, getState) => {
         dispatch({
-            type: CK_REPORT_UPDATE,
+            type: CK_USERLIST_UPDATE,
             payload: {
-                data: 2
+                data: 3
             }
         })
     }
 }
 
 export {
-    update
+    demoevent
 }

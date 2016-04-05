@@ -6,12 +6,12 @@ import { routerReducer as routing } from 'react-router-redux'
 
 import report from './__demo/report'
 import user from './__demo/user'
-import reportOther from './report/index'
+import userlist from './userlist/index'
 
 const rootReducer = combineReducers({
-	reportOther,
     report,
     user,
     routing,
+    userlist,
 })
 export default rootReducer
