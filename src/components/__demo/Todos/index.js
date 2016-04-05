@@ -19,11 +19,13 @@ export default class Todos extends React.Component {
 
         if (value.length === 0) {
             ele.style.border = '1px solid red'
+            return
         } else {
             ele.style.border = ''
         }
         const { add } = this.props
         add(value)
+        ele.value=''
     }
 
 
@@ -36,7 +38,7 @@ export default class Todos extends React.Component {
                 <button onClick = {this.onAdd}>add</button>
                 <ul>
 
-                    {this.props.items.map((item,i)=>(<li key={i}>{item}</li>))}
+                    {this.props.items.map((item,i)=>(<li  key={i}>{item}</li>))}
                 </ul>
             </div>
         )
