@@ -4,7 +4,27 @@
 
 import { findDOMNode } from 'react-dom'
 
+class Todo extends React.Component{
+    constructor(props) {
+        super(props)
+        this.onClick = this.onClick.bind(this)
 
+    }
+    onClick(e) {
+
+    }
+
+    render() {
+        const { item, onclick } = this.props
+
+        return (
+            <li
+                onClick={function(e){onclick(item.completed)}}
+
+            >{item}</li>
+        )
+    }
+}
 
 export default class Todos extends React.Component {
     constructor(props) {
@@ -38,7 +58,18 @@ export default class Todos extends React.Component {
                 <button onClick = {this.onAdd}>add</button>
                 <ul>
 
-                    {this.props.items.map((item,i)=>(<li  key={i}>{item}</li>))}
+                    {
+                        this.props.items.map((item,i)=>(<li
+                        style={{
+                            textDecoration: item.completed ? 'line-through' : 'none'
+                        }}
+
+                        key={i}
+                        onClick={}
+                        >
+                            {item.text}
+                        </li>))
+                    }
                 </ul>
             </div>
         )

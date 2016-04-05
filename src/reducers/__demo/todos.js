@@ -7,7 +7,11 @@ const todos = (state = {items: []}, action) => {
             return {
                 items: [
                     ...state.items,
-                    action.text
+                    {
+                        text: action.text,
+                        completed: false
+                    }
+
                 ]
             }
 
