@@ -2,21 +2,35 @@
 import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 
-
-const CK_USERLIST_UPDATE = 'CK_USERLIST_UPDATE'
-
-const demoevent = ()=> {
+const perAction = ()=> {
 
     return (dispatch, getState) => {
         dispatch({
-            type: CK_USERLIST_UPDATE,
-            payload: {
-                data: 3
-            }
+            type: 'CK_PAGE_PRE',
+        })
+    }
+}
+
+const nextAction = ()=> {
+
+    return (dispatch, getState) => {
+        dispatch({
+            type: 'CK_PAGE_NEXT',
+        })
+    }
+}
+
+const indexAction = ()=> {
+
+    return (dispatch, getState) => {
+        dispatch({
+            type: 'CK_PAGE_INDEX',
         })
     }
 }
 
 export {
-    demoevent
+    perAction,
+    nextAction,
+    indexAction,
 }

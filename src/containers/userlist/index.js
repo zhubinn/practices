@@ -4,26 +4,39 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Pagination from 'components/pagination/index'
-import { demoevent } from 'actions/userlist/index'
+import { perAction, nextAction, indexAction } from 'actions/userlist/index'
 
 class Userlist extends React.Component {
 	constructor(){
         super()
-        this.demoeventFn = this.demoeventFn.bind(this)
+        this.preFn = this.preFn.bind(this)
+        this.nextFn = this.nextFn.bind(this)
+        this.indexFn = this.indexFn.bind(this)
     }
-	demoeventFn() {
-		const { demoevent } = this.props
-		demoevent();
+	preFn() {
+		const { perAction } = this.props
+		perAction();
 	}
+    nextFn() {
+        const { nextAction } = this.props
+        nextAction();
+    }
+    indexFn() {
+        const { indexAction } = this.props
+        indexAction();
+    }
     render() {
-    	const { demoeventFn } = this
+    	const { preFn, nextFn, indexFn } = this
     	const { userlistdata } = this.props
     	const pending = userlistdata.get ('pending')
-        const preDisabled = userlistdata.get('pagination').get ('preDisabled')
+        const pagination = userlistdata.get('pagination')
+        const preDisabled = pagination.preDisabled
+        const nextDisabled = pagination.get('nextDisabled')
+        const items = pagination.get('items')
         return (
             <div>
             {pending}
-            <Pagination preDisabled = {preDisabled} demoEvent={demoeventFn}/>
+            <Pagination items={items} preDisabled = {preDisabled} nextDisabled = {nextDisabled}  indexFn = {indexFn}  preFn={preFn} nextFn={nextFn}/>
             </div>
         )
     }
@@ -37,5 +50,5 @@ const mapStateToProps = (state, ownProps) => {
 
 
 export default connect(mapStateToProps, {
-    demoevent
+    perAction,nextAction,indexAction
 })(Userlist)
