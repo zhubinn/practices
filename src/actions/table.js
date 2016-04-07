@@ -13,6 +13,7 @@ const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS'
 const GET_DATA_FAILURE = 'GET_DATA_FAILURE'
 
 
+
 /**
  * 获取数据
  * @param
@@ -42,11 +43,17 @@ const getData = (source)=> {
     }
 }
 
-
+function showDetail(i){
+    return {
+        type: 'SHOW_DETAIL',
+        i
+    }
+}
 
 export {
     GET_DATA,
     GET_DATA_SUCCESS,
     GET_DATA_FAILURE,
-    getData
+    getData,
+    showDetail
 }

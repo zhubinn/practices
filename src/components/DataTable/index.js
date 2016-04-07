@@ -1,25 +1,74 @@
 /**
- * Created by janeluck on 4/7/16.
+ * Created by janeluck on 4/6/16.
  */
 
 import { findDOMNode } from 'react-dom'
 import { isPlainObject, isFunction, isString, isArray } from 'lodash'
+import BaseTable from './BaseTable'
+
 import './DataTable.less'
 
-export default class DataTable extends React.Component{
+
+class Tr extends React.Component {
+    render() {
+        return (<tr></tr>)
+    }
+}
+
+export default class DataTable extends React.Component {
     constructor(props) {
         super(props)
-        this.onClick = this.onClick.bind(this)
+
+        this.resolveTables = this.resolveTables.bind(this)
 
     }
 
+    // 分割table
+    resolveTables(rows, columns, separatedIndexes) {
+        //todo: 数组处理
+        let finalTables= []
+        if (separatedIndexes.length === 0) return finalTables = [{rows: rows, columns:columns, hasDetail: true}]
+
+        if (separatedIndexes.length === 1) return finalTables = [{rows: rows.slice(0 ,separatedIndexes[0]+1), columns: columns, hasDetail:true},{rows:rows, columns:columns}, {rows: rows.slice(separatedIndexes[0]+2), columns: columns, hasDetail:true}]
+
+        let sortableTables = separatedIndexes.sort(function (a, b) {
+            return a - b
+        })
 
 
-    onClick(e) {
+        sortableTables.reduce(function(a, b){
+            finalTables.push({rows: rows.slice(a, b), columns: columns, hasDetail: true})
+            finalTables.push({rows:rows, columns:columns})
+            return b
+        })
+
+
+        console.log(finalTables)
+        return finalTables
+
+
+
+
 
     }
 
-    resolveColumnsTitle(columns){
+    /* showDetailClicked(i){
+     this.props.onShowDetail(i)
+     }
+     // 解析需要展示的列, 并从row中取出字段对应内容(文本或者虚拟dom)
+     resolveRow(row, columns) {
+
+     return columns.map((col, i) => col['datafield'])
+     .map((keyName, i) => ({
+     keyName: keyName,
+     // 判断该列是否为自定义渲染
+     text: isFunction(columns[i]['cellsrenderer']) ? columns[i]['cellsrenderer'].call(this, row, columns[i], row[keyName]) : row[keyName]
+     })
+     )
+
+     }*/
+
+    resolveColumnsTitle(columns) {
         //todo: 判断字段hidden是否存在和其的值
         /* 返回表头文本数组
          ['姓名', '年龄']
@@ -28,71 +77,34 @@ export default class DataTable extends React.Component{
     }
 
 
-
-
-    // 解析需要展示的列, 并从row中取出字段对应内容(文本或者虚拟dom)
-    resolveRow(row, columns){
-
-        return columns.map((col, i) => col['datafield'])
-            .map((keyName, i) =>  ({
-                    keyName: keyName,
-                    // 判断该列是否为自定义渲染
-                    text: isFunction(columns[i]['cellsrenderer']) ?  columns[i]['cellsrenderer'].call(this, row, columns[i], row[keyName]) : row[keyName]
-                })
-            )
-
-    }
     render() {
-        const {rows, columns, searchColumns} = this.props
 
-        const mutiRows = fn(rows, [2,3])  // [{rows: [], columns: []}, {rows: [], columns: []}, {rows: [], columns: []}]
-
-        return (
-            mutiRows.map(item => {
-                return <table rows = items/>
-            })
-        )
+        const {rows, separatedIndexes, source, columns, searchColumns, onShowDetail } = this.props
+        // notes: 异步操作
 
         return (
-            <div className="dataTable">
+            <div>
                 <div>
-                    <button>高级搜索</button>
-                    <button>确定</button>
-                </div>
-                <div >
-                    <div className="dataTable-title">
-                        <div className="dataTable-title-row">
-                            {this.resolveColumnsTitle(columns).map((colName, i)=>(<div key = {i} className="dataTable-title-cell">{colName}</div>))}
+                    <table>
+                        <thead>
+                        <tr>
+                            {this.resolveColumnsTitle(columns).map((colName, i)=><th key={i}>{colName}</th>)}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
 
-                        </div>
-                    </div>
-                    <div className="dataTable-searchBar"></div>
-                    <div className="dataTable-body">
-                        {rows.map((row, i) => (
-                            <div className="dataTable-body-row" key = {i}>
-                                <div className="dataTable-body-tr">
-                                {this.resolveRow(row, columns).map(function (item, i) {
-                                    return (<div className="dataTable-body-td"   key={i}>{item.text}</div>)
-                                })}
-                                </div>
+                    {this.resolveTables(rows, columns, separatedIndexes).map(function(item, i){
+                        if (item.hasDetail) return (<BaseTable key = {i} rows={item.rows} columns={item.columns} hasDetail={item.hasDetail} onShowDetail={onShowDetail}/>)
+                        return (<BaseTable key = {i} rows={item.rows} columns={item.columns} />)
 
-                                <div className="dataTable-body-row-detail"></div>
-                            </div>
+                    })}
 
-                        ))}
 
-                        {/*
-                        <div className="dataTable-body-row">
-                            <div className="dataTable-body-tr">
-                                <div className="dataTable-body-td">1</div>
-                                <div className="dataTable-body-td">1</div>
-                                <div className="dataTable-body-td">1</div>
-                                <div className="dataTable-body-td">1</div>
-                            </div>
-                            <div className="dataTable-body-row-detail"></div>
-                        </div>*/}
-
-                    </div>
                 </div>
             </div>
         )
@@ -100,7 +112,9 @@ export default class DataTable extends React.Component{
 }
 
 
+DataTable.propTypes = {}
 
-DataTable.propTypes = {
-
+DataTable.defaultProps = {
+    separatedIndexes: [],
+    hasDetail: false
 }
