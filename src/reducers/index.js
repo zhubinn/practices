@@ -7,11 +7,13 @@ import { routerReducer as routing } from 'react-router-redux'
 import report from './__demo/report'
 import user from './__demo/user'
 import todos from './__demo/todos'
+import dataTable from './dataTable'
 
 const rootReducer = combineReducers({
     report,
     user,
     todos,
+    dataTable,
     routing,
 })
 
