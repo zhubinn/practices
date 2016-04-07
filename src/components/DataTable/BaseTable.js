@@ -15,8 +15,8 @@ export default class BaseTable extends React.Component {
         if (!this.props.hasDetail) return
 
 
-        console.log(1231313)
-        this.props.onShowDetail(i)
+
+        this.props.onShowDetail(this.props.startIndex + i)
     }
 
     // 解析需要展示的列, 并从row中取出字段对应内容(文本或者虚拟dom)
@@ -33,17 +33,22 @@ export default class BaseTable extends React.Component {
     }
 
     resolveColumnsTitle(columns) {
-        //todo: 判断字段hidden是否存在和其的值
+
+
         /* 返回表头文本数组
          ['姓名', '年龄']
          */
         return columns.map((col, i) => col['text'])
     }
 
+    renderHeader(hasDetail, columns){
+        if(hasDetail) return null
 
+        return (<thead><tr>{this.resolveColumnsTitle(columns).map((colName, i)=><th key={i}>{colName}</th>)}</tr></thead>)
+    }
     render() {
 
-        const {rows, columns } = this.props
+        const {rows, columns, hasDetail } = this.props
 
 
         return (
@@ -51,6 +56,8 @@ export default class BaseTable extends React.Component {
 
 
             <table>
+            {this.renderHeader(hasDetail, columns)}
+
                 <tbody>
 
                 {

@@ -8,6 +8,9 @@ import BaseTable from './BaseTable'
 
 import './DataTable.less'
 
+// todo: 获取数据action的详写
+import {secondRowsData, secondColumns} from 'components/DataTable/fakeData'
+
 
 class Tr extends React.Component {
     render() {
@@ -23,13 +26,13 @@ export default class DataTable extends React.Component {
 
     }
 
-    // 分割table
+    // 分割table, todo:逻辑分类
     resolveTables(rows, columns, separatedIndexes) {
-        //todo: 数组处理
-        let finalTables= []
-        if (separatedIndexes.length === 0) return finalTables = [{rows: rows, columns:columns, hasDetail: true}]
 
-        if (separatedIndexes.length === 1) return finalTables = [{rows: rows.slice(0 ,separatedIndexes[0]+1), columns: columns, hasDetail:true},{rows:rows, columns:columns}, {rows: rows.slice(separatedIndexes[0]+2), columns: columns, hasDetail:true}]
+        let finalTables= []
+        if (separatedIndexes.length === 0) return finalTables = [{rows: rows, columns:columns, hasDetail: true, startIndex: 0}]
+
+        if (separatedIndexes.length === 1) return finalTables = [{rows: rows.slice(0 ,separatedIndexes[0]+1), columns: columns, hasDetail:true,startIndex: 0},{rows:secondRowsData, columns:secondColumns}, {rows: rows.slice(separatedIndexes[0]+1), columns: columns, hasDetail:true,startIndex: separatedIndexes[0] + 1}]
 
         let sortableTables = separatedIndexes.sort(function (a, b) {
             return a - b
@@ -37,11 +40,11 @@ export default class DataTable extends React.Component {
 
 
         sortableTables.reduce(function(a, b){
-            finalTables.push({rows: rows.slice(a, b), columns: columns, hasDetail: true})
-            finalTables.push({rows:rows, columns:columns})
+            finalTables.push({rows: rows.slice(a, b), columns: columns, hasDetail: true, startIndex: a + 1})
+            finalTables.push({rows:secondRowsData, columns:secondColumns})
             return b
         })
-
+        finalTables.push({rows: rows.slice(sortableTables[sortableTables.length - 1]), columns:columns, hasDetail: true, startIndex: sortableTables[sortableTables.length - 1] + 1})
 
         console.log(finalTables)
         return finalTables
@@ -99,9 +102,8 @@ export default class DataTable extends React.Component {
                     </table>
 
                     {this.resolveTables(rows, columns, separatedIndexes).map(function(item, i){
-                        if (item.hasDetail) return (<BaseTable key = {i} rows={item.rows} columns={item.columns} hasDetail={item.hasDetail} onShowDetail={onShowDetail}/>)
-                        return (<BaseTable key = {i} rows={item.rows} columns={item.columns} />)
-
+                        if (item.hasDetail) return (<BaseTable startIndex = {item.startIndex}  key = {i} rows={item.rows} columns={item.columns} hasDetail={item.hasDetail} onShowDetail={onShowDetail}/>)
+                        return (<BaseTable  key = {i} rows={item.rows} columns={item.columns} />)
                     })}
 
 

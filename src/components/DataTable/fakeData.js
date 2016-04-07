@@ -1335,4 +1335,70 @@ let columns = [
     }
     }
 ];
-export {rowsData, columns, searchColumns}
+
+
+
+// 模拟二级表格行数据
+let secondRowsData = [{"CheckDay":"2016.03.22","UserName":"\u674e\u8587","DeptID":"2892","Dept":"\u9ebb\u8fa3\u70eb\u961f","Ctype":3,"Device":"-","InTime":"08:23","OutTime":"08:38","CheckLen":"0h 15min","AddrName":"\u7528\u53cb\u8f6f\u4ef6\u56ed","Address":"\u5317\u4eac\u5e02\u6d77\u6dc0\u533a\u5317\u6e05\u8def68\u53f7(\u8d75\u5e84\u5b50\u5317)","Lng":"116.24089400000000000000","Lat":"40.07269200000000000000","ID":19},{"CheckDay":"2016.03.21","UserName":"\u90ed\u7fe0\u768a","DeptID":"403","Dept":"\u6df1\u5733\u5206\u516c\u53f8","Ctype":1,"Device":"-","InTime":"17:57","OutTime":"-","CheckLen":"-","AddrName":"\u6c47\u4e30\u94f6\u884c(\u5e7f\u5dde\u91d1\u7a57\u8def\u652f\u884c)","Address":"\u91d1\u7a57\u8def1\u53f7\u90a6\u534e\u73af\u7403\u5e7f\u573a\u9996\u5c42","Lng":"113.32294400000000000000","Lat":"23.13085000000000000000","ID":20}]
+
+
+// 模拟二级表格列数据
+
+let secondColumns =  [
+
+
+    {
+        text: '员工姓名',
+        datafield: 'UserName' ,
+        width: 75
+    }, {
+        text: '部门',
+        datafield: 'Dept',
+        width: 100
+    }, {
+        text: '签到签退类型',
+        datafield: 'Ctype',
+        width: 120
+
+
+
+    }, {
+        text: '拜访时长',
+        datafield: 'CheckLen',
+        width: 85,
+        cellsalign: 'left'
+    },{
+        text: '日期',
+        datafield: 'CheckDay',
+        width: 135,
+        cellsalign: 'left'
+    },{
+        text: '签到/上班时间',
+        datafield: 'InTime',
+        width: 135,
+        cellsalign: 'left'
+    },{
+        text: '签退/下班时间',
+        datafield: 'OutTime',
+        width: 135,
+        cellsalign: 'left'
+    },{
+        text: '客户/位置/考勤点名称',
+        datafield: 'AddrName',
+        width: 200,
+        cellsalign: 'left'
+    },{
+        text: '客户/位置/考勤点详细地址',
+        datafield: 'Address',
+        width: 250,
+        cellsalign: 'left'
+
+    },{
+        text: '品牌/型号/识别码尾号',
+        datafield: 'Device',
+        width: 250,
+        cellsalign: 'left'
+
+
+    }]
+export {rowsData, columns, searchColumns, secondRowsData, secondColumns}
