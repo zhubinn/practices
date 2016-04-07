@@ -12,6 +12,9 @@ export default class DataTable extends React.Component{
         this.onClick = this.onClick.bind(this)
 
     }
+
+
+
     onClick(e) {
 
     }
@@ -41,6 +44,14 @@ export default class DataTable extends React.Component{
     }
     render() {
         const {rows, columns, searchColumns} = this.props
+
+        const mutiRows = fn(rows, [2,3])  // [{rows: [], columns: []}, {rows: [], columns: []}, {rows: [], columns: []}]
+
+        return (
+            mutiRows.map(item => {
+                return <table rows = items/>
+            })
+        )
 
         return (
             <div className="dataTable">

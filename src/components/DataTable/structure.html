@@ -3,32 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+
+        .dataTable-body-td, .dataTable-title-cell{
+            display: inline-block;
+            width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis; /* 文本溢出部分显示为点... */
+            white-space: nowrap; /* 文本超出宽度不做换行处理 */
+        }
+
+        .dataTable-body-row-detail{
+            height: 0;
+            transition: height 0.2s ease;
+        }
+    </style>
 </head>
 <body>
-<div className="dataTable">
+<div class="dataTable">
     <div>
         <button>高级搜索</button>
         <button>确定</button>
     </div>
     <div >
-        <div className="dataTable-title">
-            <div className="dataTable-title-row">
-                <div className="dataTable-title-cell">1</div>
-                <div className="dataTable-title-cell">1</div>
-                <div className="dataTable-title-cell">1</div>
-                <div className="dataTable-title-cell">1</div>
+        <div class="dataTable-title">
+            <div class="dataTable-title-row">
+                <div class="dataTable-title-cell">1</div>
+                <div class="dataTable-title-cell">1</div>
+                <div class="dataTable-title-cell">1</div>
+                <div class="dataTable-title-cell">1</div>
             </div>
         </div>
-        <div className="dataTable-searchBar"></div>
-        <div className="dataTable-body">
-            <div className="dataTable-body-row">
-                <div className="dataTable-body-tr">
-                    <div className="dataTable-body-td">1</div>
-                    <div className="dataTable-body-td">1</div>
-                    <div className="dataTable-body-td">1</div>
-                    <div className="dataTable-body-td">1</div>
+        <div class="dataTable-searchBar"></div>
+        <div class="dataTable-body">
+            <div class="dataTable-body-row">
+                <div class="dataTable-body-tr">
+                    <div class="dataTable-body-td">1</div>
+                    <div class="dataTable-body-td">1</div>
+                    <div class="dataTable-body-td">1</div>
+                    <div class="dataTable-body-td">1</div>
                 </div>
-                <div className="dataTable-body-row-detail"></div>
+                <div class="dataTable-body-row-detail"></div>
             </div>
 
         </div>
