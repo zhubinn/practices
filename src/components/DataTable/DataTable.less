@@ -1,0 +1,13 @@
+@default-cell-width: 150px;
+.dataTable-body-td, .dataTable-title-cell{
+  display: inline-block;
+  width: @default-cell-width;
+  overflow: hidden;
+  text-overflow: ellipsis; /* 文本溢出部分显示为点... */
+  white-space: nowrap; /* 文本超出宽度不做换行处理 */
+}
+
+.dataTable-body-row-detail{
+  height: 0;
+  transition: height 0.2s ease;
+}

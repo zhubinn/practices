@@ -8,11 +8,13 @@ import { connect } from 'react-redux'
 import DataTable from 'components/DataTable'
 // import  {addTodo, changeStatus, showCompleted, showAll}  from 'actions/__demo/todo'
 
+import {rowsData, columns, searchColumns} from 'components/DataTable/fakeData'
+
 class DataTablePage extends React.Component {
     render () {
 
         return (
-        <DataTable />
+        <DataTable rows = {rowsData} columns = {columns} searchColumns = {searchColumns}/>
 
         )
     }
