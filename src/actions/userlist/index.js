@@ -20,11 +20,20 @@ const nextAction = ()=> {
     }
 }
 
-const indexAction = ()=> {
-
+const indexAction = (index)=> {
     return (dispatch, getState) => {
         dispatch({
             type: 'CK_PAGE_INDEX',
+            pageIndex:index,
+        })
+    }
+}
+
+const pageGoAction = (index)=> {
+    return (dispatch, getState) => {
+        dispatch({
+            type: 'CK_PAGE_GO',
+            pageIndex:index,
         })
     }
 }
@@ -33,4 +42,5 @@ export {
     perAction,
     nextAction,
     indexAction,
+    pageGoAction,
 }

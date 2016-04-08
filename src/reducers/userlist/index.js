@@ -66,8 +66,7 @@ const fillList = function(cacheCurrent) {
   return items;
 }
 
-let items;
-let current;
+let current, pageCount = userlistObj.pagination.pageCount , items, preDisabled, nextDisabled;
 
 userlistObj.pagination.items = fillList(1);
 
@@ -78,29 +77,66 @@ export default function userlist(state = Immutable.fromJS(userlistObj), action) 
       if (current == 1) {
         return state;
       }
-      items = fillList(current - 1);
+      current = current - 1;
+      items = fillList(current);
+
+      if(current == 1){
+        preDisabled = true;
+      }
+
       return state.merge({
         pagination: {
           items: items,
-          current: current - 1
+          current: current,
+          preDisabled: preDisabled
         }
       })
     case 'CK_PAGE_NEXT':
       current = state.toJS().pagination.current;
-      if (current == 20) {
+      debugger
+      if (current == pageCount) {
         return state;
       }
-      items = fillList(current + 1);
+      current = current + 1
+      items = fillList(current);
+      if (current == pageCount) {
+        nextDisabled = true;
+      }
       return state.merge({
         pagination: {
           items: items,
-          current: current + 1
+          current: current,
+          nextDisabled: nextDisabled
         }
       })
     case 'CK_PAGE_INDEX':
-      return state.merge({
-        pending: "index"
-      })
+      current = action.pageIndex;
+      items = fillList(action.pageIndex);
+      return state.merge(
+      {
+        pagination: {
+          items: items,
+          current: current
+        }
+      }
+      )
+    case 'CK_PAGE_GO':
+      current = action.pageIndex;
+      pageCount = state.toJS().pagination.pageCount;
+      if (current > pageCount || current < 1) {
+        alert("超出范围！")
+        return state;
+      }
+      items = fillList(action.pageIndex);
+      return state.merge(
+      {
+        pagination: {
+          items: items,
+          current: current
+        }
+      }
+      )
+
     default:
       return state
   }
