@@ -58,9 +58,11 @@ export default class BaseTr extends React.Component {
 }
 
 BaseTr.propTypes = {
-    hasDetail: React.PropTypes.bool
+    hasDetail: React.PropTypes.bool,
+    checkMode: React.PropTypes.bool
 }
 
 BaseTr.defaultProps = {
-    hasDetail: false
+    hasDetail: false,
+    checkMode: false
 }

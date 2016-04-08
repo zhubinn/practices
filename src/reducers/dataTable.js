@@ -6,9 +6,11 @@ import { combineReducers } from 'redux'
 import {GET_DATA, GET_DATA_SUCCESS,GET_DATA_FAILURE,getData, showDetail} from 'actions/table'
 
 
-
-export default function dataTable(state = Immutable.fromJS({ rows: [], separatedIndexes: [] }), action) {
-    switch(action.type) {
+export default function dataTable(state = Immutable.fromJS({
+    rows: [],
+    separatedIndexes: Immutable.OrderedSet()
+}), action) {
+    switch (action.type) {
         case GET_DATA:
             return state
         case GET_DATA_SUCCESS:
@@ -16,23 +18,14 @@ export default function dataTable(state = Immutable.fromJS({ rows: [], separated
         case GET_DATA_FAILURE:
             return state
         case 'SHOW_DETAIL':
+            const { i } = action
 
-            const indexes = state.get('separatedIndexes').toJS();
-            let nIndexes
-            if (indexes.indexOf(action.i) > -1) {
-                 nIndexes = indexes.filter(function(item){
-                    return item !== action.i;
-                })
-
-            } else {
-                 indexes.push(action.i);
-                nIndexes = indexes
-
-            }
-
-
-            const newState = state.merge({separatedIndexes: nIndexes})
-            return newState
+            return state.updateIn(['separatedIndexes'], function (separatedIndexes) {
+                if (separatedIndexes.has(i)) {
+                    return separatedIndexes.delete(i)
+                }
+                return separatedIndexes.add(i)
+            })
 
         default:
             return state

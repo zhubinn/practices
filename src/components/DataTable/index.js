@@ -12,11 +12,6 @@ import './DataTable.less'
 import {secondRowsData, secondColumns} from 'components/DataTable/fakeData'
 
 
-class Tr extends React.Component {
-    render() {
-        return (<tr></tr>)
-    }
-}
 
 export default class DataTable extends React.Component {
     constructor(props) {
@@ -55,7 +50,7 @@ export default class DataTable extends React.Component {
         })
         finalTables.push({rows: rows.slice(sortableTables[sortableTables.length - 1]), columns:columns, hasDetail: true, startIndex: sortableTables[sortableTables.length - 1] + 1})
 
-        console.log(finalTables)
+
         return finalTables
 
 
