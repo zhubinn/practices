@@ -3,6 +3,7 @@
  */
 import { findDOMNode } from 'react-dom'
 import { isPlainObject, isFunction, isString, isArray } from 'lodash'
+import BaseTr from './BaseTr'
 export default class BaseTable extends React.Component {
     constructor(props) {
         super(props)
@@ -10,14 +11,7 @@ export default class BaseTable extends React.Component {
 
     }
 
-    showDetailClicked(i){
 
-        if (!this.props.hasDetail) return
-
-
-
-        this.props.onShowDetail(this.props.startIndex + i)
-    }
 
     // 解析需要展示的列, 并从row中取出字段对应内容(文本或者虚拟dom)
     resolveRow(row, columns) {
@@ -48,7 +42,7 @@ export default class BaseTable extends React.Component {
     }
     render() {
 
-        const {rows, columns, hasDetail } = this.props
+        const {rows, columns, hasDetail, onShowDetail, startIndex } = this.props
 
 
         return (
@@ -56,15 +50,14 @@ export default class BaseTable extends React.Component {
 
 
             <table>
-            {this.renderHeader(hasDetail, columns)}
+                {this.renderHeader(hasDetail, columns)}
 
                 <tbody>
 
                 {
                     rows.map((row, i) => {
-                        return (<tr onClick = {this.showDetailClicked.bind(this, i)}  key={i}>{this.resolveRow(row, columns).map(function (item, i) {
-                            return (<td key={i}>{item.text}</td>)
-                        })} </tr>)
+
+                        return (<BaseTr hasDetail = {hasDetail} row = {row} index = {i + startIndex} columns = {columns} onShowDetail = {onShowDetail}  key={i} /> )
                     })
 
                 }
@@ -78,9 +71,11 @@ export default class BaseTable extends React.Component {
 }
 
 BaseTable.propTypes = {
-    hasDetail: React.PropTypes.bool
+    hasDetail: React.PropTypes.bool,
+    checkMode: React.PropTypes.bool
 }
 
 BaseTable.defaultProps = {
-    hasDetail: false
+    hasDetail: false,
+    checkMode: false
 }

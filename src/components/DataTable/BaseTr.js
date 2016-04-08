@@ -40,28 +40,18 @@ export default class BaseTr extends React.Component {
 
     render() {
 
-        const {rows, columns } = this.props
+        const {row, columns, index } = this.props
 
 
         return (
 
+        <tr onClick = {this.showDetailClicked.bind(this, index)}>
+            {this.resolveRow(row, columns).map(function (item, i) {
+                return (<td key={i}>{item.text}</td>)
+            })}
+        </tr>
 
 
-            <table>
-                <tbody>
-
-                {
-                    rows.map((row, i) => {
-                        return (<tr onClick = {this.showDetailClicked.bind(this, i)}  key={i}>{this.resolveRow(row, columns).map(function (item, i) {
-                            return (<td key={i}>{item.text}</td>)
-                        })} </tr>)
-                    })
-
-                }
-
-
-                </tbody>
-            </table>
 
         )
     }

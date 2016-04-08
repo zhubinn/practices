@@ -38,7 +38,16 @@ export default class DataTable extends React.Component {
             return a - b
         })
 
+        if (separatedIndexes.length === 2){
 
+            return finalTables = [
+                {rows:rows.slice(0, sortableTables[0]+1), columns: columns, hasDetail: true, startIndex: 0},
+                {rows: secondRowsData, columns: secondColumns},
+                {rows:rows.slice(sortableTables[0]+1, sortableTables[1]+1), columns: columns, hasDetail: true, startIndex: sortableTables[0] + 1},
+                {rows: secondRowsData, columns: secondColumns},
+                {rows:rows.slice(sortableTables[1]+1), columns: columns, hasDetail: true, startIndex: sortableTables[1] + 1}
+            ]
+        }
         sortableTables.reduce(function(a, b){
             finalTables.push({rows: rows.slice(a, b), columns: columns, hasDetail: true, startIndex: a + 1})
             finalTables.push({rows:secondRowsData, columns:secondColumns})
@@ -114,9 +123,14 @@ export default class DataTable extends React.Component {
 }
 
 
-DataTable.propTypes = {}
+DataTable.propTypes = {
+    checkMode: React.PropTypes.bool,
+    hasDetail: React.PropTypes.bool,
+    separatedIndexes: React.PropTypes.array
+}
 
 DataTable.defaultProps = {
     separatedIndexes: [],
-    hasDetail: false
+    hasDetail: false,
+    checkMode: false
 }
