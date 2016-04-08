@@ -12,6 +12,7 @@ import {rowsData, columns, searchColumns} from 'components/DataTable/fakeData'
 
 class DataTablePage extends React.Component {
     componentDidMount(){
+        // 页面初始完,获取数据,触发action: GET_DATA
         this.props.getData()
     }
 
@@ -23,9 +24,12 @@ class DataTablePage extends React.Component {
 
         const separatedIndexes = ($$separatedIndexes && $$separatedIndexes.toJS()) || []
 
+        const $$checkedRows = mapState.get('checkedRows')
+        const checkedRows = ($$checkedRows && $$checkedRows.toJS()) || []
+
         return (
             <div>
-                <DataTable checkMode = {true} checkRow={checkRow} hasDetail = {true} rows={rows} separatedIndexes = {separatedIndexes} searchColumns = {searchColumns} columns={columns}  onShowDetail = {showDetail} />
+                <DataTable checkMode = {true} onCheckRow={checkRow} hasDetail = {true}  checkedRows = {checkedRows}  rows={rows} separatedIndexes = {separatedIndexes} searchColumns = {searchColumns} columns={columns}  onShowDetail = {showDetail} />
 
 
             </div>

@@ -18,7 +18,8 @@ export default class DataTable extends React.Component {
         super(props)
 
         this.resolveTables = this.resolveTables.bind(this)
-
+        this.renderCheckBtn = this.renderCheckBtn.bind(this)
+        this.onCheckAll = this.onCheckAll.bind(this)
     }
 
     // 分割table, todo:逻辑分类
@@ -60,7 +61,7 @@ export default class DataTable extends React.Component {
     }
 
     onCheckAll(){
-
+        this.props.onCheckRow(-1, !(this.props.rows.length === this.props.checkedRows.length))
     }
 
     resolveColumnsTitle(columns) {
@@ -70,10 +71,10 @@ export default class DataTable extends React.Component {
          */
         return columns.map((col, i) => col['text'])
     }
-
-    renderCheckBtn(checkMode){
+    // 渲染表头'全选'checkbox
+    renderCheckBtn(checkMode, rows, checkedRows){
         if (!checkMode) return null
-        return (<th><input type="checkbox"/></th>)
+        return (<th><input type="checkbox" checked = {rows.length === checkedRows.length} onChange = {this.onCheckAll.bind(this)}/></th>)
     }
     renderDetailBtn(hasDetail){
         if (!hasDetail) return null
@@ -81,7 +82,7 @@ export default class DataTable extends React.Component {
     }
     render() {
 
-        const {rows, separatedIndexes, checkMode, source, columns, searchColumns, onShowDetail, hasDetail } = this.props
+        const {rows, separatedIndexes, columns, searchColumns,  checkedRows, source, onShowDetail, onCheckRow, checkMode, hasDetail } = this.props
         // notes: 异步操作
 
         return (
@@ -90,7 +91,7 @@ export default class DataTable extends React.Component {
                     <table>
                         <thead>
                         <tr>
-                            {this.renderCheckBtn(checkMode)}
+                            {this.renderCheckBtn(checkMode, rows, checkedRows)}
                             {this.renderDetailBtn(hasDetail)}
 
                             {this.resolveColumnsTitle(columns).map((colName, i)=><th key={i}>{colName}</th>)}
@@ -104,7 +105,7 @@ export default class DataTable extends React.Component {
                     </table>
 
                     {this.resolveTables(rows, columns, separatedIndexes).map(function(item, i){
-                        if (item.hasDetail) return (<BaseTable checkMode = {checkMode} startIndex = {item.startIndex}  key = {i} rows={item.rows} columns={item.columns} hasDetail={item.hasDetail} onShowDetail={onShowDetail}/>)
+                        if (item.hasDetail) return (<BaseTable checkedRows = {checkedRows} checkMode = {checkMode} startIndex = {item.startIndex}  key = {i} rows={item.rows} columns={item.columns} hasDetail={item.hasDetail} onShowDetail={onShowDetail} onCheckRow={onCheckRow}/>)
                         return (<BaseTable  key = {i} rows={item.rows} columns={item.columns} />)
                     })}
 

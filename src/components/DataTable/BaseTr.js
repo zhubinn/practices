@@ -8,9 +8,11 @@ export default class BaseTr extends React.Component {
         super(props)
 
         this.renderDetailBtn = this.renderDetailBtn.bind(this)
+        this.renderCheckBtn = this.renderCheckBtn.bind(this)
+        this.checkRow = this.checkRow.bind(this)
     }
 
-    showDetailClicked(i){
+    showDetailClicked(i) {
         if (!this.props.hasDetail) return
 
         this.props.onShowDetail(i)
@@ -28,13 +30,22 @@ export default class BaseTr extends React.Component {
             )
 
     }
-    renderCheckBtn(checkMode){
-        if (!checkMode) return null
-        return (<th><input type="checkbox"/></th>)
+
+    checkRow() {
+
+        this.props.onCheckRow(this.props.index, !this.props.isOnChecked)
+
+
     }
-    renderDetailBtn(hasDetail){
+
+    renderCheckBtn(checkMode, isOnchecked) {
+        if (!checkMode) return null
+        return (<th><input type="checkbox" onChange={this.checkRow} checked={isOnchecked}/></th>)
+    }
+
+    renderDetailBtn(hasDetail) {
         if (!hasDetail) return null
-        return (<td onClick = {this.showDetailClicked.bind(this, this.props.index)}>+</td>)
+        return (<td onClick={this.showDetailClicked.bind(this, this.props.index)}>+</td>)
     }
 
     resolveColumnsTitle(columns) {
@@ -48,20 +59,20 @@ export default class BaseTr extends React.Component {
 
     render() {
 
-        const {row, columns, index, hasDetail, checkMode } = this.props
+        const {row, columns, index, hasDetail, checkMode, isOnChecked } = this.props
 
 
         return (
 
-        <tr >
-            {this.renderCheckBtn(checkMode)}
-            {this.renderDetailBtn(hasDetail)}
+            <tr >
+                {this.renderCheckBtn(checkMode, isOnChecked)}
+                {this.renderDetailBtn(hasDetail)}
 
 
-            {this.resolveRow(row, columns).map(function (item, i) {
-                return (<td key={i}>{item.text}</td>)
-            })}
-        </tr>
+                {this.resolveRow(row, columns).map(function (item, i) {
+                    return (<td key={i}>{item.text}</td>)
+                })}
+            </tr>
 
 
 
@@ -70,11 +81,16 @@ export default class BaseTr extends React.Component {
 }
 
 BaseTr.propTypes = {
+    // 该行是否可展示详情
     hasDetail: React.PropTypes.bool,
-    checkMode: React.PropTypes.bool
+    // 该行是否为可check
+    checkMode: React.PropTypes.bool,
+    // 该行是否在已check状态
+    isOnChecked: React.PropTypes.bool
 }
 
 BaseTr.defaultProps = {
     hasDetail: false,
-    checkMode: false
+    checkMode: false,
+    isOnChecked: false
 }

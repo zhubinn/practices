@@ -50,10 +50,11 @@ function showDetail(index){
     }
 }
 
-function checkRow(index){
+function checkRow(index, isChecked){
     return {
         type: 'CHECK_ROW',
-        index
+        index,
+        isChecked
     }
 }
 

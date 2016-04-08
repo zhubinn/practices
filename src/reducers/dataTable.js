@@ -29,13 +29,31 @@ export default function dataTable(state = Immutable.fromJS({
             })
         case 'CHECK_ROW':
 
+
+
             const rowIndex = action.index
 
+
             return state.updateIn(['checkedRows'], function (checkedRows) {
-                if (checkedRows.has(rowIndex)) {
-                    return checkedRows.delete(rowIndex)
+
+                let newState = checkedRows
+                if (action.isChecked){
+                    if (rowIndex === -1) {
+                        for(let i = 0; i < state.get('rows').toJS().length; i++){
+                            newState =   newState.add(i)
+                        }
+                    } else {
+                        newState = newState.add(rowIndex)
+                    }
+                }else {
+                    if (rowIndex === -1) {
+                        newState = newState.clear()
+                    } else {
+                        newState = newState.delete(rowIndex)
+                    }
                 }
-                return checkedRows.add(rowIndex)
+
+                return newState
             })
         default:
             return state
