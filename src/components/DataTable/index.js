@@ -27,7 +27,7 @@ export default class DataTable extends React.Component {
     resolveTables(rows, columns, separatedIndexes) {
 
         let finalTables= []
-        if (separatedIndexes.length === 0) return finalTables = [{rows: rows, columns:columns, hasDetail: true, startIndex: 0}]
+        if (separatedIndexes.length === 0) return finalTables = [{rows: rows, columns:columns, hasDetail: this.props.hasDetail, startIndex: 0}]
 
         if (separatedIndexes.length === 1) return finalTables = [{rows: rows.slice(0 ,separatedIndexes[0]+1), columns: columns, hasDetail:true,startIndex: 0},{rows:secondRowsData, columns:secondColumns}, {rows: rows.slice(separatedIndexes[0]+1), columns: columns, hasDetail:true,startIndex: separatedIndexes[0] + 1}]
 
@@ -106,8 +106,8 @@ export default class DataTable extends React.Component {
                     </table>
                 </div>
                     {this.resolveTables(rows, columns, separatedIndexes).map(function(item, i){
-                        if (item.hasDetail) return (<BaseTable onUpdateRow={onUpdateRow} checkedRows = {checkedRows} checkMode = {checkMode} startIndex = {item.startIndex}  key = {i} rows={item.rows} columns={item.columns} hasDetail={item.hasDetail} onShowDetail={onShowDetail} onCheckRow={onCheckRow}/>)
-                        return (<BaseTable  key = {i} rows={item.rows} columns={item.columns} />)
+                        if (!(i%2)) return (<BaseTable onUpdateRow={onUpdateRow}  checkedRows = {checkedRows} checkMode = {checkMode} startIndex = {item.startIndex}  key = {i} rows={item.rows} columns={item.columns} hasDetail={item.hasDetail} onShowDetail={onShowDetail} onCheckRow={onCheckRow}/>)
+                        return (<BaseTable  key = {i} rows={item.rows} columns={item.columns}  isParentTable = {false} />)
                     })}
 
 

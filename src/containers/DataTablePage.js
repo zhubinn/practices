@@ -31,9 +31,9 @@ class DataTablePage extends React.Component {
         return (
             <div style={{margin: '20px'}} >
                 <div className = 'w820'>
-                    <DataTable checkMode={false}
+                    <DataTable checkMode={true}
                         onCheckRow={checkRow}
-
+                        hasDetail = {true}
                         checkedRows={checkedRows}
                         rows={rows}
                         separatedIndexes={separatedIndexes}

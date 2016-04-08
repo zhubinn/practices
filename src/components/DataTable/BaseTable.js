@@ -35,22 +35,22 @@ export default class BaseTable extends React.Component {
         return columns.map((col, i) => col['text'])
     }
 
-    renderHeader(hasDetail, columns){
-        if(hasDetail) return null
+    renderHeader(isParentTable, columns){
+        if(isParentTable) return null
 
         return (<thead><tr>{this.resolveColumnsTitle(columns).map((colName, i)=><th key={i}>{colName}</th>)}</tr></thead>)
     }
     render() {
 
-        const {rows, columns, checkedRows, hasDetail, onShowDetail, onCheckRow,onUpdateRow,startIndex, checkMode } = this.props
+        const {rows, columns, checkedRows, hasDetail,isParentTable, onShowDetail, onCheckRow,onUpdateRow,startIndex, checkMode } = this.props
 
 
         return (
 
 
-            <div className={hasDetail ? "dataTable-baseTable" : "dataTable-subBaseTable"}>
+            <div className={isParentTable ? "dataTable-baseTable" : "dataTable-subBaseTable"}>
             <table>
-                {this.renderHeader(hasDetail, columns)}
+                {this.renderHeader(isParentTable, columns)}
 
                 <tbody>
 
@@ -73,11 +73,13 @@ export default class BaseTable extends React.Component {
 BaseTable.propTypes = {
     hasDetail: React.PropTypes.bool,
     checkMode: React.PropTypes.bool,
+    isParentTable: React.PropTypes.bool,
     checkedRows: React.PropTypes.array
 }
 
 BaseTable.defaultProps = {
     hasDetail: false,
     checkMode: false,
+    isParentTable: true,
     checkedRows: []
 }
