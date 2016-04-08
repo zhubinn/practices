@@ -2,6 +2,7 @@
 
 > dataTable开发`todolist`
 
++ 点第三次的时候有bug
 + table宽度的计算
 + table外层宽度自定义
 + 列宽度的指定column[i].width

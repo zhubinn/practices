@@ -45,7 +45,13 @@ export default class DataTable extends React.Component {
                 {rows:rows.slice(sortableTables[1]+1), columns: columns, hasDetail: true, startIndex: sortableTables[1] + 1}
             ]
         }
+
+
         sortableTables.reduce(function(a, b){
+
+
+
+
             finalTables.push({rows: rows.slice(a, b), columns: columns, hasDetail: true, startIndex: a + 1})
             finalTables.push({rows:secondRowsData, columns:secondColumns})
             return b
