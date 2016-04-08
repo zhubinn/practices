@@ -30,22 +30,21 @@ export default function dataTable(state = Immutable.fromJS({
         case 'CHECK_ROW':
 
 
-
             const rowIndex = action.index
 
 
             return state.updateIn(['checkedRows'], function (checkedRows) {
-
+                // -1 为点击'全选'
                 let newState = checkedRows
-                if (action.isChecked){
+                if (action.isChecked) {
                     if (rowIndex === -1) {
-                        for(let i = 0; i < state.get('rows').toJS().length; i++){
-                            newState =   newState.add(i)
+                        for (let i = 0; i < state.get('rows').toJS().length; i++) {
+                            newState = newState.add(i)
                         }
                     } else {
                         newState = newState.add(rowIndex)
                     }
-                }else {
+                } else {
                     if (rowIndex === -1) {
                         newState = newState.clear()
                     } else {

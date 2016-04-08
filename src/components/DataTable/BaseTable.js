@@ -42,7 +42,7 @@ export default class BaseTable extends React.Component {
     }
     render() {
 
-        const {rows, columns, checkedRows,hasDetail, onShowDetail, onCheckRow, startIndex, checkMode } = this.props
+        const {rows, columns, checkedRows, hasDetail, onShowDetail, onCheckRow, startIndex, checkMode } = this.props
 
 
         return (
@@ -72,10 +72,12 @@ export default class BaseTable extends React.Component {
 
 BaseTable.propTypes = {
     hasDetail: React.PropTypes.bool,
-    checkMode: React.PropTypes.bool
+    checkMode: React.PropTypes.bool,
+    checkedRows: React.PropTypes.array
 }
 
 BaseTable.defaultProps = {
     hasDetail: false,
-    checkMode: false
+    checkMode: false,
+    checkedRows: []
 }
