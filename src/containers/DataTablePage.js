@@ -29,17 +29,19 @@ class DataTablePage extends React.Component {
         const checkedRows = ($$checkedRows && $$checkedRows.toJS()) || []
 
         return (
-            <div className="w820">
-                <DataTable checkMode={true}
-                           onCheckRow={checkRow}
-                           hasDetail={true}
-                           checkedRows={checkedRows}
-                           rows={rows}
-                           separatedIndexes={separatedIndexes}
-                           searchColumns={searchColumns}
-                           columns={columns}
-                           onUpdateRow={updateRow}
-                           onShowDetail={showDetail}/>
+            <div style={{margin: '20px'}} >
+                <div className = 'w820'>
+                    <DataTable checkMode={false}
+                        onCheckRow={checkRow}
+
+                        checkedRows={checkedRows}
+                        rows={rows}
+                        separatedIndexes={separatedIndexes}
+                        searchColumns={searchColumns}
+                        columns={columns}
+                        onUpdateRow={updateRow}
+                        onShowDetail={showDetail}/>
+                </div>
             </div>
         )
     }
