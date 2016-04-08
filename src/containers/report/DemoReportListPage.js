@@ -15,7 +15,7 @@ class DemoReportListPage extends React.Component {
     onClickFn (){
         const { update } = this.props
 
-        update(9)
+        //update(9)
     }
     render () {
         const { onClickFn } = this

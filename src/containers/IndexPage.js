@@ -15,6 +15,13 @@ class IndexPage extends React.Component {
                 <Link to="/__demo/table">
                     table
                 </Link>
+                <br/>
+                <Link to="/__demo/hello">
+                    Hello
+                </Link><br/>
+                <Link to="/__demo/CustomEditFieldPage">
+                    客户自定义字段CustomEditFieldPage
+                </Link><br/>
                 <Link to="/__demo/pagination">
                     pagination
                 </Link>

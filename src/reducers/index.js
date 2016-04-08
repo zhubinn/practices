@@ -6,6 +6,8 @@ import { routerReducer as routing } from 'react-router-redux'
 
 import report from './__demo/report'
 import user from './__demo/user'
+import hello from './__demo/hello'
+import customEditField from './__demo/customEditField'
 import reportOther from './report/index'
 
 const rootReducer = combineReducers({
@@ -13,5 +15,7 @@ const rootReducer = combineReducers({
     report,
     user,
     routing,
+    hello,
+    customEditField
 })
 export default rootReducer
