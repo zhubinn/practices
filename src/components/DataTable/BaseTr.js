@@ -51,12 +51,12 @@ export default class BaseTr extends React.Component {
 
     renderCheckBtn(checkMode, isOnchecked) {
         if (!checkMode) return null
-        return (<th><input type="checkbox" onChange={this.checkRow} checked={isOnchecked}/></th>)
+        return (<td className="small-cell"><input type="checkbox" onChange={this.checkRow} checked={isOnchecked}/></td>)
     }
 
     renderDetailBtn(hasDetail) {
         if (!hasDetail) return null
-        return (<td onClick={this.showDetailClicked.bind(this, this.props.index)}>+</td>)
+        return (<td className="small-cell" onClick={this.showDetailClicked.bind(this, this.props.index)}><div className="date-Sltround-add"></div></td>)
     }
 
     resolveColumnsTitle(columns) {

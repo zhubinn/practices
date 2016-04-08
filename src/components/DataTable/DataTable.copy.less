@@ -1,0 +1,72 @@
+/*工具类*/
+
+.hide {
+  display: none;
+}
+.w820{
+  width:820px;overflow-x: scroll;overflow-y: hidden;
+}
+
+
+
+
+
+
+
+
+
+@default-table-width: 780px;
+@default-cell-width: 200px;
+.dataTable {
+  margin: 20px auto;
+  width: @default-table-width;
+
+}
+
+.w_780 {
+  width: 780px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  margin-top: 15px;
+}
+
+.dataTable_table {
+  width: 1000px;
+  border-left: none;
+  border-right: none;
+  border-top: 1px solid #1eb8bb;
+  thead tr th:nth-last-child(1) {
+    border-right: none;
+  }
+  tbody tr:hover {
+    background: #999;
+  }
+  tr {
+    border-bottom: 1px solid #e0e0e0;
+    th {
+      line-height: 39px;
+      height: 39px;
+      color: #666666;
+      font-weight: bold;
+      font-size: 14px;
+      border-right: 1px solid #e0e0e0;
+      text-align: center;
+      width: @default-cell-width;
+    }
+    td {
+      line-height: 39px;
+      height: 39px;
+      color: #000;
+      text-align: center;
+      text-overflow: ellipsis;
+      width: @default-cell-width;
+    }
+  }
+}
+
+.dataTable_table_list {
+  border: 1px solid #e0e0e0;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}

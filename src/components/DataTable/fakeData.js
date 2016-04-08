@@ -1374,11 +1374,6 @@ let secondColumns =  [
         width: 135,
         cellsalign: 'left'
     },{
-        text: '签到/上班时间',
-        datafield: 'InTime',
-        width: 135,
-        cellsalign: 'left'
-    },{
         text: '签退/下班时间',
         datafield: 'OutTime',
         width: 135,
@@ -1393,13 +1388,6 @@ let secondColumns =  [
         datafield: 'Address',
         width: 250,
         cellsalign: 'left'
-
-    },{
-        text: '品牌/型号/识别码尾号',
-        datafield: 'Device',
-        width: 250,
-        cellsalign: 'left'
-
 
     }]
 export {rowsData, columns, searchColumns, secondRowsData, secondColumns}

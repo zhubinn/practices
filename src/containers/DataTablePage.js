@@ -11,10 +11,8 @@ import  { getData, showDetail, checkRow, updateRow }  from 'actions/table'
 import {rowsData, columns, searchColumns} from 'components/DataTable/fakeData'
 
 
-
-
 class DataTablePage extends React.Component {
-    componentDidMount(){
+    componentDidMount() {
         // 页面初始完,获取数据,触发action: GET_DATA
         this.props.getData()
     }
@@ -31,10 +29,17 @@ class DataTablePage extends React.Component {
         const checkedRows = ($$checkedRows && $$checkedRows.toJS()) || []
 
         return (
-            <div>
-                <DataTable  checkMode = {true} onCheckRow={checkRow} hasDetail = {true}  checkedRows = {checkedRows}  rows={rows} separatedIndexes = {separatedIndexes} searchColumns = {searchColumns} columns={columns} onUpdateRow={updateRow}  onShowDetail = {showDetail} />
-
-
+            <div className="w820">
+                <DataTable checkMode={true}
+                           onCheckRow={checkRow}
+                           hasDetail={true}
+                           checkedRows={checkedRows}
+                           rows={rows}
+                           separatedIndexes={separatedIndexes}
+                           searchColumns={searchColumns}
+                           columns={columns}
+                           onUpdateRow={updateRow}
+                           onShowDetail={showDetail}/>
             </div>
         )
     }

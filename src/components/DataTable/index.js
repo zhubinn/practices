@@ -6,6 +6,7 @@ import { findDOMNode } from 'react-dom'
 import { isPlainObject, isFunction, isString, isArray } from 'lodash'
 import BaseTable from './BaseTable'
 
+import './base.css'
 import './DataTable.less'
 
 // todo: 获取数据action的详写
@@ -74,11 +75,11 @@ export default class DataTable extends React.Component {
     // 渲染表头'全选'checkbox
     renderCheckBtn(checkMode, rows, checkedRows){
         if (!checkMode) return null
-        return (<th><input type="checkbox" checked = {rows.length === checkedRows.length} onChange = {this.onCheckAll.bind(this)}/></th>)
+        return (<th  className="small-cell"><input type="checkbox" checked = {rows.length === checkedRows.length} onChange = {this.onCheckAll.bind(this)}/></th>)
     }
     renderDetailBtn(hasDetail){
         if (!hasDetail) return null
-        return (<th>+</th>)
+        return (<th className="small-cell"></th>)
     }
     render() {
 
@@ -86,9 +87,9 @@ export default class DataTable extends React.Component {
         // notes: 异步操作
 
         return (
-            <div>
-                <div>
-                    <table>
+            <div className="dataTable">
+                <div className="dataTable-title">
+                    <table >
                         <thead>
                         <tr>
                             {this.renderCheckBtn(checkMode, rows, checkedRows)}
@@ -103,14 +104,14 @@ export default class DataTable extends React.Component {
                         </tr>
                         </tbody>
                     </table>
-
+                </div>
                     {this.resolveTables(rows, columns, separatedIndexes).map(function(item, i){
                         if (item.hasDetail) return (<BaseTable onUpdateRow={onUpdateRow} checkedRows = {checkedRows} checkMode = {checkMode} startIndex = {item.startIndex}  key = {i} rows={item.rows} columns={item.columns} hasDetail={item.hasDetail} onShowDetail={onShowDetail} onCheckRow={onCheckRow}/>)
                         return (<BaseTable  key = {i} rows={item.rows} columns={item.columns} />)
                     })}
 
 
-                </div>
+
             </div>
         )
     }

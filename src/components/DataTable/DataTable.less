@@ -3,59 +3,39 @@
 .hide {
   display: none;
 }
-
-@default-table-width: 780px;
-@default-cell-width: 200px;
-.dataTable {
-  margin: 20px auto;
-  width: @default-table-width;
-
+.w820{
+  width:820px;overflow-x: scroll;overflow-y: hidden;
 }
 
-.w_780 {
-  width: 780px;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  margin-top: 15px;
-}
 
-.dataTable_table {
-  width: 1000px;
-  border-left: none;
-  border-right: none;
-  border-top: 1px solid #1eb8bb;
-  thead tr th:nth-last-child(1) {
-    border-right: none;
-  }
-  tbody tr:hover {
-    background: #999;
-  }
-  tr {
-    border-bottom: 1px solid #e0e0e0;
-    th {
-      line-height: 39px;
-      height: 39px;
-      color: #666666;
-      font-weight: bold;
-      font-size: 14px;
-      border-right: 1px solid #e0e0e0;
-      text-align: center;
-      width: @default-cell-width;
-    }
-    td {
-      line-height: 39px;
-      height: 39px;
-      color: #000;
-      text-align: center;
-      text-overflow: ellipsis;
-      width: @default-cell-width;
-    }
+
+.dataTable{ width:2250px;}
+.dataTable-title{ height:30px; line-height:30px; background:#f6fcfc; border-bottom:1px solid #eff4f4; border-top:1px solid #eff4f4;}
+.dataTable .dataTable-title thead   th{height:30px; line-height:30px; width: 150px; color:#878e94; font-size:14px;font-family:Microsoft YaHei; text-align:center;}
+.dataTable   tbody{ background:#fff;}
+.dataTable   tbody tr{ border-bottom:1px solid #eff4f4;}
+.dataTable   td{ height:60px; line-height:60px; text-align:center;  font-size:14px;  color:#a2a2a2;}
+.dataTable  table tbody tr .dateTable-juleft{ text-align:left; line-height:20px;}
+.dataTable  table tbody tr .date-Sltround-add{ background:#a5a5a5; border-radius:7px;width: 16px; padding:0px;height: 16px; position:relative; margin:0 auto;}
+.dataTable  table tbody tr .date-Sltround-add:before { content: "+";color:#fff; position:absolute;top: -10px;left: 4px;}
+.dataTable  table tbody tr .date-Sltround-cut{ background:#1eb8bb; border-radius:7px;width: 16px; padding:0px;height: 16px; position:relative; margin:0 auto;}
+.dataTable  table tbody tr .date-Sltround-cut:before { content: "-";color:#fff; position:absolute;top: -23px;left:6px;}
+.dataTable-subBaseTable  table{ width:830px;}
+.dataTable-subBaseTable{overflow-y: scroll;overflow-x: hidden; max-height:237px;border:1px solid #6fd2d4;width:1000px;}
+.dataTable-subBaseTable  thead{ background:#f6fcfc;height:36px; line-height:36px;border-bottom:1px solid #6fd2d4;}
+.dataTable-subBaseTable  th{color:#878e94; font-size:14px;font-family:Microsoft YaHei; text-align:center; width:80px;}
+.dataTable-subBaseTable  tr{border-top:1px solid #f7f6f6;}
+.dataTable-subBaseTable  td, .dataTable-baseTable  td{text-align:center;font-size:14px;  color:#a2a2a2;line-height:38px;height:38px;width:80px; width:150px;}
+
+
+
+.dataTable{
+  .small-cell {
+    width: 50px!important;
   }
 }
-
-.dataTable_table_list {
-  border: 1px solid #e0e0e0;
-  border-left: none;
-  border-right: none;
-  border-top: none;
+.dataTable td, .dataTable th {
+  overflow: hidden;
+  text-overflow: ellipsis; /* 文本溢出部分显示为点... */
+  white-space: nowrap; /* 文本超出宽度不做换行处理 */
 }

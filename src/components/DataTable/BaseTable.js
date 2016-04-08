@@ -48,7 +48,7 @@ export default class BaseTable extends React.Component {
         return (
 
 
-
+            <div className={hasDetail ? "dataTable-baseTable" : "dataTable-subBaseTable"}>
             <table>
                 {this.renderHeader(hasDetail, columns)}
 
@@ -65,7 +65,7 @@ export default class BaseTable extends React.Component {
 
                 </tbody>
             </table>
-
+            </div>
         )
     }
 }
