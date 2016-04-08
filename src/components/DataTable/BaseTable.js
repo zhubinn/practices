@@ -42,7 +42,7 @@ export default class BaseTable extends React.Component {
     }
     render() {
 
-        const {rows, columns, checkedRows, hasDetail, onShowDetail, onCheckRow, startIndex, checkMode } = this.props
+        const {rows, columns, checkedRows, hasDetail, onShowDetail, onCheckRow,onUpdateRow,startIndex, checkMode } = this.props
 
 
         return (
@@ -57,7 +57,7 @@ export default class BaseTable extends React.Component {
                 {
                     rows.map((row, i) => {
 
-                        return (<BaseTr isOnChecked = {checkedRows.indexOf(i+startIndex)>-1}  checkMode = {checkMode} hasDetail = {hasDetail} row = {row} index = {i + startIndex} columns = {columns} onShowDetail = {onShowDetail} onCheckRow = {onCheckRow} key={i} /> )
+                        return (<BaseTr onUpdateRow = {onUpdateRow} isOnChecked = {checkedRows.indexOf(i+startIndex)>-1}  checkMode = {checkMode} hasDetail = {hasDetail} row = {row} index = {i + startIndex} columns = {columns} onShowDetail = {onShowDetail} onCheckRow = {onCheckRow} key={i} /> )
                     })
 
                 }

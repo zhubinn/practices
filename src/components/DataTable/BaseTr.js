@@ -10,8 +10,14 @@ export default class BaseTr extends React.Component {
         this.renderDetailBtn = this.renderDetailBtn.bind(this)
         this.renderCheckBtn = this.renderCheckBtn.bind(this)
         this.checkRow = this.checkRow.bind(this)
+        this.updateRow = this.updateRow.bind(this)
+
     }
 
+
+    updateRow(rowData){
+        this.props.onUpdateRow(rowData, this.props.index)
+    }
     showDetailClicked(i) {
         if (!this.props.hasDetail) return
 
@@ -19,13 +25,18 @@ export default class BaseTr extends React.Component {
     }
 
     // 解析需要展示的列, 并从row中取出字段对应内容(文本或者虚拟dom)
-    resolveRow(row, columns) {
+    /*
+    * params
+    * @row: 当前行数据
+    * @index: 当前行索引
+    * */
+    resolveRow(row, columns, index) {
 
         return columns.map((col, i) => col['datafield'])
             .map((keyName, i) => ({
                     keyName: keyName,
                     // 判断该列是否为自定义渲染
-                    text: isFunction(columns[i]['cellsrenderer']) ? columns[i]['cellsrenderer'].call(this, row, columns[i], row[keyName]) : row[keyName]
+                    text: isFunction(columns[i]['cellsrenderer']) ? columns[i]['cellsrenderer'].call(this, row, columns[i], row[keyName], index) : row[keyName]
                 })
             )
 
@@ -69,7 +80,7 @@ export default class BaseTr extends React.Component {
                 {this.renderDetailBtn(hasDetail)}
 
 
-                {this.resolveRow(row, columns).map(function (item, i) {
+                {this.resolveRow(row, columns, index).map(function (item, i) {
                     return (<td key={i}>{item.text}</td>)
                 })}
             </tr>

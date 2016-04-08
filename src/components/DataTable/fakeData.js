@@ -1,6 +1,7 @@
 /**
  * Created by janeluck on 4/7/16.
  */
+import  { getData, showDetail, checkRow, updateRow }  from 'actions/table'
 
 // 模拟rowsData
   let rowsData= [
@@ -1316,11 +1317,11 @@ let columns = [
         return value == 0 ? '启动' : '停止'
     }},
     {text: '操作', datafield: 'ID', width: 265, cellsrenderer: function(rowData, column, value){
-        // this -> 所在行<Tr/>
+
         return (
             <div>
                 <button onClick = {(e) => {alert('ID:' + value)}}>详情</button>
-                <button onClick = {(e) =>{this.refresh(Object.assign({}, rowData, {IsStop: rowData.IsStop ^ 1 }))} }>{rowData.IsStop == 1 ? '启用' : '停止' }</button>
+                <button onClick = {(e) =>{this.updateRow(Object.assign({}, rowData, {IsStop: rowData.IsStop ^ 1 }))} }>{rowData.IsStop == 1 ? '启用' : '停止' }</button>
                 <button>复制新建</button>
             </div>
 

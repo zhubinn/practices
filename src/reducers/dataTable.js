@@ -3,7 +3,7 @@
  */
 import Immutable from 'immutable'
 import { combineReducers } from 'redux'
-import {GET_DATA, GET_DATA_SUCCESS,GET_DATA_FAILURE,getData, showDetail} from 'actions/table'
+import {GET_DATA, GET_DATA_SUCCESS,GET_DATA_FAILURE,getData, showDetail, updateRow} from 'actions/table'
 
 
 export default function dataTable(state = Immutable.fromJS({
@@ -53,6 +53,12 @@ export default function dataTable(state = Immutable.fromJS({
                 }
 
                 return newState
+            })
+        case 'UPDATE_ROW':
+            return state.updateIn(['rows'], function(rows) {
+                return rows.map((map, index, list) => {
+                    return index === action.index ? action.rowData : map
+                })
             })
         default:
             return state

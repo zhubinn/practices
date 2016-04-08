@@ -58,11 +58,19 @@ function checkRow(index, isChecked){
     }
 }
 
+function updateRow(rowData, index){
+    return {
+        type: 'UPDATE_ROW',
+        index,
+        rowData
+    }
+}
 export {
     GET_DATA,
     GET_DATA_SUCCESS,
     GET_DATA_FAILURE,
     getData,
     showDetail,
-    checkRow
+    checkRow,
+    updateRow
 }

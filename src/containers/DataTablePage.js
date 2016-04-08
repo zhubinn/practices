@@ -6,9 +6,12 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import DataTable from 'components/DataTable'
-import  { getData, showDetail, checkRow }  from 'actions/table'
+import  { getData, showDetail, checkRow, updateRow }  from 'actions/table'
 
 import {rowsData, columns, searchColumns} from 'components/DataTable/fakeData'
+
+
+
 
 class DataTablePage extends React.Component {
     componentDidMount(){
@@ -17,7 +20,7 @@ class DataTablePage extends React.Component {
     }
 
     render() {
-        const {mapState, showDetail, checkRow} = this.props
+        const {mapState, showDetail, checkRow, updateRow} = this.props
         const $$rows = mapState.get('rows')
         const rows = ($$rows && $$rows.toJS()) || []
         const $$separatedIndexes = mapState.get('separatedIndexes')
@@ -29,7 +32,7 @@ class DataTablePage extends React.Component {
 
         return (
             <div>
-                <DataTable checkMode = {true} onCheckRow={checkRow} hasDetail = {true}  checkedRows = {checkedRows}  rows={rows} separatedIndexes = {separatedIndexes} searchColumns = {searchColumns} columns={columns}  onShowDetail = {showDetail} />
+                <DataTable  checkMode = {true} onCheckRow={checkRow} hasDetail = {true}  checkedRows = {checkedRows}  rows={rows} separatedIndexes = {separatedIndexes} searchColumns = {searchColumns} columns={columns} onUpdateRow={updateRow}  onShowDetail = {showDetail} />
 
 
             </div>
@@ -46,5 +49,6 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps, {
     getData,
     showDetail,
-    checkRow
+    checkRow,
+    updateRow
 })(DataTablePage)

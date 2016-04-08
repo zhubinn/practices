@@ -82,7 +82,7 @@ export default class DataTable extends React.Component {
     }
     render() {
 
-        const {rows, separatedIndexes, columns, searchColumns,  checkedRows, source, onShowDetail, onCheckRow, checkMode, hasDetail } = this.props
+        const {rows, separatedIndexes, columns, searchColumns,  checkedRows, source, onShowDetail, onCheckRow,onUpdateRow, checkMode, hasDetail } = this.props
         // notes: 异步操作
 
         return (
@@ -105,7 +105,7 @@ export default class DataTable extends React.Component {
                     </table>
 
                     {this.resolveTables(rows, columns, separatedIndexes).map(function(item, i){
-                        if (item.hasDetail) return (<BaseTable checkedRows = {checkedRows} checkMode = {checkMode} startIndex = {item.startIndex}  key = {i} rows={item.rows} columns={item.columns} hasDetail={item.hasDetail} onShowDetail={onShowDetail} onCheckRow={onCheckRow}/>)
+                        if (item.hasDetail) return (<BaseTable onUpdateRow={onUpdateRow} checkedRows = {checkedRows} checkMode = {checkMode} startIndex = {item.startIndex}  key = {i} rows={item.rows} columns={item.columns} hasDetail={item.hasDetail} onShowDetail={onShowDetail} onCheckRow={onCheckRow}/>)
                         return (<BaseTable  key = {i} rows={item.rows} columns={item.columns} />)
                     })}
 
