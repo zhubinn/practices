@@ -8,7 +8,8 @@ import {GET_DATA, GET_DATA_SUCCESS,GET_DATA_FAILURE,getData, showDetail} from 'a
 
 export default function dataTable(state = Immutable.fromJS({
     rows: [],
-    separatedIndexes: Immutable.OrderedSet()
+    separatedIndexes: Immutable.OrderedSet(),
+    checkedRows: Immutable.OrderedSet()
 }), action) {
     switch (action.type) {
         case GET_DATA:
@@ -18,15 +19,24 @@ export default function dataTable(state = Immutable.fromJS({
         case GET_DATA_FAILURE:
             return state
         case 'SHOW_DETAIL':
-            const { i } = action
+            const { index } = action
 
             return state.updateIn(['separatedIndexes'], function (separatedIndexes) {
-                if (separatedIndexes.has(i)) {
-                    return separatedIndexes.delete(i)
+                if (separatedIndexes.has(index)) {
+                    return separatedIndexes.delete(index)
                 }
-                return separatedIndexes.add(i)
+                return separatedIndexes.add(index)
             })
+        case 'CHECK_ROW':
 
+            const rowIndex = action.index
+
+            return state.updateIn(['checkedRows'], function (checkedRows) {
+                if (checkedRows.has(rowIndex)) {
+                    return checkedRows.delete(rowIndex)
+                }
+                return checkedRows.add(rowIndex)
+            })
         default:
             return state
     }

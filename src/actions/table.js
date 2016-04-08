@@ -43,10 +43,17 @@ const getData = (source)=> {
     }
 }
 
-function showDetail(i){
+function showDetail(index){
     return {
         type: 'SHOW_DETAIL',
-        i
+        index
+    }
+}
+
+function checkRow(index){
+    return {
+        type: 'CHECK_ROW',
+        index
     }
 }
 
@@ -55,5 +62,6 @@ export {
     GET_DATA_SUCCESS,
     GET_DATA_FAILURE,
     getData,
-    showDetail
+    showDetail,
+    checkRow
 }

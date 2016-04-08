@@ -59,21 +59,9 @@ export default class DataTable extends React.Component {
 
     }
 
-    /* showDetailClicked(i){
-     this.props.onShowDetail(i)
-     }
-     // 解析需要展示的列, 并从row中取出字段对应内容(文本或者虚拟dom)
-     resolveRow(row, columns) {
+    onCheckAll(){
 
-     return columns.map((col, i) => col['datafield'])
-     .map((keyName, i) => ({
-     keyName: keyName,
-     // 判断该列是否为自定义渲染
-     text: isFunction(columns[i]['cellsrenderer']) ? columns[i]['cellsrenderer'].call(this, row, columns[i], row[keyName]) : row[keyName]
-     })
-     )
-
-     }*/
+    }
 
     resolveColumnsTitle(columns) {
         //todo: 判断字段hidden是否存在和其的值
@@ -83,10 +71,17 @@ export default class DataTable extends React.Component {
         return columns.map((col, i) => col['text'])
     }
 
-
+    renderCheckBtn(checkMode){
+        if (!checkMode) return null
+        return (<th><input type="checkbox"/></th>)
+    }
+    renderDetailBtn(hasDetail){
+        if (!hasDetail) return null
+        return (<th>+</th>)
+    }
     render() {
 
-        const {rows, separatedIndexes, source, columns, searchColumns, onShowDetail } = this.props
+        const {rows, separatedIndexes, checkMode, source, columns, searchColumns, onShowDetail, hasDetail } = this.props
         // notes: 异步操作
 
         return (
@@ -95,6 +90,9 @@ export default class DataTable extends React.Component {
                     <table>
                         <thead>
                         <tr>
+                            {this.renderCheckBtn(checkMode)}
+                            {this.renderDetailBtn(hasDetail)}
+
                             {this.resolveColumnsTitle(columns).map((colName, i)=><th key={i}>{colName}</th>)}
                         </tr>
                         </thead>
@@ -106,7 +104,7 @@ export default class DataTable extends React.Component {
                     </table>
 
                     {this.resolveTables(rows, columns, separatedIndexes).map(function(item, i){
-                        if (item.hasDetail) return (<BaseTable startIndex = {item.startIndex}  key = {i} rows={item.rows} columns={item.columns} hasDetail={item.hasDetail} onShowDetail={onShowDetail}/>)
+                        if (item.hasDetail) return (<BaseTable checkMode = {checkMode} startIndex = {item.startIndex}  key = {i} rows={item.rows} columns={item.columns} hasDetail={item.hasDetail} onShowDetail={onShowDetail}/>)
                         return (<BaseTable  key = {i} rows={item.rows} columns={item.columns} />)
                     })}
 

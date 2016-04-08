@@ -7,7 +7,7 @@ export default class BaseTr extends React.Component {
     constructor(props) {
         super(props)
 
-
+        this.renderDetailBtn = this.renderDetailBtn.bind(this)
     }
 
     showDetailClicked(i){
@@ -28,6 +28,14 @@ export default class BaseTr extends React.Component {
             )
 
     }
+    renderCheckBtn(checkMode){
+        if (!checkMode) return null
+        return (<th><input type="checkbox"/></th>)
+    }
+    renderDetailBtn(hasDetail){
+        if (!hasDetail) return null
+        return (<td onClick = {this.showDetailClicked.bind(this, this.props.index)}>+</td>)
+    }
 
     resolveColumnsTitle(columns) {
         //todo: 判断字段hidden是否存在和其的值
@@ -40,12 +48,16 @@ export default class BaseTr extends React.Component {
 
     render() {
 
-        const {row, columns, index } = this.props
+        const {row, columns, index, hasDetail, checkMode } = this.props
 
 
         return (
 
-        <tr onClick = {this.showDetailClicked.bind(this, index)}>
+        <tr >
+            {this.renderCheckBtn(checkMode)}
+            {this.renderDetailBtn(hasDetail)}
+
+
             {this.resolveRow(row, columns).map(function (item, i) {
                 return (<td key={i}>{item.text}</td>)
             })}

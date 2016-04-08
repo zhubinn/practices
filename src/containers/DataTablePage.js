@@ -6,7 +6,7 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import DataTable from 'components/DataTable'
-import  { getData, showDetail }  from 'actions/table'
+import  { getData, showDetail, checkRow }  from 'actions/table'
 
 import {rowsData, columns, searchColumns} from 'components/DataTable/fakeData'
 
@@ -16,7 +16,7 @@ class DataTablePage extends React.Component {
     }
 
     render() {
-        const {mapState, showDetail} = this.props
+        const {mapState, showDetail, checkRow} = this.props
         const $$rows = mapState.get('rows')
         const rows = ($$rows && $$rows.toJS()) || []
         const $$separatedIndexes = mapState.get('separatedIndexes')
@@ -25,7 +25,7 @@ class DataTablePage extends React.Component {
 
         return (
             <div>
-                <DataTable rows={rows} separatedIndexes = {separatedIndexes} searchColumns = {searchColumns} columns={columns}  onShowDetail = {showDetail} />
+                <DataTable checkMode = {true} checkRow={checkRow} hasDetail = {true} rows={rows} separatedIndexes = {separatedIndexes} searchColumns = {searchColumns} columns={columns}  onShowDetail = {showDetail} />
 
 
             </div>
@@ -41,5 +41,6 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps, {
     getData,
-    showDetail
+    showDetail,
+    checkRow
 })(DataTablePage)

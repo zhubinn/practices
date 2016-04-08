@@ -42,7 +42,7 @@ export default class BaseTable extends React.Component {
     }
     render() {
 
-        const {rows, columns, hasDetail, onShowDetail, startIndex } = this.props
+        const {rows, columns, hasDetail, onShowDetail, startIndex, checkMode } = this.props
 
 
         return (
@@ -57,7 +57,7 @@ export default class BaseTable extends React.Component {
                 {
                     rows.map((row, i) => {
 
-                        return (<BaseTr hasDetail = {hasDetail} row = {row} index = {i + startIndex} columns = {columns} onShowDetail = {onShowDetail}  key={i} /> )
+                        return (<BaseTr checkMode = {checkMode} hasDetail = {hasDetail} row = {row} index = {i + startIndex} columns = {columns} onShowDetail = {onShowDetail}  key={i} /> )
                     })
 
                 }
