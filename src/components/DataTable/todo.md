@@ -6,6 +6,7 @@
 + table外层宽度自定义
 + 列宽度的指定column[i].width
 + 列的显示和隐藏
++ 表头的自定义渲染
 + 数据rows为0时的视图(没有数据)
 + 数据加载中的视图(loading)
 + table的重新获取数据还是`action: getData？`
