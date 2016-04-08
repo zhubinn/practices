@@ -4,56 +4,31 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Pagination from 'components/pagination/index'
-import { perAction, nextAction, indexAction, pageGoAction } from 'actions/userlist/index'
+import { pageChangeAction } from 'actions/userlist/index'
 
 class Userlist extends React.Component {
 	constructor(){
         super()
-        this.preFn = this.preFn.bind(this)
-        this.nextFn = this.nextFn.bind(this)
-        this.indexFn = this.indexFn.bind(this)
-        this.GOFn = this.GOFn.bind(this)
-        this.pageChange = this.pageChange.bind(this)
+        this.pageChangeFn = this.pageChangeFn.bind(this)
     }
-    pageChange (){
-        
-    }
-	preFn() {
-		const { perAction } = this.props
-		perAction();
-	}
-    nextFn() {
-        const { nextAction } = this.props
-        nextAction();
-    }
-    indexFn(index) {
-        const { indexAction } = this.props
-        indexAction(index);
-    }
-    GOFn(index) {
-        const { pageGoAction } = this.props
-        pageGoAction(index);
+    pageChangeFn (pageIndex, pageSize){
+        const { pageChangeAction } = this.props
+        pageChangeAction(pageIndex, pageSize)
     }
     render() {
-    	const { preFn, nextFn, indexFn, GOFn } = this
+    	const { pageChangeFn } = this
     	const { userlistdata } = this.props
-    	const pending = userlistdata.get ('pending')
+
         const pagination = userlistdata.get('pagination')
+        let current = pagination.get("current")
+        let total = pagination.get("total")
+        let pageSize = pagination.get("pageSize")
 
-        const preDisabled = pagination.get('preDisabled')
-        const nextDisabled = pagination.get('nextDisabled')
-        const items = pagination.get('items')
-
-// pageChange: function,
-// pageIndex: number,
-// pageSize: number,
-// count: number,
-// mode: enum,
+        //alert(pageSize)
 
         return (
             <div>
-            {pending}
-            <Pagination items={items}  preDisabled = {preDisabled} nextDisabled = {nextDisabled} GOFn={GOFn}  indexFn = {indexFn}  preFn={preFn} nextFn={nextFn}/>
+            <Pagination current = { current } total = { total } pageSize={ pageSize } pageChangeFn = {pageChangeFn} model = {false}/>
             </div>
         )
     }
@@ -67,5 +42,5 @@ const mapStateToProps = (state, ownProps) => {
 
 
 export default connect(mapStateToProps, {
-    perAction, nextAction, indexAction, pageGoAction
+    pageChangeAction
 })(Userlist)

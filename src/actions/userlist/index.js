@@ -2,45 +2,37 @@
 import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 
-const perAction = ()=> {
+// const pageChangeAction = (pageIndex, pageSize)=> {
 
+//         dispatch({
+//             type: 'CK_PAGE_CHANGE',
+//             pageIndex: pageIndex,
+//             pageSize: pageSize
+//         })
+        
+//     return (dispatch, getState) => {
+//         request(url)
+//         .then(function(){
+
+//         dispatch({
+//             type: 'CK_PAGE_CHANGE',
+//             pageIndex: pageIndex,
+//             pageSize: pageSize
+//         })
+//         })
+//     }
+// }
+
+const pageChangeAction = (pageIndex, pageSize)=> {
     return (dispatch, getState) => {
         dispatch({
-            type: 'CK_PAGE_PRE',
-        })
-    }
-}
-
-const nextAction = ()=> {
-
-    return (dispatch, getState) => {
-        dispatch({
-            type: 'CK_PAGE_NEXT',
-        })
-    }
-}
-
-const indexAction = (index)=> {
-    return (dispatch, getState) => {
-        dispatch({
-            type: 'CK_PAGE_INDEX',
-            pageIndex:index,
-        })
-    }
-}
-
-const pageGoAction = (index)=> {
-    return (dispatch, getState) => {
-        dispatch({
-            type: 'CK_PAGE_GO',
-            pageIndex:index,
+            type: 'CK_PAGE_CHANGE',
+            pageIndex: pageIndex,
+            pageSize: pageSize
         })
     }
 }
 
 export {
-    perAction,
-    nextAction,
-    indexAction,
-    pageGoAction,
+    pageChangeAction,
 }
