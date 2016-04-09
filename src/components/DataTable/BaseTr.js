@@ -56,7 +56,7 @@ export default class BaseTr extends React.Component {
 
     renderDetailBtn(hasDetail) {
         if (!hasDetail) return null
-        return (<td className="small-cell" ><div onClick={this.showDetailClicked.bind(this, this.props.index)} className="date-Sltround-add"></div></td>)
+        return (<td className="small-cell" ><div onClick={this.showDetailClicked.bind(this, this.props.index)} className={this.props.isOnShowDetail ? "date-Sltround-cut" : "date-Sltround-add"}></div></td>)
     }
 
     resolveColumnsTitle(columns) {

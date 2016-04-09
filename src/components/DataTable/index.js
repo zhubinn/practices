@@ -47,16 +47,18 @@ export default class DataTable extends React.Component {
         }
 
 
+        finalTables.push({rows: rows.slice(0, sortableTables[0]+1), columns: columns, hasDetail: true, startIndex: 0})
+        finalTables.push({rows:secondRowsData, columns:secondColumns})
         sortableTables.reduce(function(a, b){
-
-
-
 
             finalTables.push({rows: rows.slice(a, b), columns: columns, hasDetail: true, startIndex: a + 1})
             finalTables.push({rows:secondRowsData, columns:secondColumns})
             return b
         })
-        finalTables.push({rows: rows.slice(sortableTables[sortableTables.length - 1]), columns:columns, hasDetail: true, startIndex: sortableTables[sortableTables.length - 1] + 1})
+
+        if (sortableTables[sortableTables.length -1 ] !== rows.length-1){
+            finalTables.push({rows: rows.slice(sortableTables[sortableTables.length - 1]), columns:columns, hasDetail: true, startIndex: sortableTables[sortableTables.length - 1] + 1})
+        }
 
 
         return finalTables
@@ -112,7 +114,7 @@ export default class DataTable extends React.Component {
                     </table>
                 </div>
                     {this.resolveTables(rows, columns, separatedIndexes).map(function(item, i){
-                        if (!(i%2)) return (<BaseTable onUpdateRow={onUpdateRow}  checkedRows = {checkedRows} checkMode = {checkMode} startIndex = {item.startIndex}  key = {i} rows={item.rows} columns={item.columns} hasDetail={item.hasDetail} onShowDetail={onShowDetail} onCheckRow={onCheckRow}/>)
+                        if (!(i%2)) return (<BaseTable separatedIndexes = {separatedIndexes} onUpdateRow={onUpdateRow}  checkedRows = {checkedRows} checkMode = {checkMode} startIndex = {item.startIndex}  key = {i} rows={item.rows} columns={item.columns} hasDetail={item.hasDetail} onShowDetail={onShowDetail} onCheckRow={onCheckRow}/>)
                         return (<BaseTable  key = {i} rows={item.rows} columns={item.columns}  isParentTable = {false} />)
                     })}
 
