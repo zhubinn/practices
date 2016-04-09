@@ -65,6 +65,13 @@ function updateRow(rowData, index){
         rowData
     }
 }
+function toggleSearch(isShow){
+    return {
+        type: 'TOGGLE_SEARCHBAR',
+        isShow
+    }
+}
+
 export {
     GET_DATA,
     GET_DATA_SUCCESS,
@@ -72,5 +79,6 @@ export {
     getData,
     showDetail,
     checkRow,
-    updateRow
+    updateRow,
+    toggleSearch
 }

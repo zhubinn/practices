@@ -9,7 +9,8 @@ import {GET_DATA, GET_DATA_SUCCESS,GET_DATA_FAILURE,getData, showDetail, updateR
 export default function dataTable(state = Immutable.fromJS({
     rows: [],
     separatedIndexes: Immutable.OrderedSet(),
-    checkedRows: Immutable.OrderedSet()
+    checkedRows: Immutable.OrderedSet(),
+    searchBarShow: false
 }), action) {
     switch (action.type) {
         case GET_DATA:
@@ -60,6 +61,8 @@ export default function dataTable(state = Immutable.fromJS({
                     return index === action.index ? action.rowData : map
                 })
             })
+        case 'TOGGLE_SEARCHBAR':
+            return state.merge({searchBarShow: action.isShow})
         default:
             return state
     }

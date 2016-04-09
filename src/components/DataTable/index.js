@@ -22,6 +22,7 @@ export default class DataTable extends React.Component {
         this.renderCheckBtn = this.renderCheckBtn.bind(this)
         this.renderTitleCell = this.renderTitleCell.bind(this)
         this.onCheckAll = this.onCheckAll.bind(this)
+        this.renderSearch = this.renderSearch.bind(this)
     }
 
     // 分割table, todo:逻辑分类
@@ -103,9 +104,30 @@ export default class DataTable extends React.Component {
         if (!hasDetail) return null
         return (<th ><div  className="small-cell"></div></th>)
     }
+
+
+    renderSearch(datafield) {
+
+        let obj = this.props.searchColumns[datafield];
+        if (typeof obj === 'undefined' ) return null
+
+        // todo: 拆分
+        switch (obj.searchType || 0) {
+            case 1:
+                return (<input type="text" name = {'search-'+datafield} />)
+            case 2:
+                return (<input type="datetime-local" name = {'search-'+datafield} />)
+            case 3:
+                return (<select name = {'search-'+datafield} >
+                    {obj.renderData.options.map((item, i) => (<option key = {i} value={item.value}>{item.text}</option>))}
+                </select>)
+        }
+        return null
+    }
+
     render() {
 
-        const {rows, separatedIndexes, columns, searchColumns,  checkedRows, source, onShowDetail, onCheckRow,onUpdateRow, checkMode, hasDetail } = this.props
+        const {rows, separatedIndexes, columns, searchColumns,  checkedRows, searchBarStatus, source, onShowDetail, onCheckRow,onUpdateRow, checkMode, hasDetail } = this.props
         // notes: 异步操作
 
         return (
@@ -120,10 +142,16 @@ export default class DataTable extends React.Component {
                             {this.renderTitleCell(columns)}
                         </tr>
                         </thead>
+
+                    </table>
+                    <table>
                         <tbody>
-                        <tr>
-                            <td></td>
-                        </tr>
+                            <tr className = {searchBarStatus ? '' : 'hide'}>
+                                {checkMode?(<td><div className="small-cell"></div></td>):null}
+                                {hasDetail?(<td><div className="small-cell"></div></td>):null}
+                                {columns.map((item, i) => (<td  key = {i}><div style = {{width: ''+ (item.width||150) +'px'}}>{this.renderSearch(item.datafield)}</div></td>))}
+
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -143,11 +171,14 @@ export default class DataTable extends React.Component {
 DataTable.propTypes = {
     checkMode: React.PropTypes.bool,
     hasDetail: React.PropTypes.bool,
+    searchBarStatus: React.PropTypes.bool,
     separatedIndexes: React.PropTypes.array
 }
 
 DataTable.defaultProps = {
     separatedIndexes: [],
+    searchBarStatus: false,
     hasDetail: false,
+
     checkMode: false
 }

@@ -6,7 +6,7 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import DataTable from 'components/DataTable'
-import  { getData, showDetail, checkRow, updateRow }  from 'actions/table'
+import  { getData, showDetail, checkRow, updateRow, toggleSearch}  from 'actions/table'
 
 import {rowsData, columns, searchColumns} from 'components/DataTable/fakeData'
 
@@ -18,7 +18,7 @@ class DataTablePage extends React.Component {
     }
 
     render() {
-        const {mapState, showDetail, checkRow, updateRow} = this.props
+        const {mapState, showDetail, checkRow, updateRow, toggleSearch} = this.props
         const $$rows = mapState.get('rows')
         const rows = ($$rows && $$rows.toJS()) || []
         const $$separatedIndexes = mapState.get('separatedIndexes')
@@ -27,9 +27,17 @@ class DataTablePage extends React.Component {
 
         const $$checkedRows = mapState.get('checkedRows')
         const checkedRows = ($$checkedRows && $$checkedRows.toJS()) || []
+        const searchBarShow = mapState.get('searchBarShow')
+
+
 
         return (
             <div style={{margin: '20px'}} >
+                <div>
+                    <button onClick = {function(){toggleSearch(true)}}>高级搜索</button>
+                    <button onClick = {function(){toggleSearch(false)}} >确定</button>
+                </div>
+
                 <div className = 'w820'>
                     <DataTable checkMode={true}
                         onCheckRow={checkRow}
@@ -39,8 +47,12 @@ class DataTablePage extends React.Component {
                         separatedIndexes={separatedIndexes}
                         searchColumns={searchColumns}
                         columns={columns}
+                        searchBarStatus = {searchBarShow}
                         onUpdateRow={updateRow}
-                        onShowDetail={showDetail}/>
+                        onShowDetail={showDetail}
+
+                    />
+
                 </div>
             </div>
         )
@@ -57,5 +69,6 @@ export default connect(mapStateToProps, {
     getData,
     showDetail,
     checkRow,
-    updateRow
+    updateRow,
+    toggleSearch
 })(DataTablePage)

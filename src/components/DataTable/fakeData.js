@@ -1310,6 +1310,11 @@ let searchColumns = {
 
 // table所用的列信息
 let columns = [
+
+    {text: '报表名称', datafield: 'name', width: 120},
+    {text: '创建人', datafield: 'user', width: 70},
+    {text: '创建时间', datafield: 'date', width: 160},
+    {text: '停止时间', datafield: 'NpStopTime'},
     {text: 'ID', datafield: 'ID', width: 130, headerrenderer: function(){
         return (<select>
             <option>全部类型</option>
@@ -1317,10 +1322,6 @@ let columns = [
             <option>自定义</option>
         </select>)
     }},
-    {text: '报表名称', datafield: 'name', width: 120},
-    {text: '创建人', datafield: 'user', width: 70},
-    {text: '创建时间', datafield: 'date', width: 160},
-    {text: '停止时间', datafield: 'NpStopTime'},
     {text: '状态', datafield: 'IsStop', width: 60, cellsrenderer: function(rowData, column, value){
         return value == 0 ? '启动' : '停止'
     }},
