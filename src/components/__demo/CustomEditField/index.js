@@ -1,9 +1,10 @@
 import { findDOMNode } from 'react-dom'
 import List from './list'
+import './customField.less'
 
 export default class CustomEditField extends React.Component {
-    constructor(props) {
-        super(props)
+    constructor(props, context) {
+        super(props, context)
 
     }
 
@@ -22,6 +23,30 @@ export default class CustomEditField extends React.Component {
 
     }
 
+
+    renderListTpl(){
+        const { customEditField  } = this.props
+
+        if(customEditField.length){
+            return (
+                <div>
+                    <h4>应用中</h4>
+                    <ul>
+                        {
+                            customEditField.map((item ,index) => {
+                                return <li key = { index }>{ item.text }
+                                        <span className = { item.status ? 'green' : 'gray' }>{ item.status ? '启用' : '停用' }</span>
+                                    </li>
+                            })
+                        }
+                    </ul>
+
+                </div>
+
+            )
+        }
+    }
+
     render() {
         const { customEditField ,actions } = this.props
 
@@ -38,7 +63,7 @@ export default class CustomEditField extends React.Component {
 
                 <List customEditField = { customEditField } actions = {actions} />
                 <button onClick = { this.handleApply.bind(this) }>应用</button>
-
+                { this.renderListTpl() }
             </div>
         )
     }
