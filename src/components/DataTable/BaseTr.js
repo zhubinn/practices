@@ -53,7 +53,7 @@ export default class BaseTr extends React.Component {
 
         return this.resolveRow(row, columns, index).map(function (item, i) {
 
-            return (<td key={i}><div style = {{width: ''+ (columns[i].width||150) +'px'}} >{item.text}</div></td>)
+            return (<td key={i}><div title = {isString(item.text) ? item.text :''} style = {{width: ''+ (columns[i].width||150) +'px'}} >{item.text}</div></td>)
         })
 
     }

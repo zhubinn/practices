@@ -33,6 +33,7 @@ class DataTablePage extends React.Component {
 
         return (
             <div style={{margin: '20px'}} >
+
                 <div>
                     <button onClick = {function(){toggleSearch(true)}}>高级搜索</button>
                     <button onClick = {function(){toggleSearch(false)}} >确定</button>
