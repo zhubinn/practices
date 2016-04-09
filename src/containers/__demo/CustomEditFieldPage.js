@@ -10,11 +10,11 @@ class CustomEditFieldPage extends Component {
 
 
     render() {
-        const { fields, actions } = this.props
+        const { customEditField, actions } = this.props
         console.log(this.props)
         return (
             <div>
-                <CustomEditField fields={fields} addTodo={actions.addField} actions={actions} />
+                <CustomEditField customEditField={ customEditField }  actions={actions} />
             </div>
         )
     }
@@ -24,18 +24,21 @@ class CustomEditFieldPage extends Component {
 
 
 
-//CustomEditFieldPage.propTypes = {
-//    fields: PropTypes.array.isRequired,
-//    actions: PropTypes.object.isRequired
-//}
+CustomEditFieldPage.propTypes = {
+    customEditField: PropTypes.array.isRequired,
+    actions: PropTypes.object.isRequired
+}
 
 function mapStateToProps(state) {
     return {
-        fields: state.fields
+        customEditField: state.customEditField
     }
 }
 
+
+
 function mapDispatchToProps(dispatch) {
+
     return {
         actions: bindActionCreators(FieldActions, dispatch)
     }

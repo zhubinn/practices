@@ -1,35 +1,36 @@
-import { ADD_FIELD, DELETE_FIELD, APPLY_FIELD, SET_STATUS_FIELD } from 'actions/__demo/customEditField'
+import {  INPUT_CHANGE_FIELD, ADD_FIELD, DELETE_FIELD, APPLY_FIELD, SET_STATUS_FIELD } from '../../constants/customFieldTypes'
 
 const initialState = [
     {
-        text: '',
+        id: 0,
         status: false,
-        id: 0
+        text: ''
     }
 ]
 
 export default function customEditField(state = initialState, action) {
-    console.log(state);
+
     switch (action.type) {
+        case INPUT_CHANGE_FIELD:
+            state[action.id].text = action.text;
+            return [...state];
         case ADD_FIELD:
             return [
+                ...state,
                 {
                     id: state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
                     status: false,
                     text: action.text
-                },
-                ...state
+                }
             ]
 
         case DELETE_FIELD:
-            return state.filter(todo =>
-                todo.id !== action.id
-            )
+            state.splice(action.id,1);
+            return [...state];
 
         case SET_STATUS_FIELD:
-            return state.filter(todo =>
-                todo.id !== action.id
-            )
+            state[action.id].status = !state[action.id].status;
+            return [...state];
 
         case APPLY_FIELD:
             return state.map(todo =>

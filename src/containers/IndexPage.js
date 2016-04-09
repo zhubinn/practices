@@ -17,7 +17,7 @@ class IndexPage extends React.Component {
                 </Link>
                 <br/>
                 <Link to="/__demo/hello">
-                    Hello
+                    添加删除过滤字段Hello
                 </Link><br/>
                 <Link to="/__demo/CustomEditFieldPage">
                     客户自定义字段CustomEditFieldPage

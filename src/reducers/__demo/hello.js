@@ -6,6 +6,7 @@ import { INPUT_ONCHANGE,ONCLICK_HELLO,ADDITEMS_HELLO,DELETE_HELLO,SEARCH_HELLO }
 
 // reducer 根据传入的state和当前的action 返回新的state.
 
+
 const hello = (state = Immutable.Map(), action) => {
 
     switch (action.type) {
@@ -22,14 +23,14 @@ const hello = (state = Immutable.Map(), action) => {
         case SEARCH_HELLO:
             //debugger;
             const imState = Immutable.fromJS(state.toJS());
-            let items = imState.toJS().items;
-            let searchlist = items.filter((item) => {
+            const items = imState.toJS().items;
+            const filterItems = items.filter((item) => {
                 let reg = new RegExp(action.searchtext.searchtext)
                 return reg.test(item.text);
             } )
             //debugger
-            console.log(searchlist)
-            return state.merge({"items":searchlist});
+            console.log(filterItems)
+            return state.merge(Object.assign({},{"items":items},{"items":filterItems}));
 
         default:
             return state

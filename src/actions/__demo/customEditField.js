@@ -1,17 +1,9 @@
-
-const ADD_FIELD = 'ADD_FIELD'
-const DELETE_FIELD = 'DELETE_FIELD'
-const SET_STATUS_FIELD = 'SET_STATUS_FIELD'
-const APPLY_FIELD = 'APPLY_FIELD'
-//[
-//    {
-//        id:
-//        filedName:'',
-//        status:0
-//    }
-//]
+import { INPUT_CHANGE_FIELD, ADD_FIELD, DELETE_FIELD, APPLY_FIELD, SET_STATUS_FIELD } from '../../constants/customFieldTypes'
 
 
+export function inputChange(text,id) {
+    return { type: INPUT_CHANGE_FIELD, text ,id }
+}
 
 export function addField(text) {
     return { type: ADD_FIELD, text }

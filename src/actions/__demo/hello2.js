@@ -15,10 +15,6 @@ const SEARCH_HELLO = 'SEARCH_HELLO'
 
 
 
-/*export function inputChange(text,id) {
-    return { type: INPUT_CHANGE_FIELD, text ,id }
-}*/
-
 const sayHello = ({"value":inputText})=> {
     const _sayHello = (type,data)=> {
         return {
