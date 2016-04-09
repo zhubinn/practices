@@ -2,13 +2,14 @@
 
 > dataTable开发`todolist`
 
+
 + ~~点第三次的时候有bug~~
 + table宽度的计算
 + table外层宽度自定义
-+ 列宽度的指定column[i].width
++ ~~列宽度的指定column[i].width~~
 + 列的显示和隐藏
 + 单元格文本超出宽度，hover时长(>1s?)使用tooltip显示全部文本
-+ 表头的自定义渲染
++ ~~表头的自定义渲染~~
 + 数据rows为0时的视图(没有数据)
 + 数据加载中的视图(loading)
 + table的重新获取数据还是`action: getData？`

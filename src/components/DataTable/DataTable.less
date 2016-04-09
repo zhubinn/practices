@@ -7,11 +7,13 @@
   width:820px;overflow-x: scroll;overflow-y: hidden;
 }
 
-
+*{
+  box-sizing: border-box;
+}
 
 .dataTable{ width:1000px;}
 .dataTable-title{ height:30px; line-height:30px; background:#f6fcfc; border-bottom:1px solid #eff4f4; border-top:1px solid #eff4f4;}
-.dataTable .dataTable-title thead   th{height:30px; line-height:30px; width: 150px; color:#878e94; font-size:14px;font-family:Microsoft YaHei; text-align:center;}
+.dataTable .dataTable-title thead   th{height:30px; line-height:30px; color:#878e94; font-size:14px;font-family:Microsoft YaHei; text-align:center;}
 .dataTable   tbody{ background:#fff;}
 .dataTable   tbody tr{ border-bottom:1px solid #eff4f4;}
 .dataTable   td{ height:60px; line-height:60px; text-align:center;  font-size:14px;  color:#a2a2a2;}
@@ -25,7 +27,7 @@
 .dataTable-subBaseTable  thead{ background:#f6fcfc;height:36px; line-height:36px;border-bottom:1px solid #6fd2d4;}
 .dataTable-subBaseTable  th{color:#878e94; font-size:14px;font-family:Microsoft YaHei; text-align:center; width:80px;}
 .dataTable-subBaseTable  tr{border-top:1px solid #f7f6f6;}
-.dataTable-subBaseTable  td, .dataTable-baseTable  td{text-align:center;font-size:14px;  color:#a2a2a2;line-height:38px;height:38px;width:80px; width:150px;}
+.dataTable-subBaseTable  td, .dataTable-baseTable  td{text-align:center;font-size:14px;  color:#a2a2a2;line-height:38px;height:38px;width:80px; }
 
 
 
@@ -34,7 +36,8 @@
     width: 50px!important;
   }
 }
-.dataTable td, .dataTable th {
+.dataTable td div, .dataTable th div {
+  width:150px;
   overflow: hidden;
   text-overflow: ellipsis; /* 文本溢出部分显示为点... */
   white-space: nowrap; /* 文本超出宽度不做换行处理 */

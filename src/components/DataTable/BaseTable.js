@@ -38,7 +38,7 @@ export default class BaseTable extends React.Component {
     renderHeader(isParentTable, columns){
         if(isParentTable) return null
 
-        return (<thead><tr>{this.resolveColumnsTitle(columns).map((colName, i)=><th key={i}>{colName}</th>)}</tr></thead>)
+        return (<thead><tr>{this.resolveColumnsTitle(columns).map((colName, i)=><th  key={i}><div style = {{width: ''+ (columns[i].width||150) +'px'}}>{colName}</div></th>)}</tr></thead>)
     }
     render() {
 

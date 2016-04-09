@@ -9,6 +9,8 @@ export default class BaseTr extends React.Component {
 
         this.renderDetailBtn = this.renderDetailBtn.bind(this)
         this.renderCheckBtn = this.renderCheckBtn.bind(this)
+        this.resolveRow = this.resolveRow.bind(this)
+        this.resolveRowCell = this.resolveRowCell.bind(this)
         this.checkRow = this.checkRow.bind(this)
         this.updateRow = this.updateRow.bind(this)
 
@@ -42,6 +44,20 @@ export default class BaseTr extends React.Component {
 
     }
 
+
+    // 渲染单元格
+    resolveRowCell(row, columns, index) {
+
+
+
+
+        return this.resolveRow(row, columns, index).map(function (item, i) {
+
+            return (<td key={i}><div style = {{width: ''+ (columns[i].width||150) +'px'}} >{item.text}</div></td>)
+        })
+
+    }
+
     checkRow() {
 
         this.props.onCheckRow(this.props.index, !this.props.isOnChecked)
@@ -51,12 +67,12 @@ export default class BaseTr extends React.Component {
 
     renderCheckBtn(checkMode, isOnchecked) {
         if (!checkMode) return null
-        return (<td className="small-cell"><input type="checkbox" onChange={this.checkRow} checked={isOnchecked}/></td>)
+        return (<td><div  className="small-cell"><input type="checkbox" onChange={this.checkRow} checked={isOnchecked}/></div></td>)
     }
 
     renderDetailBtn(hasDetail) {
         if (!hasDetail) return null
-        return (<td className="small-cell" ><div onClick={this.showDetailClicked.bind(this, this.props.index)} className={this.props.isOnShowDetail ? "date-Sltround-cut" : "date-Sltround-add"}></div></td>)
+        return (<td ><div  className="small-cell"><div  onClick={this.showDetailClicked.bind(this, this.props.index)} className={this.props.isOnShowDetail ? "date-Sltround-cut" : "date-Sltround-add"}></div></div></td>)
     }
 
     resolveColumnsTitle(columns) {
@@ -66,6 +82,8 @@ export default class BaseTr extends React.Component {
          */
         return columns.map((col, i) => col['text'])
     }
+
+
 
 
     render() {
@@ -80,9 +98,7 @@ export default class BaseTr extends React.Component {
                 {this.renderDetailBtn(hasDetail)}
 
 
-                {this.resolveRow(row, columns, index).map(function (item, i) {
-                    return (<td key={i}>{item.text}</td>)
-                })}
+                {this.resolveRowCell(row, columns, index)}
             </tr>
 
 

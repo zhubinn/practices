@@ -20,6 +20,7 @@ export default class DataTable extends React.Component {
 
         this.resolveTables = this.resolveTables.bind(this)
         this.renderCheckBtn = this.renderCheckBtn.bind(this)
+        this.renderTitleCell = this.renderTitleCell.bind(this)
         this.onCheckAll = this.onCheckAll.bind(this)
     }
 
@@ -80,14 +81,27 @@ export default class DataTable extends React.Component {
          */
         return columns.map((col, i) => col['text'])
     }
+
+    // 渲染表头单元格
+    renderTitleCell(columns){
+        // todo: 渲染函数的参数应该传哪些
+
+        return columns.map((column ,i) => {
+
+            // 列宽度默认为150px(以后考虑引入基础变量)
+
+            return (<th key = {i}><div  style = {{width: ''+ (column.width||150) +'px'}}>{isFunction(column.headerrenderer) ? column.headerrenderer.call(this) : column['text']}</div></th>)
+        })
+    }
+
     // 渲染表头'全选'checkbox
     renderCheckBtn(checkMode, rows, checkedRows){
         if (!checkMode) return null
-        return (<th  className="small-cell"><input type="checkbox" checked = {rows.length === checkedRows.length} onChange = {this.onCheckAll.bind(this)}/></th>)
+        return (<th ><div  className="small-cell"><input type="checkbox" checked = {rows.length === checkedRows.length} onChange = {this.onCheckAll.bind(this)}/></div></th>)
     }
     renderDetailBtn(hasDetail){
         if (!hasDetail) return null
-        return (<th className="small-cell"></th>)
+        return (<th ><div  className="small-cell"></div></th>)
     }
     render() {
 
@@ -103,7 +117,7 @@ export default class DataTable extends React.Component {
                             {this.renderCheckBtn(checkMode, rows, checkedRows)}
                             {this.renderDetailBtn(hasDetail)}
 
-                            {this.resolveColumnsTitle(columns).map((colName, i)=><th key={i}>{colName}</th>)}
+                            {this.renderTitleCell(columns)}
                         </tr>
                         </thead>
                         <tbody>
