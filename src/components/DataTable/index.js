@@ -53,13 +53,13 @@ export default class DataTable extends React.Component {
         finalTables.push({rows:secondRowsData, columns:secondColumns})
         sortableTables.reduce(function(a, b){
 
-            finalTables.push({rows: rows.slice(a, b), columns: columns, hasDetail: true, startIndex: a + 1})
+            finalTables.push({rows: rows.slice(a+1, b+1), columns: columns, hasDetail: true, startIndex: a + 1})
             finalTables.push({rows:secondRowsData, columns:secondColumns})
             return b
         })
 
         if (sortableTables[sortableTables.length -1 ] !== rows.length-1){
-            finalTables.push({rows: rows.slice(sortableTables[sortableTables.length - 1]), columns:columns, hasDetail: true, startIndex: sortableTables[sortableTables.length - 1] + 1})
+            finalTables.push({rows: rows.slice(sortableTables[sortableTables.length - 1]+1), columns:columns, hasDetail: true, startIndex: sortableTables[sortableTables.length - 1] + 1})
         }
 
 
