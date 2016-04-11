@@ -4,7 +4,8 @@
 
 import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
-import {rowsData, columns, searchColumns} from 'components/DataTable/fakeData'
+import {rowsData, columns, searchColumns,secondRowsData, secondColumns} from 'components/DataTable/fakeData'
+
 
 import layer from 'ucjs_modules/layer/2.2.0/layer.js'
 // 获取数据
@@ -35,7 +36,7 @@ const getData = (source)=> {
                 rows: rowsData,
                 pending: false
             })
-        }, 3000)
+        }, 1000)
     })
     return (dispatch, getState) => {
 
@@ -51,16 +52,41 @@ const getData = (source)=> {
     }
 }
 
-function showDetail(index) {
-    return {
-        type: 'SHOW_DETAIL',
-        payload: {
-            index: index,
-            rows: [],
-            columns: []
+function showDetail(index, rowdata) {
+
+
+    const fetchData = (type, payload)=> {
+
+        return {
+            type,
+            payload
         }
     }
+    const layerindex = layer.load(0, {shade: false})
+    const p = new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve({
+                rows: secondRowsData,
 
+                pending: false,
+                index: index
+            })
+        }, 1000)
+    })
+    return (dispatch, getState) => {
+
+        console.log(getState()['dataTable'].get('selectedRowDetailObj').toJS())
+
+        dispatch(fetchData('GET_DETAIL_DATA', {pending: true, rows: [], index: index}))
+
+        p.then(function (data) {
+            layer.close(layerindex)
+            dispatch(fetchData('GET_DETAIL_DATA_SUCCESS', data))
+
+
+        })
+
+    }
 }
 
 function checkRow(index, isChecked) {

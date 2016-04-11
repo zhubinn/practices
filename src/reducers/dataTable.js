@@ -24,15 +24,19 @@ export default function dataTable(state = Immutable.fromJS({
             return state.merge({rows: payload.rows, pending: payload.pending})
         case GET_DATA_FAILURE:
             return state
-        case 'SHOW_DETAIL':
-            const { index, rows, columns } = action.payload
+        case 'GET_DETAIL_DATA':
+
+
+            return state.merge({ pending: true})
+        case 'GET_DETAIL_DATA_SUCCESS':
+            const { index, rows} = action.payload
 
             return state.updateIn(['selectedRowDetailObj'], function (selectedRowDetailObj) {
 
                 if (selectedRowDetailObj.toJS().hasOwnProperty(index)) {
                     return selectedRowDetailObj.delete(index)
                 }
-                return selectedRowDetailObj.set(index, {rows: secondRowsData, columns: secondColumns})
+                return selectedRowDetailObj.set(index, {rows: rows, columns: secondColumns})
             })
         case 'CHECK_ROW':
 
