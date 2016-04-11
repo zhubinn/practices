@@ -18,7 +18,7 @@ export default class BaseTr extends React.Component {
 
 
     updateRow(rowData){
-        this.props.onUpdateRow(rowData, this.props.index)
+        this.props.onUpdateRow(rowData, this.props.row.index)
     }
     showDetailClicked(i) {
         if (!this.props.hasDetail) return

@@ -51,6 +51,7 @@ function showDetail(index) {
             columns: []
         }
     }
+
 }
 
 function checkRow(index, isChecked) {
