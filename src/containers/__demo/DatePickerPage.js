@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import 'ucjs_modules/jquery-daterangepicker/1.0.0/jquery-daterangepicker.css'
 import 'ucjs_modules/jquery-daterangepicker/1.0.0/jquery-daterangepicker.js'
 
+//docs
+//https://github.com/longbill/jquery-date-range-picker
 class DatePickerPage extends React.Component {
     componentDidMount() {
         dateRangePicker('#date-range0')
