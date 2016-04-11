@@ -1,6 +1,6 @@
-
 import fetch from 'isomorphic-fetch'
-import { routerMiddleware, push } from 'react-router-redux'
+import { routerMiddleware, push}
+from 'react-router-redux'
 
 
 const pageChangeAction = (pageIndex, pageSize) => {
@@ -13,7 +13,7 @@ const pageChangeAction = (pageIndex, pageSize) => {
     }
 }
 
-const customizableAction = (index, val) => {
+const editItem = (index, val) => {
     return (dispatch, getState) => {
         dispatch({
             type: 'CK_CUSTOM_EDIT',
@@ -41,9 +41,18 @@ const delItem = (index) => {
     }
 }
 
+const switchItem = (index) => {
+    return (dispatch, getState) => {
+        dispatch({
+            type: 'CK_CUSTOM_SWITCH',
+            index,
+        })
+    }
+}
 export {
     pageChangeAction,
-    customizableAction,
+    editItem,
     addItem,
     delItem,
+    switchItem,
 }
