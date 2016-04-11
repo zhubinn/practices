@@ -31,6 +31,8 @@ class DataTablePage extends React.Component {
         const checkedRows = ($$checkedRows && $$checkedRows.toJS()) || []
         const searchBarShow = mapState.get('searchBarShow')
 
+        const pending = mapState.get('pending')
+
 
         return (
             <div style={{margin: '20px'}}>
@@ -55,6 +57,7 @@ class DataTablePage extends React.Component {
                                searchBarStatus={searchBarShow}
                                onUpdateRow={updateRow}
                                onShowDetail={showDetail}
+                               pending = {pending}
 
                     />
 

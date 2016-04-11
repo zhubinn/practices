@@ -26,12 +26,11 @@ export default class DataTable extends React.Component {
         this.getCheckedIndexes = this.getCheckedIndexes.bind(this)
     }
 
-    // 分割table, todo:逻辑分类
+    // 分割table
     resolveTables(rows, columns, selectedRowDetailObj) {
         let tableRowArr = []
         let prevRowArr = []
-        console.log('selectedRowDetailObj')
-        console.log(selectedRowDetailObj)
+
         rows.forEach((row, i) => {
             row.index = i
             prevRowArr.push(row)
@@ -42,79 +41,10 @@ export default class DataTable extends React.Component {
                 prevRowArr = []
 
                 tableRowArr.push(selectedRowDetailObj[i])
-              //  tableRowArr.push({rows: secondRowsData, columns: secondColumns})
             }
 
         })
 
-
-
-
-
-   /*     let finalTables = []
-        if (selectedRowDetailObj.length === 0) return finalTables = [{
-            rows: rows,
-            columns: columns,
-            hasDetail: this.props.hasDetail,
-            startIndex: 0
-        }]
-
-        if (selectedRowDetailObj.length === 1) return finalTables = [{
-            rows: rows.slice(0, selectedRowDetailObj[0] + 1),
-            columns: columns,
-            hasDetail: true,
-            startIndex: 0
-        }, {rows: secondRowsData, columns: secondColumns}, {
-            rows: rows.slice(selectedRowDetailObj[0] + 1),
-            columns: columns,
-            hasDetail: true,
-            startIndex: selectedRowDetailObj[0] + 1
-        }]
-
-        let sortableTables = selectedRowDetailObj.sort(function (a, b) {
-            return a - b
-        })
-
-        if (selectedRowDetailObj.length === 2) {
-
-            return finalTables = [
-                {rows: rows.slice(0, sortableTables[0] + 1), columns: columns, hasDetail: true, startIndex: 0},
-                {rows: secondRowsData, columns: secondColumns},
-                {
-                    rows: rows.slice(sortableTables[0] + 1, sortableTables[1] + 1),
-                    columns: columns,
-                    hasDetail: true,
-                    startIndex: sortableTables[0] + 1
-                },
-                {rows: secondRowsData, columns: secondColumns},
-                {
-                    rows: rows.slice(sortableTables[1] + 1),
-                    columns: columns,
-                    hasDetail: true,
-                    startIndex: sortableTables[1] + 1
-                }
-            ]
-        }
-
-
-        finalTables.push({rows: rows.slice(0, sortableTables[0] + 1), columns: columns, hasDetail: true, startIndex: 0})
-        finalTables.push({rows: secondRowsData, columns: secondColumns})
-        sortableTables.reduce(function (a, b) {
-
-            finalTables.push({rows: rows.slice(a + 1, b + 1), columns: columns, hasDetail: true, startIndex: a + 1})
-            finalTables.push({rows: secondRowsData, columns: secondColumns})
-            return b
-        })
-
-        if (sortableTables[sortableTables.length - 1] !== rows.length - 1) {
-            finalTables.push({
-                rows: rows.slice(sortableTables[sortableTables.length - 1] + 1),
-                columns: columns,
-                hasDetail: true,
-                startIndex: sortableTables[sortableTables.length - 1] + 1
-            })
-        }
-*/
 
         if (!!prevRowArr.length ){
             tableRowArr.push({rows: prevRowArr, columns: columns,  hasDetail: this.props.hasDetail})
@@ -218,11 +148,20 @@ export default class DataTable extends React.Component {
     render() {
 
         const {rows,
-            selectedRowDetailObj, columns,
-            searchColumns,  checkedRows, searchBarStatus, source,
-            onShowDetail, onCheckRow,onUpdateRow, checkMode, hasDetail } = this.props
+            selectedRowDetailObj,
+            columns,
+            searchColumns,
+            checkedRows,
+            pending,
+            searchBarStatus,
+            source,
+            onShowDetail,
+            onCheckRow,
+            onUpdateRow,
+            checkMode,
+            hasDetail } = this.props
         // notes: 异步操作
-
+        console.log('pending:' +  pending)
         return (
             <div className="dataTable">
                 <div className="dataTable-title">
@@ -256,7 +195,7 @@ export default class DataTable extends React.Component {
                     </table>
                 </div>
 
-
+                <div className={pending ? '' : 'hide'} >拼命加载中...</div>
                 {this.resolveTables(rows, columns, selectedRowDetailObj)
                     .map(function (item, i) {
 

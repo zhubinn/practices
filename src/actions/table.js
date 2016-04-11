@@ -19,20 +19,24 @@ const GET_DATA_FAILURE = 'GET_DATA_FAILURE'
  * @returns {Function}
  */
 const getData = (source)=> {
-    const fetchData = (type, data)=> {
+    const fetchData = (type, payload)=> {
+
         return {
             type,
-            data
+            payload
         }
     }
     const p = new Promise(function (resolve, reject) {
         setTimeout(function () {
-            resolve(rowsData)
-        }, 100)
+            resolve({
+                rows: rowsData,
+                pending: false
+            })
+        }, 3000)
     })
     return (dispatch, getState) => {
 
-        dispatch(fetchData(GET_DATA))
+        dispatch(fetchData(GET_DATA, {pending: true, rows: []}))
 
         p.then(function (data) {
             dispatch(fetchData(GET_DATA_SUCCESS, data))
@@ -74,6 +78,12 @@ function toggleSearch(isShow) {
         type: 'TOGGLE_SEARCHBAR',
         isShow
     }
+}
+
+
+/**/
+function refreshData(){
+
 }
 
 export {

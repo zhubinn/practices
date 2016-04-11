@@ -9,6 +9,7 @@ import {secondRowsData, secondColumns} from 'components/DataTable/fakeData'
 
 export default function dataTable(state = Immutable.fromJS({
     rows: [],
+    pending: true,
     separatedIndexes: Immutable.OrderedSet(),
     selectedRowDetailObj: {},
     checkedRows: Immutable.OrderedSet(),
@@ -16,9 +17,11 @@ export default function dataTable(state = Immutable.fromJS({
 }), action) {
     switch (action.type) {
         case GET_DATA:
-            return state
+            return state.merge({rows: [], pending: true})
         case GET_DATA_SUCCESS:
-            return state.merge({rows: action.data})
+
+            const {payload} = action
+            return state.merge({rows: payload.rows, pending: payload.pending})
         case GET_DATA_FAILURE:
             return state
         case 'SHOW_DETAIL':
