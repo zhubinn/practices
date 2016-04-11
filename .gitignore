@@ -8,6 +8,7 @@ build
 
 # Exclude IDE project folders
 .idea
+.vscode
 *.sublime-project
 *.sublime-workspace
 

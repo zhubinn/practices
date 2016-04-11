@@ -8,8 +8,8 @@ import { userLogin } from 'actions/__demo/user'
 
 class UserLoginPage extends React.Component {
     render () {
-        const { userLogin, mapState } = this.props
-        const pending = mapState.get ('pending')
+        const { userLogin, $$mapState } = this.props
+        const pending = $$mapState.get ('pending')
 
         return (
             <Login ref="ck_login" login={ userLogin } pending={ pending }/>
@@ -19,7 +19,7 @@ class UserLoginPage extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        mapState: state.user
+        $$mapState: state.user
     }
 }
 

@@ -8,21 +8,48 @@ class IndexPage extends React.Component {
     render() {
         return (
             <div>
-                <Link to="/__demo/login">
-                    login
-                </Link>
-                <br/>
-                <Link to="/__demo/table">
-                    table
-                </Link>
-                <br/>
-                <Link to="/__demo/todos">
-                    todos
-                </Link>
-                <br/>
-                <Link to="/dataTable">
-                    dataTable
-                </Link>
+                <ul>
+                    <li>
+                        <Link to="/__demo/login">
+                            login
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/__demo/table">
+                            table
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/__demo/datepicker">
+                            datepicker
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/__demo/daterange">
+                            daterange
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/__demo/autocomplete">
+                            autocomplete
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/__demo/modal">
+                            modal
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/__demo/todos">
+                            todos
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/dataTable">
+                            dataTable
+                        </Link>
+                    </li>
+                </ul>
                 {this.props.children}
             </div>
         )
