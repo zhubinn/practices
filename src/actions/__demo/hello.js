@@ -56,20 +56,20 @@ const clickHello = ({'msg':inputText})=>{
 }
 
 
-const addHello = ({text,id=0})=>{
+const addHello = (text)=>{
 
-    const _addHello = (type,data)=>{
+    const _addHello = (type,text)=>{
         // data {'items':ITEMS_ARRAY}
-        if(data.text) ITEMS_ARRAY.push(data);
+        //if(data.text) ITEMS_ARRAY.push(data);
         return {
             type:type,
-            addItem:{"items":ITEMS_ARRAY}
+            text
 
         }
     }
 
     return (dispatch,getState)=>{
-        dispatch(_addHello(ADDITEMS_HELLO,{text,id}))
+        dispatch(_addHello(ADDITEMS_HELLO,text))
 
     }
 }
@@ -90,17 +90,17 @@ const deleteHello = (id)=>{
     }
 }
 
-const searchHello = ({"searchtext":value})=>{
+const searchHello = (value)=>{
 
-    const _searchHello = (type,data)=>{
+    const _searchHello = (type,value)=>{
         return {
             type:type,
-            searchtext:data
+            value
         }
     }
 
     return (dispatch,getState)=>{
-        dispatch(_searchHello(SEARCH_HELLO,{"searchtext":value}))
+        dispatch(_searchHello(SEARCH_HELLO,value))
     }
 }
 

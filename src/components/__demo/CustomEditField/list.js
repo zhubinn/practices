@@ -9,14 +9,16 @@ export default class List extends React.Component {
 
     constructor(props) {
         super(props)
+        this.handleInputChange = this.handleInputChange.bind(this)
     }
 
     componentWillMount(){
         const { actions } = this.props
     }
 
-    handleInputChange(index){
-
+    handleInputChange(index, e){
+        const evalue = e.target.value
+        console.log(evalue)
         const value = [...document.querySelectorAll('.fieldInput')][index].value.trim()
         const { customEditField ,actions } = this.props
 
@@ -60,7 +62,7 @@ export default class List extends React.Component {
             return (
                 <li key = {index} >
 
-                    <input className="fieldInput" placeholder={ '请输入'+(index+1) } ref = "inputText" onChange = { this.handleInputChange.bind(this,index) } type="text" />
+                    <input className="fieldInput" placeholder={ '请输入'+(index+1) } ref = "inputText" onChange = {(e) => { this.handleInputChange(index,e)}}  type="text" />
                     <button onClick = { this.addClick.bind(this,'') }>+</button>
                     <button onClick = { this.deleteClick.bind(this,index) } className= { index === 0 ? 'hidden' : ''}>-</button>
                     <button onClick = {() => actions.setFieldStatus(index)}>{ item.status ? '开启' : '停用' }</button>

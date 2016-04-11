@@ -35,7 +35,7 @@ export default class Hello extends React.Component {
         let inputText = $input.value;
         const { addHello, mapState } = this.props;
         if(!inputText) return;
-        addHello({"text":inputText,"id":count++});//调action
+        addHello(inputText);//调action
         $input.value = null;
     }
 
@@ -46,7 +46,7 @@ export default class Hello extends React.Component {
             const { addHello, mapState } = this.props;
 
             if(!inputText) return;
-            addHello({"text":inputText,"id":count++});//调action
+            addHello(inputText);//调action
             $input.value = null;
         }
     }

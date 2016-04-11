@@ -5,9 +5,11 @@ import Immutable from 'immutable'
 import { INPUT_ONCHANGE,ONCLICK_HELLO,ADDITEMS_HELLO,DELETE_HELLO,SEARCH_HELLO } from 'actions/__demo/hello'
 
 // reducer 根据传入的state和当前的action 返回新的state.
+let count = 0;
 
-
-const hello = (state = Immutable.Map(), action) => {
+const hello = (state = Immutable.Map({
+    items: []
+}), action) => {
 
     switch (action.type) {
         case INPUT_ONCHANGE:
@@ -15,7 +17,11 @@ const hello = (state = Immutable.Map(), action) => {
         case ONCLICK_HELLO:
             return state.merge(action.payload);
         case ADDITEMS_HELLO:
-            return state.merge(action.addItem);
+           /* let tt = state.toJS().items;
+            tt.push({"text":action.text});*/
+            return state.merge({
+                "items":[...(state.toJS().items),{"text":action.text,"isFilter":true,"id":count++} ]
+            });
         case DELETE_HELLO:
             let t = state.toJS().items;
             t.splice(action.id, 1);
@@ -24,13 +30,15 @@ const hello = (state = Immutable.Map(), action) => {
             //debugger;
             const imState = Immutable.fromJS(state.toJS());
             const items = imState.toJS().items;
-            const filterItems = items.filter((item) => {
-                let reg = new RegExp(action.searchtext.searchtext)
-                return reg.test(item.text);
-            } )
-            //debugger
-            console.log(filterItems)
-            return state.merge(Object.assign({},{"items":items},{"items":filterItems}));
+
+            items.forEach(function(item){
+                let reg = new RegExp(action.value);
+                action.value && reg.test(item.text) ? item.isFilter = true : item.isFilter = false;
+                if(!action.value){item.isFilter = true}
+            })
+            return state.merge({
+                "items":items
+            });
 
         default:
             return state

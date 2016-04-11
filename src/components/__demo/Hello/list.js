@@ -22,8 +22,9 @@ export default class List extends React.Component {
 
         if(items){
             const node = items.map((item,index)=>(
-                <li key={index}>{index+1}.{item.text} <button onClick={this.handleClick.bind(this,index)}>x</button></li>)
-            );
+                item.isFilter === true ? <li key={index}>{index+1}  {item.text} <button onClick={this.handleClick.bind(this,index)}>x</button></li> : []
+            ))
+
             return (
                 <ul>
                     { node }
@@ -32,7 +33,7 @@ export default class List extends React.Component {
         }else{
             return (
                 <ul>
-
+                    没有东西了
                 </ul>
             )
         }

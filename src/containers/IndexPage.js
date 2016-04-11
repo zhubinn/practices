@@ -8,23 +8,55 @@ class IndexPage extends React.Component {
     render() {
         return (
             <div>
-                <Link to="/__demo/login">
-                    login
-                </Link>
-                <br/>
-                <Link to="/__demo/table">
-                    table
-                </Link>
-                <br/>
-                <Link to="/__demo/hello">
-                    添加删除过滤字段Hello
-                </Link><br/>
-                <Link to="/__demo/CustomEditFieldPage">
-                    客户自定义字段CustomEditFieldPage
-                </Link><br/>
-                <Link to="/__demo/pagination">
-                    pagination
-                </Link>
+
+                /*leesx React-Redux demo*/
+                <div>
+                    <ul>
+                        <li>
+                            <Link to="/__demo/hello">
+                                添加删除过滤字段Hello
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/__demo/CustomEditFieldPage">
+                                客户自定义字段CustomEditFieldPage
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+
+                <ul>
+                    <li>
+                        <Link to="/__demo/login">
+                            login
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/__demo/table">
+                            table
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/__demo/datepicker">
+                            datepicker
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/__demo/daterange">
+                            daterange
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/__demo/autocomplete">
+                            autocomplete
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/__demo/modal">
+                            modal
+                        </Link>
+                    </li>
+                </ul>
                 {this.props.children}
             </div>
         )

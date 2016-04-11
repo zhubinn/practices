@@ -16,7 +16,7 @@ export default class Search extends React.Component {
         const { items,searchHello, mapState } = this.props;
         const text = findDOMNode(this.refs.searchInput).value.trim()
 
-        searchHello({"searchtext":text});//触发action
+        searchHello(text);//触发action
     }
     render() {
         const { items } =this.props
