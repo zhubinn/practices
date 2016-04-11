@@ -13,7 +13,6 @@ import './DataTable.less'
 import {secondRowsData, secondColumns} from 'components/DataTable/fakeData'
 
 
-
 export default class DataTable extends React.Component {
     constructor(props) {
         super(props)
@@ -26,52 +25,104 @@ export default class DataTable extends React.Component {
     }
 
     // 分割table, todo:逻辑分类
-    resolveTables(rows, columns, separatedIndexes) {
+    resolveTables(rows, columns, selectedRowDetailObj) {
+        let tableRowArr = []
+        let prevRowArr = []
+        console.log('selectedRowDetailObj')
+        console.log(selectedRowDetailObj)
+        rows.forEach((row, i) => {
+            row.index = i
+            prevRowArr.push(row)
 
-        let finalTables= []
-        if (separatedIndexes.length === 0) return finalTables = [{rows: rows, columns:columns, hasDetail: this.props.hasDetail, startIndex: 0}]
+            if (selectedRowDetailObj.hasOwnProperty(i)) {
 
-        if (separatedIndexes.length === 1) return finalTables = [{rows: rows.slice(0 ,separatedIndexes[0]+1), columns: columns, hasDetail:true,startIndex: 0},{rows:secondRowsData, columns:secondColumns}, {rows: rows.slice(separatedIndexes[0]+1), columns: columns, hasDetail:true,startIndex: separatedIndexes[0] + 1}]
+                tableRowArr.push({rows: prevRowArr, columns: columns,  hasDetail: true})
+                prevRowArr = []
 
-        let sortableTables = separatedIndexes.sort(function (a, b) {
+                tableRowArr.push(selectedRowDetailObj[i])
+              //  tableRowArr.push({rows: secondRowsData, columns: secondColumns})
+            }
+
+        })
+
+
+
+
+
+   /*     let finalTables = []
+        if (selectedRowDetailObj.length === 0) return finalTables = [{
+            rows: rows,
+            columns: columns,
+            hasDetail: this.props.hasDetail,
+            startIndex: 0
+        }]
+
+        if (selectedRowDetailObj.length === 1) return finalTables = [{
+            rows: rows.slice(0, selectedRowDetailObj[0] + 1),
+            columns: columns,
+            hasDetail: true,
+            startIndex: 0
+        }, {rows: secondRowsData, columns: secondColumns}, {
+            rows: rows.slice(selectedRowDetailObj[0] + 1),
+            columns: columns,
+            hasDetail: true,
+            startIndex: selectedRowDetailObj[0] + 1
+        }]
+
+        let sortableTables = selectedRowDetailObj.sort(function (a, b) {
             return a - b
         })
 
-        if (separatedIndexes.length === 2){
+        if (selectedRowDetailObj.length === 2) {
 
             return finalTables = [
-                {rows:rows.slice(0, sortableTables[0]+1), columns: columns, hasDetail: true, startIndex: 0},
+                {rows: rows.slice(0, sortableTables[0] + 1), columns: columns, hasDetail: true, startIndex: 0},
                 {rows: secondRowsData, columns: secondColumns},
-                {rows:rows.slice(sortableTables[0]+1, sortableTables[1]+1), columns: columns, hasDetail: true, startIndex: sortableTables[0] + 1},
+                {
+                    rows: rows.slice(sortableTables[0] + 1, sortableTables[1] + 1),
+                    columns: columns,
+                    hasDetail: true,
+                    startIndex: sortableTables[0] + 1
+                },
                 {rows: secondRowsData, columns: secondColumns},
-                {rows:rows.slice(sortableTables[1]+1), columns: columns, hasDetail: true, startIndex: sortableTables[1] + 1}
+                {
+                    rows: rows.slice(sortableTables[1] + 1),
+                    columns: columns,
+                    hasDetail: true,
+                    startIndex: sortableTables[1] + 1
+                }
             ]
         }
 
 
-        finalTables.push({rows: rows.slice(0, sortableTables[0]+1), columns: columns, hasDetail: true, startIndex: 0})
-        finalTables.push({rows:secondRowsData, columns:secondColumns})
-        sortableTables.reduce(function(a, b){
+        finalTables.push({rows: rows.slice(0, sortableTables[0] + 1), columns: columns, hasDetail: true, startIndex: 0})
+        finalTables.push({rows: secondRowsData, columns: secondColumns})
+        sortableTables.reduce(function (a, b) {
 
-            finalTables.push({rows: rows.slice(a+1, b+1), columns: columns, hasDetail: true, startIndex: a + 1})
-            finalTables.push({rows:secondRowsData, columns:secondColumns})
+            finalTables.push({rows: rows.slice(a + 1, b + 1), columns: columns, hasDetail: true, startIndex: a + 1})
+            finalTables.push({rows: secondRowsData, columns: secondColumns})
             return b
         })
 
-        if (sortableTables[sortableTables.length -1 ] !== rows.length-1){
-            finalTables.push({rows: rows.slice(sortableTables[sortableTables.length - 1]+1), columns:columns, hasDetail: true, startIndex: sortableTables[sortableTables.length - 1] + 1})
+        if (sortableTables[sortableTables.length - 1] !== rows.length - 1) {
+            finalTables.push({
+                rows: rows.slice(sortableTables[sortableTables.length - 1] + 1),
+                columns: columns,
+                hasDetail: true,
+                startIndex: sortableTables[sortableTables.length - 1] + 1
+            })
+        }
+*/
+
+        if (!!prevRowArr.length ){
+            tableRowArr.push({rows: prevRowArr, columns: columns,  hasDetail: this.props.hasDetail})
         }
 
-
-        return finalTables
-
-
-
-
+        return tableRowArr
 
     }
 
-    onCheckAll(){
+    onCheckAll() {
         this.props.onCheckRow(-1, !(this.props.rows.length === this.props.checkedRows.length))
     }
 
@@ -84,42 +135,51 @@ export default class DataTable extends React.Component {
     }
 
     // 渲染表头单元格
-    renderTitleCell(columns){
+    renderTitleCell(columns) {
         // todo: 渲染函数的参数应该传哪些
 
-        return columns.map((column ,i) => {
+        return columns.map((column, i) => {
 
             // 列宽度默认为150px(以后考虑引入基础变量)
 
-            return (<th key = {i}><div  style = {{width: ''+ (column.width||150) +'px'}}>{isFunction(column.headerrenderer) ? column.headerrenderer.call(this) : column['text']}</div></th>)
+            return (<th key={i}>
+                <div
+                    style={{width: ''+ (column.width||150) +'px'}}>{isFunction(column.headerrenderer) ? column.headerrenderer.call(this) : column['text']}</div>
+            </th>)
         })
     }
 
     // 渲染表头'全选'checkbox
-    renderCheckBtn(checkMode, rows, checkedRows){
+    renderCheckBtn(checkMode, rows, checkedRows) {
         if (!checkMode) return null
-        return (<th ><div  className="small-cell"><input type="checkbox" checked = {rows.length === checkedRows.length} onChange = {this.onCheckAll.bind(this)}/></div></th>)
+        return (<th >
+            <div className="small-cell"><input type="checkbox" checked={rows.length === checkedRows.length}
+                                               onChange={this.onCheckAll.bind(this)}/></div>
+        </th>)
     }
-    renderDetailBtn(hasDetail){
+
+    renderDetailBtn(hasDetail) {
         if (!hasDetail) return null
-        return (<th ><div  className="small-cell"></div></th>)
+        return (<th >
+            <div className="small-cell"></div>
+        </th>)
     }
 
 
     renderSearch(datafield) {
 
         let obj = this.props.searchColumns[datafield];
-        if (typeof obj === 'undefined' ) return null
+        if (typeof obj === 'undefined') return null
 
         // todo: 拆分
         switch (obj.searchType || 0) {
             case 1:
-                return (<input type="text" name = {'search-'+datafield} />)
+                return (<input type="text" name={'search-'+datafield}/>)
             case 2:
-                return (<input type="datetime-local" name = {'search-'+datafield} />)
+                return (<input type="datetime-local" name={'search-'+datafield}/>)
             case 3:
-                return (<select name = {'search-'+datafield} >
-                    {obj.renderData.options.map((item, i) => (<option key = {i} value={item.value}>{item.text}</option>))}
+                return (<select name={'search-'+datafield}>
+                    {obj.renderData.options.map((item, i) => (<option key={i} value={item.value}>{item.text}</option>))}
                 </select>)
         }
         return null
@@ -127,7 +187,10 @@ export default class DataTable extends React.Component {
 
     render() {
 
-        const {rows, separatedIndexes, columns, searchColumns,  checkedRows, searchBarStatus, source, onShowDetail, onCheckRow,onUpdateRow, checkMode, hasDetail } = this.props
+        const {rows,
+            selectedRowDetailObj, columns,
+            searchColumns,  checkedRows, searchBarStatus, source,
+            onShowDetail, onCheckRow,onUpdateRow, checkMode, hasDetail } = this.props
         // notes: 异步操作
 
         return (
@@ -146,22 +209,48 @@ export default class DataTable extends React.Component {
                     </table>
                     <table>
                         <tbody>
-                            <tr className = {searchBarStatus ? '' : 'hide'}>
-                                {checkMode?(<td><div className="small-cell"></div></td>):null}
-                                {hasDetail?(<td><div className="small-cell"></div></td>):null}
-                                {columns.map((item, i) => (<td  key = {i}><div style = {{width: ''+ (item.width||150) +'px'}}>{this.renderSearch(item.datafield)}</div></td>))}
+                        <tr className={searchBarStatus ? '' : 'hide'}>
+                            {checkMode ? (<td>
+                                <div className="small-cell"></div>
+                            </td>) : null}
+                            {hasDetail ? (<td>
+                                <div className="small-cell"></div>
+                            </td>) : null}
+                            {columns.map((item, i) => (<td key={i}>
+                                <div
+                                    style={{width: ''+ (item.width||150) +'px'}}>{this.renderSearch(item.datafield)}</div>
+                            </td>))}
 
-                            </tr>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
-                    {this.resolveTables(rows, columns, separatedIndexes).map(function(item, i){
-                        if (!(i%2)) return (<BaseTable separatedIndexes = {separatedIndexes} onUpdateRow={onUpdateRow}  checkedRows = {checkedRows} checkMode = {checkMode} startIndex = {item.startIndex}  key = {i} rows={item.rows} columns={item.columns} hasDetail={item.hasDetail} onShowDetail={onShowDetail} onCheckRow={onCheckRow}/>)
-                        return (<BaseTable  key = {i} rows={item.rows} columns={item.columns}  isParentTable = {false} />)
+
+
+                {this.resolveTables(rows, columns, selectedRowDetailObj)
+                    .map(function (item, i) {
+
+                        if (!(i % 2)) return (
+                            <BaseTable selectedRowDetailObj={selectedRowDetailObj}
+                                       onUpdateRow={onUpdateRow}
+                                       checkedRows={checkedRows}
+                                       checkMode={checkMode}
+
+                                       key={i}
+                                       rows={item.rows}
+                                       columns={item.columns}
+                                       hasDetail={item.hasDetail}
+                                       onShowDetail={onShowDetail}
+                                       onCheckRow={onCheckRow}/>
+                        )
+                        return (
+                            <BaseTable key={i}
+                                       rows={item.rows}
+                                       columns={item.columns}
+                                       isParentTable={false}
+                            />
+                        )
                     })}
-
-
-
             </div>
         )
     }
@@ -172,11 +261,11 @@ DataTable.propTypes = {
     checkMode: React.PropTypes.bool,
     hasDetail: React.PropTypes.bool,
     searchBarStatus: React.PropTypes.bool,
-    separatedIndexes: React.PropTypes.array
+    selectedRowDetailObj: React.PropTypes.object
 }
 
 DataTable.defaultProps = {
-    separatedIndexes: [],
+    selectedRowDetailObj: {},
     searchBarStatus: false,
     hasDetail: false,
 

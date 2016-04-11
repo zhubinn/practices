@@ -42,7 +42,7 @@ export default class BaseTable extends React.Component {
     }
     render() {
 
-        const {rows, columns, separatedIndexes ,checkedRows, hasDetail,isParentTable, onShowDetail, onCheckRow,onUpdateRow,startIndex, checkMode } = this.props
+        const {rows, columns, selectedRowDetailObj ,checkedRows, hasDetail,isParentTable, onShowDetail, onCheckRow,onUpdateRow,startIndex, checkMode } = this.props
 
 
         return (
@@ -57,7 +57,7 @@ export default class BaseTable extends React.Component {
                 {
                     rows.map((row, i, rows) => {
 
-                        return (<BaseTr  onUpdateRow = {onUpdateRow} isOnShowDetail = {separatedIndexes.indexOf(i+startIndex)>-1} isOnChecked = {checkedRows.indexOf(i+startIndex)>-1}  checkMode = {checkMode} hasDetail = {hasDetail} row = {row} index = {i + startIndex} columns = {columns} onShowDetail = {onShowDetail} onCheckRow = {onCheckRow} key={i} /> )
+                        return (<BaseTr  onUpdateRow = {onUpdateRow} isOnShowDetail = {!!selectedRowDetailObj.hasOwnProperty(row.index)} isOnChecked = {checkedRows.indexOf(row.index)>-1}  checkMode = {checkMode} hasDetail = {hasDetail} row = {row} index = {i + startIndex} columns = {columns} onShowDetail = {onShowDetail} onCheckRow = {onCheckRow} key={i} /> )
                     })
 
                 }
@@ -75,7 +75,7 @@ BaseTable.propTypes = {
     checkMode: React.PropTypes.bool,
     isParentTable: React.PropTypes.bool,
     checkedRows: React.PropTypes.array,
-    separatedIndexes: React.PropTypes.array
+    selectedRowDetailObj: React.PropTypes.object
 }
 
 BaseTable.defaultProps = {
@@ -83,5 +83,5 @@ BaseTable.defaultProps = {
     checkMode: false,
     isParentTable: true,
     checkedRows: [],
-    separatedIndexes: []
+    selectedRowDetailObj: {}
 }

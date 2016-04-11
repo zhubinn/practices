@@ -15,42 +15,44 @@ class DataTablePage extends React.Component {
     componentDidMount() {
         // 页面初始完,获取数据,触发action: GET_DATA
         this.props.getData()
+
+        console.log(this.refs.dataTable)
     }
 
     render() {
         const {mapState, showDetail, checkRow, updateRow, toggleSearch} = this.props
         const $$rows = mapState.get('rows')
         const rows = ($$rows && $$rows.toJS()) || []
-        const $$separatedIndexes = mapState.get('separatedIndexes')
+        const $$selectedRowDetailObj = mapState.get('selectedRowDetailObj')
 
-        const separatedIndexes = ($$separatedIndexes && $$separatedIndexes.toJS()) || []
+        const selectedRowDetailObj = ($$selectedRowDetailObj && $$selectedRowDetailObj.toJS()) ||{}
 
         const $$checkedRows = mapState.get('checkedRows')
         const checkedRows = ($$checkedRows && $$checkedRows.toJS()) || []
         const searchBarShow = mapState.get('searchBarShow')
 
 
-
         return (
-            <div style={{margin: '20px'}} >
+            <div style={{margin: '20px'}}>
 
                 <div>
-                    <button onClick = {function(){toggleSearch(true)}}>高级搜索</button>
-                    <button onClick = {function(){toggleSearch(false)}} >确定</button>
+                    <button onClick={function(){toggleSearch(true)}}>高级搜索</button>
+                    <button onClick={function(){toggleSearch(false)}}>确定</button>
                 </div>
 
-                <div className = 'w820'>
-                    <DataTable checkMode={true}
-                        onCheckRow={checkRow}
-                        hasDetail = {true}
-                        checkedRows={checkedRows}
-                        rows={rows}
-                        separatedIndexes={separatedIndexes}
-                        searchColumns={searchColumns}
-                        columns={columns}
-                        searchBarStatus = {searchBarShow}
-                        onUpdateRow={updateRow}
-                        onShowDetail={showDetail}
+                <div className='w820'>
+                    <DataTable ref="dataTable"
+                               checkMode={true}
+                               onCheckRow={checkRow}
+                               hasDetail={true}
+                               checkedRows={checkedRows}
+                               rows={rows}
+                               selectedRowDetailObj={selectedRowDetailObj}
+                               searchColumns={searchColumns}
+                               columns={columns}
+                               searchBarStatus={searchBarShow}
+                               onUpdateRow={updateRow}
+                               onShowDetail={showDetail}
 
                     />
 

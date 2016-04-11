@@ -13,7 +13,6 @@ const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS'
 const GET_DATA_FAILURE = 'GET_DATA_FAILURE'
 
 
-
 /**
  * 获取数据
  * @param
@@ -26,8 +25,8 @@ const getData = (source)=> {
             data
         }
     }
-    const p = new Promise(function(resolve, reject){
-        setTimeout(function(){
+    const p = new Promise(function (resolve, reject) {
+        setTimeout(function () {
             resolve(rowsData)
         }, 100)
     })
@@ -35,7 +34,7 @@ const getData = (source)=> {
 
         dispatch(fetchData(GET_DATA))
 
-        p.then(function(data) {
+        p.then(function (data) {
             dispatch(fetchData(GET_DATA_SUCCESS, data))
 
         })
@@ -43,14 +42,18 @@ const getData = (source)=> {
     }
 }
 
-function showDetail(index){
+function showDetail(index) {
     return {
         type: 'SHOW_DETAIL',
-        index
+        payload: {
+            index: index,
+            rows: [],
+            columns: []
+        }
     }
 }
 
-function checkRow(index, isChecked){
+function checkRow(index, isChecked) {
     return {
         type: 'CHECK_ROW',
         index,
@@ -58,14 +61,14 @@ function checkRow(index, isChecked){
     }
 }
 
-function updateRow(rowData, index){
+function updateRow(rowData, index) {
     return {
         type: 'UPDATE_ROW',
         index,
         rowData
     }
 }
-function toggleSearch(isShow){
+function toggleSearch(isShow) {
     return {
         type: 'TOGGLE_SEARCHBAR',
         isShow

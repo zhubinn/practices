@@ -60,7 +60,7 @@ export default class BaseTr extends React.Component {
 
     checkRow() {
 
-        this.props.onCheckRow(this.props.index, !this.props.isOnChecked)
+        this.props.onCheckRow(this.props.row.index, !this.props.isOnChecked)
 
 
     }
@@ -72,7 +72,7 @@ export default class BaseTr extends React.Component {
 
     renderDetailBtn(hasDetail) {
         if (!hasDetail) return null
-        return (<td ><div  className="small-cell"><div  onClick={this.showDetailClicked.bind(this, this.props.index)} className={this.props.isOnShowDetail ? "date-Sltround-cut" : "date-Sltround-add"}></div></div></td>)
+        return (<td ><div  className="small-cell"><div  onClick={this.showDetailClicked.bind(this, this.props.row.index)} className={this.props.isOnShowDetail ? "date-Sltround-cut" : "date-Sltround-add"}></div></div></td>)
     }
 
     resolveColumnsTitle(columns) {

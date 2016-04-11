@@ -4,11 +4,13 @@
 import Immutable from 'immutable'
 import { combineReducers } from 'redux'
 import {GET_DATA, GET_DATA_SUCCESS,GET_DATA_FAILURE,getData, showDetail, updateRow} from 'actions/table'
+import {secondRowsData, secondColumns} from 'components/DataTable/fakeData'
 
 
 export default function dataTable(state = Immutable.fromJS({
     rows: [],
     separatedIndexes: Immutable.OrderedSet(),
+    selectedRowDetailObj: {},
     checkedRows: Immutable.OrderedSet(),
     searchBarShow: false
 }), action) {
@@ -20,13 +22,14 @@ export default function dataTable(state = Immutable.fromJS({
         case GET_DATA_FAILURE:
             return state
         case 'SHOW_DETAIL':
-            const { index } = action
+            const { index, rows, columns } = action.payload
 
-            return state.updateIn(['separatedIndexes'], function (separatedIndexes) {
-                if (separatedIndexes.has(index)) {
-                    return separatedIndexes.delete(index)
+            return state.updateIn(['selectedRowDetailObj'], function (selectedRowDetailObj) {
+
+                if (selectedRowDetailObj.toJS().hasOwnProperty(index)) {
+                    return selectedRowDetailObj.delete(index)
                 }
-                return separatedIndexes.add(index)
+                return selectedRowDetailObj.set(index, {rows: secondRowsData, columns: secondColumns})
             })
         case 'CHECK_ROW':
 
@@ -56,7 +59,7 @@ export default function dataTable(state = Immutable.fromJS({
                 return newState
             })
         case 'UPDATE_ROW':
-            return state.updateIn(['rows'], function(rows) {
+            return state.updateIn(['rows'], function (rows) {
                 return rows.map((map, index, list) => {
                     return index === action.index ? action.rowData : map
                 })
