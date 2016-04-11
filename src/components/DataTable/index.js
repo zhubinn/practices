@@ -22,6 +22,8 @@ export default class DataTable extends React.Component {
         this.renderTitleCell = this.renderTitleCell.bind(this)
         this.onCheckAll = this.onCheckAll.bind(this)
         this.renderSearch = this.renderSearch.bind(this)
+        this.getCheckedRows = this.getCheckedRows.bind(this)
+        this.getCheckedIndexes = this.getCheckedIndexes.bind(this)
     }
 
     // 分割table, todo:逻辑分类
@@ -126,6 +128,33 @@ export default class DataTable extends React.Component {
         this.props.onCheckRow(-1, !(this.props.rows.length === this.props.checkedRows.length))
     }
 
+    // 输出已经checked的rows的索引
+    getCheckedIndexes(){
+        return this.props.checkedRows
+    }
+    // 按序输出已经checked的rows
+    getCheckedRows(){
+        let arr = []
+        this.props.rows.forEach((row, i) =>{
+            if (this.props.checkedRows.indexOf(i) > -1) {
+                arr.push(row)
+            }
+        })
+        return arr
+
+
+    }
+
+    // 高级搜索点击确定后获取表单数据
+    getSearchForm(){
+
+        document.querySelectorAll('[name^="search-"]')
+
+    }
+
+
+
+
     resolveColumnsTitle(columns) {
         //todo: 判断字段hidden是否存在和其的值
         /* 返回表头文本数组
@@ -133,6 +162,7 @@ export default class DataTable extends React.Component {
          */
         return columns.map((col, i) => col['text'])
     }
+
 
     // 渲染表头单元格
     renderTitleCell(columns) {
