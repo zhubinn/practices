@@ -9,12 +9,14 @@ import DataTable from 'components/DataTable'
 import  { getData, showDetail, checkRow, updateRow, toggleSearch}  from 'actions/table'
 
 import {rowsData, columns, searchColumns} from 'components/DataTable/fakeData'
+import 'ucjs_modules/layer/2.2.0/skin/layer.css'
 
 
 class DataTablePage extends React.Component {
     componentDidMount() {
         // 页面初始完,获取数据,触发action: GET_DATA
         this.props.getData()
+
 
         console.log(this.refs.dataTable)
     }

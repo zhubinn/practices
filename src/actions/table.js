@@ -5,6 +5,8 @@
 import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 import {rowsData, columns, searchColumns} from 'components/DataTable/fakeData'
+
+import layer from 'ucjs_modules/layer/2.2.0/layer.js'
 // 获取数据
 const GET_DATA = 'GET_DATA'
 // 获取数据成功
@@ -26,6 +28,7 @@ const getData = (source)=> {
             payload
         }
     }
+    const index = layer.load(0, {shade: false})
     const p = new Promise(function (resolve, reject) {
         setTimeout(function () {
             resolve({
@@ -39,7 +42,9 @@ const getData = (source)=> {
         dispatch(fetchData(GET_DATA, {pending: true, rows: []}))
 
         p.then(function (data) {
+            layer.close(index)
             dispatch(fetchData(GET_DATA_SUCCESS, data))
+
 
         })
 
