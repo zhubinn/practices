@@ -14,6 +14,7 @@ import DemoModalPage from 'containers/__demo/ModalPage'
 import DemoTodosPage from 'containers/__demo/TodosPage'
 import DataTablePage from 'containers/DataTablePage'
 import ContactPage from 'containers/ContactPage'
+import TwoDataTablePage from 'containers/__dataTableDemo/twoTables'
 
 
 export default (
@@ -31,6 +32,7 @@ export default (
         </Route>
         <Route path="dataTable" component={DataTablePage}/>
         <Route path="contact" component={ContactPage}/>
+        <Route path="twoDataTable" component={TwoDataTablePage}/>
         <Route path="*" component={NoMatch}/>
     </Route>
 )

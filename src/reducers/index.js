@@ -9,6 +9,7 @@ import user from './__demo/user'
 import todos from './__demo/todos'
 import dataTable from './dataTable'
 import contact from './contact'
+import twoDataTable from './__dataTableDemo/twoDataTable'
 
 const rootReducer = combineReducers({
     report,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     todos,
     dataTable,
     routing,
-    contact
+    contact,
+    twoDataTable
 })
 
 export default rootReducer
