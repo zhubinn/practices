@@ -11,7 +11,7 @@ import  { initSource,getData, showDetail, checkRow, updateRow, toggleSearch}  fr
 import {rowsData, columns, searchColumns} from 'components/DataTable/fakeData'
 import 'ucjs_modules/layer/2.2.0/skin/layer.css'
 
-const DATA_TABLE_SOURCE = 'default'
+const DATA_TABLE_SOURCE = 'contact_dataTable'
 
 
 
@@ -50,6 +50,7 @@ class DataTablePage extends React.Component {
         const pending =mapState &&  mapState.get('pending') || false
         // const pending = $$rows['pending']
 
+
         return (
             <div style={{margin: '20px'}}>
                 <div>
@@ -86,7 +87,8 @@ class DataTablePage extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        mapState: state.dataTable
+        mapState: state.dataTable,
+        contact: state.contact
     }
 }
 

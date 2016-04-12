@@ -55,7 +55,7 @@ export default class DataTable extends React.Component {
     }
 
     onCheckAll() {
-        this.props.onCheckRow(-1, !(this.props.rows.length === this.props.checkedRows.length))
+        this.props.onCheckRow(-1, !(this.props.rows.length === this.props.checkedRows.length), this.props.source)
     }
 
     // 输出已经checked的rows的索引
@@ -159,7 +159,9 @@ export default class DataTable extends React.Component {
             onCheckRow,
             onUpdateRow,
             checkMode,
-            hasDetail } = this.props
+            hasDetail
+
+            } = this.props
         // notes: 异步操作
 
         return (
@@ -204,7 +206,7 @@ export default class DataTable extends React.Component {
                                        onUpdateRow={onUpdateRow}
                                        checkedRows={checkedRows}
                                        checkMode={checkMode}
-
+                                       source={source}
                                        key={i}
                                        rows={item.rows}
                                        columns={item.columns}
@@ -217,6 +219,7 @@ export default class DataTable extends React.Component {
                                        rows={item.rows}
                                        columns={item.columns}
                                        isParentTable={false}
+                                       source={source}
                             />
                         )
                     })}

@@ -8,30 +8,60 @@ import {secondRowsData, secondColumns} from 'components/DataTable/fakeData'
 
 
 export default function dataTable(state = Immutable.fromJS({
-    rows: [],
-    pending: true,
-    separatedIndexes: Immutable.OrderedSet(),
-    selectedRowDetailObj: {},
-    checkedRows: Immutable.OrderedSet(),
-    searchBarShow: false
+    default: {
+        rows: [],
+        pending: true,
+        separatedIndexes: Immutable.OrderedSet(),
+        selectedRowDetailObj: {},
+        checkedRows: Immutable.OrderedSet(),
+        searchBarShow: false
+    }
+
+
 }), action) {
     switch (action.type) {
+        case 'INIT_SOURCE':
+            return state.merge({
+                [action.source]: Immutable.fromJS({
+                    rows: [],
+                    pending: true,
+                    separatedIndexes: Immutable.OrderedSet(),
+                    selectedRowDetailObj: {},
+                    checkedRows: Immutable.OrderedSet(),
+                    searchBarShow: false
+                })
+            })
         case GET_DATA:
-            return state.merge({rows: [], pending: true})
-        case GET_DATA_SUCCESS:
+            return state.updateIn([action.source], function(source){
+                return source.merge({rows: [], pending: true})
+            })
 
-            const {payload} = action
-            return state.merge({rows: payload.rows, pending: payload.pending})
+        case GET_DATA_SUCCESS:
+            const { payload  } = action
+
+            return state.updateIn([action.source], function(source){
+                return source.merge({
+                    rows: payload.rows,
+                    pending: payload.pending
+                })
+            })
+
+
+
         case GET_DATA_FAILURE:
             return state
+
         case 'GET_DETAIL_DATA':
 
+            return state.updateIn([action.source], function(source){
+                return source.merge({pending: true})
+            })
 
-            return state.merge({ pending: true})
+
         case 'GET_DETAIL_DATA_SUCCESS':
             const { index, rows} = action.payload
 
-            return state.updateIn(['selectedRowDetailObj'], function (selectedRowDetailObj) {
+            return state.updateIn([action.source, 'selectedRowDetailObj'], function (selectedRowDetailObj) {
 
                 if (selectedRowDetailObj.toJS().hasOwnProperty(index)) {
                     return selectedRowDetailObj.delete(index)
@@ -44,12 +74,17 @@ export default function dataTable(state = Immutable.fromJS({
             const rowIndex = action.index
 
 
-            return state.updateIn(['checkedRows'], function (checkedRows) {
+            return state.updateIn([action.source, 'checkedRows'], function (checkedRows) {
+
+
+
+                //debugger;
                 // -1 为点击'全选'
                 let newState = checkedRows
                 if (action.isChecked) {
                     if (rowIndex === -1) {
-                        for (let i = 0; i < state.get('rows').toJS().length; i++) {
+
+                        for (let i = 0; i < state.toJS()[action.source]['rows'].length; i++) {
                             newState = newState.add(i)
                         }
                     } else {
@@ -66,13 +101,17 @@ export default function dataTable(state = Immutable.fromJS({
                 return newState
             })
         case 'UPDATE_ROW':
-            return state.updateIn(['rows'], function (rows) {
+            return state.updateIn([action.source, 'rows'], function (rows) {
                 return rows.map((map, index, list) => {
                     return index === action.index ? action.rowData : map
                 })
             })
+        case 'UPDATE_ROWS':
+            return state
         case 'TOGGLE_SEARCHBAR':
-            return state.merge({searchBarShow: action.isShow})
+            return state.updateIn([action.source], function(source){
+                return source.merge({searchBarShow: action.isShow})
+            })
         default:
             return state
     }

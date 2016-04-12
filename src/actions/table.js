@@ -16,17 +16,30 @@ const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS'
 const GET_DATA_FAILURE = 'GET_DATA_FAILURE'
 
 
+
+function initSource(source) {
+    return {
+        type: 'INIT_SOURCE',
+        source
+    }
+}
+
+
+
+
+
 /**
  * 获取数据
  * @param
  * @returns {Function}
  */
 const getData = (source)=> {
-    const fetchData = (type, payload)=> {
+    const fetchData = (type, payload, source)=> {
 
         return {
             type,
-            payload
+            payload,
+            source
         }
     }
     const index = layer.load(0, {shade: false})
@@ -40,11 +53,11 @@ const getData = (source)=> {
     })
     return (dispatch, getState) => {
 
-        dispatch(fetchData(GET_DATA, {pending: true, rows: []}))
+        dispatch(fetchData(GET_DATA, {pending: true, rows: []}, source))
 
         p.then(function (data) {
             layer.close(index)
-            dispatch(fetchData(GET_DATA_SUCCESS, data))
+            dispatch(fetchData(GET_DATA_SUCCESS, data, source))
 
 
         })
@@ -52,14 +65,15 @@ const getData = (source)=> {
     }
 }
 
-function showDetail(index, rowdata) {
+function showDetail(index, rowdata, source) {
 
 
-    const fetchData = (type, payload)=> {
+    const fetchData = (type, payload, source)=> {
 
         return {
             type,
-            payload
+            payload,
+            source
         }
     }
 
@@ -76,19 +90,21 @@ function showDetail(index, rowdata) {
     return (dispatch, getState) => {
 
         // todo: 改放到action里处理
-        if (getState()['dataTable'].get('selectedRowDetailObj').toJS().hasOwnProperty(index)) {
-            dispatch(fetchData('GET_DETAIL_DATA_SUCCESS', {index: index}))
+
+
+        if (getState()['dataTable'].toJS()[source]['selectedRowDetailObj'].hasOwnProperty(index)) {
+            dispatch(fetchData('GET_DETAIL_DATA_SUCCESS', {index: index}, source))
             return
         }
 
 
         const layerindex = layer.load(0, {shade: false})
-        dispatch(fetchData('GET_DETAIL_DATA', {pending: true, rows: [], index: index}))
+        dispatch(fetchData('GET_DETAIL_DATA', {pending: true, rows: [], index: index}, source))
 
 
         p.then(function (data) {
             layer.close(layerindex)
-            dispatch(fetchData('GET_DETAIL_DATA_SUCCESS', data))
+            dispatch(fetchData('GET_DETAIL_DATA_SUCCESS', data, source))
 
 
         })
@@ -96,31 +112,36 @@ function showDetail(index, rowdata) {
     }
 }
 
-function checkRow(index, isChecked) {
+function checkRow(index, isChecked, source) {
     return {
         type: 'CHECK_ROW',
         index,
-        isChecked
+        isChecked,
+        source
     }
 }
 
-function updateRow(rowData, index) {
+function updateRow(rowData, index, source) {
     return {
         type: 'UPDATE_ROW',
         index,
-        rowData
+        rowData,
+        source
     }
 }
-function toggleSearch(isShow) {
+function toggleSearch(isShow, source) {
     return {
         type: 'TOGGLE_SEARCHBAR',
-        isShow
+        isShow,
+        source
     }
 }
+
+
 
 
 /**/
-function refreshData(){
+function refreshData() {
 
 }
 
@@ -132,5 +153,6 @@ export {
     showDetail,
     checkRow,
     updateRow,
-    toggleSearch
+    toggleSearch,
+    initSource
 }

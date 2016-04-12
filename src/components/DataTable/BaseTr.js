@@ -18,12 +18,12 @@ export default class BaseTr extends React.Component {
 
 
     updateRow(rowData){
-        this.props.onUpdateRow(rowData, this.props.row.index)
+        this.props.onUpdateRow(rowData, this.props.row.index, this.props.source)
     }
     showDetailClicked(i) {
         if (!this.props.hasDetail) return
-
-        this.props.onShowDetail(i)
+        // todo
+        this.props.onShowDetail(i,this.props.row, this.props.source)
     }
 
     // 解析需要展示的列, 并从row中取出字段对应内容(文本或者虚拟dom)
@@ -60,7 +60,7 @@ export default class BaseTr extends React.Component {
 
     checkRow() {
 
-        this.props.onCheckRow(this.props.row.index, !this.props.isOnChecked)
+        this.props.onCheckRow(this.props.row.index, !this.props.isOnChecked, this.props.source)
 
 
     }
@@ -88,7 +88,7 @@ export default class BaseTr extends React.Component {
 
     render() {
 
-        const {row, columns, index, hasDetail, checkMode, isOnChecked } = this.props
+        const {row, columns, index, hasDetail, checkMode, isOnChecked, source } = this.props
 
 
         return (

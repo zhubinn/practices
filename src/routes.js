@@ -13,6 +13,7 @@ import DemoModalPage from 'containers/__demo/ModalPage'
 
 import DemoTodosPage from 'containers/__demo/TodosPage'
 import DataTablePage from 'containers/DataTablePage'
+import ContactPage from 'containers/ContactPage'
 
 
 export default (
@@ -29,6 +30,7 @@ export default (
 
         </Route>
         <Route path="dataTable" component={DataTablePage}/>
+        <Route path="contact" component={ContactPage}/>
         <Route path="*" component={NoMatch}/>
     </Route>
 )

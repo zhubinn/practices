@@ -4,13 +4,13 @@
 import { findDOMNode } from 'react-dom'
 import { isPlainObject, isFunction, isString, isArray } from 'lodash'
 import BaseTr from './BaseTr'
+
 export default class BaseTable extends React.Component {
     constructor(props) {
         super(props)
 
 
     }
-
 
 
     // 解析需要展示的列, 并从row中取出字段对应内容(文本或者虚拟dom)
@@ -35,36 +35,58 @@ export default class BaseTable extends React.Component {
         return columns.map((col, i) => col['text'])
     }
 
-    renderHeader(isParentTable, columns){
-        if(isParentTable) return null
+    renderHeader(isParentTable, columns) {
+        if (isParentTable) return null
 
-        return (<thead><tr>{this.resolveColumnsTitle(columns).map((colName, i)=><th  key={i}><div style = {{width: ''+ (columns[i].width||150) +'px'}}>{colName}</div></th>)}</tr></thead>)
+        return (<thead>
+        <tr>{this.resolveColumnsTitle(columns).map((colName, i)=><th key={i}>
+            <div style={{width: ''+ (columns[i].width||150) +'px'}}>{colName}</div>
+        </th>)}</tr>
+        </thead>)
     }
+
     render() {
 
-        const {rows, columns, selectedRowDetailObj ,checkedRows, hasDetail,isParentTable, onShowDetail, onCheckRow,onUpdateRow,startIndex, checkMode } = this.props
+        const {rows, columns,
+            selectedRowDetailObj ,checkedRows, hasDetail,
+            isParentTable, onShowDetail, onCheckRow,onUpdateRow,startIndex,
+            checkMode,
+            source,
+            } = this.props
 
-
+        console.log('selectedRowDetailObj:' + selectedRowDetailObj)
         return (
 
 
             <div className={isParentTable ? "dataTable-baseTable" : "dataTable-subBaseTable"}>
-            <table>
-                {this.renderHeader(isParentTable, columns)}
+                <table>
+                    {this.renderHeader(isParentTable, columns)}
 
-                <tbody>
+                    <tbody>
 
-                {
-                    rows.map((row, i, rows) => {
+                    {
+                        rows.map((row, i, rows) => {
 
-                        return (<BaseTr  onUpdateRow = {onUpdateRow} isOnShowDetail = {!!selectedRowDetailObj.hasOwnProperty(row.index)} isOnChecked = {checkedRows.indexOf(row.index)>-1}  checkMode = {checkMode} hasDetail = {hasDetail} row = {row} index = {i + startIndex} columns = {columns} onShowDetail = {onShowDetail} onCheckRow = {onCheckRow} key={i} /> )
-                    })
+                            return (<BaseTr onUpdateRow={onUpdateRow}
+                                            isOnShowDetail={!!selectedRowDetailObj.hasOwnProperty(row.index)}
+                                            isOnChecked={checkedRows.indexOf(row.index)>-1}
+                                            checkMode={checkMode}
+                                            hasDetail={hasDetail}
+                                            row={row}
+                                            index={i + startIndex}
+                                            columns={columns}
+                                            onShowDetail={onShowDetail}
+                                            onCheckRow={onCheckRow}
+                                            source = {source}
+                                            key={i}
+                            /> )
+                        })
 
-                }
+                    }
 
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
             </div>
         )
     }

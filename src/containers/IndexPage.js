@@ -49,6 +49,11 @@ class IndexPage extends React.Component {
                             dataTable
                         </Link>
                     </li>
+                    <li>
+                        <Link to="/contact">
+                            contact
+                        </Link>
+                    </li>
                 </ul>
                 {this.props.children}
             </div>
