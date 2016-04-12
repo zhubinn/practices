@@ -16,6 +16,7 @@ import DemoReportListPage from 'containers/report/DemoReportListPage'
 
 import DemoAutoCompletePage from 'containers/__demo/AutoCompletePage'
 import DemoDatePickerPage from 'containers/__demo/DatePickerPage'
+import DepToTreePage from 'containers/__demo/DepToTreePage'
 import DemoModalPage from 'containers/__demo/ModalPage'
 
 
@@ -30,6 +31,7 @@ export default (
             <Route path="autocomplete" component={DemoAutoCompletePage}/>
             <Route path="datepicker" component={DemoDatePickerPage}/>
             <Route path="daterange" component={DemoDatePickerPage}/>
+            <Route path="deptotree" component={DepToTreePage}/>
             <Route path="modal" component={DemoModalPage}/>
 
         </Route>

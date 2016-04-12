@@ -47,6 +47,11 @@ class IndexPage extends React.Component {
                         </Link>
                     </li>
                     <li>
+                        <Link to="/__demo/deptotree">
+                            deptotree
+                        </Link>
+                    </li>
+                    <li>
                         <Link to="/__demo/autocomplete">
                             autocomplete
                         </Link>
