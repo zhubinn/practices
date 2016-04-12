@@ -8,6 +8,8 @@ const CK_CUSTOM_ADD = 'CK_CUSTOM_ADD'
 const CK_CUSTOM_DEL = 'CK_CUSTOM_DEL'
 const CK_CUSTOM_EDIT = 'CK_CUSTOM_EDIT'
 const CK_CUSTOM_SWITCH = 'CK_CUSTOM_SWITCH'
+//是否必填
+const CK_CUSTOM_ENABLE = 'CK_CUSTOM_ENABLE'
 
 const pageChangeAction = (pageIndex, pageSize) => {
     return (dispatch, getState) => {
@@ -55,15 +57,27 @@ const switchItem = (index) => {
         })
     }
 }
+
+const isRequired = (enable) => {
+    return (dispatch, getState) => {
+        dispatch({
+            type: CK_CUSTOM_ENABLE,
+            enable,
+        })
+    }
+}
+
 export {
     CK_PAGE_CHANGE,
     CK_CUSTOM_ADD,
     CK_CUSTOM_DEL,
     CK_CUSTOM_EDIT,
     CK_CUSTOM_SWITCH,
+    CK_CUSTOM_ENABLE,
     pageChangeAction,
     editItem,
     addItem,
     delItem,
     switchItem,
+    isRequired,
 }

@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Pagination from 'components/pagination/index'
 import Custom from 'components/custom/index'
-import { pageChangeAction, editItem, addItem, delItem, switchItem} from 'actions/userlist/index'
+import { pageChangeAction, editItem, addItem, delItem, switchItem, isRequired} from 'actions/userlist/index'
 
 class Userlist extends React.Component {
 	constructor(){
@@ -15,6 +15,7 @@ class Userlist extends React.Component {
         this.addItems = this.addItems.bind(this)
         this.delItems = this.delItems.bind(this)
         this.switchItems = this.switchItems.bind(this)
+        this.isRequired = this.isRequired.bind(this)
     }
     pageChangeFn (pageIndex, pageSize){
         const { pageChangeAction } = this.props
@@ -36,8 +37,12 @@ class Userlist extends React.Component {
         const { switchItem } = this.props
         switchItem(index)
     }
+    isRequired (enabled) {
+        const { isRequired } = this.props
+        isRequired(enabled)
+    }
     render() {
-    	const { pageChangeFn, customFn, addItems, delItems, switchItems} = this
+    	const { pageChangeFn, customFn, addItems, delItems, switchItems, isRequired} = this
 
     	const { userlistdata } = this.props
 
@@ -46,10 +51,11 @@ class Userlist extends React.Component {
         let total = pagination.get("total")
         let pageSize = pagination.get("pageSize")
         let custom_items = userlistdata.get('customizable').get('items').toJS()
+        let Required = userlistdata.get('customizable').toJS().isRequired
 
         return (
             <div>
-            <Custom custom_items = { custom_items } customFn = {customFn} addItems = {addItems} delItems={delItems} switchItems={switchItems}/>
+            <Custom  Required = {Required} custom_items = { custom_items } isRequired = {isRequired} customFn = {customFn} addItems = {addItems} delItems={delItems} switchItems={switchItems}/>
             <Pagination current = { current } total = { total } pageSize={ pageSize } pageChangeFn = {pageChangeFn} model = {false}/>
             </div>
         )
@@ -69,4 +75,5 @@ export default connect(mapStateToProps, {
     addItem,
     delItem,
     switchItem,
+    isRequired,
 })(Userlist)

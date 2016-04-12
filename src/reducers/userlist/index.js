@@ -2,7 +2,10 @@
  * Created by yangtm  on 16-3-16.
  */
 import Immutable from 'immutable'
-import { CK_PAGE_CHANGE, CK_CUSTOM_ADD,  CK_CUSTOM_DEL, CK_CUSTOM_EDIT, CK_CUSTOM_SWITCH } from 'actions/userlist/index'
+import {
+  CK_PAGE_CHANGE, CK_CUSTOM_ADD, CK_CUSTOM_DEL, CK_CUSTOM_EDIT, CK_CUSTOM_SWITCH, CK_CUSTOM_ENABLE
+}
+from 'actions/userlist/index'
 
 let userlistObj = {
   pagination: {
@@ -12,16 +15,20 @@ let userlistObj = {
     userId: 1,
   },
   customizable: {
-    items:[
-      {val:"1级代理", able: false},
-      {val:"2级代理", able: false}
-    ]
+    items: [{
+      val: "1级代理",
+      enabled: false
+    }, {
+      val: "2级代理",
+      enabled: false
+    }],
+    isRequired: false
   }
 }
 
 
 export default function userlist(state = Immutable.fromJS(userlistObj), action) {
-  let current, pageSize, items, able;
+  let current, pageSize, items, enabled;
   switch (action.type) {
     case CK_PAGE_CHANGE:
       current = action.pageIndex;
@@ -32,46 +39,76 @@ export default function userlist(state = Immutable.fromJS(userlistObj), action) 
           pageSize: pageSize,
         }
       })
+      
     case CK_CUSTOM_EDIT:
       items = state.get('customizable').get("items").toJS();
-      able = items[action.index].able;
-      items.splice(action.index, 1, {val: action.val, able})
-      return state.merge({
+      items.splice(action.index, 1, {
+        val: action.val
+      })
+      return state.mergeDeep({
         customizable: {
           items: items
         }
       })
     case CK_CUSTOM_ADD:
-      items = state.get('customizable').get("items").toJS();
-      able = items[action.index].able;
-      items.splice(action.index + 1, 0, {val: "", able:false})
-      return state.merge({
+      
+      // items = state.get('customizable').get("items").toJS();
+      // items.splice(action.index + 1, 0, {
+      //   val: "",
+      //   enabled: false
+      // })
+      // return state.mergeDeep({
+      //   customizable: {
+      //     items: items
+      //   }
+      // })
+      
+      items = state.get('customizable').get("items").insert(action.index+1, {val:'', enabled: false});
+      return state.mergeDeep({
         customizable: {
           items: items
         }
       })
+      
     case CK_CUSTOM_DEL:
-      items = state.get('customizable').get("items").toJS();
-      able = items[action.index].able;
-      items.splice(action.index, 1)
-      return state.merge({
-        customizable: {
-          items: items
-        }
-      })
+
+      // items = state.get('customizable').get("items").delete(action.index);
+      // //items = state.get('customizable').get("items").toJS();
+      // // items.splice(action.index, 1)
+      // return state.deleteIn(['customizable', 'items'], items).mergeDeep({
+      //   customizable: {
+      //     items: items
+      //   }
+      // });
+      return state.deleteIn(['customizable', 'items',  action.index], items);
+
     case CK_CUSTOM_SWITCH:
-      items = state.get('customizable').get("items").toJS();
-      able = !items[action.index].able
-      let val = items[action.index].val
-      items.splice(action.index, 1, {val: val, able})
-      return state.merge({
+      // items = state.get('customizable').get("items").toJS();
+      // enabled = !items[action.index].enabled;
+      // let val = items[action.index].val;
+      // items.splice(action.index, 1, {val: val, enabled});
+
+      items = state.get('customizable').get("items").update(action.index, function(val) {
+        return val.merge({
+          enabled: !val.get("enabled")
+        });
+      });
+
+      return state.mergeDeep({
         customizable: {
           items: items
         }
       })
+
+    case CK_CUSTOM_ENABLE:
+      //isRequired = state.get('customizable').get('isRequired');
+      // return state.mergeDeep({
+      //   customizable: {
+      //     isRequired: isRequired
+      //   }
+      // })
+      return state.setIn(['customizable', 'isRequired'], !state.get('customizable').get('isRequired'))
     default:
       return state
   }
 }
-
-
