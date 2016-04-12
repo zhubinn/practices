@@ -11,6 +11,8 @@ import DemoAutoCompletePage from 'containers/__demo/AutoCompletePage'
 import DemoDatePickerPage from 'containers/__demo/DatePickerPage'
 import DepToTreePage from 'containers/__demo/DepToTreePage'
 import DemoModalPage from 'containers/__demo/ModalPage'
+import DemoSearchPage from 'containers/SearchPage/SearchPage'
+import CustomizablePage from 'containers/CustomizablePage/CustomizablePage'
 
 export default (
     <Route path="/" component={IndexPage}>
@@ -22,6 +24,8 @@ export default (
             <Route path="daterange" component={DemoDatePickerPage}/>
             <Route path="deptotree" component={DepToTreePage}/>
             <Route path="modal" component={DemoModalPage}/>
+            <Route path="search" component={DemoSearchPage}/>
+            <Route path="customizable" component={CustomizablePage}/>
         </Route>
         <Route path="*" component={NoMatch}/>
     </Route>
