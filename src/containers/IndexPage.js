@@ -44,6 +44,14 @@ class IndexPage extends React.Component {
                             modal
                         </Link>
                     </li>
+                    <br/>
+                    <Link to="/__demo/search">
+                        search
+                    </Link>
+                    <br/>
+                    <Link to="/__demo/customizable">
+                        customizable
+                    </Link>
                 </ul>
                 {this.props.children}
             </div>
