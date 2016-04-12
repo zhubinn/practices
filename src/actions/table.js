@@ -62,7 +62,7 @@ function showDetail(index, rowdata) {
             payload
         }
     }
-    const layerindex = layer.load(0, {shade: false})
+
     const p = new Promise(function (resolve, reject) {
         setTimeout(function () {
             resolve({
@@ -75,9 +75,16 @@ function showDetail(index, rowdata) {
     })
     return (dispatch, getState) => {
 
-        console.log(getState()['dataTable'].get('selectedRowDetailObj').toJS())
+        // todo: 改放到action里处理
+        if (getState()['dataTable'].get('selectedRowDetailObj').toJS().hasOwnProperty(index)) {
+            dispatch(fetchData('GET_DETAIL_DATA_SUCCESS', {index: index}))
+            return
+        }
 
+
+        const layerindex = layer.load(0, {shade: false})
         dispatch(fetchData('GET_DETAIL_DATA', {pending: true, rows: [], index: index}))
+
 
         p.then(function (data) {
             layer.close(layerindex)

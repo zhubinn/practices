@@ -195,7 +195,7 @@ export default class DataTable extends React.Component {
                     </table>
                 </div>
 
-                <div className={pending ? '' : 'hide'} >拼命加载中...</div>
+                {/*    <div className={pending ? '' : 'hide'} >拼命加载中...</div>*/}
                 {this.resolveTables(rows, columns, selectedRowDetailObj)
                     .map(function (item, i) {
 
