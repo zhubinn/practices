@@ -9,6 +9,7 @@ import DemoTablePage from 'containers/__demo/TablePage'
 import DemoLoginPage from 'containers/__demo/LoginPage'
 import DemoAutoCompletePage from 'containers/__demo/AutoCompletePage'
 import DemoDatePickerPage from 'containers/__demo/DatePickerPage'
+import DepToTreePage from 'containers/__demo/DepToTreePage'
 import DemoModalPage from 'containers/__demo/ModalPage'
 
 export default (
@@ -19,6 +20,7 @@ export default (
             <Route path="autocomplete" component={DemoAutoCompletePage}/>
             <Route path="datepicker" component={DemoDatePickerPage}/>
             <Route path="daterange" component={DemoDatePickerPage}/>
+            <Route path="deptotree" component={DepToTreePage}/>
             <Route path="modal" component={DemoModalPage}/>
         </Route>
         <Route path="*" component={NoMatch}/>
