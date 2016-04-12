@@ -161,7 +161,7 @@ export default class DataTable extends React.Component {
             checkMode,
             hasDetail } = this.props
         // notes: 异步操作
-        console.log('pending:' +  pending)
+
         return (
             <div className="dataTable">
                 <div className="dataTable-title">
