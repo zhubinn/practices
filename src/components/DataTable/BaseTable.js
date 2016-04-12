@@ -54,7 +54,7 @@ export default class BaseTable extends React.Component {
             source,
             } = this.props
 
-        console.log('selectedRowDetailObj:' + selectedRowDetailObj)
+
         return (
 
 

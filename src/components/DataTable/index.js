@@ -77,6 +77,7 @@ export default class DataTable extends React.Component {
 
     // 高级搜索点击确定后获取表单数据
     getSearchForm(){
+        // todo: 如果页面存在多个实例 `bug`
 
         document.querySelectorAll('[name^="search-"]')
 
