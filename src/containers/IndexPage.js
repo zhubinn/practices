@@ -8,19 +8,6 @@ class IndexPage extends React.Component {
     render() {
         return (
             <div>
-<<<<<<< HEAD
-                <Link to="/__demo/login">
-                    login
-                </Link>
-                <br/>
-                <Link to="/__demo/table">
-                    table
-                </Link>
-                <br/>
-                <Link to="/userlist">
-                    userlist
-                </Link>
-=======
                 <ul>
                     <li>
                         <Link to="/__demo/login">
@@ -57,8 +44,12 @@ class IndexPage extends React.Component {
                             modal
                         </Link>
                     </li>
+                    <li>
+                        <Link to="/userlist">
+                            userlist
+                        </Link>
+                    </li>
                 </ul>
->>>>>>> 608c29fec5583a5b7a152b779d628e5d6c208b77
                 {this.props.children}
             </div>
         )
