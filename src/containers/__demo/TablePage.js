@@ -78,7 +78,7 @@ class TablePage extends React.Component {
     }
 
     render() {
-        const { columns, rows } = this.props.mapState.toJS()
+        const { columns, rows } = this.props.$$mapState.toJS()
         const { tableDispatch } = this.props
 
         return (
@@ -97,7 +97,7 @@ class TablePage extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        mapState: state.report
+        $$mapState: state.report
     }
 }
 

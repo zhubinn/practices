@@ -2,6 +2,7 @@
  * Created by yangtm  on 16-3-16.
  */
 import Immutable from 'immutable'
+import { CK_PAGE_CHANGE, CK_CUSTOM_ADD,  CK_CUSTOM_DEL, CK_CUSTOM_EDIT, CK_CUSTOM_SWITCH } from 'actions/userlist/index'
 
 let userlistObj = {
   pagination: {
@@ -22,7 +23,7 @@ let userlistObj = {
 export default function userlist(state = Immutable.fromJS(userlistObj), action) {
   let current, pageSize, items, able;
   switch (action.type) {
-    case 'CK_PAGE_CHANGE':
+    case CK_PAGE_CHANGE:
       current = action.pageIndex;
       pageSize = action.pageSize;
       return state.mergeDeep({
@@ -31,8 +32,7 @@ export default function userlist(state = Immutable.fromJS(userlistObj), action) 
           pageSize: pageSize,
         }
       })
-    case 'CK_CUSTOM_EDIT':
-      
+    case CK_CUSTOM_EDIT:
       items = state.get('customizable').get("items").toJS();
       able = items[action.index].able;
       items.splice(action.index, 1, {val: action.val, able})
@@ -41,8 +41,7 @@ export default function userlist(state = Immutable.fromJS(userlistObj), action) 
           items: items
         }
       })
-    case 'CK_CUSTOM_ADD':
-
+    case CK_CUSTOM_ADD:
       items = state.get('customizable').get("items").toJS();
       able = items[action.index].able;
       items.splice(action.index + 1, 0, {val: "", able:false})
@@ -51,8 +50,7 @@ export default function userlist(state = Immutable.fromJS(userlistObj), action) 
           items: items
         }
       })
-    case 'CK_CUSTOM_DEL':
-
+    case CK_CUSTOM_DEL:
       items = state.get('customizable').get("items").toJS();
       able = items[action.index].able;
       items.splice(action.index, 1)
@@ -61,7 +59,7 @@ export default function userlist(state = Immutable.fromJS(userlistObj), action) 
           items: items
         }
       })
-    case 'CK_CUSTOM_SWITCH':
+    case CK_CUSTOM_SWITCH:
       items = state.get('customizable').get("items").toJS();
       able = !items[action.index].able
       let val = items[action.index].val
@@ -71,7 +69,6 @@ export default function userlist(state = Immutable.fromJS(userlistObj), action) 
           items: items
         }
       })
-
     default:
       return state
   }

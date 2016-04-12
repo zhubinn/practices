@@ -1,24 +1,20 @@
 import fetch from 'isomorphic-fetch'
-import { routerMiddleware, push}
-from 'react-router-redux'
+import { routerMiddleware, push} from 'react-router-redux'
 
+//分页改变页数
+const CK_PAGE_CHANGE = 'CK_PAGE_CHANGE'
+//列表增删改
+const CK_CUSTOM_ADD = 'CK_CUSTOM_ADD'
+const CK_CUSTOM_DEL = 'CK_CUSTOM_DEL'
+const CK_CUSTOM_EDIT = 'CK_CUSTOM_EDIT'
+const CK_CUSTOM_SWITCH = 'CK_CUSTOM_SWITCH'
 
 const pageChangeAction = (pageIndex, pageSize) => {
     return (dispatch, getState) => {
         dispatch({
-            type: 'CK_PAGE_CHANGE',
+            type: CK_PAGE_CHANGE,
             pageIndex,
             pageSize
-        })
-    }
-}
-
-const editItem = (index, val) => {
-    return (dispatch, getState) => {
-        dispatch({
-            type: 'CK_CUSTOM_EDIT',
-            index,
-            val,
         })
     }
 }
@@ -26,7 +22,7 @@ const editItem = (index, val) => {
 const addItem = (index) => {
     return (dispatch, getState) => {
         dispatch({
-            type: 'CK_CUSTOM_ADD',
+            type: CK_CUSTOM_ADD,
             index,
         })
     }
@@ -35,8 +31,18 @@ const addItem = (index) => {
 const delItem = (index) => {
     return (dispatch, getState) => {
         dispatch({
-            type: 'CK_CUSTOM_DEL',
+            type: CK_CUSTOM_DEL,
             index,
+        })
+    }
+}
+
+const editItem = (index, val) => {
+    return (dispatch, getState) => {
+        dispatch({
+            type: CK_CUSTOM_EDIT,
+            index,
+            val,
         })
     }
 }
@@ -44,12 +50,17 @@ const delItem = (index) => {
 const switchItem = (index) => {
     return (dispatch, getState) => {
         dispatch({
-            type: 'CK_CUSTOM_SWITCH',
+            type: CK_CUSTOM_SWITCH,
             index,
         })
     }
 }
 export {
+    CK_PAGE_CHANGE,
+    CK_CUSTOM_ADD,
+    CK_CUSTOM_DEL,
+    CK_CUSTOM_EDIT,
+    CK_CUSTOM_SWITCH,
     pageChangeAction,
     editItem,
     addItem,
