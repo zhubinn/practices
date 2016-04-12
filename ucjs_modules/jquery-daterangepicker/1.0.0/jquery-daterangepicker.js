@@ -6,10 +6,10 @@
 (function(factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['jquery', 'moment'], factory);
+        //define(['jquery', 'moment'], factory);
     } else if (typeof exports === 'object' && typeof module !== 'undefined') {
         // CommonJS. Register as a module
-        module.exports = factory(require('jquery'), require('moment'));
+        module.exports = factory(require('jQuery'), require('moment'));
     } else {
         // Browser globals
         factory(jQuery, moment);
