@@ -4,9 +4,9 @@
 import { Router } from 'react-router'
 import { Provider } from 'react-redux'
 
-import routes from '../routes'
+import routes from 'routes'
 
-export default class Root extends React.Component {
+export default class RootElement extends React.Component {
     render() {
         const { store, history } = this.props
         return (
@@ -17,7 +17,7 @@ export default class Root extends React.Component {
     }
 }
 
-Root.propTypes = {
+RootElement.propTypes = {
     store: React.PropTypes.object.isRequired,
     history: React.PropTypes.object.isRequired
 }
