@@ -22,6 +22,11 @@ class IndexPage extends React.Component {
                                 客户自定义字段CustomEditFieldPage
                             </Link>
                         </li>
+                        <li>
+                            <Link to="/numberReport/NumberReportViewPage">
+                                报数---查看报数
+                            </Link>
+                        </li>
                     </ul>
                 </div>
 

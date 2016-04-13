@@ -8,6 +8,7 @@ import report from './__demo/report'
 import user from './__demo/user'
 import hello from './__demo/hello'
 import customEditField from './__demo/customEditField'
+import numberReportViewState from './numberReport/numberReportView'
 import reportOther from './report/index'
 
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     user,
     routing,
     hello,
-    customEditField
+    customEditField,
+    numberReportViewState
 })
 export default rootReducer
