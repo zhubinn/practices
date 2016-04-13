@@ -21,7 +21,7 @@ export default class TableList extends React.Component {
     render() {
         const { numberReportViewState ,actions } = this.props
 
-
+        console.log(actions);
         return (
             <div className="ck-numberReport-bottom">
                 <table className="ck-numberReport-tab01">
@@ -33,7 +33,7 @@ export default class TableList extends React.Component {
                         <th>报数</th>
                     </tr>
                     </thead>
-                    <Row numberReportViewState = { numberReportViewState } />
+                    <Row actions = { actions } numberReportViewState = { numberReportViewState } />
                 </table>
             </div>
         )

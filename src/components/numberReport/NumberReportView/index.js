@@ -1,5 +1,7 @@
+import fetch from 'isomorphic-fetch'
 import { findDOMNode } from 'react-dom'
 
+//弹框组件
 import 'ucjs_modules/layer/2.2.0/skin/layer.css'
 import layer from '../../../../ucjs_modules/layer/2.2.0/layer.js'
 
@@ -10,6 +12,9 @@ import TableList from './tableList'
 //less
 import './less/basic_new_v2.less'
 import './less/numberReport.less'
+// mock data
+import { data,data2 } from './data/response'
+
 
 export default class NumberReportView extends React.Component {
     constructor(props, context) {
@@ -17,6 +22,14 @@ export default class NumberReportView extends React.Component {
 
     }
 
+
+
+    componentDidMount(){
+        const { numberReportViewState ,actions } = this.props
+        //TODO 异步請求
+        actions.fetchDate(data);
+        console.log(data)
+    }
 
     render() {
         const { numberReportViewState ,actions } = this.props
@@ -35,7 +48,7 @@ export default class NumberReportView extends React.Component {
 
                             </div>
                         </div>
-                        <TableList numberReportViewState = { numberReportViewState } />
+                        <TableList actions = { actions } numberReportViewState = { numberReportViewState } />
                     </div>
                 </div>
             </div>

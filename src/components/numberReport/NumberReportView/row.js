@@ -4,7 +4,6 @@
 import { findDOMNode } from 'react-dom'
 
 
-
 export default class Row extends React.Component {
 
     constructor(props) {
@@ -16,7 +15,7 @@ export default class Row extends React.Component {
 
     render() {
         const { numberReportViewState ,actions } = this.props;
-        const nodes = numberReportViewState.responseJson.map((item,index) => {
+        const nodes = numberReportViewState.toJS().responseJson.map((item,index) => {
             return (
                 <tr key = { index }>
                     <td>{ item.department }</td>
