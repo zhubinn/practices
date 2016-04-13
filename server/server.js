@@ -50,7 +50,7 @@ function renderFullPage(html, initialState) {
         <script>
           //window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>
-        <script src="http://localhost:8082/main.js"></script>
+        <script src="http://localhost:8082/lib/main.js"></script>
       </body>
     </html>
     `
