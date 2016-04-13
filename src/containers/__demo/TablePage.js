@@ -97,7 +97,7 @@ class TablePage extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$mapState: state.report
+        $$mapState: state.__demo.report
     }
 }
 
