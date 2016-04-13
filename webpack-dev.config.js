@@ -54,6 +54,7 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
     ],
     devServer: {
+        publicPath: '/lib',
         devtool: 'eval',
         hot: true,
         inline: true,
