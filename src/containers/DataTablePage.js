@@ -66,7 +66,7 @@ class DataTablePage extends React.Component {
                     <button onClick={function(){toggleSearch(false, DATA_TABLE_SOURCE)}}>确定</button>
                 </div>
 
-                <div className='w820'>
+
                     <DataTable ref="dataTable"
                                source={DATA_TABLE_SOURCE}
                                checkMode={true}
@@ -84,7 +84,7 @@ class DataTablePage extends React.Component {
 
                     />
 
-                </div>
+
             </div>
         )
     }

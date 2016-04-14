@@ -166,6 +166,7 @@ export default class DataTable extends React.Component {
         // notes: 异步操作
 
         return (
+            <div className="w820">
             <div className="dataTable">
                 <div className="dataTable-title">
                     <table >
@@ -225,6 +226,7 @@ export default class DataTable extends React.Component {
                         )
                     })}
             </div>
+            </div>
         )
     }
 }
@@ -241,6 +243,5 @@ DataTable.defaultProps = {
     selectedRowDetailObj: {},
     searchBarStatus: false,
     hasDetail: false,
-
     checkMode: false
 }
