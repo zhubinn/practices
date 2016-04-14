@@ -33,6 +33,9 @@ export default (
         <Route path="dataTable" component={DataTablePage}/>
         <Route path="contact" component={ContactPage}/>
         <Route path="twoDataTable" component={TwoDataTablePage}/>
+        <Route path="scrmweb/accounts/index/VISITID/1" component={DataTablePage}/>
+
+
         <Route path="*" component={NoMatch}/>
     </Route>
 )

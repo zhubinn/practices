@@ -43,22 +43,37 @@ const getData = (source)=> {
         }
     }
     const index = layer.load(0, {shade: false})
-    const p = new Promise(function (resolve, reject) {
+/*    const p = new Promise(function (resolve, reject) {
         setTimeout(function () {
             resolve({
                 rows: rowsData,
                 pending: false
             })
         }, 1000)
-    })
+    })*/
     return (dispatch, getState) => {
 
         dispatch(fetchData(GET_DATA, {pending: true, rows: []}, source))
 
-        p.then(function (data) {
-            layer.close(index)
-            dispatch(fetchData(GET_DATA_SUCCESS, data, source))
+        fetch('http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php', {
 
+            method: 'post',
+            headers: {
+                'API': 1,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+
+            })
+        }).then(function(response) {
+            if (response.status >= 400) {
+                throw new Error("Bad response from server")
+            }
+            return response.json()
+        }).then(function (data) {
+            layer.close(index)
+            dispatch(fetchData(GET_DATA_SUCCESS, {rows: data.rowsData, pending: false}, source))
 
         })
 

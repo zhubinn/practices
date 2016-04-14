@@ -14,11 +14,6 @@ import 'ucjs_modules/layer/2.2.0/skin/layer.css'
 const DATA_TABLE_SOURCE = 'default'
 
 
-class DataTableWrap extends  React.Component{
-    render(){
-
-    }
-}
 
 
 class DataTablePage extends React.Component {
