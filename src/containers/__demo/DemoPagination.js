@@ -3,11 +3,11 @@
  */
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Pagination from 'components/pagination/index'
-import Custom from 'components/custom/index'
-import { pageChangeAction, editItem, addItem, delItem, switchItem, isRequired} from 'actions/userlist/index'
+import Pagination from 'components/__demo/pagination/index'
+import Custom from 'components/__demo/custom/index'
+import { pageChangeAction, editItem, addItem, delItem, switchItem, isRequired} from 'actions/__demo/DemoPagination'
 
-class Userlist extends React.Component {
+class DemoPagination extends React.Component {
 	constructor(){
         super()
         this.pageChangeFn = this.pageChangeFn.bind(this)
@@ -64,7 +64,7 @@ class Userlist extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        userlistdata: state.userlist
+        userlistdata: state.DemoPagination
     }
 }
 
@@ -76,4 +76,4 @@ export default connect(mapStateToProps, {
     delItem,
     switchItem,
     isRequired,
-})(Userlist)
+})(DemoPagination)

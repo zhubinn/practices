@@ -5,12 +5,12 @@ import Immutable from 'immutable'
 import {
   CK_PAGE_CHANGE, CK_CUSTOM_ADD, CK_CUSTOM_DEL, CK_CUSTOM_EDIT, CK_CUSTOM_SWITCH, CK_CUSTOM_ENABLE
 }
-from 'actions/userlist/index'
+from 'actions/__demo/DemoPagination'
 
 let userlistObj = {
   pagination: {
     total: 200,
-    pageSize: 10,
+    pageSize: 50,
     current: 1,
     userId: 1,
   },
@@ -83,16 +83,16 @@ export default function userlist(state = Immutable.fromJS(userlistObj), action) 
       return state.deleteIn(['customizable', 'items',  action.index], items);
 
     case CK_CUSTOM_SWITCH:
-      // items = state.get('customizable').get("items").toJS();
-      // enabled = !items[action.index].enabled;
-      // let val = items[action.index].val;
-      // items.splice(action.index, 1, {val: val, enabled});
-
-      items = state.get('customizable').get("items").update(action.index, function(val) {
-        return val.merge({
-          enabled: !val.get("enabled")
-        });
-      });
+      items = state.get('customizable').get("items").toJS();
+      enabled = !items[action.index].enabled;
+      let val = items[action.index].val;
+      items.splice(action.index, 1, {val: val, enabled});
+      // debugger
+      // items = state.get('customizable').get("items").update(action.index, function(val) {
+      //   return val.merge({
+      //     enabled: !val.get("enabled")
+      //   });
+      // });
 
       return state.mergeDeep({
         customizable: {

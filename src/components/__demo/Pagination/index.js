@@ -34,7 +34,7 @@ class PageGo extends React.Component {
   render() {
     return ( 
       <div className="go-page-box">
-        到 <input className = "inputPage" type = "input" ref = "iptPage"/> 页 
+        跳到 <input className = "inputPage" type = "input" ref = "iptPage"/> 页 
         {" "} 
         < button className="goPage" onClick={this.GOFn}>跳转< /button>
       </div>
@@ -86,6 +86,13 @@ class Pagination extends React.Component {
     let pageSize = this.props.pageSize;
     this.props.pageChangeFn(pageIndex, pageSize);
   }
+  componentDidMount() {
+     debugger
+     let inputPage = this.refs.iptPage;
+     let pageSize = this.props.pageSize;
+     // inputPage = inputPage.getDOMNode();
+     $(inputPage).find("option:contains('"+pageSize+"')").prop("selected", true);
+  }
   render() {
     let pageCount = Math.ceil(this.props.total/this.props.pageSize);
     items = fillItemsList(this.props.current, pageCount)
@@ -134,19 +141,20 @@ class Pagination extends React.Component {
     } else {
       return ( 
       <div className = "react-Page disSelect" > 
-        { this.props.current } 
-        <div className="go-page-box">列数
+       共{' '}{ this.props.total }{' '}条记录 
+        <div className="go-page-box">每页{' '}
         <select  className = "PageListLen" ref="iptPage" onChange = {this.changePageSize}>
-          <option value="10">10</option>
           <option value="20">20</option>
-          <option value="30">30</option>
-          <option value="40">40</option>
-        </select>
+          <option value="50">50</option>
+          <option value="80">80</option>
+          <option value="100">100</option>
+        </select>{' '}条
         </div>
         <a className={ preClass } onClick = { this.preFn } >上一页</a> 
         { items.map(createItem)} 
         <a className = { nextClass } onClick = { this.nextFn } > 下一页 < /a> 
         <PageGo GOFn = { this.GOFn } total = { this.props.total } pageSize = {this.props.pageSize}/>
+        { this.props.current } 
       </div>
       )
     };

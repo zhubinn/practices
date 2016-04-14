@@ -45,8 +45,8 @@ class IndexPage extends React.Component {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/userlist">
-                            userlist
+                        <Link to="/__demo/Demopagination">
+                            Demopagination
                         </Link>
                     </li>
                 </ul>
