@@ -2,8 +2,8 @@ import { FETCH_DATA,CLICK_PREV_BUTTON, CLICK_NEXT_BUTTON, IMPORT_BUTTON } from '
 import Immutable from 'immutable'
 
 const $$initialState = {
-    responseJson:[]
-}
+            responseJson:[]
+        }
     //npType:'day',
     //day:'2016-5-4',
     //month:'2016-5',
@@ -58,8 +58,12 @@ export default function numberReportViewState($$state = Immutable.fromJS($$initi
             //return $$state.merge(action.data);
             console.log($$state);
             return $$state.merge({
-                day: action.curInputValue,
-                reponesJson: action.data.reponesJson
+                day: action.curInputValue+'000',
+                reponesJson: [
+                    {
+                        reportName:'999'
+                    }
+                ]
             });
         case CLICK_NEXT_BUTTON:
             console.log(action.data.responseJson);
