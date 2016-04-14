@@ -6,8 +6,9 @@ import Table from 'components/CustomizablePage'
 import DivTab from 'components/CustomizablePage/DivTab'
 import DivList from 'components/CustomizablePage/DivList'
 import { selectedRowData,clickCloseBtn,selectedTabIndex,changeIsRequired,getTableData,
-    addItem,deletItem,changeInputValue,ChangeStatus} from 'actions/CustomizablePage/CustomizablePage'
+    addItem,deletItem,changeInputValue,ChangeStatus,clickapplyBtn,DownItem,UpItem,clickCancleBtn} from 'actions/CustomizablePage/CustomizablePage'
 
+import layer from 'ucjs_modules/layer/2.2.0/layer.js'
 
 let columns = [
     {text: '客户名称', datafield: 'col_name', width: 230},
@@ -18,7 +19,7 @@ let columns = [
         // this -> 所在行<Tr/>
         return (
             <div>
-                <button>设置</button>
+                <button className = "ck-customize-bnt01">设置</button>
             </div>
 
         )
@@ -37,9 +38,12 @@ class CustomizablePage extends  React.Component{
         const IsShow = mapState.toJS().IsShow;
         const rows = mapState.toJS().rows;
         if(!IsShow){
-            return (
-                <div>
-                    <Table className="table table-hover"
+             return (
+                <div className = "col_right">
+                    <div className="col_cktop">
+                        <div className="col_cktop-topTitle"><a>客户</a>><a>自定义</a></div>
+                    </div>
+                    <Table 
                        columns={columns}
                        rows = {rows} 
                        selectedRowData = {selectedRowData}
@@ -49,11 +53,16 @@ class CustomizablePage extends  React.Component{
                 </div>
             )
         }else{
-        const {mapState,selectedTabIndex,changeIsRequired,getTableData,addItem,deletItem,changeInputValue,ChangeStatus} = this.props;
+        const {mapState,selectedTabIndex,changeIsRequired,getTableData,addItem,deletItem,
+            changeInputValue,ChangeStatus,DownItem,UpItem ,clickapplyBtn,clickCancleBtn} = this.props;
         const col_name = mapState.toJS().selectedRow["col_name"];
+        const applyTankuangShow = mapState.toJS().applyTankuangShow
             return (
-                <div>
-                    <Table className="table table-hover"
+                <div className = "col_right">
+                    <div className="col_cktop">
+                        <div className="col_cktop-topTitle"><a>客户</a>><a>自定义</a></div>
+                    </div>
+                    <Table 
                        columns={columns}
                        rows = {rows} 
                        selectedRowData = {selectedRowData}
@@ -61,14 +70,15 @@ class CustomizablePage extends  React.Component{
                      >
                      </Table>
                      <div className = "CustomizableSettingBg">
-                        <div className = "CustomizableSetting">
+                        <div className = "ck-customize-popBox">
                             <div className = "CustomizableSettingHead">{col_name}
                             <span className="settingClose" onClick = {this.handleClose.bind(this)}>关闭</span>
                             </div>
                             <div>
                                 <DivTab mapState={mapState} selectedTabIndex={selectedTabIndex} ></DivTab>
                                 <DivList mapState={mapState} changeIsRequired = {changeIsRequired} addItem={addItem} 
-                                deletItem={deletItem} changeInputValue={changeInputValue} ChangeStatus={ChangeStatus}></DivList>
+                                deletItem={deletItem} changeInputValue={changeInputValue} ChangeStatus={ChangeStatus}
+                                DownItem = {DownItem} UpItem={UpItem} clickapplyBtn={clickapplyBtn} clickCancleBtn={clickCancleBtn}></DivList>
                             </div>
                         </div>
                      </div>
@@ -94,5 +104,9 @@ export default connect(mapStateToProps, {
     deletItem,
     changeInputValue,
     ChangeStatus,
-    
+    clickapplyBtn,
+    DownItem,
+    UpItem,
+    clickCancleBtn,
+
 })(CustomizablePage)

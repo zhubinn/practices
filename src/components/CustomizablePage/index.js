@@ -43,7 +43,7 @@ class Table extends  React.Component{
     }
 	render(){
 		return(
-			<table >
+			<table className="ck-customize-table01">
 				<thead>
 					<tr>
                 		{this.resolveColumnsText().map((colName, i)=><th key = {i}>{colName}</th>)}

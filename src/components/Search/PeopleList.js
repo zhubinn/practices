@@ -61,7 +61,7 @@ export  default class PeopleSearch extends Component{
        let itemdata = this.props.mapState.toJS().itemdata;
        let InittextareaPadding = this.props.mapState.toJS().areapadding;
 
-        let itemWidth = 11;
+        let itemWidth = 20;
         for(let j = 0; j<myLiNameText.length;j++){
           //汉字
           if(myLiNameText.charCodeAt(j) > 255){

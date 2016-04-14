@@ -15,18 +15,19 @@ class DivTab extends React.Component{
 		const divTabArr = [{name:'编辑字段'},{name:'运行中'}];
 		const currentTabIndex = this.props.mapState.toJS().currentTabIndex;
 		return (
-			<ul className = "divTab clearfix">
-                {
-                    divTabArr.map((item, i) => {
-                        return (
-                            <li key={i} onClick = {this.handleTabClick.bind(this,i)}
-                            className = {currentTabIndex==i?"current":""}
-                            >{item.name}</li>
-                        )
-                    })
-                }
-
-			</ul>
+            <div className = "ck-customize-bannerTit">
+                <ul className = "ck-customize-banner clearfix">
+                    {
+                        divTabArr.map((item, i) => {
+                            return (
+                                <li key={i} onClick = {this.handleTabClick.bind(this,i)}
+                                className = {currentTabIndex==i?"current":""}
+                                >{item.name}</li>
+                            )
+                        })
+                    }
+                </ul>
+            </div>
 		)
 	}
 }

@@ -15,8 +15,9 @@ class DivEdit extends React.Component{
 		deletItem(i);
 	}
 	handleChangeInput(i,e){
-		const textValue = e.currentTarget.value;
+		const value = e.currentTarget.value;
 		const {changeInputValue} = this.props;
+		const textValue = value.substr(0,10);
 		changeInputValue(i,textValue);
 	}
 	handleChangeselect(i,e){
@@ -25,44 +26,56 @@ class DivEdit extends React.Component{
         ColumnsOptions['status']=='启用'?ChangeStatus({'index':i,'status':'未启用'}):ChangeStatus({'index':i,'status':'启用'})
 		
 	}
-
+	handleItemUp(i){
+		const {UpItem} = this.props;
+		if(i > 0){
+			UpItem(i)
+		}
+	}
+	handleItemDown(i){
+		const {DownItem} = this.props;
+		const editColumnsOptionsLen = this.props.mapState.toJS().editColumnsOptions.length
+		if(i < editColumnsOptionsLen-1){
+			DownItem(i)
+		}
+	}
 	render(){
 		const editColumnsOptions = this.props.mapState.toJS().editColumnsOptions
 		return (
-			<div>
-				<ul className = "editColumnsHead">
-					<li className = "optionInfor">选项信息</li>
-					<li className = "operation">操作</li>
-					<li className="status">状态</li>
+			<div className = "ck-customize-gongn01">
+				<ul className = "ck-customize-gongnTit clearfix">
+					<li className = "ck-customizeOptions">选项信息</li>
+					<li className = "ck-customizeCz">操作</li>
+					<li className="ck-customizeZt">状态</li>
 				</ul>
 				
-				<ul className = "editColumnsCon">
-					{
+				<div className ="ck-customize-gongWrap" >
+					<ul className = "ck-customize-gongncnt">
+						{
 
-						editColumnsOptions.map((opt,i)=>{
+							editColumnsOptions.map((opt,i)=>{
 
-						return (
-							<li key = {i}>
-
-								<div className = "optionInforInput">
-									<input type = 'text' value = {opt.optionInfor} placeholder = "输入文字"  onChange = {this.handleChangeInput.bind(this,i)} />
-								</div>
-								<div className = "operationBtn">
-									<button onClick = {this.handleAddItem.bind(this,i)}>+</button><button disabled = {opt.IsDelete=='否'?'disabled':''} onClick = {this.handleDeletItem.bind(this,i)}>-</button>
-								</div>
-								<div className = "statusSelect">
-									<select name = "statusSelect" value = {opt.status} onChange={this.handleChangeselect.bind(this,i)}>
-										<option value = "启用" >启用</option>
-										<option value = "未启用" >未启用</option>
-									</select>
-								</div>
-							</li>
-							)
-						})
-					}
-				</ul>
-	
-				
+							return (
+								<li key = {i}>
+									<div className = "shangxia"><span className="up" onClick = {this.handleItemUp.bind(this,i)}>上</span><span className="down" onClick = {this.handleItemDown.bind(this,i)}>下</span></div>
+									<div className = "ck-gongncnt-first">
+										<input type = 'text' value = {opt.optionInfor} placeholder = "输入文字"  onChange = {this.handleChangeInput.bind(this,i)} />
+									</div>
+									<div className = "ck-gongncnt-second clearfix">
+										<button className = "add" onClick = {this.handleAddItem.bind(this,i)}>+</button><button className = "add disableCut" disabled = {opt.IsDelete=='否'?'disabled':''} onClick = {this.handleDeletItem.bind(this,i)}>-</button>
+									</div>
+									<div className = "ck-gongncnt-third">
+										<select name = "statusSelect" value = {opt.status} onChange={this.handleChangeselect.bind(this,i)}>
+											<option value = "启用" >启用</option>
+											<option value = "未启用" >未启用</option>
+										</select>
+									</div>
+								</li>
+								)
+							})
+						}
+					</ul>
+				</div>	
 			</div>
 		)
 	}

@@ -181,20 +181,13 @@ export const getPeopleData = () => {
  * @returns {Function}
  */
 
-    
 export const clickPeopleDate = ({"itemdata":itemdata,"areapadding":InittextareaPadding})=>{
-    const _clickPeopleDate = (type, data)=> {
-        return {
-            type,
-            payload: data
-        }
+    return {
+        type: CK_CLICK_GETDATA,
+        payload: {"itemdata":itemdata,"areapadding":InittextareaPadding}
     }
-
-    return (dispatch, getState) => {
-        dispatch(_clickPeopleDate(CK_CLICK_GETDATA,{"itemdata":itemdata,"areapadding":InittextareaPadding}))
-    }
-
 }
+
 
 
 /**
@@ -204,19 +197,11 @@ export const clickPeopleDate = ({"itemdata":itemdata,"areapadding":InittextareaP
  * @returns {Function}
  */
 
-    
 export const clickPeopleTag = ({"itemdata":itemdata,"areapadding":newareapadding})=>{
-    const _clickPeopleTag = (type, data)=> {
-        return {
-            type,
-            payload: data
-        }
+    return {
+        type: CK_TAG_UPDATEDATA,
+        payload: {"itemdata":itemdata,"areapadding":newareapadding}
     }
-
-    return (dispatch, getState) => {
-        dispatch(_clickPeopleTag(CK_TAG_UPDATEDATA,{"itemdata":itemdata,"areapadding":newareapadding}))
-    }
-
 }
 
 /**
@@ -226,20 +211,13 @@ export const clickPeopleTag = ({"itemdata":itemdata,"areapadding":newareapadding
  * @returns {Function}
  */
 
-    
 export const deletePeopleTag = ({"itemdata":nameItemData,"areapadding":newareapadding})=>{
-    const _deletePeopleTag = (type, data)=> {
-        return {
-            type,
-            payload: data
-        }
+    return {
+        type: CK_TAG_DELETEDATA,
+        payload: {"itemdata":nameItemData,"areapadding":newareapadding}
     }
-
-    return (dispatch, getState) => {
-        dispatch(_deletePeopleTag(CK_TAG_DELETEDATA,{"itemdata":nameItemData,"areapadding":newareapadding}))
-    }
-
 }
+
 /**
  * 搜索数据
  * @param  
@@ -291,12 +269,15 @@ export const searchPeopleData = (textValue)=>{
         dispatch(_searchPeopleData(CK_SEARCH_GETDATA));
 
         return fetch(url, {
-            method: 'get',
+            method: 'post',
             headers: {
                 'API': 1,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({
+                'keyword':textValue
+            })
         }).then(response=> {
             //dispatch(_getPeopleData(CK_SEARCH_GETDATA_SUCCESS, peopleListData))
             if (response.status >= 400) {
@@ -319,21 +300,13 @@ export const searchPeopleData = (textValue)=>{
 }
 
 
-
 export const submitData = ({"chosedNameData":choseNameData})=>{
-
-    const _submitData = (type, data)=> {
-        return {
-            type,
-            payload: data
-        }
+    return {
+        type: CK_SUBMITDATA,
+        payload: {"chosedNameData":choseNameData}
     }
-
-    return (dispatch, getState) => {
-        dispatch(_submitData(CK_SUBMITDATA,{"chosedNameData":choseNameData}))
-    }
-
 }
+
 
 /**
  * 加载下一页数据

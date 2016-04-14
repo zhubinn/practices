@@ -28,6 +28,16 @@ const CK_CHANGRINPUTVALUE = 'CK_CHANGRINPUTVALUE'
 
 //改变启用未启用状态
 const CK_CHANGEISWORK = 'CK_CHANGEISWORK'
+
+//点击应用
+const CK_SETTINGAPPLY = 'CK_SETTINGAPPLY'
+
+const CK_SETTINGCANCLE = 'CK_SETTINGCANCLE'
+
+//
+const CK_UPITEM = 'CK_UPITEM'
+const CK_DOWNITEM = 'CK_DOWNITEM'
+
 /**
  * 点击列表数据
  * @param  
@@ -94,15 +104,20 @@ export const selectedRowData = ({'selectedRow':selectedRow})=>{
             payload: data
         }
     }
-
+/*
+**初始默认进入页面室时会从后台带过来用户所选择的字段的设置的编辑项只有一条数据
+如果后台返回的是空的，说明用户没有设置过，那前端给一个默认的数据如下,并且不可删除
+*/
     const editColumnsOptions = [
-    {optionInfor:'村级代理商',IsDelete:'否',status:'启用'},
-    {optionInfor:'县级代理商',IsDelete:'是',status:'启用'},
-    {optionInfor:'省级代理商',IsDelete:'是',status:'未启用'},
-    {optionInfor:'一级代理商',IsDelete:'是',status:'启用'},
-    {optionInfor:'二级代理商',IsDelete:'是',status:'启用'},
-    {optionInfor:'',IsDelete:'是',status:'启用'}
+    {optionInfor:'',IsDelete:'否',status:'启用'}
 ]
+
+/*
+**
+如果后台返回的是不为空，说明用户已经设置过，那前端就直接展示该数据,并且用户是可以删除的
+*/
+
+
 
     //selectedRow.editColumnsOptions = editColumnsOptions;
     
@@ -120,6 +135,54 @@ export const clickCloseBtn = ()=>{
         payload: ''
     }
 }
+
+//点击取消按钮
+
+export const clickCancleBtn = ()=>{
+    return {
+        type: CK_SETTINGCANCLE,
+        payload: ''
+    }
+}
+//点击应用按钮
+
+
+export const clickapplyBtn = (editColumnsOptions)=> {
+    const login = (type, data)=> {
+        return {
+            type,
+            payload: data
+        }
+    }
+    //模拟请求
+
+    return (dispatch, getState) => {
+        fetch('/actions/_demo/list.json', {
+            method: 'post',
+            headers: {
+                'API': 1,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                editColumnsOptions,
+            })
+        }).then(function(response) {
+            if (response.status >= 400) {
+                throw new Error("Bad response from server")
+            }
+            return response.json()
+        }).then(function(json) {
+            dispatch(login(CK_APPLY_BTN))
+        })
+
+    }
+}
+
+
+
+
+
 
 
 //切换tab
@@ -172,6 +235,21 @@ export const ChangeStatus = (changedIsWork)=>{
     }
 }
 
+//后退
+export const DownItem = (i)=>{
+    return {
+        type: CK_DOWNITEM,
+        payload: i
+    }
+}
+//后退
+export const UpItem = (i)=>{
+    return {
+        type: CK_UPITEM,
+        payload: i
+    }
+}
+
 export {
 	CK_SELECTEDROWDATA,
     CK_SETTINGCLOSE,
@@ -183,12 +261,10 @@ export {
     CK_DELETEITEM,
     CK_CHANGRINPUTVALUE,
     CK_CHANGEISWORK,
-    getTableData,
-	selectedRowData,
-    clickCloseBtn,
-    selectedTabIndex,
-    changeIsRequired,
-    addItem,
-    deletItem,
+    CK_SETTINGAPPLY,
+    CK_DOWNITEM,
+    CK_UPITEM,
+    CK_SETTINGCANCLE,
+
 }
 
