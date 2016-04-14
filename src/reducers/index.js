@@ -10,9 +10,12 @@ import searchPeople from './searchPeople/searchPeople'
 import Customizable from './CustomizablePage/CustomizablePage'
 
 
+import components from './components'
+import __demo from './__demo'
+
 const rootReducer = combineReducers({
-    report,
-    user,
+    components,
+    __demo,
     routing,
     searchPeople,
     Customizable,

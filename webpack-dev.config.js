@@ -19,6 +19,7 @@ module.exports = {
             containers: path.join(__dirname, 'src/containers'),
             reducers: path.join(__dirname, 'src/reducers'),
             store: path.join(__dirname, 'src/store'),
+            routes: path.join(__dirname, 'src/routes'),
             ucjs_modules: path.join(__dirname, 'ucjs_modules'),
         },
     },
@@ -53,6 +54,7 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
     ],
     devServer: {
+        publicPath: '/lib',
         devtool: 'eval',
         hot: true,
         inline: true,
