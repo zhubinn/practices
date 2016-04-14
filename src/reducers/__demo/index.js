@@ -5,10 +5,12 @@ import { combineReducers } from 'redux'
 
 import report from './report'
 import user from './user'
+import DemoPagination from './DemoPagination'
 
 const __demoReducers = combineReducers({
     report,
     user,
+    DemoPagination,
 })
 
 export default __demoReducers

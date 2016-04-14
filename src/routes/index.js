@@ -3,18 +3,6 @@
  */
 import { Route, IndexRoute } from 'react-router'
 
-<<<<<<< HEAD:src/routes.js
-import IndexPage from 'containers/IndexPage'
-import NoMatch from 'containers/NoMatch'
-import DemoTablePage from 'containers/__demo/TablePage'
-import DemoLoginPage from 'containers/__demo/LoginPage'
-import DemoAutoCompletePage from 'containers/__demo/AutoCompletePage'
-import DemoDatePickerPage from 'containers/__demo/DatePickerPage'
-import DepToTreePage from 'containers/__demo/DepToTreePage'
-import DemoModalPage from 'containers/__demo/ModalPage'
-import DemoPagination from 'containers/__demo/DemoPagination'
-import FormControl from 'components/common/base/FormControl'
-=======
 import MasterPage from 'containers/Master/Default'
 import DemoTablePage from 'containers/__demo/Table'
 import DemoLoginPage from 'containers/__demo/Login'
@@ -23,8 +11,8 @@ import DemoDatePickerPage from 'containers/__demo/DatePicker'
 import DepToTreePage from 'containers/__demo/DepToTree'
 import DemoModalPage from 'containers/__demo/Modal'
 import Error_404 from 'containers/Error/404'
+import DemoPagination from 'containers/__demo/DemoPagination'
 
->>>>>>> edea6834b571935104b73013b17a1c07db74ebc5:src/routes/index.js
 export default (
     <Route path="/" component={MasterPage}>
         <Route path="__demo">

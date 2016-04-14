@@ -27,13 +27,13 @@ let userlistObj = {
 }
 
 
-export default function userlist(state = Immutable.fromJS(userlistObj), action) {
+export default function userlist( $$state = Immutable.fromJS(userlistObj), action) {
   let current, pageSize, items, enabled;
   switch (action.type) {
     case CK_PAGE_CHANGE:
       current = action.pageIndex;
       pageSize = action.pageSize;
-      return state.mergeDeep({
+      return $$state.mergeDeep({
         pagination: {
           current: current,
           pageSize: pageSize,
@@ -41,11 +41,11 @@ export default function userlist(state = Immutable.fromJS(userlistObj), action) 
       })
       
     case CK_CUSTOM_EDIT:
-      items = state.get('customizable').get("items").toJS();
+      items = $$state.get('customizable').get("items").toJS();
       items.splice(action.index, 1, {
         val: action.val
       })
-      return state.mergeDeep({
+      return $$state.mergeDeep({
         customizable: {
           items: items
         }
@@ -63,8 +63,8 @@ export default function userlist(state = Immutable.fromJS(userlistObj), action) 
       //   }
       // })
       
-      items = state.get('customizable').get("items").insert(action.index+1, {val:'', enabled: false});
-      return state.mergeDeep({
+      items = $$state.get('customizable').get("items").insert(action.index+1, {val:'', enabled: false});
+      return $$state.mergeDeep({
         customizable: {
           items: items
         }
@@ -80,10 +80,10 @@ export default function userlist(state = Immutable.fromJS(userlistObj), action) 
       //     items: items
       //   }
       // });
-      return state.deleteIn(['customizable', 'items',  action.index], items);
+      return $$state.deleteIn(['customizable', 'items',  action.index], items);
 
     case CK_CUSTOM_SWITCH:
-      items = state.get('customizable').get("items").toJS();
+      items = $$state.get('customizable').get("items").toJS();
       enabled = !items[action.index].enabled;
       let val = items[action.index].val;
       items.splice(action.index, 1, {val: val, enabled});
@@ -94,7 +94,7 @@ export default function userlist(state = Immutable.fromJS(userlistObj), action) 
       //   });
       // });
 
-      return state.mergeDeep({
+      return $$state.mergeDeep({
         customizable: {
           items: items
         }
@@ -107,8 +107,8 @@ export default function userlist(state = Immutable.fromJS(userlistObj), action) 
       //     isRequired: isRequired
       //   }
       // })
-      return state.setIn(['customizable', 'isRequired'], !state.get('customizable').get('isRequired'))
+      return $$state.setIn(['customizable', 'isRequired'], !$$state.get('customizable').get('isRequired'))
     default:
-      return state
+      return $$state
   }
 }
