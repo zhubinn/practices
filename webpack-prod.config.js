@@ -18,6 +18,8 @@ module.exports = {
             containers: path.join(__dirname, 'src/containers'),
             reducers: path.join(__dirname, 'src/reducers'),
             store: path.join(__dirname, 'src/store'),
+            routes: path.join(__dirname, 'src/routes'),
+            ucjs_modules: path.join(__dirname, 'ucjs_modules'),
         }
     },
     module: {
@@ -26,7 +28,7 @@ module.exports = {
             loader: 'babel',
             exclude: /node_modules/,
         }, {
-            test: /\.(jpg|png)$/,
+            test: /\.(jpg|png|gif)$/,
             loader: 'url',
         }, {
             test: /\.(less)$/,
@@ -44,9 +46,11 @@ module.exports = {
             'process.env.NODE_ENV': '"production"'
         }),
         new webpack.ProvidePlugin({
-            "React": "react",
-            "ReactDOM": "react-dom",
-            "Redux": "redux",
+            React: 'react',
+            ReactDOM: 'react-dom',
+            Redux: 'redux',
+            jQuery: 'ucjs_modules/jquery/1.12.2/jquery',
+            $: 'ucjs_modules/jquery/1.12.2/jquery',
         }),
         new webpack.optimize.UglifyJsPlugin()
     ]
