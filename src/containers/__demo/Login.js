@@ -19,7 +19,7 @@ class UserLoginPage extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$mapState: state.user
+        $$mapState: state.__demo.user
     }
 }
 

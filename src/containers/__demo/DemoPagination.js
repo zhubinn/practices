@@ -55,8 +55,8 @@ class DemoPagination extends React.Component {
 
         return (
             <div>
-            <Custom  Required = {Required} custom_items = { custom_items } isRequired = {isRequired} customFn = {customFn} addItems = {addItems} delItems={delItems} switchItems={switchItems}/>
-            <Pagination current = { current } total = { total } pageSize={ pageSize } pageChangeFn = {pageChangeFn} model = {false}/>
+                <Custom  Required = {Required} custom_items = { custom_items } isRequired = {isRequired} customFn = {customFn} addItems = {addItems} delItems={delItems} switchItems={switchItems}/>
+                <Pagination current = { current } total = { total } pageSize={ pageSize } pageChangeFn = {pageChangeFn} model = {false}/>
             </div>
         )
     }
@@ -76,4 +76,4 @@ export default connect(mapStateToProps, {
     delItem,
     switchItem,
     isRequired,
-})(DemoPagination)
+})( DemoPagination )
