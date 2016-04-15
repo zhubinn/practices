@@ -49,6 +49,11 @@ class IndexPage extends React.Component {
                             Demopagination
                         </Link>
                     </li>
+                    <li>
+                        <Link to="/__demo/DemoTodoList">
+                            DemoTodoList
+                        </Link>
+                    </li>
                 </ul>
                 {this.props.children}
             </div>

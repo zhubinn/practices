@@ -6,11 +6,14 @@ import { combineReducers } from 'redux'
 import report from './report'
 import user from './user'
 import DemoPagination from './DemoPagination'
+import DemoTodoList from './DemoTodoList'
+
 
 const __demoReducers = combineReducers({
     report,
     user,
     DemoPagination,
+    DemoTodoList,
 })
 
 export default __demoReducers
