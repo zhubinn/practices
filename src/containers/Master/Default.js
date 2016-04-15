@@ -44,6 +44,12 @@ class IndexPage extends React.Component {
                             modal
                         </Link>
                     </li>
+                    <li>
+                        <Link to="/__demo/dataTable">
+                            dataTable
+                        </Link>
+                    </li>
+
                 </ul>
                 {this.props.children}
             </div>
