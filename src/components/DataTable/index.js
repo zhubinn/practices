@@ -179,10 +179,10 @@ export default class DataTable extends React.Component {
             hasDetail
 
             } = this.props
-        // notes: 异步操作
+
 
         return (
-            <div className="w820 dataTableWrap" >
+            <div className="dataTableWrap"  >
                 <div className="dataTable" id={"dataTable_" + source}
                      style={{width: ''+ (this.calculateWidth(columns, checkMode, hasDetail)) +'px'}}>
                     <div className="dataTable-title">

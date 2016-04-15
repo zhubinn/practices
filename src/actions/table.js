@@ -79,7 +79,7 @@ const getData = (params, source)=> {
 }
 
 function showDetail(index, rowdata, source) {
-
+    // todo: 换成fetch
 
     const fetchData = (type, payload, source)=> {
 

@@ -29,35 +29,27 @@ class DataTablePage extends React.Component {
         }, DATA_TABLE_SOURCE)
 
 
-        //console.log(this.refs.dataTable)
+
     }
 
     render() {
         const { showDetail, checkRow, updateRow, toggleSearch} = this.props
         const $$dataTable = this.props.dataTable.get(DATA_TABLE_SOURCE)
 
-        console.log($$dataTable)
-        //console.log($$rows.toJS())
         const $$rows = $$dataTable && $$dataTable.get('rows')
-
-
         const rows = ($$rows && $$rows.toJS()) || []
-        //const $$selectedRowDetailObj = $$rows['selectedRowDetailObj']
-        const $$selectedRowDetailObj = $$dataTable && $$dataTable.get('selectedRowDetailObj')
 
+        const $$selectedRowDetailObj = $$dataTable && $$dataTable.get('selectedRowDetailObj')
         const selectedRowDetailObj = ($$selectedRowDetailObj && $$selectedRowDetailObj.toJS()) || {}
 
         const checkedRows = $$dataTable && $$dataTable.get('checkedRows').toJS() || []
 
-
         const searchBarShow = $$dataTable && $$dataTable.get('searchBarShow') || false
-        //      const searchBarShow = $$rows['searchBarShow']
 
         const pending = $$dataTable && $$dataTable.get('pending') || false
-        // const pending = $$rows['pending']
 
         return (
-            <div style={{margin: '20px'}}>
+            <div  style = {{marginLeft: '20px'}} >
                 <div>
                     <button onClick={(e)=>{console.log(this.refs.dataTable.getCheckedRows())}}>获取已经选择的行</button>
                 </div>
