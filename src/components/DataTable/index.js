@@ -250,6 +250,8 @@ export default class DataTable extends React.Component {
 
 
 DataTable.propTypes = {
+    columns: React.PropTypes.array,
+    rows: React.PropTypes.array,
     checkMode: React.PropTypes.bool,
     hasDetail: React.PropTypes.bool,
     searchBarStatus: React.PropTypes.bool,
@@ -257,6 +259,8 @@ DataTable.propTypes = {
 }
 
 DataTable.defaultProps = {
+    columns: [],
+    rows: [],
     selectedRowDetailObj: {},
     searchBarStatus: false,
     hasDetail: false,
