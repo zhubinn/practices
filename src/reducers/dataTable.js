@@ -7,7 +7,7 @@ import {GET_DATA, GET_DATA_SUCCESS,GET_DATA_FAILURE,getData, showDetail, updateR
 import {secondRowsData, secondColumns} from 'components/DataTable/fakeData'
 
 
-export default function dataTable(state = Immutable.fromJS({
+export default function dataTable($$state = Immutable.fromJS({
     default: {
         rows: [],
         pending: true,
@@ -21,7 +21,7 @@ export default function dataTable(state = Immutable.fromJS({
 }), action) {
     switch (action.type) {
         case 'INIT_SOURCE':
-            return state.merge({
+            return $$state.merge({
                 [action.source]: Immutable.fromJS({
                     rows: [],
                     pending: true,
@@ -32,14 +32,21 @@ export default function dataTable(state = Immutable.fromJS({
                 })
             })
         case GET_DATA:
-            return state.updateIn([action.source], function(source){
-                return source.merge({rows: [], pending: true})
+            return $$state.updateIn([action.source], function (source) {
+                return source.merge({
+                    rows: [],
+                    pending: true,
+                    separatedIndexes: Immutable.OrderedSet(),
+                    selectedRowDetailObj: {},
+                    checkedRows: Immutable.OrderedSet(),
+                    searchBarShow: false
+                })
             })
 
         case GET_DATA_SUCCESS:
             const { payload  } = action
 
-            return state.updateIn([action.source], function(source){
+            return $$state.updateIn([action.source], function (source) {
                 return source.merge({
                     rows: payload.rows,
                     pending: payload.pending
@@ -47,13 +54,12 @@ export default function dataTable(state = Immutable.fromJS({
             })
 
 
-
         case GET_DATA_FAILURE:
-            return state
+            return $$state
 
         case 'GET_DETAIL_DATA':
 
-            return state.updateIn([action.source], function(source){
+            return $$state.updateIn([action.source], function (source) {
                 return source.merge({pending: true})
             })
 
@@ -61,7 +67,7 @@ export default function dataTable(state = Immutable.fromJS({
         case 'GET_DETAIL_DATA_SUCCESS':
             const { index, rows} = action.payload
 
-            return state.updateIn([action.source, 'selectedRowDetailObj'], function (selectedRowDetailObj) {
+            return $$state.updateIn([action.source, 'selectedRowDetailObj'], function (selectedRowDetailObj) {
 
                 if (selectedRowDetailObj.toJS().hasOwnProperty(index)) {
                     return selectedRowDetailObj.delete(index)
@@ -74,7 +80,7 @@ export default function dataTable(state = Immutable.fromJS({
             const rowIndex = action.index
 
 
-            return state.updateIn([action.source, 'checkedRows'], function (checkedRows) {
+            return $$state.updateIn([action.source, 'checkedRows'], function (checkedRows) {
 
 
 
@@ -84,7 +90,7 @@ export default function dataTable(state = Immutable.fromJS({
                 if (action.isChecked) {
                     if (rowIndex === -1) {
 
-                        for (let i = 0; i < state.toJS()[action.source]['rows'].length; i++) {
+                        for (let i = 0; i < $$state.toJS()[action.source]['rows'].length; i++) {
                             newState = newState.add(i)
                         }
                     } else {
@@ -101,18 +107,19 @@ export default function dataTable(state = Immutable.fromJS({
                 return newState
             })
         case 'UPDATE_ROW':
-            return state.updateIn([action.source, 'rows'], function (rows) {
+            return $$state.updateIn([action.source, 'rows'], function (rows) {
                 return rows.map((map, index, list) => {
                     return index === action.index ? action.rowData : map
                 })
             })
+        // todo: 从getData分离
         case 'UPDATE_ROWS':
-            return state
+            return $$state
         case 'TOGGLE_SEARCHBAR':
-            return state.updateIn([action.source], function(source){
+            return $$state.updateIn([action.source], function (source) {
                 return source.merge({searchBarShow: action.isShow})
             })
         default:
-            return state
+            return $$state
     }
 }

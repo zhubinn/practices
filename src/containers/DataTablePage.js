@@ -14,14 +14,19 @@ import 'ucjs_modules/layer/2.2.0/skin/layer.css'
 const DATA_TABLE_SOURCE = 'default'
 
 
-
-
 class DataTablePage extends React.Component {
     componentDidMount() {
 
         this.props.initSource(DATA_TABLE_SOURCE)
         // 页面初始完,获取数据,触发action: GET_DATA
-        this.props.getData(DATA_TABLE_SOURCE)
+        this.props.getData({
+            url: 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php',
+            data: {
+                page: 1,
+                rowsPerPage: 20
+            }
+
+        }, DATA_TABLE_SOURCE)
 
 
         //console.log(this.refs.dataTable)
@@ -42,13 +47,13 @@ class DataTablePage extends React.Component {
 
         const selectedRowDetailObj = ($$selectedRowDetailObj && $$selectedRowDetailObj.toJS()) || {}
 
-        const checkedRows = mapState &&  mapState.get('checkedRows').toJS() || []
+        const checkedRows = mapState && mapState.get('checkedRows').toJS() || []
 
 
         const searchBarShow = mapState && mapState.get('searchBarShow') || false
         //      const searchBarShow = $$rows['searchBarShow']
 
-        const pending =mapState &&  mapState.get('pending') || false
+        const pending = mapState && mapState.get('pending') || false
         // const pending = $$rows['pending']
 
         return (
@@ -62,23 +67,34 @@ class DataTablePage extends React.Component {
                 </div>
 
 
-                    <DataTable ref="dataTable"
-                               source={DATA_TABLE_SOURCE}
-                               checkMode={true}
-                               onCheckRow={checkRow}
-                               hasDetail={true}
-                               checkedRows={checkedRows}
-                               rows={rows}
-                               selectedRowDetailObj={selectedRowDetailObj}
-                               searchColumns={searchColumns}
-                               columns={columns}
-                               searchBarStatus={searchBarShow}
-                               onUpdateRow={updateRow}
-                               onShowDetail={showDetail}
-                               pending={pending}
+                <DataTable ref="dataTable"
+                           source={DATA_TABLE_SOURCE}
+                           checkMode={true}
+                           onCheckRow={checkRow}
+                           hasDetail={true}
+                           checkedRows={checkedRows}
+                           rows={rows}
+                           selectedRowDetailObj={selectedRowDetailObj}
+                           searchColumns={searchColumns}
+                           columns={columns}
+                           searchBarStatus={searchBarShow}
+                           onUpdateRow={updateRow}
+                           onShowDetail={showDetail}
+                           pending={pending}
 
-                    />
+                />
+                <ul>
+                    <li>1</li>
+                    <li onClick={(e)=>{this.props.getData({
+                        url: 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php',
+                        data: {
+                            page: 2,
+                            rowsPerPage: 20
+                        }
 
+                        }, DATA_TABLE_SOURCE)}}>2
+                    </li>
+                </ul>
 
             </div>
         )

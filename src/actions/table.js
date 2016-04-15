@@ -30,10 +30,10 @@ function initSource(source) {
 
 /**
  * 获取数据
- * @param
+ * @params {url:'', data: {}}
  * @returns {Function}
  */
-const getData = (source)=> {
+const getData = (params, source)=> {
     const fetchData = (type, payload, source)=> {
 
         return {
@@ -54,8 +54,8 @@ const getData = (source)=> {
     return (dispatch, getState) => {
 
         dispatch(fetchData(GET_DATA, {pending: true, rows: []}, source))
-
-        fetch('http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php', {
+        // todo: 封装
+        fetch(params.url, {
 
             method: 'post',
             headers: {
@@ -63,9 +63,7 @@ const getData = (source)=> {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-
-            })
+            body: params.data
         }).then(function(response) {
             if (response.status >= 400) {
                 throw new Error("Bad response from server")
@@ -104,7 +102,7 @@ function showDetail(index, rowdata, source) {
     })
     return (dispatch, getState) => {
 
-        // todo: 改放到action里处理
+
 
 
         if (getState()['dataTable'].toJS()[source]['selectedRowDetailObj'].hasOwnProperty(index)) {
