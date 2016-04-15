@@ -34,26 +34,26 @@ class DataTablePage extends React.Component {
 
     render() {
         const { showDetail, checkRow, updateRow, toggleSearch} = this.props
-        let mapState = this.props.mapState.get(DATA_TABLE_SOURCE)
+        const $$dataTable = this.props.dataTable.get(DATA_TABLE_SOURCE)
 
-        console.log(mapState)
+        console.log($$dataTable)
         //console.log($$rows.toJS())
-        const $$rows = mapState && mapState.get('rows')
+        const $$rows = $$dataTable && $$dataTable.get('rows')
 
 
         const rows = ($$rows && $$rows.toJS()) || []
         //const $$selectedRowDetailObj = $$rows['selectedRowDetailObj']
-        const $$selectedRowDetailObj = mapState && mapState.get('selectedRowDetailObj')
+        const $$selectedRowDetailObj = $$dataTable && $$dataTable.get('selectedRowDetailObj')
 
         const selectedRowDetailObj = ($$selectedRowDetailObj && $$selectedRowDetailObj.toJS()) || {}
 
-        const checkedRows = mapState && mapState.get('checkedRows').toJS() || []
+        const checkedRows = $$dataTable && $$dataTable.get('checkedRows').toJS() || []
 
 
-        const searchBarShow = mapState && mapState.get('searchBarShow') || false
+        const searchBarShow = $$dataTable && $$dataTable.get('searchBarShow') || false
         //      const searchBarShow = $$rows['searchBarShow']
 
-        const pending = mapState && mapState.get('pending') || false
+        const pending = $$dataTable && $$dataTable.get('pending') || false
         // const pending = $$rows['pending']
 
         return (
@@ -103,7 +103,7 @@ class DataTablePage extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        mapState: state.dataTable
+        dataTable: state.dataTable
     }
 }
 

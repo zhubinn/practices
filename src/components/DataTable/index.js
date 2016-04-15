@@ -37,7 +37,7 @@ export default class DataTable extends React.Component {
 
             if (selectedRowDetailObj.hasOwnProperty(i)) {
 
-                tableRowArr.push({rows: prevRowArr, columns: columns,  hasDetail: true})
+                tableRowArr.push({rows: prevRowArr, columns: columns, hasDetail: true})
                 prevRowArr = []
 
                 tableRowArr.push(selectedRowDetailObj[i])
@@ -46,8 +46,8 @@ export default class DataTable extends React.Component {
         })
 
 
-        if (!!prevRowArr.length ){
-            tableRowArr.push({rows: prevRowArr, columns: columns,  hasDetail: this.props.hasDetail})
+        if (!!prevRowArr.length) {
+            tableRowArr.push({rows: prevRowArr, columns: columns, hasDetail: this.props.hasDetail})
         }
 
         return tableRowArr
@@ -59,13 +59,14 @@ export default class DataTable extends React.Component {
     }
 
     // 输出已经checked的rows的索引
-    getCheckedIndexes(){
+    getCheckedIndexes() {
         return this.props.checkedRows
     }
+
     // 按序输出已经checked的rows
-    getCheckedRows(){
+    getCheckedRows() {
         let arr = []
-        this.props.rows.forEach((row, i) =>{
+        this.props.rows.forEach((row, i) => {
             if (this.props.checkedRows.indexOf(i) > -1) {
                 arr.push(row)
             }
@@ -76,14 +77,12 @@ export default class DataTable extends React.Component {
     }
 
     // 高级搜索点击确定后获取表单数据
-    getSearchForm(){
+    getSearchForm() {
         // todo: 如果页面存在多个实例 `bug`
 
         document.querySelectorAll('[name^="search-"]')
 
     }
-
-
 
 
     resolveColumnsTitle(columns) {
@@ -94,6 +93,23 @@ export default class DataTable extends React.Component {
         return columns.map((col, i) => col['text'])
     }
 
+    calculateWidth(columns, checkMode, hasDetail) {
+
+        let width = 0
+
+        width = columns.map((col, i) => {
+            // 列宽度默认为150px(以后考虑引入基础变量)
+            return col.width || 150
+        }).reduce((a, b) => {
+            return a + b
+        })
+
+
+        checkMode && ( width = width + 50 )
+        hasDetail && ( width = width + 50 )
+
+        return width
+    }
 
     // 渲染表头单元格
     renderTitleCell(columns) {
@@ -166,66 +182,67 @@ export default class DataTable extends React.Component {
         // notes: 异步操作
 
         return (
-            <div className="w820">
-            <div className="dataTable">
-                <div className="dataTable-title">
-                    <table >
-                        <thead>
-                        <tr>
-                            {this.renderCheckBtn(checkMode, rows, checkedRows)}
-                            {this.renderDetailBtn(hasDetail)}
+            <div className="w820 dataTableWrap" >
+                <div className="dataTable" id={"dataTable_" + source}
+                     style={{width: ''+ (this.calculateWidth(columns, checkMode, hasDetail)) +'px'}}>
+                    <div className="dataTable-title">
+                        <table >
+                            <thead>
+                            <tr>
+                                {this.renderCheckBtn(checkMode, rows, checkedRows)}
+                                {this.renderDetailBtn(hasDetail)}
 
-                            {this.renderTitleCell(columns)}
-                        </tr>
-                        </thead>
+                                {this.renderTitleCell(columns)}
+                            </tr>
+                            </thead>
 
-                    </table>
-                    <table>
-                        <tbody>
-                        <tr className={searchBarStatus ? '' : 'hide'}>
-                            {checkMode ? (<td>
-                                <div className="small-cell"></div>
-                            </td>) : null}
-                            {hasDetail ? (<td>
-                                <div className="small-cell"></div>
-                            </td>) : null}
-                            {columns.map((item, i) => (<td key={i}>
-                                <div
-                                    style={{width: ''+ (item.width||150) +'px'}}>{this.renderSearch(item.datafield)}</div>
-                            </td>))}
+                        </table>
+                        <table>
+                            <tbody>
+                            <tr className={searchBarStatus ? '' : 'hide'}>
+                                {checkMode ? (<td>
+                                    <div className="small-cell"></div>
+                                </td>) : null}
+                                {hasDetail ? (<td>
+                                    <div className="small-cell"></div>
+                                </td>) : null}
+                                {columns.map((item, i) => (<td key={i}>
+                                    <div
+                                        style={{width: ''+ (item.width||150) +'px'}}>{this.renderSearch(item.datafield)}</div>
+                                </td>))}
 
-                        </tr>
-                        </tbody>
-                    </table>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/*    <div className={pending ? '' : 'hide'} >拼命加载中...</div>*/}
+                    {this.resolveTables(rows, columns, selectedRowDetailObj)
+                        .map(function (item, i) {
+
+                            if (!(i % 2)) return (
+                                <BaseTable selectedRowDetailObj={selectedRowDetailObj}
+                                           onUpdateRow={onUpdateRow}
+                                           checkedRows={checkedRows}
+                                           checkMode={checkMode}
+                                           source={source}
+                                           key={i}
+                                           rows={item.rows}
+                                           columns={item.columns}
+                                           hasDetail={item.hasDetail}
+                                           onShowDetail={onShowDetail}
+                                           onCheckRow={onCheckRow}/>
+                            )
+                            return (
+                                <BaseTable key={i}
+                                           rows={item.rows}
+                                           columns={item.columns}
+                                           isParentTable={false}
+                                           source={source}
+                                />
+                            )
+                        })}
                 </div>
-
-                {/*    <div className={pending ? '' : 'hide'} >拼命加载中...</div>*/}
-                {this.resolveTables(rows, columns, selectedRowDetailObj)
-                    .map(function (item, i) {
-
-                        if (!(i % 2)) return (
-                            <BaseTable selectedRowDetailObj={selectedRowDetailObj}
-                                       onUpdateRow={onUpdateRow}
-                                       checkedRows={checkedRows}
-                                       checkMode={checkMode}
-                                       source={source}
-                                       key={i}
-                                       rows={item.rows}
-                                       columns={item.columns}
-                                       hasDetail={item.hasDetail}
-                                       onShowDetail={onShowDetail}
-                                       onCheckRow={onCheckRow}/>
-                        )
-                        return (
-                            <BaseTable key={i}
-                                       rows={item.rows}
-                                       columns={item.columns}
-                                       isParentTable={false}
-                                       source={source}
-                            />
-                        )
-                    })}
-            </div>
             </div>
         )
     }
