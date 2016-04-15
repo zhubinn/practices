@@ -1,3 +1,6 @@
+/**
+ * Created by ytm on 16/4/14.
+ */
 .ck-control-group {
 	position: relative;
     margin-bottom: 1em;
@@ -18,7 +21,7 @@
     margin-right: 10px;
 }
 .ck-control-group .select-result{
-    height: 30px;
+    height: 34px;
     min-width:200px; 
 }
 ck-control-select
@@ -93,7 +96,7 @@ ck-control-select
 }
 
 .ck-control-select {cursor:pointer;}
-.select-options-wrap { display: none; min-width: 200px; position: absolute; top:30px; padding-top: 10px; border:1px solid #dfdfdf; padding: 4px;}
+.select-options-wrap { display: none; min-width: 200px; position: absolute; top:34px; padding-top: 10px; border:1px solid #dfdfdf; padding: 4px;}
 .show-options-wrap {display: block;}
 
 .select-options-wrap li {padding: 8px}
