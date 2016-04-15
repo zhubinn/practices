@@ -7,40 +7,54 @@ import PeopleSearch from 'components/Search/PeopleSearch'
 import PeopleList from 'components/Search/PeopleList'
 import ConfirmForm from 'components/Search/ConfirmForm'
 
-import { getPeopleData,clickPeopleDate,clickPeopleTag ,deletePeopleTag,searchPeopleData,submitData,loadNextPage} from 'actions/SearchPeople/searchPeople'
+import { getPeopleData,clickPeopleDate,clickPeopleTag ,
+	deletePeopleTag,searchPeopleData,submitData,handleCancle,loadNextPage,handleChangeInput} from 'actions/SearchPeople/searchPeople'
 
 
 class SearchPage extends React.Component{
 	render(){
 		const {dispatch, getPeopleData, clickPeopleDate,clickPeopleTag ,deletePeopleTag,
-			searchPeopleData,submitData,loadNextPage,mapState } = this.props;
-		const isShow  = mapState.toJS().IsShow;
-		return (
-		  <div className="mbox_BombBox " style={{display: isShow? 'block':'none'}}>
-			 <div className = "mbox784" >
-		        <PeopleTitle/>
-		        <PeopleSearch mapState = {mapState} clickPeopleTag ={clickPeopleTag} deletePeopleTag={deletePeopleTag} searchPeopleData = {searchPeopleData}/>
-		        <PeopleList getPeopleData = {getPeopleData} mapState = {mapState} clickPeopleDate={clickPeopleDate} loadNextPage ={loadNextPage}/>
-		        <ConfirmForm submitData={submitData} mapState = {mapState}/>
-		      </div>
-	      </div>
-		)
+			searchPeopleData,submitData,handleCancle,loadNextPage,handleChangeInput,$$mapState } = this.props;
+		const isShow  = $$mapState.toJS().IsShow;
+		const IsMultiselect = $$mapState.toJS().IsMultiselect;
+			if(isShow){
+				return (
+					<div className = "mbox_BombBoxBg">
+					  <div className="mbox_BombBox">
+						 <div className = "mbox784" >
+					        <PeopleTitle/>
+					        <PeopleSearch $$mapState = {$$mapState} clickPeopleTag ={clickPeopleTag} deletePeopleTag={deletePeopleTag} 
+					        searchPeopleData = {searchPeopleData} handleChangeInput={handleChangeInput}/>
+					        <PeopleList getPeopleData = {getPeopleData} $$mapState = {$$mapState} clickPeopleDate={clickPeopleDate} loadNextPage ={loadNextPage}/>
+					        <div style={{display:IsMultiselect==0?'block':'none'}}>您已经选择2个客户</div>
+					        <ConfirmForm submitData={submitData} handleCancle = {handleCancle} $$mapState = {$$mapState}/>
+					      </div>
+				      </div>
+					</div>
+				)
+			}else{
+				return(
+					<div></div>
+					)
+			}
 	}
 }
 
-const mapStateToProps = (state, ownProps) => {
+const $$mapStateToProps = (state, ownProps) => {
     return {
-        mapState: state.searchPeople
+        $$mapState: state.searchPeople
     }
 
 }
 
-export default connect(mapStateToProps, {
+export default connect($$mapStateToProps, {
     getPeopleData,
     clickPeopleDate,
     clickPeopleTag,
     deletePeopleTag,
     searchPeopleData,
     submitData,
-    loadNextPage
+    handleCancle,
+    loadNextPage,
+    handleChangeInput,
 })(SearchPage)

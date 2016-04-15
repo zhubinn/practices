@@ -12,37 +12,49 @@ import {
     CK_TAG_UPDATEDATA,
     CK_TAG_DELETEDATA,
     CK_SEARCH_ITEMDATA,
-    CK_SUBMITDATA,
+    CK_SUBMITBTN,
+    CK_CANCLEBTN,
     CK_LOADMORE_GETDATA,
-    CK_LOADMORE_GETDATA_SUCCESS
+    CK_LOADMORE_GETDATA_SUCCESS,
+    CK_CHANGEINPUT
 } from 'actions/SearchPeople/searchPeople'
 
-export const searchPeople = (state = Immutable.fromJS({data:[],itemdata:[],IsShow:true}), action) => {
-    let payload = action.payload
+const $$initialstate = Immutable.fromJS({
+    data:[],
+    itemdata:[],
+    IsShow:true,
+    IsMultiselect:0
+})
 
+ const searchPeople = ($$state = $$initialstate, action) => {
     switch(action.type) {
         case CK_SEARCH_GETDATA:
-            return state.merge({ pending: true ,isClear: false})
+            return $$state.merge({ pending: true })
         case CK_SEARCH_GETDATA_SUCCESS:
-            return state.merge(action.payload,{ itemdata:[],areapadding:0,chosedNameData:[]})
+            return $$state.merge(action.payload,{ itemdata:[],areapadding:0,chosedNameData:[]})
         case CK_SEARCH_GETDATA_FAILURE:
-            return state.merge(action.payload, { pending: false })
+            return $$state.merge(action.payload, { pending: false })
         case CK_CLICK_GETDATA:
-            return state.merge(action.payload,{ isClear: true})
+            return $$state.merge(action.payload,{textValue:''})
         case CK_TAG_UPDATEDATA:
-            return state.merge(action.payload)
+            return $$state.merge(action.payload)
         case CK_TAG_DELETEDATA:
-            return state.merge(action.payload)
+            return $$state.merge(action.payload)
         case CK_SEARCH_ITEMDATA:
-            return state.merge(action.payload,{ isClear: false})
-        case CK_SUBMITDATA:
-            return state.merge(action.payload)
+            return $$state.merge(action.payload)
+        case CK_CANCLEBTN:
+            return $$state.merge({IsShow:false})
+        case CK_SUBMITBTN:
+            return $$state.merge(action.payload)
+
         case CK_LOADMORE_GETDATA:
-            return state.merge({ pending: true })
+            return $$state.merge({ pending: true })
         case CK_LOADMORE_GETDATA_SUCCESS:
-            return state.merge(action.payload) 
+            return $$state.merge(action.payload) 
+        case CK_CHANGEINPUT:
+            return $$state.merge({textValue:action.payload})
         default:
-            return state
+            return $$state
     }
 }
 

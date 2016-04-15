@@ -9,12 +9,12 @@ class DivList extends React.Component{
         this.handleCheckbox = this.handleCheckbox.bind(this)
     }
     handleCheckbox(){
-        const selectedRow = this.props.mapState.toJS().selectedRow;
+        const selectedRow = this.props.$$mapState.toJS().selectedRow;
         const {changeIsRequired}=this.props;
         selectedRow['col_IsRequired']=='是'?changeIsRequired({'col_IsRequired':'否'}):changeIsRequired({'col_IsRequired':'是'})
     }
     handleApply(){
-        const editColumnsOptions = this.props.mapState.toJS().editColumnsOptions
+        const editColumnsOptions = this.props.$$mapState.toJS().editColumnsOptions
         //数据可能需要过滤 如果没有任何选项就应用  则提示要先选择应用
         const {clickapplyBtn} = this.props
         if(editColumnsOptions.length ==1 && editColumnsOptions[0].optionInfor == ''){
@@ -29,11 +29,11 @@ class DivList extends React.Component{
         clickCancleBtn();
     }
     componentWillUpdate() {
-        const currentTabIndex = this.props.mapState.toJS().currentTabIndex;
-        const selectedRow = this.props.mapState.toJS().selectedRow;
-        const editColumnsOptions = this.props.mapState.toJS().editColumnsOptions
+        const currentTabIndex = this.props.$$mapState.toJS().currentTabIndex;
+        const selectedRow = this.props.$$mapState.toJS().selectedRow;
+        const editColumnsOptions = this.props.$$mapState.toJS().editColumnsOptions
         if(currentTabIndex==0){
-            const {mapState,addItem,deletItem,changeInputValue,ChangeStatus,DownItem,UpItem,clickapplyBtn,clickCloseBtn} = this.props;
+            const {$$mapState,addItem,deletItem,changeInputValue,ChangeStatus,DownItem,UpItem,clickapplyBtn,clickCloseBtn} = this.props;
 
             return (
                 <div >
@@ -44,7 +44,7 @@ class DivList extends React.Component{
                         defaultChecked={selectedRow['col_IsRequired']=='是'?'checked':''} onChange = {this.handleCheckbox}
                         disabled = {editColumnsOptions[0].optionInfor.length == 0?'disabled':''}/>必填</li>
                     </ul>
-                    <DivEdit addItem={addItem} mapState={mapState} deletItem={deletItem} 
+                    <DivEdit addItem={addItem} $$mapState={$$mapState} deletItem={deletItem} 
                     changeInputValue={changeInputValue} ChangeStatus={ChangeStatus}
                     DownItem = {DownItem} UpItem={UpItem}></DivEdit>
                     <div className = "ck-customizeConfirm">
@@ -63,8 +63,8 @@ class DivList extends React.Component{
                 </div>
             )
         }else if(currentTabIndex==1){
-             const {mapState} = this.props;
-             let editColumnsOptions = this.props.mapState.toJS().editColumnsOptions
+             const {$$mapState} = this.props;
+             let editColumnsOptions = this.props.$$mapState.toJS().editColumnsOptions
             /*只展示从后台拿到的启用状态的选项*/
              let showColumnsOptions = []
              if(editColumnsOptions.length ==1 && editColumnsOptions[0].optionInfor == ''){

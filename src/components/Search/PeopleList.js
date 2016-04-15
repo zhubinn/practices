@@ -57,9 +57,11 @@ export  default class PeopleSearch extends Component{
         };
     }
     haddleClick(i){
-       const myLiNameText = this.props.mapState.toJS().data[i].Name;
-       let itemdata = this.props.mapState.toJS().itemdata;
-       let InittextareaPadding = this.props.mapState.toJS().areapadding;
+       const myLiNameText = this.props.$$mapState.toJS().data[i].Name;
+       const ownerId = this.props.$$mapState.toJS().data[i].ID
+       const IsMultiselect = this.props.$$mapState.toJS().IsMultiselect
+       let itemdata = this.props.$$mapState.toJS().itemdata;
+       let InittextareaPadding = this.props.$$mapState.toJS().areapadding;
 
         let itemWidth = 20;
         for(let j = 0; j<myLiNameText.length;j++){
@@ -71,18 +73,28 @@ export  default class PeopleSearch extends Component{
           }
         };
         let namearr = [];
-        if(itemdata.length>0){
-            for(let i = 0; i<itemdata.length;i++){
-                 namearr.push(itemdata[i].itemName);                
-            }
-            if(namearr.indexOf(myLiNameText)<0){
-                itemdata.push({"itemName":myLiNameText,"itemWidth":itemWidth});
+        /* *
+        *0 单选  ；1 可多选
+        */
+        if(IsMultiselect==0){
+            itemdata.splice(0,itemdata.length)
+            itemdata.push({"ownerId":ownerId,"itemName":myLiNameText,"itemWidth":itemWidth});
+            InittextareaPadding =itemWidth;
+        }else {
+            if(itemdata.length>0){
+                for(let i = 0; i<itemdata.length;i++){
+                     namearr.push(itemdata[i].itemName);                
+                }
+                if(namearr.indexOf(myLiNameText)<0){
+                    itemdata.push({"ownerId":ownerId,"itemName":myLiNameText,"itemWidth":itemWidth});
+                    InittextareaPadding +=itemWidth;
+                }
+            }else{
+                itemdata.push({"ownerId":ownerId,"itemName":myLiNameText,"itemWidth":itemWidth});
                 InittextareaPadding +=itemWidth;
             }
-        }else{
-            itemdata.push({"itemName":myLiNameText,"itemWidth":itemWidth});
-            InittextareaPadding +=itemWidth;
         }
+
        
         const { clickPeopleDate } = this.props;
         clickPeopleDate({"itemdata":itemdata,"areapadding":InittextareaPadding});
@@ -175,9 +187,9 @@ export  default class PeopleSearch extends Component{
     }
 
 	render(){
-    const { mapState }  = this.props;
+    const { $$mapState }  = this.props;
 	
-    const peopleListData = mapState.toJS().data;
+    const peopleListData = $$mapState.toJS().data;
 		return (
 	        <div className="mbox_BombBoxList01"  ref = "BombBoxList" >
             <div className = "mbox_boxList02" ref = "mbox_boxList" onScroll ={this.handleScroll}>

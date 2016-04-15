@@ -3,8 +3,7 @@
  */
 import { Route, IndexRoute } from 'react-router'
 
-import IndexPage from 'containers/IndexPage'
-import NoMatch from 'containers/NoMatch'
+import IndexPage from 'containers'
 import DemoSearchPage from 'containers/SearchPage/SearchPage'
 import CustomizablePage from 'containers/CustomizablePage/CustomizablePage'
 

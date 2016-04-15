@@ -8,22 +8,9 @@ export  default class PeopleSearch extends Component{
         //this.handleDown = this.handleDown.bind(this)
 
     }
-    componentWillUpdate(){
-		const isClear = this.props.mapState.toJS().isClear;
-		const textarea = this.refs.textarea
-		const value = textarea.value;
-		if(isClear){
-			// textarea.value = "";
-		}else {
-			// textarea.value = value;
-		}
-    }
-    componentDidMount(prevProps, prevState) {
-   }
-	
 	handleTag(i){
-		let nameItemData = this.props.mapState.toJS().itemdata;
-		let newareapadding = this.props.mapState.toJS().areapadding;
+		let nameItemData = this.props.$$mapState.toJS().itemdata;
+		let newareapadding = this.props.$$mapState.toJS().areapadding;
 		
 		newareapadding = newareapadding -nameItemData[i].itemWidth;
 		nameItemData.splice(i,1);
@@ -33,8 +20,8 @@ export  default class PeopleSearch extends Component{
 
 	}
 	handleDown(e){
-		let nameItemData = this.props.mapState.toJS().itemdata;
-		let newareapadding = this.props.mapState.toJS().areapadding;
+		let nameItemData = this.props.$$mapState.toJS().itemdata;
+		let newareapadding = this.props.$$mapState.toJS().areapadding;
 		const textValue = e.currentTarget.value;
 		if(e.keyCode == 8&&textValue.length == 0){
 			newareapadding = newareapadding -nameItemData[nameItemData.length-1].itemWidth;
@@ -50,7 +37,7 @@ export  default class PeopleSearch extends Component{
 	}
 	handleUp(e){
 		const textValue = e.currentTarget.value;
-		const nameItemData = this.props.mapState.toJS().itemdata;
+		const nameItemData = this.props.$$mapState.toJS().itemdata;
 	    var that = e.target;
 	    clearTimeout(that.timer);
 
@@ -74,15 +61,21 @@ export  default class PeopleSearch extends Component{
 	    );
 			
 	}
+	changeInput(e){
+		const value = e.currentTarget.value;
+		const {handleChangeInput} = this.props;
+		handleChangeInput(value)
+	}
 	render(){
-		const nameItemData = this.props.mapState.toJS().itemdata;
-		const arreapadding = this.props.mapState.toJS().areapadding;
+		const nameItemData = this.props.$$mapState.toJS().itemdata;
+		const arreapadding = this.props.$$mapState.toJS().areapadding;
+		const value = this.props.$$mapState.toJS().textValue;
 		return (
 			<div className="mbox784_textwrap">
 	          <textarea id="textarea" rows="1" className="M01text" 
 	          style={{paddingLeft: (10+arreapadding) + 'px'}} 
 	          onKeyDown = {this.handleDown.bind(this)} onKeyUp = {this.handleUp.bind(this)}
-			  ref = "textarea"></textarea>
+			   value = {value} onChange = {this.changeInput.bind(this)}></textarea>
 	          <p className = "dev-tags">
 		          {
 		          	nameItemData.map((item,i)=>{

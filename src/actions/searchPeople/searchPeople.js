@@ -20,11 +20,16 @@ const CK_TAG_DELETEDATA = 'CK_TAG_DELETEDATA'
 const CK_SEARCH_ITEMDATA = 'CK_SEARCH_ITEMDATA'
 
 //提交数据
-const CK_SUBMITDATA = 'CK_SUBMITDATA'
+const CK_SUBMITBTN = 'CK_SUBMITBTN'
+// 取消
+const CK_CANCLEBTN = 'CK_CANCLEBTN'
 
 //滚动底部加载下一页
 const CK_LOADMORE_GETDATA = 'CK_LOADMORE_GETDATA'
 const CK_LOADMORE_GETDATA_SUCCESS = 'CK_LOADMORE_GETDATA_SUCCESS'
+
+//改变输入框值
+const CK_CHANGEINPUT = 'CK_CHANGEINPUT'
 /**
  * 获取列表数据
  * @param  
@@ -191,10 +196,7 @@ export const clickPeopleDate = ({"itemdata":itemdata,"areapadding":InittextareaP
 
 
 /**
- * 点击tag标签数据
- * @param  
- * @param 
- * @returns {Function}
+ * 点击peopleList数据生成tag
  */
 
 export const clickPeopleTag = ({"itemdata":itemdata,"areapadding":newareapadding})=>{
@@ -206,9 +208,7 @@ export const clickPeopleTag = ({"itemdata":itemdata,"areapadding":newareapadding
 
 /**
  * 点击tag标签数据
- * @param  
- * @param 
- * @returns {Function}
+
  */
 
 export const deletePeopleTag = ({"itemdata":nameItemData,"areapadding":newareapadding})=>{
@@ -218,6 +218,12 @@ export const deletePeopleTag = ({"itemdata":nameItemData,"areapadding":newareapa
     }
 }
 
+export const handleChangeInput = (value)=>{
+    return {
+        type: CK_CHANGEINPUT,
+        payload: value
+    }
+}
 /**
  * 搜索数据
  * @param  
@@ -299,11 +305,19 @@ export const searchPeopleData = (textValue)=>{
 
 }
 
-
+// 点击确认按钮 发送请求把所选用户的ID
 export const submitData = ({"chosedNameData":choseNameData})=>{
     return {
-        type: CK_SUBMITDATA,
+        type: CK_SUBMITBTN,
         payload: {"chosedNameData":choseNameData}
+    }
+}
+
+// 点击取消按钮
+export const handleCancle = ()=>{
+    return {
+        type: CK_CANCLEBTN,
+        payload: ''
     }
 }
 
@@ -469,14 +483,10 @@ export {
     CK_TAG_UPDATEDATA,
     CK_TAG_DELETEDATA,
     CK_SEARCH_ITEMDATA,
-    CK_SUBMITDATA,
+    CK_SUBMITBTN,
+    CK_CANCLEBTN,
     CK_LOADMORE_GETDATA,
     CK_LOADMORE_GETDATA_SUCCESS,
-    getPeopleData,
-    clickPeopleDate,
-    clickPeopleTag,
-    deletePeopleTag,
-    searchPeopleData,
-    submitData,
-    loadNextPage
+    CK_CHANGEINPUT,
+
 }

@@ -34,9 +34,9 @@ class CustomizablePage extends  React.Component{
         clickCloseBtn();
     }
 	render(){
-        const {selectedRowData,mapState, getTableData} = this.props;
-        const IsShow = mapState.toJS().IsShow;
-        const rows = mapState.toJS().rows;
+        const {selectedRowData,$$mapState, getTableData} = this.props;
+        const IsShow = $$mapState.toJS().IsShow;
+        const rows = $$mapState.toJS().rows;
         if(!IsShow){
              return (
                 <div className = "col_right">
@@ -53,10 +53,10 @@ class CustomizablePage extends  React.Component{
                 </div>
             )
         }else{
-        const {mapState,selectedTabIndex,changeIsRequired,getTableData,addItem,deletItem,
+        const {$$mapState,selectedTabIndex,changeIsRequired,getTableData,addItem,deletItem,
             changeInputValue,ChangeStatus,DownItem,UpItem ,clickapplyBtn,clickCancleBtn} = this.props;
-        const col_name = mapState.toJS().selectedRow["col_name"];
-        const applyTankuangShow = mapState.toJS().applyTankuangShow
+        const col_name = $$mapState.toJS().selectedRow["col_name"];
+        const applyTankuangShow = $$mapState.toJS().applyTankuangShow
             return (
                 <div className = "col_right">
                     <div className="col_cktop">
@@ -75,8 +75,8 @@ class CustomizablePage extends  React.Component{
                             <span className="settingClose" onClick = {this.handleClose.bind(this)}>关闭</span>
                             </div>
                             <div>
-                                <DivTab mapState={mapState} selectedTabIndex={selectedTabIndex} ></DivTab>
-                                <DivList mapState={mapState} changeIsRequired = {changeIsRequired} addItem={addItem} 
+                                <DivTab $$mapState={$$mapState} selectedTabIndex={selectedTabIndex} ></DivTab>
+                                <DivList $$mapState={$$mapState} changeIsRequired = {changeIsRequired} addItem={addItem} 
                                 deletItem={deletItem} changeInputValue={changeInputValue} ChangeStatus={ChangeStatus}
                                 DownItem = {DownItem} UpItem={UpItem} clickapplyBtn={clickapplyBtn} clickCancleBtn={clickCancleBtn}></DivList>
                             </div>
@@ -88,13 +88,13 @@ class CustomizablePage extends  React.Component{
 	}
 }
 
-const mapStateToProps = (state, ownProps) => {
+const $$mapStateToProps = (state, ownProps) => {
     return {
-        mapState: state.Customizable
+        $$mapState: state.Customizable
     }
 }
 
-export default connect(mapStateToProps, {
+export default connect($$mapStateToProps, {
     selectedRowData,
     clickCloseBtn,
     selectedTabIndex,
