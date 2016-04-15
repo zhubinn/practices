@@ -52,13 +52,17 @@ class AccountListPage extends React.Component {
         const pending = $$dataTable && $$dataTable.get('pending') || false
 
         return (
+
+
             <div  style = {{marginLeft: '20px'}} >
+
                 <div>
-                    <button onClick={(e)=>{console.log(this.refs.dataTable.getCheckedRows())}}>获取已经选择的行</button>
-                </div>
-                <div>
-                    <button onClick={function(){toggleSearch(true, DATA_TABLE_SOURCE)}}>高级搜索</button>
-                    <button onClick={function(){toggleSearch(false, DATA_TABLE_SOURCE)}}>确定</button>
+                   <span>已处理客户</span>
+                   <span>已处理客户</span>
+                   <span>已处理客户</span>
+                   <span>已处理客户</span>
+                   <span>已处理客户</span>
+                   <span>已处理客户</span>
                 </div>
 
 

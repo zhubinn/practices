@@ -4,6 +4,7 @@
 import { Route, IndexRoute } from 'react-router'
 
 import MasterPage from 'containers/Master/Default'
+import ModulePage from 'containers/Master/Module'
 import DemoTablePage from 'containers/__demo/Table'
 import DemoLoginPage from 'containers/__demo/Login'
 import DemoAutoCompletePage from 'containers/__demo/AutoComplete'
@@ -18,8 +19,8 @@ import AccountListPage from 'containers/Business/Account/List'
 
 
 export default (
-    <Route path="/" component={MasterPage}>
-        <Route path="__demo">
+    <Route path="/" >
+        <Route path="__demo" component={MasterPage}>
             <Route path="table" component={DemoTablePage}/>
             <Route path="login" component={DemoLoginPage}/>
             <Route path="autocomplete" component={DemoAutoCompletePage}/>
@@ -29,10 +30,12 @@ export default (
             <Route path="modal" component={DemoModalPage}/>
             <Route path="dataTable" component={DemoDataTablePage}/>
         </Route>
+        <Route path="scrmweb" component={ModulePage}>
+            <Route path="accounts/index/VISITID/1" component={AccountListPage}/>
+        </Route>
 
 
-
-        <Route path="scrmweb/accounts/index/VISITID/1" component={AccountListPage}/>
         <Route path="*" component={Error_404}/>
     </Route>
+
 )
