@@ -152,3 +152,36 @@
 .ck-numberReport-tab01 tbody tr td {
   text-align: center;
 }
+
+//自定义日历
+.selfMonthWrap {
+  .monthHeader{
+    padding:10px 0;
+    text-align: center;
+    .year{
+      padding:0 30px;
+    }
+    .prev,.next{
+      cursor: pointer;
+    }
+  }
+
+  li{
+    float: left;
+    width: 25%;
+    text-align: center;
+    height: 36px;
+    line-height: 36px;
+    background: #fff;
+    &:hover{
+      background-color: rgb(205, 236, 250);
+    }
+  }
+  .active{
+    background-color: rgb(68, 153, 238);
+    color:#fff;
+    &:hover{
+      background-color: rgb(68, 153, 238);
+    }
+  }
+}

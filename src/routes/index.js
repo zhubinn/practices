@@ -37,8 +37,9 @@ export default (
 
     </Route>
     <Route path="numberReport">
-    <Route path="numberReportViewPage" component={NumberReportViewPage}/>
+        <Route path="numberReportViewPage" component={NumberReportViewPage}/>
     </Route>
+    <Route path="/scrmnumreport/index/view/VISITID/1" component={NumberReportViewPage}/>
     <Route path="*" component={Error_404}/>
 
     </Route>

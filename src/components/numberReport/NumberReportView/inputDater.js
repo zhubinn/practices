@@ -10,6 +10,8 @@ import 'ucjs_modules/jquery-daterangepicker/1.0.0/jquery-daterangepicker.js'
 // mock data
 import { data,data2 } from './data/response'
 
+let COUNT = 0
+
 export default class InputDater extends React.Component {
 
     constructor(props) {
@@ -19,31 +21,49 @@ export default class InputDater extends React.Component {
 
     }
 
-    getValue(){
+    getInputDate(i,type){
+        const { numberReportViewState ,actions } = this.props;
+        const myDate = new Date()
+        switch (numberReportViewState.toJS().npType){
+            case 'day':
+                myDate.setDate(myDate.getDate()+i);
+                return myDate.getFullYear() +'-'+ (myDate.getMonth()+1) +'-'+ myDate.getDate();
+                break;
+            case 'month':
+                myDate.setMonth(myDate.getMonth()+i);
+                return myDate.getFullYear() +'-'+ (myDate.getMonth()+1);
+                break;
+            case 'week':
+                this.daterValue = numberReportViewState.toJS().week;
+                break;
+        }
+
 
     }
 
     componentDidMount(){
-        const { numberReportViewState ,actions } = this.props;
-        console.log('++++++++++++',numberReportViewState);
-    }
-
-    handlePrevBtn(){
-        const inputValue = findDOMNode(this.refs.inputDater).value.trim()
-        const { actions } = this.props
-        //TODO 异步請求
-
-        actions.prevClick(inputValue, data)
 
     }
 
-    handleNextBtn(){
-        const inputValue = findDOMNode(this.refs.inputDater).value.trim()
+    handlePrevNextBtn(dir){
+        const $inputDater = findDOMNode(this.refs.inputDater)
+        const inputValue = $inputDater.value.trim()
         const { actions } = this.props
 
-        //TODO 异步請求
-        actions.nextClick(inputValue,data2)
+        if(dir == 'left'){
+            //TODO 异步請求
+            COUNT--;
+            console.log(this.getInputDate(COUNT,'day'))
+            actions.prevClick(this.getInputDate(COUNT,'day'), data)
+        } else if(dir == 'right') {
+            COUNT++;
+            $inputDater.value = this.getInputDate(COUNT,'day')
+            //TODO 异步請求
+            actions.nextClick(this.getInputDate(COUNT,'day'),data2)
+        }
+
     }
+
 
     render() {
 
@@ -68,13 +88,13 @@ export default class InputDater extends React.Component {
         console.log('----',numberReportViewState.toJS().day)
         return (
                 <div className="ck-Calendar clearfix">
-                    <button className="ck-Calendar-pre" onClick = { this.handlePrevBtn.bind(this) }>
+                    <button className="ck-Calendar-pre" onClick = { this.handlePrevNextBtn.bind(this,'left') }>
 
                     </button>
                     <div className="ck-Calendar-date">
                         <input autoComplete="off" style = {{"textAlign":"center"}} id="inputDater" ref = "inputDater" type="text" readOnly="readonly" value={ daterValue }  className="ck-Calendar-stime"/>
                     </div>
-                    <button className="ck-Calendar-next" onClick = { this.handleNextBtn.bind(this) }>
+                    <button className="ck-Calendar-next" onClick = { this.handlePrevNextBtn.bind(this,'right') }>
 
                     </button>
                 </div>

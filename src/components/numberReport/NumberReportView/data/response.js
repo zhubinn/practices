@@ -1,5 +1,5 @@
 export const  data = {
-    "npType":"day",
+    "npType":"week",
     "day":"2015-9-8",
     "month":"2016-5",
     "week":"2016.5.1 —— 2016.5.7",

@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch'
 import { findDOMNode } from 'react-dom'
 
+//日历组件
 //弹框组件
 import 'ucjs_modules/layer/2.2.0/skin/layer.css'
 import layer from '../../../../ucjs_modules/layer/2.2.0/layer.js'
@@ -14,6 +15,9 @@ import './less/basic_new_v2.less'
 import './less/numberReport.less'
 // mock data
 import { data,data2 } from './data/response'
+
+import  '../../../../ucjs_modules/ReactUI/themes'
+import Datetime from '../../../../ucjs_modules/ReactUI/Datetime'
 
 
 export default class NumberReportView extends React.Component {
@@ -33,9 +37,13 @@ export default class NumberReportView extends React.Component {
 
     render() {
         const { numberReportViewState ,actions } = this.props
+
+        console.log(numberReportViewState.toJS(),'=========');
         return (
             <div>
                 <div className="col_right">
+
+
                     <div className="ck-numberReport">
                         <div className="ck-numberReport-top">
                             <InfoPath />
@@ -43,7 +51,7 @@ export default class NumberReportView extends React.Component {
                                 <button className="ck-Function-btnreturn">返回</button>
 
                                 <InputDater actions = { actions } numberReportViewState = { numberReportViewState } />
-                                <DaterButton />
+                                <DaterButton actions = { actions } numberReportViewState = { numberReportViewState } />
                                 <button className="ck-Function-Export">导出EXCEL</button>
 
                             </div>

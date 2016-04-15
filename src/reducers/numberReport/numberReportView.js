@@ -51,27 +51,22 @@ export default function numberReportViewState($$state = Immutable.fromJS($$initi
 
     switch (action.type) {
         case FETCH_DATA:
-            console.log($$state);
             return $$state.merge(action.data);
         case CLICK_PREV_BUTTON:
             //可以直接使用返回過來的data
             //return $$state.merge(action.data);
-            console.log($$state);
             return $$state.merge({
-                day: action.curInputValue+'000',
-                reponesJson: [
-                    {
-                        reportName:'999'
-                    }
-                ]
+                "day":action.curInputValue,
+                "responseJson":action.data.responseJson
             });
         case CLICK_NEXT_BUTTON:
             console.log(action.data.responseJson);
 
 
 
-            return $$state.updateIn(["reponesJson"],function(reponesJson){
-                console.log('=====',reponesJson)
+            return $$state.merge({
+                "day":action.curInputValue,
+                "responseJson":action.data.responseJson
             })
 
         case IMPORT_BUTTON:

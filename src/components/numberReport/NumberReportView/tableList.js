@@ -16,7 +16,9 @@ export default class TableList extends React.Component {
         const { actions } = this.props
     }
 
+    renderRow(){
 
+    }
 
     render() {
         const { numberReportViewState ,actions } = this.props
