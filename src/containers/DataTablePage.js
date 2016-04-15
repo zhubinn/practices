@@ -13,20 +13,22 @@ import 'ucjs_modules/layer/2.2.0/skin/layer.css'
 
 const DATA_TABLE_SOURCE = 'default'
 
+let params = {
+    url: 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php',
+    data: {
+        page: 1,
+        rowsPerPage: 20
+    }
+}
+
+
 
 class DataTablePage extends React.Component {
     componentDidMount() {
 
         this.props.initSource(DATA_TABLE_SOURCE)
         // 页面初始完,获取数据,触发action: GET_DATA
-        this.props.getData({
-            url: 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php',
-            data: {
-                page: 1,
-                rowsPerPage: 20
-            }
-
-        }, DATA_TABLE_SOURCE)
+        this.props.getData(params, DATA_TABLE_SOURCE)
 
 
 
@@ -77,14 +79,9 @@ class DataTablePage extends React.Component {
                 />
                 <ul>
                     <li>1</li>
-                    <li onClick={(e)=>{this.props.getData({
-                        url: 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php',
-                        data: {
-                            page: 2,
-                            rowsPerPage: 20
-                        }
+                    <li onClick={(e)=>{params.data.page = 2;this.props.getData(params
 
-                        }, DATA_TABLE_SOURCE)}}>2
+                        , DATA_TABLE_SOURCE)}}>2
                     </li>
                 </ul>
 

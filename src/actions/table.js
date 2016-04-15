@@ -63,7 +63,7 @@ const getData = (params, source)=> {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: params.data
+            body: JSON.stringify(params.data)
         }).then(function(response) {
             if (response.status >= 400) {
                 throw new Error("Bad response from server")
