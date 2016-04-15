@@ -104,8 +104,7 @@ function showDetail(index, rowdata, source) {
 
 
 
-
-        if (getState()['dataTable'].toJS()[source]['selectedRowDetailObj'].hasOwnProperty(index)) {
+        if (getState()['components']['dataTable'].toJS()[source]['selectedRowDetailObj'].hasOwnProperty(index)) {
             dispatch(fetchData('GET_DETAIL_DATA_SUCCESS', {index: index}, source))
             return
         }
