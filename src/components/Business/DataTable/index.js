@@ -4,6 +4,7 @@
 
 import { findDOMNode } from 'react-dom'
 import { isPlainObject, isFunction, isString, isArray } from 'lodash'
+import randomString  from 'random-string'
 import BaseTable from './BaseTable'
 
 import './base.css'
@@ -24,6 +25,7 @@ export default class DataTable extends React.Component {
         this.renderSearch = this.renderSearch.bind(this)
         this.getCheckedRows = this.getCheckedRows.bind(this)
         this.getCheckedIndexes = this.getCheckedIndexes.bind(this)
+        this.identity = 'dataTable_' + randomString()
     }
 
     // 分割table
@@ -259,7 +261,7 @@ export default class DataTable extends React.Component {
 DataTable.propTypes = {
     columns: React.PropTypes.array,
     rows: React.PropTypes.array,
-    searchColumns: React.PropTypes.array,
+    searchColumns: React.PropTypes.object,
     checkMode: React.PropTypes.bool,
     hasDetail: React.PropTypes.bool,
     searchBarStatus: React.PropTypes.bool,
@@ -269,7 +271,7 @@ DataTable.propTypes = {
 DataTable.defaultProps = {
     columns: [],
     rows: [],
-    searchColumns: [],
+    searchColumns: {},
     selectedRowDetailObj: {},
     searchBarStatus: false,
     hasDetail: false,

@@ -26,11 +26,11 @@ let params = {
 
 class AccountListPage extends React.Component {
     componentDidMount() {
-
+        const id = this.refs.dataTable.identity
         this.props.initSource(DATA_TABLE_SOURCE)
         // 页面初始完,获取数据,触发action: GET_DATA
         this.props.getData(params, DATA_TABLE_SOURCE)
-        console.log(this.refs.dataTable)
+        console.log(this.refs.dataTable.identity)
 
 
     }
