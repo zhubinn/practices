@@ -1,18 +1,22 @@
 import Immutable from 'immutable'
 import {CK_TABLE_GETDATA, CK_TABLE_GETDATA_SUCCESS,CK_SELECTEDROWDATA,
     CK_SETTINGCLOSE,CK_CHANGETAB,CK_CHANGEISREQUIRED,CK_ADDITEM,CK_DELETEITEM,
-    CK_CHANGRINPUTVALUE,CK_CHANGEISWORK,CK_APPLY_BTN,CK_DOWNITEM,CK_UPITEM,CK_SETTINGCANCLE} from 'actions/CustomizablePage/CustomizablePage'
+    CK_CHANGRINPUTVALUE,CK_CHANGEISWORK,CK_APPLY_BTN,CK_DOWNITEM,CK_UPITEM,
+    CK_SETTINGCANCLE,DATAITEM} from 'actions/CustomizablePage/CustomizablePage'
 
 
 const $$initialState = Immutable.fromJS({
     rows:[], 
     selectedRow:{}, 
     IsShow:false, 
-    currentTabIndex:0
+    currentTabIndex:0,
+    data:[]
 })
 
 const  Customizable = ($$state = $$initialState, action)=>{
     switch(action.type) {
+        case DATAITEM:
+            return $$state.merge({data:action.payload})
     	case CK_TABLE_GETDATA:
     		return $$state
     	case CK_TABLE_GETDATA_SUCCESS:

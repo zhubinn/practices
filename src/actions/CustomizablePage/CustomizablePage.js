@@ -38,6 +38,15 @@ const CK_SETTINGCANCLE = 'CK_SETTINGCANCLE'
 const CK_UPITEM = 'CK_UPITEM'
 const CK_DOWNITEM = 'CK_DOWNITEM'
 
+
+const DATAITEM = 'DATAITEM'
+
+export const dataItem = (data)=>{
+    return {
+        type: DATAITEM,
+        payload: data
+    }
+}
 /**
  * 点击列表数据
  * @param  
@@ -266,6 +275,6 @@ export {
     CK_DOWNITEM,
     CK_UPITEM,
     CK_SETTINGCANCLE,
-
+    DATAITEM
 }
 
