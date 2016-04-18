@@ -15,7 +15,7 @@ import 'ucjs_modules/layer/2.2.0/skin/layer.css'
 const DATA_TABLE_SOURCE = 'Account_List'
 
 let params = {
-    url: 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php',
+    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/tableData.php',
     data: {
         page: 1,
         rowsPerPage: 20

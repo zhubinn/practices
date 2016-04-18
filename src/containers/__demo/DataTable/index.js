@@ -16,7 +16,8 @@ const DATA_TABLE_SOURCE = 'default'
 SCRM.url('front/js/')
 
 let params = {
-    url: 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php',
+    
+    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/tableData.php',
     data: {
         page: 1,
         rowsPerPage: 20
