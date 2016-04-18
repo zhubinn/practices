@@ -32,21 +32,15 @@ export default (
             <Route path="daterange" component={DemoDatePickerPage}/>
             <Route path="deptotree" component={DepToTreePage}/>
             <Route path="modal" component={DemoModalPage}/>
-<<<<<<< HEAD
             <Route path="Demopagination" component={DemoPagination}/>
             <Route path="DemoTodoList" component={DemoTodoList}/>
         </Route>
         <Route path="input" component={FormControl}/>
-=======
             <Route path="dataTable" component={DemoDataTablePage}/>
-
         </Route>
         <Route path="scrmweb" component={ModulePage}>
             <Route path="accounts/index/VISITID/1" component={AccountListPage}/>
         </Route>
-
-
->>>>>>> origin/develop_jane_v2.2.3
         <Route path="*" component={Error_404}/>
     </Route>
 
