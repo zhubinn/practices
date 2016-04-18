@@ -87,10 +87,8 @@ class Pagination extends React.Component {
     this.props.pageChangeFn(pageIndex, pageSize);
   }
   componentDidMount() {
-     debugger
      let inputPage = this.refs.iptPage;
      let pageSize = this.props.pageSize;
-     // inputPage = inputPage.getDOMNode();
      $(inputPage).find("option:contains('"+pageSize+"')").prop("selected", true);
   }
   render() {

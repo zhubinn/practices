@@ -27,7 +27,13 @@ class DemoPagination extends React.Component {
 
         return (
             <div>
-                <Pagination current = { current } total = { total } pageSize={ pageSize } pageChangeFn = {pageChangeFn} model = {false}/>
+                <Pagination 
+                    current = { current } 
+                    total = { total } 
+                    pageSize = { pageSize } 
+                    pageChangeFn = { pageChangeFn } 
+                    model = { false }
+                />
             </div>
         )
     }

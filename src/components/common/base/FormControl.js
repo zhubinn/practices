@@ -28,10 +28,11 @@ class FormControl extends React.Component
         //         <FormInput title ={"输入框:"} placeholder = {"至少需要漂亮的15个字！"} seachType={"textarea"} required={false} rows = {3} min={15} onChange = { (val) => { console.log("框：" + val) } }/>
         //     </div>
         // )
+        
         //Select表单表单测试
         return (
             <div className="ck-ui">
-                <FormSelect mult={true} filterAble={true} data={["中国", "美国", "俄罗斯", "德国"]}/>
+                <FormSelect mult={true} filterAble={true} data={["中国", "美国", "俄罗斯", "德国"]} onChange={ (val) => console.log(val) } />
             </div>
         )
     }

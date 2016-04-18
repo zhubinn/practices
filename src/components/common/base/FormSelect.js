@@ -21,7 +21,7 @@ class FormSelect extends React.Component
         this.handleOptionClick = this.handleOptionClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleResultClick = this.handleResultClick.bind(this);
-
+        this.close = this.close.bind(this);
         this.state = {
             val:"简单数组",
             multVal:[],
@@ -30,10 +30,22 @@ class FormSelect extends React.Component
         }
     }
 
-    handleOptionClick(i)
+    onChange()
+    {
+        let val;
+        if(this.props.mult){
+            val = this.state.multVal;
+        }else{
+            val = this.state.val;
+        }
+        this.props.onChange(val);
+    }
+
+    handleOptionClick (i)
     {   
 
         let val = this.state.filterVal[i];
+
         if(this.props.mult){
             let multVal = this.state.multVal;
             if(multVal.indexOf(val) > -1){
@@ -44,16 +56,17 @@ class FormSelect extends React.Component
                 multVal
             });
         }else{
-            let isShowoptions = !this.state.isShowoptions;
+            this.close();
             this.setState({
-                isShowoptions: isShowoptions,
                 val
             });
         }
 
+        this.onChange()
     }
 
-    handleChange(e){
+    handleChange (e)
+    {
         let value =  e.target.value;
         let arr = this.props.data.filter(function(item){
             return item.indexOf(value) > -1;
@@ -63,25 +76,50 @@ class FormSelect extends React.Component
         });
     }
 
-    handleResultClick(){
-        let isShowoptions = !this.state.isShowoptions
+    open () 
+    {
         this.setState({
-            isShowoptions: isShowoptions,
+            isShowoptions: true,
         });
     }
-    componentWillMount () {
+
+    close ()
+    {
+        this.setState({
+            isShowoptions: false,
+        });
+    }
+
+    handleResultClick ()
+    {
+        this.open();
+    }
+
+    componentWillMount () 
+    {
         this.setState({
             filterVal: this.props.data,
         });
     }
-    handleItemDel(i, e){
+
+    handleItemDel (i, e)
+    {
         e.stopPropagation()
         let multVal = this.state.multVal;
         multVal.splice(i, 1);
         this.setState({
             multVal
         });
+        this.onChange()
     }
+
+    componentClickAway () 
+    {
+        this.setState({
+            isShowoptions: false,
+        });
+    }
+
     render()
     {
         const createOptions = (item, i) => {
@@ -92,7 +130,6 @@ class FormSelect extends React.Component
             )
         }
 
-        
         const createItems = (item, i) => {
             return (
               <span className = 'select-result-item' key ={i} onClick = {this.handleItemDel.bind(this, i)}>
@@ -119,7 +156,7 @@ class FormSelect extends React.Component
                     { this.props.filterAble ? 
                         <div className="filter">
                             <input type="text" onChange = {this.handleChange}/>
-                            <i className="search">搜索</i>
+                            <i className="search"  onClick = {this.close}>关闭</i>
                         </div>
                         : ""}
                         <ul>
@@ -132,6 +169,5 @@ class FormSelect extends React.Component
         )
     }
 }
-
 
 export default FormSelect
