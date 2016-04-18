@@ -1,4 +1,4 @@
-import { FETCH_DATA,CLICK_PREV_BUTTON, CLICK_NEXT_BUTTON, IMPORT_BUTTON } from '../../constants/numberReportViewTypes'
+import { FETCH_DATA,CLICK_PREV_NEXT_BUTTON, CLICK_SURE_DATER_BUTTON, IMPORT_BUTTON } from '../../constants/numberReportViewTypes'
 import Immutable from 'immutable'
 
 const $$initialState = {
@@ -52,17 +52,15 @@ export default function numberReportViewState($$state = Immutable.fromJS($$initi
     switch (action.type) {
         case FETCH_DATA:
             return $$state.merge(action.data);
-        case CLICK_PREV_BUTTON:
+        case CLICK_PREV_NEXT_BUTTON:
             //可以直接使用返回過來的data
             //return $$state.merge(action.data);
             return $$state.merge({
                 "day":action.curInputValue,
                 "responseJson":action.data.responseJson
             });
-        case CLICK_NEXT_BUTTON:
+        case CLICK_SURE_DATER_BUTTON:
             console.log(action.data.responseJson);
-
-
 
             return $$state.merge({
                 "day":action.curInputValue,
