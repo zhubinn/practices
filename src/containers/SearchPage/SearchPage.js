@@ -40,14 +40,14 @@ class SearchPage extends React.Component{
 	}
 }
 
-const $$mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state, ownProps) => {
     return {
         $$mapState: state.searchPeople
     }
 
 }
 
-export default connect($$mapStateToProps, {
+export default connect(mapStateToProps, {
     getPeopleData,
     clickPeopleDate,
     clickPeopleTag,

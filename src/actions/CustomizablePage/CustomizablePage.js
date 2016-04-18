@@ -66,31 +66,32 @@ const CK_DOWNITEM = 'CK_DOWNITEM'
     };
 
         dispatch(_getTableData(CK_TABLE_GETDATA));
+        dispatch(_getTableData(CK_TABLE_GETDATA_SUCCESS, rowData))
 
-        return fetch(url, {
-            method: 'get',
-            headers: {
-                'API': 1,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }).then(response=> {
-            //dispatch(_getPeopleData(CK_SEARCH_GETDATA_SUCCESS, peopleListData))
-            if (response.status >= 400) {
-                //dispatch(_getReportData(CK_REPORT_GETDATA_ERROR_NETWORK))
-                return {};
-            }
-            return response.json()
-        }).then(json=> {
-            json = rowData;//假数据
-            //console.log(json);
-            // if (json.rs) {
-            //     dispatch(_getPeopleData(CK_SEARCH_GETDATA_SUCCESS, json.data))
-            // } else {
-            //     dispatch(_getPeopleData(CK_SEARCH_GETDATA_FAILURE))
-            // }
-            dispatch(_getTableData(CK_TABLE_GETDATA_SUCCESS, json))
-        })
+        // return fetch(url, {
+        //     method: 'get',
+        //     headers: {
+        //         'API': 1,
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     }
+        // }).then(response=> {
+        //     //dispatch(_getPeopleData(CK_SEARCH_GETDATA_SUCCESS, peopleListData))
+        //     if (response.status >= 400) {
+        //         //dispatch(_getReportData(CK_REPORT_GETDATA_ERROR_NETWORK))
+        //         return {};
+        //     }
+        //     return response.json()
+        // }).then(json=> {
+        //     json = rowData;//假数据
+        //     //console.log(json);
+        //     // if (json.rs) {
+        //     //     dispatch(_getPeopleData(CK_SEARCH_GETDATA_SUCCESS, json.data))
+        //     // } else {
+        //     //     dispatch(_getPeopleData(CK_SEARCH_GETDATA_FAILURE))
+        //     // }
+        //     dispatch(_getTableData(CK_TABLE_GETDATA_SUCCESS, json))
+        // })
     }
 }
 

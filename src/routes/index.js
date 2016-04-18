@@ -5,7 +5,6 @@ import { Route, IndexRoute } from 'react-router'
 
 import IndexPage from 'containers'
 import DemoSearchPage from 'containers/SearchPage/SearchPage'
-import CustomizablePage from 'containers/CustomizablePage/CustomizablePage'
 
 import MasterPage from 'containers/Master/Default'
 import ModulePage from 'containers/Master/Module'
@@ -20,7 +19,7 @@ import DemoDataTablePage from 'containers/__demo/DataTable'
 import Error_404 from 'containers/Error/404'
 
 import AccountListPage from 'containers/Business/Account/List'
-
+import CustomizablePage from 'containers/Business/Account/Customizable'
 
 
 export default (
@@ -40,6 +39,9 @@ export default (
         </Route>
         <Route path="scrmweb" component={ModulePage}>
             <Route path="accounts/index/VISITID/1" component={AccountListPage}/>
+
+            <Route path="search" component={DemoSearchPage}/>
+            <Route path="accounts/define/VISITID/1" component={CustomizablePage}/>
         </Route>
 
 
