@@ -1,14 +1,14 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Search from 'components/Search/Search.less'
+import Search from './Search.less'
 
-import PeopleTitle from 'components/Search/PeopleTitle'
-import PeopleSearch from 'components/Search/PeopleSearch'
-import PeopleList from 'components/Search/PeopleList'
-import ConfirmForm from 'components/Search/ConfirmForm'
+import PeopleTitle from './PeopleTitle'
+import PeopleSearch from './PeopleSearch'
+import PeopleList from './PeopleList'
+import ConfirmForm from './ConfirmForm'
 
 import { getPeopleData,clickPeopleDate,clickPeopleTag ,
-	deletePeopleTag,searchPeopleData,submitData,handleCancle,loadNextPage,handleChangeInput} from 'actions/SearchPeople/searchPeople'
+	deletePeopleTag,searchPeopleData,submitData,handleCancle,loadNextPage,handleChangeInput} from 'actions/Component/SearchPeople'
 
 
 class SearchPage extends React.Component{

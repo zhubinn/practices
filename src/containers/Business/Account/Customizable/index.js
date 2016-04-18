@@ -1,13 +1,13 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Customizable from 'components/CustomizablePage/CustomizablePage.less'
+import Customizable from './CustomizablePage.less'
 
-import Table from 'components/CustomizablePage'
-import DivTab from 'components/CustomizablePage/DivTab'
-import DivList from 'components/CustomizablePage/DivList'
+import Table from './Table'
+import DivTab from './DivTab'
+import DivList from './DivList'
 import { selectedRowData,clickCloseBtn,selectedTabIndex,changeIsRequired,getTableData,
     addItem,deletItem,changeInputValue,ChangeStatus,clickapplyBtn,DownItem,UpItem,
-    clickCancleBtn,dataItem} from 'actions/CustomizablePage/CustomizablePage'
+    clickCancleBtn,dataItem} from 'actions/Business/Account/Customizable'
 
 import layer from 'ucjs_modules/layer/2.2.0/layer.js'
 

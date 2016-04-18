@@ -2,7 +2,7 @@ import Immutable from 'immutable'
 import {CK_TABLE_GETDATA, CK_TABLE_GETDATA_SUCCESS,CK_SELECTEDROWDATA,
     CK_SETTINGCLOSE,CK_CHANGETAB,CK_CHANGEISREQUIRED,CK_ADDITEM,CK_DELETEITEM,
     CK_CHANGRINPUTVALUE,CK_CHANGEISWORK,CK_APPLY_BTN,CK_DOWNITEM,CK_UPITEM,
-    CK_SETTINGCANCLE,DATAITEM} from 'actions/CustomizablePage/CustomizablePage'
+    CK_SETTINGCANCLE,DATAITEM} from 'actions/Business/Account/Customizable'
 
 
 const $$initialState = Immutable.fromJS({

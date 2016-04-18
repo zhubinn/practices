@@ -17,7 +17,7 @@ import {
     CK_LOADMORE_GETDATA,
     CK_LOADMORE_GETDATA_SUCCESS,
     CK_CHANGEINPUT
-} from 'actions/SearchPeople/searchPeople'
+} from 'actions/Component/SearchPeople'
 
 const $$initialstate = Immutable.fromJS({
     data:[],

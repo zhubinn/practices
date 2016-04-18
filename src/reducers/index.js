@@ -6,7 +6,6 @@ import { routerReducer as routing } from 'react-router-redux'
 
 import report from './__demo/report'
 import user from './__demo/user'
-import searchPeople from './searchPeople/searchPeople'
 
 
 import components from './components'
@@ -18,8 +17,6 @@ const rootReducer = combineReducers({
     business,
     __demo,
     routing,
-    searchPeople,
-
 })
 
 export default rootReducer
