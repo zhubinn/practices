@@ -36,6 +36,7 @@ export default (
             <Route path="search" component={DemoSearchPage}/>
             <Route path="customizable" component={CustomizablePage}/>
             <Route path="dataTable" component={DemoDataTablePage}/>
+
         </Route>
         <Route path="scrmweb" component={ModulePage}>
             <Route path="accounts/index/VISITID/1" component={AccountListPage}/>

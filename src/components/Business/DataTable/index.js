@@ -249,9 +249,17 @@ export default class DataTable extends React.Component {
 }
 
 
+/*
+* 内部方法: getCheckedRows
+*
+*
+*
+* */
+
 DataTable.propTypes = {
     columns: React.PropTypes.array,
     rows: React.PropTypes.array,
+    searchColumns: React.PropTypes.array,
     checkMode: React.PropTypes.bool,
     hasDetail: React.PropTypes.bool,
     searchBarStatus: React.PropTypes.bool,
@@ -261,6 +269,7 @@ DataTable.propTypes = {
 DataTable.defaultProps = {
     columns: [],
     rows: [],
+    searchColumns: [],
     selectedRowDetailObj: {},
     searchBarStatus: false,
     hasDetail: false,
