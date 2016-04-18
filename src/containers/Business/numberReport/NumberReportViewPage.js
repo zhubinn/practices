@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import NumberReportView from 'components/numberReport/NumberReportView'
+import NumberReportView from 'components/Business/numberReport/NumberReportView'
 
 import * as NumberReportViewActions from 'actions/numberReport/NumberReportViewActions'
 
@@ -31,7 +31,7 @@ NumberReportViewPage.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        numberReportViewState: state.numberReportViewState
+        numberReportViewState: state.business.numberReportViewState //所有的业务页面state，都在state.business下
     }
 }
 

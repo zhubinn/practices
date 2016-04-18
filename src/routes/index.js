@@ -7,7 +7,7 @@ import { Route, IndexRoute } from 'react-router'
 
 import HelloPage from 'containers/__demo/HelloPage'
 import CustomEditFieldPage from 'containers/__demo/CustomEditFieldPage'
-import NumberReportViewPage from 'containers/numberReport/NumberReportViewPage'
+import NumberReportViewPage from 'containers/Business/numberReport/NumberReportViewPage'
 // import DemoPagination from 'containers/__demo/Pagination'
 import DemoReportListPage from 'containers/report/DemoReportListPage'
 

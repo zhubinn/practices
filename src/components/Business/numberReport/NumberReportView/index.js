@@ -4,7 +4,7 @@ import { findDOMNode } from 'react-dom'
 //日历组件
 //弹框组件
 import 'ucjs_modules/layer/2.2.0/skin/layer.css'
-import layer from '../../../../ucjs_modules/layer/2.2.0/layer.js'
+import layer from '../../../../../ucjs_modules/layer/2.2.0/layer.js'
 
 import InfoPath from './infoPath'
 import InputDater from './inputDater'
@@ -16,8 +16,8 @@ import './less/numberReport.less'
 // mock data
 import { data,data2 } from './data/response'
 
-import  '../../../../ucjs_modules/ReactUI/themes'
-import Datetime from '../../../../ucjs_modules/ReactUI/Datetime'
+//import  '../../../../ucjs_modules/ReactUI/themes'
+//import Datetime from '../../../../ucjs_modules/ReactUI/Datetime'
 
 
 export default class NumberReportView extends React.Component {
@@ -38,7 +38,7 @@ export default class NumberReportView extends React.Component {
     render() {
         const { numberReportViewState ,actions } = this.props
 
-        console.log(numberReportViewState.toJS(),'=========');
+        console.log(this.props);
         return (
             <div>
                 <div className="col_right">
