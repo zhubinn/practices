@@ -45,6 +45,7 @@ class IndexPage extends React.Component {
                         </Link>
                     </li>
                     <li>
+<<<<<<< HEAD
                         <Link to="/__demo/Demopagination">
                             Demopagination
                         </Link>
@@ -54,6 +55,13 @@ class IndexPage extends React.Component {
                             DemoTodoList
                         </Link>
                     </li>
+=======
+                        <Link to="/__demo/dataTable">
+                            dataTable
+                        </Link>
+                    </li>
+
+>>>>>>> origin/develop_jane_v2.2.3
                 </ul>
                 {this.props.children}
             </div>
