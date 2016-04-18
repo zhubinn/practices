@@ -23,6 +23,7 @@
 .ck-control-group .select-result{
     height: 34px;
     min-width:200px; 
+    padding-right: 30px;
 }
 
 .ck-control-group textarea{
@@ -90,11 +91,16 @@
     position: absolute; 
     left:10px; top:8px; 
     font-size: 12px;  
-    z-index: 2}
+    z-index: 2;
+}
 .show-placeholder {
     display: none;
 }
-
+.switch {
+    position: absolute;
+    right: 4px;
+    font-style: normal;
+}
 .ck-control-select {cursor:pointer;}
 .select-options-wrap { display: none; min-width: 200px; position: absolute; top:34px; padding-top: 10px; border:1px solid #dfdfdf; padding: 4px;}
 .show-options-wrap {display: block;}

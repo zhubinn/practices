@@ -89,10 +89,14 @@ class FormSelect extends React.Component
             isShowoptions: false,
         });
     }
+    
 
     handleResultClick ()
     {
-        this.open();
+        let isShowoptions = this.state.isShowoptions;
+        this.setState({
+            isShowoptions:!isShowoptions,
+        });
     }
 
     componentWillMount () 
@@ -150,13 +154,15 @@ class FormSelect extends React.Component
             <div className="ck-control-group">
                 <div className="ck-control-select">
                     <div className="select-result" onClick = {this.handleResultClick}>
-                    { this.props.mult ? items.map(createItems) : this.state.val }
+                        { this.props.mult ? items.map(createItems) : this.state.val }
+                        <i className="switch"  onClick = {this.handleResultClick}>
+                           {this.state.isShowoptions ? "收齐" : "展开"}
+                        </i>
                     </div>
                     <div className={isShowoptions}>
                     { this.props.filterAble ? 
                         <div className="filter">
                             <input type="text" onChange = {this.handleChange}/>
-                            <i className="search"  onClick = {this.close}>关闭</i>
                         </div>
                         : ""}
                         <ul>

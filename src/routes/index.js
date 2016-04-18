@@ -11,7 +11,7 @@ import DemoAutoCompletePage from 'containers/__demo/AutoComplete'
 import DemoDatePickerPage from 'containers/__demo/DatePicker'
 import DepToTreePage from 'containers/__demo/DepToTree'
 import DemoModalPage from 'containers/__demo/Modal'
-import DemoDataTablePage from 'containers/__demo/DataTable'
+//import DemoDataTablePage from 'containers/__demo/DataTable'
 import Error_404 from 'containers/Error/404'
 import DemoPagination from 'containers/__demo/DemoPagination'
 import DemoTodoList from 'containers/__demo/DemoTodoList'
@@ -35,11 +35,10 @@ export default (
             <Route path="Demopagination" component={DemoPagination}/>
             <Route path="DemoTodoList" component={DemoTodoList}/>
         </Route>
-        <Route path="input" component={FormControl}/>
-            <Route path="dataTable" component={DemoDataTablePage}/>
+        <Route path="input" component={FormControl}>
         </Route>
         <Route path="scrmweb" component={ModulePage}>
-            <Route path="accounts/index/VISITID/1" component={AccountListPage}/>
+             <Route path="accounts/index/VISITID/1" component={AccountListPage}/>
         </Route>
         <Route path="*" component={Error_404}/>
     </Route>
