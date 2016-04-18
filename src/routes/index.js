@@ -29,6 +29,7 @@ export default (
             <Route path="deptotree" component={DepToTreePage}/>
             <Route path="modal" component={DemoModalPage}/>
             <Route path="dataTable" component={DemoDataTablePage}/>
+
         </Route>
         <Route path="scrmweb" component={ModulePage}>
             <Route path="accounts/index/VISITID/1" component={AccountListPage}/>
