@@ -29,9 +29,9 @@ class DivList extends React.Component{
         clickCancleBtn();
     }
     componentWillUpdate() {
-        const currentTabIndex = this.props.$$mapState.toJS().currentTabIndex;
-        const selectedRow = this.props.$$mapState.toJS().selectedRow;
-        const editColumnsOptions = this.props.$$mapState.toJS().editColumnsOptions
+        const currentTabIndex = this.props.mapState.toJS().currentTabIndex;
+        const selectedRow = this.props.mapState.toJS().selectedRow;
+        const editColumnsOptions = this.props.mapState.toJS().editColumnsOptions
         if(currentTabIndex==0){
             const {$$mapState,addItem,deletItem,changeInputValue,ChangeStatus,DownItem,UpItem,clickapplyBtn,clickCloseBtn} = this.props;
 

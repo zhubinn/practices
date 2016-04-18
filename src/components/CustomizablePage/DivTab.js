@@ -13,7 +13,7 @@ class DivTab extends React.Component{
     }
 	render(){
 		const divTabArr = [{name:'编辑字段'},{name:'运行中'}];
-		const currentTabIndex = this.props.$$mapState.toJS().currentTabIndex;
+		const currentTabIndex = this.props.mapState.toJS().currentTabIndex;
 		return (
             <div className = "ck-customize-bannerTit">
                 <ul className = "ck-customize-banner clearfix">
