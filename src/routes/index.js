@@ -11,6 +11,12 @@ import CustomizablePage from 'containers/CustomizablePage/CustomizablePage'
 import MasterPage from 'containers/Master/Default'
 import DemoTablePage from 'containers/__demo/Table'
 import DemoLoginPage from 'containers/__demo/Login'
+
+import DemoAutoCompletePage from 'containers/__demo/AutoComplete'
+import DemoDatePickerPage from 'containers/__demo/DatePicker'
+import DepToTreePage from 'containers/__demo/DepToTree'
+import DemoModalPage from 'containers/__demo/Modal'
+import DemoDataTablePage from 'containers/__demo/DataTable'
 import Error_404 from 'containers/Error/404'
 
 export default (
@@ -26,6 +32,9 @@ export default (
             <Route path="search" component={DemoSearchPage}/>
             <Route path="customizable" component={CustomizablePage}/>
         </Route>
+
+
+        <Route path="scrmweb/accounts/index/VISITID/1" component={DemoDataTablePage}/>
         <Route path="*" component={Error_404}/>
     </Route>
 )
