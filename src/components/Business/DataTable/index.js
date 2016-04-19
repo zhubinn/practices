@@ -11,12 +11,16 @@ import './base.css'
 import './DataTable.less'
 
 
-import {  Spin } from 'antd';
+import {  Spin, InputNumber, Input,  DatePicker, Select, Form ,Button} from 'antd';
 import 'antd/lib/index.css';
 
 
 // todo: 获取数据action的详写
 import {secondRowsData, secondColumns} from 'components/Business/DataTable/fakeData'
+
+
+const Option = Select.Option;
+const RangePicker = DatePicker.RangePicker;
 
 
 export default class DataTable extends React.Component {
@@ -159,21 +163,39 @@ export default class DataTable extends React.Component {
         // todo: 拆分
         switch (obj.searchType || 0) {
             case 1:
-                return (<input type="text" name={'search-'+datafield}/>)
+                return (<div name={'search-'+datafield}><Input /></div>)
             case 2:
-                return (<input type="datetime-local" name={'search-'+datafield}/>)
+                return (<div><InputNumber name={'search-'+datafield}/></div>)
             case 3:
-                return (<select name={'search-'+datafield}>
-                    {obj.renderData.options.map((item, i) => (<option key={i} value={item.value}>{item.text}</option>))}
-                </select>)
+                return (<div name={'search-'+datafield}><DatePicker name={'search-'+datafield}/></div>)
+            case 4:
+                return (<div name={'search-'+datafield}>
+
+                    <Select  defaultValue={obj.renderData.defaultValue}>
+
+                        {obj.renderData.options.map((item, i) => (
+                            <Option key={i} value={item.value}>{item.text}</Option>))}
+
+                    </Select>
+
+
+                </div>)
+            case 5:
+                return (<div name = {'search-' + datafield}>
+                    <RangePicker  format="yyyyMMdd" defaultValue = {obj.renderData.defaultValue} />
+
+
+                </div>)
+
         }
         return null
     }
 
 
-    renderLoading(pending){
-        return pending ? (<Spin />):null
+    renderLoading(pending) {
+        return pending ? (<Spin />) : null
     }
+
     render() {
 
         const {rows,
@@ -192,7 +214,7 @@ export default class DataTable extends React.Component {
 
             } = this.props
 
-        console.log(checkedRows)
+
         return (
             <div className="dataTableWrap">
                 <div className="dataTable" id={this.identity}
@@ -209,23 +231,42 @@ export default class DataTable extends React.Component {
                             </thead>
 
                         </table>
-                        <table>
+                        <Form>
+                        <table className={searchBarStatus ? '' : 'hide'}>
                             <tbody>
-                            <tr className={searchBarStatus ? '' : 'hide'}>
+                            <tr >
                                 {checkMode ? (<td>
                                     <div className="small-cell"></div>
                                 </td>) : null}
+
+
                                 {hasDetail ? (<td>
                                     <div className="small-cell"></div>
                                 </td>) : null}
+
+
                                 {columns.map((item, i) => (<td key={i}>
+
                                     <div
-                                        style={{width: ''+ (item.width||150) +'px'}}>{this.renderSearch(item.datafield)}</div>
+                                        style={{width: ''+ (item.width||150) +'px'}}>
+
+
+                                        {this.renderSearch(item.datafield)}
+
+
+                                    </div>
                                 </td>))}
 
                             </tr>
+                            <tr>
+                                <td><Button type="ghost"  > 重置</Button></td>
+                                <td><Button htmlType="submit" type="primary"> 确定</Button></td>
+                            </tr>
                             </tbody>
+
                         </table>
+
+                            </Form>
                     </div>
 
                     {/*    <div className={pending ? '' : 'hide'} >拼命加载中...</div>*/}
@@ -234,7 +275,7 @@ export default class DataTable extends React.Component {
                     }
 
                     {this.resolveTables(rows, columns, selectedRowDetailObj)
-                        .map( (item, i) =>{
+                        .map((item, i) => {
 
                             if (!(i % 2)) return (
                                 <BaseTable selectedRowDetailObj={selectedRowDetailObj}

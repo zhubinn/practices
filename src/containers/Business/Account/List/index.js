@@ -62,6 +62,18 @@ class AccountListPage extends React.Component {
 
             <div style={{marginLeft: '20px'}}>
 
+
+                <div>
+                    <button onClick={(e)=>{console.log(this.refs.dataTable.getCheckedRows())}}>获取已经选择的行</button>
+                </div>
+                <div>
+                    <button onClick={(e) => {toggleSearch(true, this.refs.dataTable.identity )}}>高级搜索</button>
+                    <button onClick={(e) => {toggleSearch(false, this.refs.dataTable.identity)}}>确定</button>
+                </div>
+
+
+
+
                 <div>
                     <span>已处理客户</span>
                     <span>已处理客户</span>
@@ -70,6 +82,9 @@ class AccountListPage extends React.Component {
                     <span>已处理客户</span>
                     <span>已处理客户</span>
                 </div>
+
+
+
 
 
                 <DataTable ref="dataTable"
