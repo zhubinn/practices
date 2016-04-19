@@ -63,7 +63,7 @@ export default class DataTable extends React.Component {
     }
 
     onCheckAll() {
-        this.props.onCheckRow(-1, !(this.props.rows.length === this.props.checkedRows.length), this.props.source)
+        this.props.onCheckRow(-1, !(this.props.rows.length === this.props.checkedRows.length), this.identity)
     }
 
     // 输出已经checked的rows的索引
@@ -192,7 +192,7 @@ export default class DataTable extends React.Component {
 
             } = this.props
 
-
+        console.log(checkedRows)
         return (
             <div className="dataTableWrap">
                 <div className="dataTable" id={this.identity}

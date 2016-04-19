@@ -9,9 +9,11 @@ import DataTable from 'components/Business/DataTable'
 import  { initSource,getData, showDetail, checkRow, updateRow, toggleSearch}  from 'actions/Component/DataTable'
 
 import {rowsData, columns, searchColumns} from 'components/Business/DataTable/fakeData'
+import { Pagination } from 'antd';
 
-
-
+function showTotal(total) {
+    return `共 ${total} 条`;
+}
 
 
 
@@ -91,7 +93,7 @@ class AccountListPage extends React.Component {
                         , this.refs.dataTable.identity)}}>2
                     </li>
                 </ul>
-
+                <Pagination size="small" total={50}  showSizeChanger  showQuickJumper/>
             </div>
         )
     }
