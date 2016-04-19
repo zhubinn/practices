@@ -51,7 +51,7 @@ const $$initialstate = Immutable.fromJS({
             })
         case CK_SEARCH_GETDATA:
             return $$state.updateIn([action.source], function (source) {
-                return source.merge({IsShow:true})
+                return source.merge({IsShow:true,itemdata:[]})
             })
         case CK_SEARCH_GETDATA_SUCCESS:
             return $$state.updateIn([action.source], function (source) {

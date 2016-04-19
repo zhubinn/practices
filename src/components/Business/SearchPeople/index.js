@@ -33,11 +33,25 @@ export default class SearchPage extends React.Component{
 					  <div className="mbox_BombBox">
 						 <div className = "mbox784" >
 					        <PeopleTitle/>
-					        <PeopleSearch $$searchPeople = {$$searchPeople} clickPeopleTag ={clickPeopleTag} deletePeopleTag={deletePeopleTag} 
-					        searchPeopleData = {searchPeopleData} handleChangeInput={handleChangeInput}/>
-					        <PeopleList getPeopleData = {getPeopleData} $$searchPeople = {$$searchPeople} clickPeopleDate={clickPeopleDate} loadNextPage ={loadNextPage}/>
+					        <PeopleSearch 
+						        $$searchPeople = {$$searchPeople} 
+						        clickPeopleTag ={clickPeopleTag} 
+						        deletePeopleTag={deletePeopleTag} 
+						        searchPeopleData = {searchPeopleData} 
+						        handleChangeInput={handleChangeInput}
+					        />
+					        <PeopleList 
+						        getPeopleData = {getPeopleData} 
+						        $$searchPeople = {$$searchPeople} 
+						        clickPeopleDate={clickPeopleDate} 
+						        loadNextPage ={loadNextPage}
+					        />
 					        <div style={{display:IsMultiselect==0?'block':'none'}}>您已经选择2个客户</div>
-					        <ConfirmForm submitData={submitData} handleCancle = {handleCancle} $$searchPeople = {$$searchPeople}/>
+					        <ConfirmForm 
+						        submitData={submitData} 
+						        handleCancle = {handleCancle} 
+						        $$searchPeople = {$$searchPeople}
+					        />
 					      </div>
 				      </div>
 					</div>
