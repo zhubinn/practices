@@ -46,7 +46,6 @@
     "antd": "^0.12.14",
     "immutable": "^3.7.6",
     "isomorphic-fetch": "^2.2.1",
-    "lodash": "^4.6.1",
     "moment": "^2.12.0",
     "normalizr": "^2.0.0",
     "react": "^0.14.7",
