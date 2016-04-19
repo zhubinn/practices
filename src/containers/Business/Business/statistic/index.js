@@ -5,72 +5,50 @@
 
 
 import { bindActionCreators } from 'redux'
-import classNames from 'classnames';
 import { connect } from 'react-redux'
-import { Row, Col, Input, Icon, Button} from 'antd';
+import classNames from 'classnames'
+import { Row, Col, Tabs, Table, Button} from 'antd'
+import SearchInput from 'components/Business/SearchInput'
+import  { getData, getDataSuccess, getDataFailure}  from 'actions/business/business/statistic'
 import 'antd/lib/index.css';
 
-const InputGroup = Input.Group;
+const TabPane = Tabs.TabPane;
 
+class BusinessStatistic extends React.Component {
+    constructor(props) {
+        super(props)
 
-const SearchInput = React.createClass({
-  getInitialState() {
-    return {
-      value: '',
-      focus: false,
-    };
-  },
-  handleInputChange(e) {
-    this.setState({
-      value: e.target.value,
-    });
-  },
-  handleFocusBlur(e) {
-    this.setState({
-      focus: e.target === document.activeElement,
-    });
-  },
-  handleSearch() {
-    if (this.props.onSearch) {
-      this.props.onSearch();
+        this.handleInputChange = this.handleInputChange.bind(this)
     }
-  },
-  render() {
-    const btnCls = classNames({
-      'ant-search-btn': true,
-      'ant-search-btn-noempty': !!this.state.value.trim(),
-    });
-    const searchCls = classNames({
-      'ant-search-input': true,
-      'ant-search-input-focus': this.state.focus,
-    });
-    return (
-      <InputGroup className={searchCls} style={this.props.style}>
-        <Input {...this.props} value={this.state.value} onChange={this.handleInputChange}
-          onFocus={this.handleFocusBlur} onBlur={this.handleFocusBlur} />
-        <div className="ant-input-group-wrap">
-          <Button className={btnCls} size={this.props.size} onClick={this.handleSearch}>
-            <Icon type="search" />
-          </Button>
-        </div>
-      </InputGroup>
-    );
-  }
-});
 
-class AccountListPage extends React.Component {
+    handleInputChange(val) {
+       console.log(val);
+    }
+
     render() {
+        const { $$mapState } = this.props;
+        const val = $$mapState.get('val');
         return (
             <div  style = {{marginLeft: '20px'}} >
               <Row>
-                <Col span="8">
-                  <SearchInput placeholder="input search text" style={{ width: 200 }} />
+                <Col span="9">
+                  <SearchInput placeholder="请输入..."  style={{ width: 300 }} val = { val } handleInputChange = {this.handleInputChange}/>
                 </Col>
-                <Col span="2">
-                  <Button type="primary" htmlType="submit">高级搜索</Button>
+                <Col span="10">
+                  <Button type="primary"  style={{ marginLeft: 10 }} >高级搜索</Button>
                 </Col>
-                <Col span="12">.col-12</Col>
+                <Col span="4">
+                  <Button type="ghost">导出EXCEL</Button>
+                </Col>
               </Row>
+              <Tabs defaultActiveKey="1" >
+                <TabPane tab="生意汇总表" key="1">
+                  11111111
+                </TabPane>
+                <TabPane tab="生意明细汇总表" key="2">
+                  2222222
+                </TabPane>
+              </Tabs>
             </div>
         )
     }
@@ -78,9 +56,12 @@ class AccountListPage extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        dataTable: state.components.dataTable,
-        account_list: state.business.account_list
+        $$mapState: state.components.searchInput
     }
 }
 
-export default connect(mapStateToProps)(AccountListPage)
+export default connect(mapStateToProps, {
+    getData,
+    getDataSuccess,
+    getDataFailure,
+})(BusinessStatistic)
