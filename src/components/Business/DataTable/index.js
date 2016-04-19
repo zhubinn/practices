@@ -94,6 +94,10 @@ export default class DataTable extends React.Component {
 
         document.querySelectorAll('[name^="search-"]')
 
+
+
+        console.log(Array.prototype.forEach.call(document.querySelectorAll('[name^=search-]'), function(item){console.log(item.querySelectorAll('input'))}))
+
     }
 
 
