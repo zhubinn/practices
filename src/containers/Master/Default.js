@@ -41,6 +41,7 @@ class IndexPage extends React.Component {
                             table
                         </Link>
                     </li>
+<<<<<<< HEAD
                     <li>
                         <Link to="/__demo/datepicker">
                             datepicker
@@ -72,6 +73,8 @@ class IndexPage extends React.Component {
                         </Link>
                     </li>
 
+=======
+>>>>>>> 3971a29cdfdeb7c45151e72ebf6742dcbcd00f0f
                 </ul>
                 {this.props.children}
             </div>
