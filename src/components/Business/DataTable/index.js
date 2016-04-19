@@ -4,10 +4,16 @@
 
 import { findDOMNode } from 'react-dom'
 import { isPlainObject, isFunction, isString, isArray } from 'lodash'
+import randomString  from 'random-string'
 import BaseTable from './BaseTable'
 
 import './base.css'
 import './DataTable.less'
+
+
+import {  Spin } from 'antd';
+import 'antd/lib/index.css';
+
 
 // todo: 获取数据action的详写
 import {secondRowsData, secondColumns} from 'components/Business/DataTable/fakeData'
@@ -24,6 +30,8 @@ export default class DataTable extends React.Component {
         this.renderSearch = this.renderSearch.bind(this)
         this.getCheckedRows = this.getCheckedRows.bind(this)
         this.getCheckedIndexes = this.getCheckedIndexes.bind(this)
+        this.renderLoading = this.renderLoading.bind(this)
+        this.identity = 'dataTable_' + randomString()
     }
 
     // 分割table
@@ -162,6 +170,10 @@ export default class DataTable extends React.Component {
         return null
     }
 
+
+    renderLoading(pending){
+        return pending ? (<Spin />):null
+    }
     render() {
 
         const {rows,
@@ -171,7 +183,7 @@ export default class DataTable extends React.Component {
             checkedRows,
             pending,
             searchBarStatus,
-            source,
+
             onShowDetail,
             onCheckRow,
             onUpdateRow,
@@ -182,8 +194,8 @@ export default class DataTable extends React.Component {
 
 
         return (
-            <div className="dataTableWrap"  >
-                <div className="dataTable" id={"dataTable_" + source}
+            <div className="dataTableWrap">
+                <div className="dataTable" id={this.identity}
                      style={{width: ''+ (this.calculateWidth(columns, checkMode, hasDetail)) +'px'}}>
                     <div className="dataTable-title">
                         <table >
@@ -217,15 +229,19 @@ export default class DataTable extends React.Component {
                     </div>
 
                     {/*    <div className={pending ? '' : 'hide'} >拼命加载中...</div>*/}
+                    {
+                        this.renderLoading(pending)
+                    }
+
                     {this.resolveTables(rows, columns, selectedRowDetailObj)
-                        .map(function (item, i) {
+                        .map( (item, i) =>{
 
                             if (!(i % 2)) return (
                                 <BaseTable selectedRowDetailObj={selectedRowDetailObj}
                                            onUpdateRow={onUpdateRow}
                                            checkedRows={checkedRows}
                                            checkMode={checkMode}
-                                           source={source}
+                                           source={this.identity}
                                            key={i}
                                            rows={item.rows}
                                            columns={item.columns}
@@ -238,7 +254,7 @@ export default class DataTable extends React.Component {
                                            rows={item.rows}
                                            columns={item.columns}
                                            isParentTable={false}
-                                           source={source}
+                                           source={this.identity}
                                 />
                             )
                         })}
@@ -250,16 +266,17 @@ export default class DataTable extends React.Component {
 
 
 /*
-* 内部方法: getCheckedRows
-*
-*
-*
-* */
+ * 内部方法: getCheckedRows
+ *
+ *
+ *
+ * */
 
 DataTable.propTypes = {
     columns: React.PropTypes.array,
     rows: React.PropTypes.array,
-    searchColumns: React.PropTypes.array,
+    checkedRows: React.PropTypes.array,
+    searchColumns: React.PropTypes.object,
     checkMode: React.PropTypes.bool,
     hasDetail: React.PropTypes.bool,
     searchBarStatus: React.PropTypes.bool,
@@ -269,7 +286,8 @@ DataTable.propTypes = {
 DataTable.defaultProps = {
     columns: [],
     rows: [],
-    searchColumns: [],
+    checkedRows: [],
+    searchColumns: {},
     selectedRowDetailObj: {},
     searchBarStatus: false,
     hasDetail: false,
