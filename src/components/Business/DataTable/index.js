@@ -10,6 +10,11 @@ import BaseTable from './BaseTable'
 import './base.css'
 import './DataTable.less'
 
+
+import {  Spin } from 'antd';
+import 'antd/lib/index.css';
+
+
 // todo: 获取数据action的详写
 import {secondRowsData, secondColumns} from 'components/Business/DataTable/fakeData'
 
@@ -25,6 +30,7 @@ export default class DataTable extends React.Component {
         this.renderSearch = this.renderSearch.bind(this)
         this.getCheckedRows = this.getCheckedRows.bind(this)
         this.getCheckedIndexes = this.getCheckedIndexes.bind(this)
+        this.renderLoading = this.renderLoading.bind(this)
         this.identity = 'dataTable_' + randomString()
     }
 
@@ -164,6 +170,10 @@ export default class DataTable extends React.Component {
         return null
     }
 
+
+    renderLoading(pending){
+        return pending ? (<Spin />):null
+    }
     render() {
 
         const {rows,
@@ -219,6 +229,10 @@ export default class DataTable extends React.Component {
                     </div>
 
                     {/*    <div className={pending ? '' : 'hide'} >拼命加载中...</div>*/}
+                    {
+                        this.renderLoading(pending)
+                    }
+
                     {this.resolveTables(rows, columns, selectedRowDetailObj)
                         .map( (item, i) =>{
 
