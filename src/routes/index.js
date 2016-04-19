@@ -19,6 +19,10 @@ import DemoModalPage from 'containers/__demo/Modal'
 import DemoDataTablePage from 'containers/__demo/DataTable'
 import Error_404 from 'containers/Error/404'
 
+import AccountListPage from 'containers/Business/Account/List'
+
+
+
 export default (
     <Route path="/" component={MasterPage}>
         <Route path="__demo">
@@ -31,10 +35,12 @@ export default (
             <Route path="modal" component={DemoModalPage}/>
             <Route path="search" component={DemoSearchPage}/>
             <Route path="customizable" component={CustomizablePage}/>
+            <Route path="dataTable" component={DemoDataTablePage}/>
         </Route>
 
 
-        <Route path="scrmweb/accounts/index/VISITID/1" component={DemoDataTablePage}/>
+
+        <Route path="scrmweb/accounts/index/VISITID/1" component={AccountListPage}/>
         <Route path="*" component={Error_404}/>
     </Route>
 )

@@ -52,6 +52,11 @@ class IndexPage extends React.Component {
                     <Link to="/__demo/customizable">
                         customizable
                     </Link>
+                    <li>
+                        <Link to="/__demo/dataTable">
+                            dataTable
+                        </Link>
+                    </li>
 
                 </ul>
                 {this.props.children}
