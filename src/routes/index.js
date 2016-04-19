@@ -4,10 +4,12 @@
 import { Route, IndexRoute } from 'react-router'
 
 
-
+//Develop Leesx
 import HelloPage from 'containers/__demo/HelloPage'
 import CustomEditFieldPage from 'containers/__demo/CustomEditFieldPage'
 import NumberReportViewPage from 'containers/Business/numberReport/NumberReportViewPage'
+import DispatchCluesPage from 'containers/Business/clues/DispatchCluesPage'
+import ManageCluesPage from 'containers/Business/clues/ManageCluesPage'
 // import DemoPagination from 'containers/__demo/Pagination'
 import DemoReportListPage from 'containers/report/DemoReportListPage'
 
@@ -33,7 +35,8 @@ export default (
     <Route path="login" component={DemoLoginPage}/>
     <Route path="hello" component={HelloPage}/>
     <Route path="customEditFieldPage" component={CustomEditFieldPage}/>
-
+    <Route path="dispatchCluesPage" component={DispatchCluesPage}/>
+    <Route path="manageCluesPage" component={ManageCluesPage}/>
 
     <Route path="autocomplete" component={DemoAutoCompletePage}/>
     <Route path="datepicker" component={DemoDatePickerPage}/>
@@ -45,7 +48,7 @@ export default (
     <Route path="numberReport">
         <Route path="numberReportViewPage" component={NumberReportViewPage}/>
     </Route>
-    <Route path="/scrmnumreport/index/view/VISITID/1" component={NumberReportViewPage}/>
+    <Route path="scrmnumreport/index/list/VISITID/1" component={NumberReportViewPage}/>
     <Route path="scrmweb" component={ModulePage}>
         <Route path="accounts/index/VISITID/1" component={AccountListPage}/>
     </Route>

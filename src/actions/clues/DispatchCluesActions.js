@@ -1,10 +1,10 @@
-import { FETCH_DATA, CLICK_PREV_NEXT_BUTTON, CLICK_SURE_DATER_BUTTON, IMPORT_BUTTON } from '../../constants/numberReportViewTypes'
+import { FETCH_DATA, CLICK_PREV_NEXT_BUTTON, CLICK_SURE_DATER_BUTTON, IMPORT_BUTTON } from '../../constants/dispatchCluesTypes'
 
 export function fetchDate(data) {
     return { type: FETCH_DATA, data  }
 }
 
-export function prevNextClick(curInputValue,data) {
+export function prevClick(curInputValue,data) {
     return { type: CLICK_PREV_NEXT_BUTTON, curInputValue ,data }
 }
 

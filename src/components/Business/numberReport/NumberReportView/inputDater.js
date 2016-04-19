@@ -24,6 +24,7 @@ export default class InputDater extends React.Component {
     getInputDate(i,type){
         const { numberReportViewState ,actions } = this.props;
         const myDate = new Date()
+
         switch (numberReportViewState.toJS().npType){
             case 'day':
                 myDate.setDate(myDate.getDate()+i);
@@ -34,6 +35,7 @@ export default class InputDater extends React.Component {
                 return myDate.getFullYear() +'-'+ (myDate.getMonth()+1);
                 break;
             case 'week':
+
                 this.daterValue = numberReportViewState.toJS().week;
                 break;
         }
@@ -54,12 +56,12 @@ export default class InputDater extends React.Component {
             //TODO 异步請求
             COUNT--;
             console.log(this.getInputDate(COUNT,'day'))
-            actions.prevClick(this.getInputDate(COUNT,'day'), data)
+            actions.prevNextClick(this.getInputDate(COUNT,'day'), data)
         } else if(dir == 'right') {
             COUNT++;
             $inputDater.value = this.getInputDate(COUNT,'day')
             //TODO 异步請求
-            actions.nextClick(this.getInputDate(COUNT,'day'),data2)
+            actions.prevNextClick(this.getInputDate(COUNT,'day'),data2)
         }
 
     }
