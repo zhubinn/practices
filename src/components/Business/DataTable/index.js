@@ -202,11 +202,11 @@ export default class DataTable extends React.Component {
             case 2:
                 return (<FormItem><InputNumber {...getFieldProps('search-' + datafield)} /></FormItem>)
             case 3:
-                return (<FormItem  ><DatePicker {...getFieldProps('search-' + datafield)}  /></FormItem>)
+                return (<FormItem  ><DatePicker {...getFieldProps('search-' + datafield,   { initialValue:obj.renderData.defaultValue })}  /></FormItem>)
             case 4:
                 return (<FormItem  >
 
-                    <Select defaultValue={obj.renderData.defaultValue} {...getFieldProps('search-' + datafield)}  >
+                    <Select   {...getFieldProps('search-' + datafield,  { initialValue:obj.renderData.defaultValue })}  >
 
                             {obj.renderData.options.map((item, i) => (
                             <Option key={i} value={item.value}>{item.text}</Option>))}
@@ -218,7 +218,7 @@ export default class DataTable extends React.Component {
                 </FormItem>)
             case 5:
                 return (<FormItem  >
-                    <RangePicker {...getFieldProps('search-' + datafield)}  format="yyyyMMdd" defaultValue={obj.renderData.defaultValue}/>
+                    <RangePicker {...getFieldProps('search-' + datafield,   { initialValue:obj.renderData.defaultValue })}  format="yyyyMMdd"  />
 
 
                 </FormItem>)
