@@ -15,12 +15,12 @@ import DemoModalPage from 'containers/__demo/Modal'
 import Error_404 from 'containers/Error/404'
 import DemoPagination from 'containers/__demo/DemoPagination'
 import DemoTodoList from 'containers/__demo/DemoTodoList'
-
 import FormControl from 'components/common/base/FormControl'
 
 import AccountListPage from 'containers/Business/Account/List'
 
-
+import businessStatistic from 'containers/Business/Business/statistic'
+import businessSummary from 'containers/Business/Business/summary'
 
 export default (
     <Route path="/" >
@@ -39,6 +39,8 @@ export default (
         </Route>
         <Route path="scrmweb" component={ModulePage}>
              <Route path="accounts/index/VISITID/1" component={AccountListPage}/>
+             <Route path="business/statistic/VISITID/1" component={businessStatistic}/>
+             <Route path="business/summary/VISITID/1" component={businessSummary}/>
         </Route>
         <Route path="*" component={Error_404}/>
     </Route>
