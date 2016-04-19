@@ -8,16 +8,27 @@ import PeopleList from './PeopleList'
 import ConfirmForm from './ConfirmForm'
 
 import { getPeopleData,clickPeopleDate,clickPeopleTag ,
-	deletePeopleTag,searchPeopleData,submitData,handleCancle,loadNextPage,handleChangeInput} from 'actions/Component/SearchPeople'
+	deletePeopleTag,searchPeopleData,submitData,handleCancle,
+	loadNextPage,handleChangeInput} from 'actions/Component/SearchPeople'
 
 
 class SearchPage extends React.Component{
 	render(){
-		const {dispatch, getPeopleData, clickPeopleDate,clickPeopleTag ,deletePeopleTag,
-			searchPeopleData,submitData,handleCancle,loadNextPage,handleChangeInput,$$mapState } = this.props;
-		const isShow  = $$mapState.toJS().IsShow;
-		const IsMultiselect = $$mapState.toJS().IsMultiselect;
-			if(isShow){
+		const {	getPeopleData, 
+				clickPeopleDate,
+				clickPeopleTag ,
+				deletePeopleTag,
+				searchPeopleData,
+				submitData,
+				handleCancle,
+				loadNextPage,
+				handleChangeInput,
+				IsMultiselect,
+				IsModalShow,
+				$$mapState 
+			} = this.props;
+
+			if(IsModalShow){
 				return (
 					<div className = "mbox_BombBoxBg">
 					  <div className="mbox_BombBox">
@@ -40,21 +51,3 @@ class SearchPage extends React.Component{
 	}
 }
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-        $$mapState: state.searchPeople
-    }
-
-}
-
-export default connect(mapStateToProps, {
-    getPeopleData,
-    clickPeopleDate,
-    clickPeopleTag,
-    deletePeopleTag,
-    searchPeopleData,
-    submitData,
-    handleCancle,
-    loadNextPage,
-    handleChangeInput,
-})(SearchPage)

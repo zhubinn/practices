@@ -19,6 +19,7 @@ import Error_404 from 'containers/Error/404'
 
 import AccountListPage from 'containers/Business/Account/List'
 import CustomizablePage from 'containers/Business/Account/Customizable'
+import StatisticPage from 'containers/Business/Account/Statistic'
 
 
 export default (
@@ -40,6 +41,7 @@ export default (
             <Route path="accounts/index/VISITID/1" component={AccountListPage}/>
             <Route path="search" component={DemoSearchPage}/>
             <Route path="accounts/define/VISITID/1" component={CustomizablePage}/>
+            <Route path="accounts/statistic/VISITID/1" component={StatisticPage}/>
         </Route>
 
 

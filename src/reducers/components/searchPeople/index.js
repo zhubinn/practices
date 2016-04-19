@@ -20,39 +20,80 @@ import {
 } from 'actions/Component/SearchPeople'
 
 const $$initialstate = Immutable.fromJS({
-    data:[],
-    itemdata:[],
-    IsShow:true,
-    IsMultiselect:0
+    default:{
+        data:[],
+        itemdata:[],
+        IsShow:false,
+        IsMultiselect:0,
+        areapadding:0,
+        chosedNameData:[],
+    }
 })
 
  const searchPeople = ($$state = $$initialstate, action) => {
     switch(action.type) {
+        case 'INIT_SOURCEPEOPLE':
+            return $$state.merge({
+                [action.source]: Immutable.fromJS({
+                    data:[],
+                    itemdata:[],
+                    IsShow:false,
+                    IsMultiselect:0,
+                    areapadding:0,
+                    chosedNameData:[],
+                })
+            })
         case CK_SEARCH_GETDATA:
-            return $$state.merge({ pending: true })
+            return $$state.updateIn([action.source], function (source) {
+                return $$state.merge({IsShow:true})
+            })
         case CK_SEARCH_GETDATA_SUCCESS:
-            return $$state.merge(action.payload,{ itemdata:[],areapadding:0,chosedNameData:[]})
+            return $$state.updateIn([action.source], function (source) {
+                return $$state.merge(action.payload)
+            })
+
         case CK_SEARCH_GETDATA_FAILURE:
-            return $$state.merge(action.payload, { pending: false })
+            return $$state.updateIn([action.source], function (source) {
+                return $$state.merge(action.payload)
+            })
+
         case CK_CLICK_GETDATA:
-            return $$state.merge(action.payload,{textValue:''})
+            return $$state.updateIn([action.source], function (source) {
+                return $$state.merge(action.payload,{textValue:''})
+            })
+
         case CK_TAG_UPDATEDATA:
-            return $$state.merge(action.payload)
+            return $$state.updateIn([action.source], function (source) {
+                return $$state.merge(action.payload)
+            })
         case CK_TAG_DELETEDATA:
-            return $$state.merge(action.payload)
+            return $$state.updateIn([action.source], function (source) {
+                return $$state.merge(action.payload)
+            })
         case CK_SEARCH_ITEMDATA:
-            return $$state.merge(action.payload)
+            return $$state.updateIn([action.source], function (source) {
+                return $$state.merge(action.payload)
+            })
         case CK_CANCLEBTN:
-            return $$state.merge({IsShow:false})
+            return $$state.updateIn([action.source], function (source) {
+                return $$state.merge({IsShow:false})
+            })
         case CK_SUBMITBTN:
-            return $$state.merge(action.payload)
+            return $$state.updateIn([action.source], function (source) {
+                return $$state.merge(action.payload)
+            })
 
         case CK_LOADMORE_GETDATA:
-            return $$state.merge({ pending: true })
+            return $$state
+
         case CK_LOADMORE_GETDATA_SUCCESS:
-            return $$state.merge(action.payload) 
+            return $$state.updateIn([action.source], function (source) {
+                return $$state.merge(action.payload)
+            })
         case CK_CHANGEINPUT:
-            return $$state.merge({textValue:action.payload})
+            return $$state.updateIn([action.source], function (source) {
+                return $$state.merge({textValue:action.payload})
+            })
         default:
             return $$state
     }
