@@ -9,15 +9,14 @@ import { selectedRowData,clickCloseBtn,selectedTabIndex,changeIsRequired,getTabl
     addItem,deletItem,changeInputValue,ChangeStatus,clickapplyBtn,DownItem,UpItem,
     clickCancleBtn,dataItem} from 'actions/Business/Account/Customizable'
 
-import layer from 'ucjs_modules/layer/2.2.0/layer.js'
 
-import 'ucjs_modules/Ztree/3.5.0/css/zTreeStyle.css'
-import 'ucjs_modules/jquery-deptotree/1.0.0/jquery-deptotree.css'
+//import 'ucjs_modules/Ztree/3.5.0/css/zTreeStyle.css'
+//import 'ucjs_modules/jquery-deptotree/1.0.0/jquery-deptotree.css'
 
-import 'ucjs_modules/Ztree/3.5.0/jquery.ztree.core-3.5.js'
-import 'ucjs_modules/Ztree/3.5.0/jquery.ztree.excheck-3.5.js'
+//import 'ucjs_modules/Ztree/3.5.0/jquery.ztree.core-3.5.js'
+//import 'ucjs_modules/Ztree/3.5.0/jquery.ztree.excheck-3.5.js'
 
-import 'ucjs_modules/jquery-deptotree/1.0.0/jquery-deptotree.js'
+//import 'ucjs_modules/jquery-deptotree/1.0.0/jquery-deptotree.js'
 
 
 
@@ -44,58 +43,58 @@ class CustomizablePage extends  React.Component{
         const {clickCloseBtn} = this.props;
         clickCloseBtn();
     }
-    handleclickDept(){
-        const {dataItem} = this.props;
-        deptotree('#date-range0')
-        .DeptoTree(
-            {
-                type: 2,  // 类型1 会员 2部门
-                maxNum:20000, // 最大数量
-                isMultiple:1, // 是否多选
-                deptid: 0,  // 部门ID ，默认为0 全部
-                headImg: GLOBAL_INFO.imageUrl + '/images/default_avatar.jpg', // 默认头像, defaultHeadImgUrl ./images/default_avatar.jpg.thumb.jpg
-                requestUrl: [], // 请求接口路径路径，可填写1-3个数组元素，如:['url-1','url-2','url-3'],依次对应为部门列表、员工列表、搜索会员列表
-                // requestUrl: [
-                //     SCRM.url('/deptcomponent/DeptComponent/getDeptTree'),
-                //     SCRM.url('/deptcomponent/DeptComponent/getMemberListByDeptId'),
-                //     SCRM.url('/deptcomponent/DeptComponent/getUserList')
-                // ],
+    // handleclickDept(){
+    //     const {dataItem} = this.props;
+    //     deptotree('#date-range0')
+    //     .DeptoTree(
+    //         {
+    //             type: 2,  // 类型1 会员 2部门
+    //             maxNum:20000, // 最大数量
+    //             isMultiple:1, // 是否多选
+    //             deptid: 0,  // 部门ID ，默认为0 全部
+    //             headImg: GLOBAL_INFO.imageUrl + '/images/default_avatar.jpg', // 默认头像, defaultHeadImgUrl ./images/default_avatar.jpg.thumb.jpg
+    //             requestUrl: [], // 请求接口路径路径，可填写1-3个数组元素，如:['url-1','url-2','url-3'],依次对应为部门列表、员工列表、搜索会员列表
+    //             // requestUrl: [
+    //             //     SCRM.url('/deptcomponent/DeptComponent/getDeptTree'),
+    //             //     SCRM.url('/deptcomponent/DeptComponent/getMemberListByDeptId'),
+    //             //     SCRM.url('/deptcomponent/DeptComponent/getUserList')
+    //             // ],
 
-                beforeSuccess:function(obj,data,index){
-                },// 确认提交回调函数
-                success:function(data){
-                    dataItem(data)
-                }
-            }
-        )
+    //             beforeSuccess:function(obj,data,index){
+    //             },// 确认提交回调函数
+    //             success:function(data){
+    //                 dataItem(data)
+    //             }
+    //         }
+    //     )
 
-    }
-    handleclickPeople(){
-        const {dataItem} = this.props;
+    // }
+    // handleclickPeople(){
+    //     const {dataItem} = this.props;
 
-        deptotree('#date-range1')
-        .DeptoTree(
-            {
-                type: 1,  // 类型1 会员 2部门
-                maxNum:20000, // 最大数量
-                isMultiple:1, // 是否多选
-                deptid: 0,  // 部门ID ，默认为0 全部
-                headImg: GLOBAL_INFO.imageUrl + '/images/default_avatar.jpg', // 默认头像, defaultHeadImgUrl ./images/default_avatar.jpg.thumb.jpg
-                requestUrl: [], // 请求接口路径路径，可填写1-3个数组元素，如:['url-1','url-2','url-3'],依次对应为部门列表、员工列表、搜索会员列表
-                // requestUrl: [
-                //     SCRM.url('/deptcomponent/DeptComponent/getDeptTree'),
-                //     SCRM.url('/deptcomponent/DeptComponent/getMemberListByDeptId'),
-                //     SCRM.url('/deptcomponent/DeptComponent/getUserList')
-                // ],
+    //     deptotree('#date-range1')
+    //     .DeptoTree(
+    //         {
+    //             type: 1,  // 类型1 会员 2部门
+    //             maxNum:20000, // 最大数量
+    //             isMultiple:1, // 是否多选
+    //             deptid: 0,  // 部门ID ，默认为0 全部
+    //             headImg: GLOBAL_INFO.imageUrl + '/images/default_avatar.jpg', // 默认头像, defaultHeadImgUrl ./images/default_avatar.jpg.thumb.jpg
+    //             requestUrl: [], // 请求接口路径路径，可填写1-3个数组元素，如:['url-1','url-2','url-3'],依次对应为部门列表、员工列表、搜索会员列表
+    //             // requestUrl: [
+    //             //     SCRM.url('/deptcomponent/DeptComponent/getDeptTree'),
+    //             //     SCRM.url('/deptcomponent/DeptComponent/getMemberListByDeptId'),
+    //             //     SCRM.url('/deptcomponent/DeptComponent/getUserList')
+    //             // ],
 
-                beforeSuccess:function(obj,data,index){
-                },// 确认提交回调函数
-                success:function(data){
-                    dataItem(data)
-                }
-            }
-        )
-    }
+    //             beforeSuccess:function(obj,data,index){
+    //             },// 确认提交回调函数
+    //             success:function(data){
+    //                 dataItem(data)
+    //             }
+    //         }
+    //     )
+    // }
 	render(){
         const {selectedRowData,$$mapState, getTableData,dataItem} = this.props;
         const IsShow = $$mapState.toJS().IsShow;
@@ -114,24 +113,6 @@ class CustomizablePage extends  React.Component{
                        getTableData = {getTableData}
                      >
                      </Table>
-                    <div>
-                        <div id="date-range0" size="40" ref = "range0" value="" onClick={this.handleclickDept.bind(this)}>选择部门</div>
-                          <p className = "dev-tags">
-                              {
-                                data.map((item,i)=>{
-                                    return (<span key = {i}>{item.Name}</span>)
-                                })
-                              }
-                          </p>
-                        <div id="date-range1" size="40" value="" onClick={this.handleclickPeople.bind(this)}>选择人员</div>
-                          <p className = "dev-tags">
-                              {
-                                data.map((item,i)=>{
-                                    return (<span key = {i}>{item.Name}</span>)
-                                })
-                              }
-                          </p>
-                    </div>
                 </div>
             )
         }else{

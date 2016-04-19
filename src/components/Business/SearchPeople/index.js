@@ -12,7 +12,7 @@ import { getPeopleData,clickPeopleDate,clickPeopleTag ,
 	loadNextPage,handleChangeInput} from 'actions/Component/SearchPeople'
 
 
-class SearchPage extends React.Component{
+export default class SearchPage extends React.Component{
 	render(){
 		const {	getPeopleData, 
 				clickPeopleDate,
@@ -25,20 +25,19 @@ class SearchPage extends React.Component{
 				handleChangeInput,
 				IsMultiselect,
 				IsModalShow,
-				$$mapState 
+				$$searchPeople 
 			} = this.props;
-
 			if(IsModalShow){
 				return (
 					<div className = "mbox_BombBoxBg">
 					  <div className="mbox_BombBox">
 						 <div className = "mbox784" >
 					        <PeopleTitle/>
-					        <PeopleSearch $$mapState = {$$mapState} clickPeopleTag ={clickPeopleTag} deletePeopleTag={deletePeopleTag} 
+					        <PeopleSearch $$searchPeople = {$$searchPeople} clickPeopleTag ={clickPeopleTag} deletePeopleTag={deletePeopleTag} 
 					        searchPeopleData = {searchPeopleData} handleChangeInput={handleChangeInput}/>
-					        <PeopleList getPeopleData = {getPeopleData} $$mapState = {$$mapState} clickPeopleDate={clickPeopleDate} loadNextPage ={loadNextPage}/>
+					        <PeopleList getPeopleData = {getPeopleData} $$searchPeople = {$$searchPeople} clickPeopleDate={clickPeopleDate} loadNextPage ={loadNextPage}/>
 					        <div style={{display:IsMultiselect==0?'block':'none'}}>您已经选择2个客户</div>
-					        <ConfirmForm submitData={submitData} handleCancle = {handleCancle} $$mapState = {$$mapState}/>
+					        <ConfirmForm submitData={submitData} handleCancle = {handleCancle} $$searchPeople = {$$searchPeople}/>
 					      </div>
 				      </div>
 					</div>

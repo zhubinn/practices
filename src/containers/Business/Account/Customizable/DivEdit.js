@@ -12,7 +12,6 @@ class DivEdit extends React.Component{
 		if(i<20){
 			addItem(i);
 		}else{
-            layer.msg('选项最多添加20条', {icon: 7}); 
 		}
 	}
 	handleDeletItem(i){

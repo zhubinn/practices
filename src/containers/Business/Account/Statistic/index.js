@@ -1,4 +1,3 @@
-import fetch from 'isomorphic-fetch'
 /**
  * Created by fuwenfang on 4/7/16.
  */
@@ -6,9 +5,9 @@ import fetch from 'isomorphic-fetch'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import searchPeople from 'components/Business/searchPeople'
+import SearchPeople from 'components/Business/searchPeople'
 import  { initSource}  from 'actions/Component/searchPeople'
-import { getPeopleData,clickPeopleDate,clickPeopleTag ,
+import {changeIsMultiselect, getPeopleData,clickPeopleDate,clickPeopleTag ,
   deletePeopleTag,searchPeopleData,submitData,handleCancle,
   loadNextPage,handleChangeInput} from 'actions/Component/searchPeople'
 
@@ -16,31 +15,53 @@ import { getPeopleData,clickPeopleDate,clickPeopleTag ,
 const DATA_SELECTPEOPLE_SOURCE = 'Account_static'
 
 let selectPeopleParams = {
-    url: 'http://esn.fuwenfang.com/setting/scrm/getSelectList/VISITID/1'
-      
+    url: 'http://esn.fuwenfang.com/setting/scrm/getSelectList/VISITID/1',
+    data:{
+      page:1
+    }
 }
+
+/*设定一个flag*/
+let flag = false;
 
 class AccountStatistic extends React.Component{
     componentDidMount() {
       this.props.initSource(DATA_SELECTPEOPLE_SOURCE)
   }
-    handleSelection(){
+  handleSelection(){
+    flag = true
+    const IsMultiselect = 1;
+    this.props.changeIsMultiselect(IsMultiselect)
+    this.props.getPeopleData(selectPeopleParams, DATA_SELECTPEOPLE_SOURCE)
+  }
+  handleChange(){
+    flag = true
+    const IsMultiselect = 0;
+    this.props.changeIsMultiselect(IsMultiselect)
     this.props.getPeopleData(selectPeopleParams, DATA_SELECTPEOPLE_SOURCE)
   }
   render(){
-    const IsModalShow = this.props.$$searchPeople.get('default').toJS().IsShow
-    const IsMultiselect = this.props.$$searchPeople.get('default').toJS().IsMultiselect
+    let IsModalShow = false
+    let IsMultiselect = 1
+    if(!flag){
+       IsModalShow = this.props.$$searchPeople.get('default').toJS().IsShow
+       IsMultiselect = this.props.$$searchPeople.get('default').toJS().IsMultiselect
+
+    }else{
+       IsModalShow = this.props.$$searchPeople.get('Account_static').toJS().IsShow
+       IsMultiselect = this.props.$$searchPeople.get('Account_static').toJS().IsMultiselect
+    }
     const {$$searchPeople} =  this.props; 
     const { getPeopleData,clickPeopleDate,clickPeopleTag ,deletePeopleTag,searchPeopleData,submitData,handleCancle,
   loadNextPage,handleChangeInput}  = this.props;
     return (
       <div>
-        <button onClick = {this.handleSelection.bind(this)}>筛选</button><button>变更</button>
-        <searchPeople 
-          getPeopleData = {getPeopleData} 
+        <button onClick = {this.handleSelection.bind(this)}>筛选</button><button onClick = {this.handleChange.bind(this)}>变更</button>
+        <SearchPeople 
           clickPeopleDate = {clickPeopleDate}
           clickPeopleTag = {clickPeopleTag} 
           deletePeopleTag= {deletePeopleTag}
+          searchPeopleData ={searchPeopleData}
           submitData= {submitData}
           handleCancle= {handleCancle}
           loadNextPage= {loadNextPage}
@@ -48,8 +69,7 @@ class AccountStatistic extends React.Component{
           IsModalShow= {IsModalShow}
           IsMultiselect = {IsMultiselect}
           $$searchPeople = {$$searchPeople}
-          >
-        </searchPeople>
+          />
       </div>
     )
   }
@@ -65,5 +85,15 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps, {
   initSource,
+  changeIsMultiselect,
   getPeopleData,
+  getPeopleData,
+  clickPeopleDate,
+  clickPeopleTag ,
+  deletePeopleTag,
+  searchPeopleData,
+  submitData,
+  handleCancle,
+  loadNextPage,
+  handleChangeInput
 })(AccountStatistic)

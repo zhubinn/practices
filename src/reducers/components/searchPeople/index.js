@@ -27,6 +27,7 @@ const $$initialstate = Immutable.fromJS({
         IsMultiselect:0,
         areapadding:0,
         chosedNameData:[],
+        textValue:''
     }
 })
 
@@ -41,46 +42,53 @@ const $$initialstate = Immutable.fromJS({
                     IsMultiselect:0,
                     areapadding:0,
                     chosedNameData:[],
+                    textValue:''
                 })
+            })
+        case 'CHANGE_ISMUTISELECT':
+            return $$state.updateIn([action.source], function (source) {
+                return source.merge({IsMultiselect:action.payload})
             })
         case CK_SEARCH_GETDATA:
             return $$state.updateIn([action.source], function (source) {
-                return $$state.merge({IsShow:true})
+                return source.merge({IsShow:true})
             })
         case CK_SEARCH_GETDATA_SUCCESS:
             return $$state.updateIn([action.source], function (source) {
-                return $$state.merge(action.payload)
+                return source.merge({data:action.payload,IsShow:true})
             })
 
         case CK_SEARCH_GETDATA_FAILURE:
             return $$state.updateIn([action.source], function (source) {
-                return $$state.merge(action.payload)
+                return source.merge(action.payload)
             })
 
         case CK_CLICK_GETDATA:
             return $$state.updateIn([action.source], function (source) {
-                return $$state.merge(action.payload,{textValue:''})
+                 return source.merge({itemdata:action.payload.itemdata,
+                    areapadding:action.payload.areapadding,
+                    textValue:''})
             })
 
         case CK_TAG_UPDATEDATA:
             return $$state.updateIn([action.source], function (source) {
-                return $$state.merge(action.payload)
+                return source.merge(action.payload)
             })
         case CK_TAG_DELETEDATA:
             return $$state.updateIn([action.source], function (source) {
-                return $$state.merge(action.payload)
+                return source.merge(action.payload)
             })
         case CK_SEARCH_ITEMDATA:
             return $$state.updateIn([action.source], function (source) {
-                return $$state.merge(action.payload)
+                return source.merge(action.payload)
             })
         case CK_CANCLEBTN:
             return $$state.updateIn([action.source], function (source) {
-                return $$state.merge({IsShow:false})
+                return source.merge({IsShow:false})
             })
         case CK_SUBMITBTN:
             return $$state.updateIn([action.source], function (source) {
-                return $$state.merge(action.payload)
+                return source.merge(action.payload)
             })
 
         case CK_LOADMORE_GETDATA:
@@ -88,11 +96,11 @@ const $$initialstate = Immutable.fromJS({
 
         case CK_LOADMORE_GETDATA_SUCCESS:
             return $$state.updateIn([action.source], function (source) {
-                return $$state.merge(action.payload)
+                return source.merge(action.payload)
             })
         case CK_CHANGEINPUT:
             return $$state.updateIn([action.source], function (source) {
-                return $$state.merge({textValue:action.payload})
+                return source.merge({textValue:action.payload})
             })
         default:
             return $$state

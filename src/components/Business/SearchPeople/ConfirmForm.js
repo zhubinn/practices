@@ -8,8 +8,8 @@ export  default  class ConfirmForm extends Component{
     }	
     clickOkBtn(e){
     	
-    	const {submitData,$$mapState} = this.props;
-    	const choseData = $$mapState.toJS().itemdata;
+    	const {submitData,$$searchPeople} = this.props;
+    	const choseData = $$searchPeople.get('Account_static').toJS().itemdata;
     	let choseNameData = [];
     	for(let i = 0; i<choseData.length;i++){
     		choseNameData.push(choseData[i].ownerId);

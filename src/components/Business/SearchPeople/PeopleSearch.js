@@ -9,8 +9,8 @@ export  default class PeopleSearch extends Component{
 
     }
 	handleTag(i){
-		let nameItemData = this.props.$$mapState.toJS().itemdata;
-		let newareapadding = this.props.$$mapState.toJS().areapadding;
+		let nameItemData = this.props.$$searchPeople.get('Account_static').toJS().itemdata;
+		let newareapadding = this.props.$$searchPeople.get('Account_static').toJS().areapadding;
 		
 		newareapadding = newareapadding -nameItemData[i].itemWidth;
 		nameItemData.splice(i,1);
@@ -20,8 +20,8 @@ export  default class PeopleSearch extends Component{
 
 	}
 	handleDown(e){
-		let nameItemData = this.props.$$mapState.toJS().itemdata;
-		let newareapadding = this.props.$$mapState.toJS().areapadding;
+		let nameItemData = this.props.$$searchPeople.get('Account_static').toJS().itemdata;
+		let newareapadding = this.props.$$searchPeople.get('Account_static').toJS().areapadding;
 		const textValue = e.currentTarget.value;
 		if(e.keyCode == 8&&textValue.length == 0){
 			newareapadding = newareapadding -nameItemData[nameItemData.length-1].itemWidth;
@@ -37,8 +37,15 @@ export  default class PeopleSearch extends Component{
 	}
 	handleUp(e){
 		const textValue = e.currentTarget.value;
-		const nameItemData = this.props.$$mapState.toJS().itemdata;
-	    var that = e.target;
+		const nameItemData = this.props.$$searchPeople.get('Account_static').toJS().itemdata;
+		let searchParams = {
+		    url: 'http://esn.fuwenfang.com/setting/scrm/getSelectList/VISITID/1',
+		    data:{
+		      page:1,
+		      keyword:textValue,
+		    }
+		}
+	    let that = e.target;
 	    clearTimeout(that.timer);
 
 	    that.timer = setTimeout(
@@ -50,10 +57,10 @@ export  default class PeopleSearch extends Component{
 					//当textValue为空的时候，搜索的结果默认为初始数据
 					if(textValue.length == 0){
 						if(nameItemData.length == 0){
-							searchPeopleData(textValue)
+							searchPeopleData(searchParams)
 						}
 					}else{
-							searchPeopleData(textValue)
+							searchPeopleData(searchParams)
 					}
 
 	        }.bind(this),
@@ -67,9 +74,9 @@ export  default class PeopleSearch extends Component{
 		handleChangeInput(value)
 	}
 	render(){
-		const nameItemData = this.props.$$mapState.toJS().itemdata;
-		const arreapadding = this.props.$$mapState.toJS().areapadding;
-		const value = this.props.$$mapState.toJS().textValue;
+		const nameItemData = this.props.$$searchPeople.get('Account_static').toJS().itemdata;
+		const arreapadding = this.props.$$searchPeople.get('Account_static').toJS().areapadding;
+		const value = this.props.$$searchPeople.get('Account_static').toJS().textValue;
 		return (
 			<div className="mbox784_textwrap">
 	          <textarea id="textarea" rows="1" className="M01text" 

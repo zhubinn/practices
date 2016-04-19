@@ -4,6 +4,7 @@ let itemdata = [];
 let iStart=0;
 let iTop=0;
 let scrollBool=false;
+let pageNum = 1;
 //let ReactDOM.findDOMNode(this.refs.mListUl).scrollTop=0;    //刷新时，还原内容位置，如果不想还原，此处应该修改滚动条的坐标。
 
 export  default class PeopleSearch extends Component{
@@ -18,8 +19,6 @@ export  default class PeopleSearch extends Component{
 
     }	
     componentDidMount(prevProps, prevState) {
-        const { getPeopleData } = this.props;
-        getPeopleData();
         const BombBoxList = ReactDOM.findDOMNode(this.refs.BombBoxList);
         const dRight = ReactDOM.findDOMNode(this.refs.dRight);
         const scrollBar = ReactDOM.findDOMNode(this.refs.scrollBar);
@@ -57,11 +56,11 @@ export  default class PeopleSearch extends Component{
         };
     }
     haddleClick(i){
-       const myLiNameText = this.props.$$mapState.toJS().data[i].Name;
-       const ownerId = this.props.$$mapState.toJS().data[i].ID
-       const IsMultiselect = this.props.$$mapState.toJS().IsMultiselect
-       let itemdata = this.props.$$mapState.toJS().itemdata;
-       let InittextareaPadding = this.props.$$mapState.toJS().areapadding;
+       const myLiNameText = this.props.$$searchPeople.get('Account_static').toJS().data[i].Name;
+       const ownerId = this.props.$$searchPeople.get('Account_static').toJS().data[i].ID
+       const IsMultiselect = this.props.$$searchPeople.get('Account_static').toJS().IsMultiselect
+       let itemdata = this.props.$$searchPeople.get('Account_static').toJS().itemdata;
+       let InittextareaPadding = this.props.$$searchPeople.get('Account_static').toJS().areapadding;
 
         let itemWidth = 20;
         for(let j = 0; j<myLiNameText.length;j++){
@@ -180,16 +179,26 @@ export  default class PeopleSearch extends Component{
       const scroll_top = ReactDOM.findDOMNode(this.refs.mbox_boxList).scrollTop;
 
       if ((scroll_height - win_height - scroll_top) == 0&&scroll_top>0 ) {
+        pageNum++;
+        let NextPageParams = {
+            url: 'http://esn.fuwenfang.com/setting/scrm/getSelectList/VISITID/1',
+            data:{
+              page:pageNum
+            }
+        }
+
+
+
         const {loadNextPage} = this.props;
-        loadNextPage();
+        loadNextPage(NextPageParams);
 
       }
     }
 
 	render(){
-    const { $$mapState }  = this.props;
+    const { $$searchPeople }  = this.props;
 	
-    const peopleListData = $$mapState.toJS().data;
+    const peopleListData = $$searchPeople.get('Account_static').toJS().data;
 		return (
 	        <div className="mbox_BombBoxList01"  ref = "BombBoxList" >
             <div className = "mbox_boxList02" ref = "mbox_boxList" onScroll ={this.handleScroll}>

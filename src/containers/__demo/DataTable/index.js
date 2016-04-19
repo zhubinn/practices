@@ -9,7 +9,6 @@ import DataTable from 'components/Business/DataTable'
 import  { initSource,getData, showDetail, checkRow, updateRow, toggleSearch}  from 'actions/Component/DataTable'
 
 import {rowsData, columns, searchColumns} from 'components/Business/DataTable/fakeData'
-import 'ucjs_modules/layer/2.2.0/skin/layer.css'
 
 const DATA_TABLE_SOURCE = 'default'
 
