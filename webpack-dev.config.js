@@ -7,8 +7,7 @@ var path = require('path')
 module.exports = {
     entry: './src/index.js',
     output: {
-        publicPath: 'http://localhost:8082/',
-        path: './lib',
+        publicPath: 'http://localhost:8082/lib/',
         filename: '[name].js',
     },
     resolve: {
@@ -54,7 +53,9 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
     ],
     devServer: {
-        publicPath: '/lib',
+        headers: {
+            "Access-Control-Allow-Origin": "*"
+        },
         devtool: 'eval',
         hot: true,
         inline: true,
