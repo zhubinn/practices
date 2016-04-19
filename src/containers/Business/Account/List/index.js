@@ -14,7 +14,6 @@ import {rowsData, columns, searchColumns} from 'components/Business/DataTable/fa
 
 
 
-const DATA_TABLE_SOURCE = 'Account_List'
 
 let params = {
     url: 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php',
