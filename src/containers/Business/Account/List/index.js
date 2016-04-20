@@ -99,6 +99,7 @@ class AccountListPage extends React.Component {
                            searchBarStatus={dataSource.searchBarShow}
                            onUpdateRow={updateRow}
                            onShowDetail={showDetail}
+                           toggleSearch={toggleSearch}
                            pending={dataSource.pending}
                 />
                 <ul>
