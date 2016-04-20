@@ -1,8 +1,8 @@
 import Immutable from 'immutable'
-import {CK_TABLE_GETDATA, CK_TABLE_GETDATA_SUCCESS,CK_SELECTEDROWDATA,
-    CK_SETTINGCLOSE,CK_CHANGETAB,CK_CHANGEISREQUIRED,CK_ADDITEM,CK_DELETEITEM,
-    CK_CHANGRINPUTVALUE,CK_CHANGEISWORK,CK_APPLY_BTN,CK_DOWNITEM,CK_UPITEM,
-    CK_SETTINGCANCLE,DATAITEM} from 'actions/Business/Account/Customizable'
+import {ACCOUNT_CUSTOM_TABLE_GETDATA, ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS,ACCOUNT_CUSTOM_SELECTEDROWDATA,
+    ACCOUNT_CUSTOM_SETTINGCLOSE,ACCOUNT_CUSTOM_CHANGETAB,ACCOUNT_CUSTOM_CHANGEISREQUIRED,ACCOUNT_CUSTOM_ADDITEM,ACCOUNT_CUSTOM_DELETEITEM,
+    ACCOUNT_CUSTOM_CHANGRINPUTVALUE,ACCOUNT_CUSTOM_CHANGEISWORK,ACCOUNT_CUSTOM_APPLY_BTN,ACCOUNT_CUSTOM_DOWNITEM,ACCOUNT_CUSTOM_UPITEM,
+    ACCOUNT_CUSTOM_SETTINGCANCLE,DATAITEM} from 'actions/Business/Account/Customizable'
 
 
 const $$initialState = Immutable.fromJS({
@@ -17,28 +17,28 @@ const  Customizable = ($$state = $$initialState, action)=>{
     switch(action.type) {
         case DATAITEM:
             return $$state.merge({data:action.payload})
-    	case CK_TABLE_GETDATA:
+    	case ACCOUNT_CUSTOM_TABLE_GETDATA:
     		return $$state
-    	case CK_TABLE_GETDATA_SUCCESS:
+    	case ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS:
             return $$state.merge(action.payload)
-        case CK_SELECTEDROWDATA:
+        case ACCOUNT_CUSTOM_SELECTEDROWDATA:
             return $$state.merge(action.payload,{'IsShow':true})
-        case CK_SETTINGCLOSE:
+        case ACCOUNT_CUSTOM_SETTINGCLOSE:
             return $$state.merge({'IsShow':false})
-        case CK_SETTINGCANCLE:
+        case ACCOUNT_CUSTOM_SETTINGCANCLE:
             return $$state.merge({'IsShow':false})
-        case CK_CHANGETAB:
+        case ACCOUNT_CUSTOM_CHANGETAB:
         	return $$state.merge(action.payload)
-        case CK_CHANGEISREQUIRED:
+        case ACCOUNT_CUSTOM_CHANGEISREQUIRED:
             return $$state.updateIn(['selectedRow', 'col_IsRequired'], col_IsRequired => {
                 return action.payload.col_IsRequired
             })
-        case CK_ADDITEM:
+        case ACCOUNT_CUSTOM_ADDITEM:
             const $$additemCon =  Immutable.fromJS({'optionInfor':'','IsDelete':'是','status':'启用'})
             return $$state.updateIn(['editColumnsOptions'], editColumnsOptions => {
                 return editColumnsOptions.push($$additemCon)
             })
-        case CK_DELETEITEM:
+        case ACCOUNT_CUSTOM_DELETEITEM:
             if(action.payload === 0){
             const $$lastitemCon =  Immutable.fromJS([{optionInfor:'',IsDelete:'否',status:'启用'}])
                 return $$state.updateIn(['editColumnsOptions'], editColumnsOptions => {
@@ -51,7 +51,7 @@ const  Customizable = ($$state = $$initialState, action)=>{
                     return editColumnsOptions.delete(action.payload)
                 })
             }
-        case CK_CHANGRINPUTVALUE:
+        case ACCOUNT_CUSTOM_CHANGRINPUTVALUE:
 
             let index = action.payload.index
             let NewoptionInfor = action.payload.value
@@ -74,7 +74,7 @@ const  Customizable = ($$state = $$initialState, action)=>{
                 return r
             })
             return $$state.set('editColumnsOptions', editColumnsOptions)
-        case CK_CHANGEISWORK:
+        case ACCOUNT_CUSTOM_CHANGEISWORK:
             let changeIndex = action.payload.index
             let Newostatus = action.payload.status
             let columnsOptions = $$state.get('editColumnsOptions')
@@ -87,9 +87,9 @@ const  Customizable = ($$state = $$initialState, action)=>{
                 return r
             })
             return $$state.set('editColumnsOptions', columnsOptions)
-        case CK_APPLY_BTN:
+        case ACCOUNT_CUSTOM_APPLY_BTN:
             return $$state.merge({'submit':true})
-        case CK_DOWNITEM:
+        case ACCOUNT_CUSTOM_DOWNITEM:
             const DownIndex = action.payload
             let curOptions = $$state.get('editColumnsOptions')
             let currentItem = new Map()
@@ -115,7 +115,7 @@ const  Customizable = ($$state = $$initialState, action)=>{
                 return r
             })
             return $$state.set('editColumnsOptions', curOptions)
-        case CK_UPITEM:
+        case ACCOUNT_CUSTOM_UPITEM:
             const UpIndex = action.payload
             let Options = $$state.get('editColumnsOptions')
             let currentR = new Map()

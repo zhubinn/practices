@@ -2,34 +2,34 @@ import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 
 // 获取列表数据
-const CK_SEARCH_GETDATA = 'CK_SEARCH_GETDATA'
-const CK_SEARCH_GETDATA_SUCCESS = 'CK_SEARCH_GETDATA_SUCCESS'
-const CK_SEARCH_GETDATA_FAILURE = 'CK_SEARCH_GETDATA_FAILURE'
-const CK_SEARCH_GETDATA_ERROR_NETWORK = 'CK_SEARCH_GETDATA_ERROR_NETWORK'
+const COMPONENT_SEARCH_GETDATA = 'COMPONENT_SEARCH_GETDATA'
+const COMPONENT_SEARCH_GETDATA_SUCCESS = 'COMPONENT_SEARCH_GETDATA_SUCCESS'
+const COMPONENT_SEARCH_GETDATA_FAILURE = 'COMPONENT_SEARCH_GETDATA_FAILURE'
+const COMPONENT_SEARCH_GETDATA_ERROR_NETWORK = 'COMPONENT_SEARCH_GETDATA_ERROR_NETWORK'
 
 //点击列表
-const CK_CLICK_GETDATA = 'CK_CLICK_GETDATA'
+const COMPONENT_CLICK_GETDATA = 'COMPONENT_CLICK_GETDATA'
 
 //点击已选择的tag
-const CK_TAG_UPDATEDATA = 'CK_TAG_UPDATEDATA'
+const COMPONENT_TAG_UPDATEDATA = 'COMPONENT_TAG_UPDATEDATA'
 
 //删除已选择的tag
-const CK_TAG_DELETEDATA = 'CK_TAG_DELETEDATA'
+const COMPONENT_TAG_DELETEDATA = 'COMPONENT_TAG_DELETEDATA'
 
 //搜索人员数据
-const CK_SEARCH_ITEMDATA = 'CK_SEARCH_ITEMDATA'
+const COMPONENT_SEARCH_ITEMDATA = 'COMPONENT_SEARCH_ITEMDATA'
 
 //提交数据
-const CK_SUBMITBTN = 'CK_SUBMITBTN'
+const COMPONENT_SUBMITBTN = 'COMPONENT_SUBMITBTN'
 // 取消
-const CK_CANCLEBTN = 'CK_CANCLEBTN'
+const COMPONENT_CANCLEBTN = 'COMPONENT_CANCLEBTN'
 
 //滚动底部加载下一页
-const CK_LOADMORE_GETDATA = 'CK_LOADMORE_GETDATA'
-const CK_LOADMORE_GETDATA_SUCCESS = 'CK_LOADMORE_GETDATA_SUCCESS'
+const COMPONENT_LOADMORE_GETDATA = 'COMPONENT_LOADMORE_GETDATA'
+const COMPONENT_LOADMORE_GETDATA_SUCCESS = 'COMPONENT_LOADMORE_GETDATA_SUCCESS'
 
 //改变输入框值
-const CK_CHANGEINPUT = 'CK_CHANGEINPUT'
+const COMPONENT_CHANGEINPUT = 'COMPONENT_CHANGEINPUT'
 
 //源定义
 const DATA_SELECTPEOPLE_SOURCE = 'Account_static'
@@ -37,14 +37,14 @@ const DATA_SELECTPEOPLE_SOURCE = 'Account_static'
 
 export const selectPeopelinitSource =(source)=>{
     return {
-        type: 'INIT_SOURCEPEOPLE',
+        type: 'COMPONENT_INIT_SOURCEPEOPLE',
         source
     }
 }
 
 export const changeIsMultiselect = (IsMultiselect)=>{
     return {
-        type: 'CHANGE_ISMUTISELECT',
+        type: 'COMPONENT_CHANGE_ISMUTISELECT',
         payload:IsMultiselect,
         source:DATA_SELECTPEOPLE_SOURCE
     }
@@ -68,7 +68,7 @@ export const getPeopleData = (params, source) => {
 
     return (dispatch, getState) => {
         const url = params.url;
-        dispatch(_getPeopleData(CK_SEARCH_GETDATA,{},source));
+        dispatch(_getPeopleData(COMPONENT_SEARCH_GETDATA,{},source));
 
             fetch(params.url, {
                 credentials: 'include',
@@ -86,7 +86,7 @@ export const getPeopleData = (params, source) => {
                 return response.json()
             }).then(function (data) {
 
-                dispatch(_getPeopleData(CK_SEARCH_GETDATA_SUCCESS, data.data.users, source))
+                dispatch(_getPeopleData(COMPONENT_SEARCH_GETDATA_SUCCESS, data.data.users, source))
 
             })
         
@@ -104,7 +104,7 @@ export const getPeopleData = (params, source) => {
 
 export const clickPeopleDate = ({"itemdata":itemdata,"areapadding":InittextareaPadding})=>{
     return {
-        type: CK_CLICK_GETDATA,
+        type: COMPONENT_CLICK_GETDATA,
         payload: {"itemdata":itemdata,"areapadding":InittextareaPadding},
         source:DATA_SELECTPEOPLE_SOURCE
     }
@@ -118,7 +118,7 @@ export const clickPeopleDate = ({"itemdata":itemdata,"areapadding":InittextareaP
 
 export const clickPeopleTag = ({"itemdata":itemdata,"areapadding":newareapadding})=>{
     return {
-        type: CK_TAG_UPDATEDATA,
+        type: COMPONENT_TAG_UPDATEDATA,
         payload: {"itemdata":itemdata,"areapadding":newareapadding},
         source:DATA_SELECTPEOPLE_SOURCE
     }
@@ -131,7 +131,7 @@ export const clickPeopleTag = ({"itemdata":itemdata,"areapadding":newareapadding
 
 export const deletePeopleTag = ({"itemdata":nameItemData,"areapadding":newareapadding})=>{
     return {
-        type: CK_TAG_DELETEDATA,
+        type: COMPONENT_TAG_DELETEDATA,
         payload: {"itemdata":nameItemData,"areapadding":newareapadding},
         source:DATA_SELECTPEOPLE_SOURCE
     }
@@ -139,7 +139,7 @@ export const deletePeopleTag = ({"itemdata":nameItemData,"areapadding":newareapa
 
 export const handleChangeInput = (value)=>{
     return {
-        type: CK_CHANGEINPUT,
+        type: COMPONENT_CHANGEINPUT,
         payload: value,
         source:DATA_SELECTPEOPLE_SOURCE
     }
@@ -162,7 +162,7 @@ export const searchPeopleData = (searchParams)=>{
 
     return (dispatch, getState) => {
     const url = searchParams.url;
-    dispatch(_searchPeopleData(CK_SEARCH_GETDATA,{}));
+    dispatch(_searchPeopleData(COMPONENT_SEARCH_GETDATA,{}));
 
         fetch(url, {
             credentials: 'include',
@@ -180,7 +180,7 @@ export const searchPeopleData = (searchParams)=>{
             return response.json()
         }).then(function (data) {
 
-            dispatch(_searchPeopleData(CK_SEARCH_ITEMDATA, data.data.users))
+            dispatch(_searchPeopleData(COMPONENT_SEARCH_ITEMDATA, data.data.users))
 
         })
             
@@ -196,7 +196,7 @@ export const searchPeopleData = (searchParams)=>{
 // 点击确认按钮 发送请求把所选用户的ID
 export const submitData = ({"chosedNameData":choseNameData})=>{
     return {
-        type: CK_SUBMITBTN,
+        type: COMPONENT_SUBMITBTN,
         payload: {"chosedNameData":choseNameData},
         source:DATA_SELECTPEOPLE_SOURCE
     }
@@ -205,7 +205,7 @@ export const submitData = ({"chosedNameData":choseNameData})=>{
 // 点击取消按钮
 export const handleCancle = ()=>{
     return {
-        type: CK_CANCLEBTN,
+        type: COMPONENT_CANCLEBTN,
         payload: '',
         source:DATA_SELECTPEOPLE_SOURCE
     }
@@ -229,7 +229,7 @@ export const loadNextPage = (NextPageParams) => {
     }
     return (dispatch, getState) => {
     const url = NextPageParams.url;
-    dispatch(_loadNextPage(CK_LOADMORE_GETDATA,{}));
+    dispatch(_loadNextPage(COMPONENT_LOADMORE_GETDATA,{}));
 
         fetch(url, {
             credentials: 'include',
@@ -247,7 +247,7 @@ export const loadNextPage = (NextPageParams) => {
             return response.json()
         }).then(function (data) {
 
-            dispatch(_loadNextPage(CK_LOADMORE_GETDATA_SUCCESS, data.data.users))
+            dispatch(_loadNextPage(COMPONENT_LOADMORE_GETDATA_SUCCESS, data.data.users))
 
         })
             
@@ -260,18 +260,18 @@ export const loadNextPage = (NextPageParams) => {
 
 
 export {
-    CK_SEARCH_GETDATA,
-    CK_SEARCH_GETDATA_SUCCESS,
-    CK_SEARCH_GETDATA_FAILURE,
-    CK_SEARCH_GETDATA_ERROR_NETWORK,
-    CK_CLICK_GETDATA,
-    CK_TAG_UPDATEDATA,
-    CK_TAG_DELETEDATA,
-    CK_SEARCH_ITEMDATA,
-    CK_SUBMITBTN,
-    CK_CANCLEBTN,
-    CK_LOADMORE_GETDATA,
-    CK_LOADMORE_GETDATA_SUCCESS,
-    CK_CHANGEINPUT,
+    COMPONENT_SEARCH_GETDATA,
+    COMPONENT_SEARCH_GETDATA_SUCCESS,
+    COMPONENT_SEARCH_GETDATA_FAILURE,
+    COMPONENT_SEARCH_GETDATA_ERROR_NETWORK,
+    COMPONENT_CLICK_GETDATA,
+    COMPONENT_TAG_UPDATEDATA,
+    COMPONENT_TAG_DELETEDATA,
+    COMPONENT_SEARCH_ITEMDATA,
+    COMPONENT_SUBMITBTN,
+    COMPONENT_CANCLEBTN,
+    COMPONENT_LOADMORE_GETDATA,
+    COMPONENT_LOADMORE_GETDATA_SUCCESS,
+    COMPONENT_CHANGEINPUT,
 
 }

@@ -12,16 +12,18 @@ import DataTable from 'components/Business/DataTable'
 import  { initSource,getData}  from 'actions/Component/DataTable'
 import {rowsData, searchColumns} from 'components/Business/DataTable/fakeData'
 
-import {updateIsPene} from 'actions/Business/Account/Statistic'
-let that;
+import {updateIsPene,searchKeyWord} from 'actions/Business/Account/Statistic'
+
+
+let currentContext;
 
 let statisticColumns = [
 
     {text: '部门名称', datafield: 'name', width: 120,cellsrenderer: function(rowData, column, value){
-      const IsPenee = that.props.$$account_statistic.toJS().IsPene
+      const IsPenee = currentContext.props.$$account_statistic.toJS().IsPene
       if(!IsPenee){
         return (
-          <a  title = {value} onClick = {(e) => {that.handleIsPene()}}>{value}</a>
+          <a  title = {value} onClick = {(e) => {currentContext.handleIsPene()}}>{value}</a>
           );
       }else{
         return(
@@ -111,7 +113,7 @@ let detailParams = {
 class AccountStatistic extends React.Component{
   constructor(props) {
         super(props)
-        that = this
+        currentContext = this
     }
   componentDidMount() {
         const id = this.refs.dataTable.identity
@@ -124,6 +126,23 @@ class AccountStatistic extends React.Component{
       const {updateIsPene} = this.props
       updateIsPene()
       this.props.getData(detailParams, refid)
+  }
+  handleKeyUp(e){
+    const textValue = e.currentTarget.value;
+      let that = e.target;
+      clearTimeout(that.timer);
+
+      that.timer = setTimeout(
+          function()
+          {
+              delete that.timer;
+              // why delete? it is about high performance?
+            const {searchKeyWord} = this.props
+            searchKeyWord(textValue)
+          }.bind(this),
+          500
+      );
+      
   }
   render(){
 
@@ -143,10 +162,10 @@ class AccountStatistic extends React.Component{
         const IsPene = this.props.$$account_statistic.toJS().IsPene
 
           return (
-            <div >
+            <div style={{marginLeft: '20px'}}>
                 <div className = "col_cktop">
                   <div className="col_cktop-gongneng clearfix">
-                     <div className="col_cktop-Hightsearch"><input type="text" className="Hightsearch_input"placeholder=""/><button className="Hightsearch-btn">高级搜索</button></div>
+                     <div className="col_cktop-Hightsearch"><input type="text" className="Hightsearch_input" onKeyUp = {this.handleKeyUp.bind(this)}/><button className="Hightsearch-btn">高级搜索</button></div>
                      <button className="col_cktop-btnFpai">导出EXCEL</button>
                   </div>  
                 </div>
@@ -177,4 +196,5 @@ export default connect(mapStateToProps, {
   getData,
   searchColumns,
   updateIsPene,
+  searchKeyWord,
 })(AccountStatistic)

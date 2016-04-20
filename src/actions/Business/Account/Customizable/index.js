@@ -2,41 +2,41 @@ import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 
 // 选择某一个字段编辑
-const CK_SELECTEDROWDATA = 'CK_SELECTEDROWDATA'
+const ACCOUNT_CUSTOM_SELECTEDROWDATA = 'ACCOUNT_CUSTOM_SELECTEDROWDATA'
 
 //关闭模态层
-const CK_SETTINGCLOSE = 'CK_SETTINGCLOSE'
+const ACCOUNT_CUSTOM_SETTINGCLOSE = 'ACCOUNT_CUSTOM_SETTINGCLOSE'
 
 //切换tab
-const CK_CHANGETAB = 'CK_CHANGETAB'
+const ACCOUNT_CUSTOM_CHANGETAB = 'ACCOUNT_CUSTOM_CHANGETAB'
 
 //改变是否必填
-const CK_CHANGEISREQUIRED = 'CK_CHANGEISREQUIRED'
+const ACCOUNT_CUSTOM_CHANGEISREQUIRED = 'ACCOUNT_CUSTOM_CHANGEISREQUIRED'
 
 //获取自定义字段列表数据
-const CK_TABLE_GETDATA ='CK_TABLE_GETDATA'
-const CK_TABLE_GETDATA_SUCCESS = 'CK_TABLE_GETDATA_SUCCESS'
+const ACCOUNT_CUSTOM_TABLE_GETDATA ='ACCOUNT_CUSTOM_TABLE_GETDATA'
+const ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS = 'ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS'
 
 //增加一行编辑项
-const CK_ADDITEM = 'CK_ADDITEM'
+const ACCOUNT_CUSTOM_ADDITEM = 'ACCOUNT_CUSTOM_ADDITEM'
 
 //删除一行编辑项
-const CK_DELETEITEM = 'CK_DELETEITEM'
+const ACCOUNT_CUSTOM_DELETEITEM = 'ACCOUNT_CUSTOM_DELETEITEM'
 
 //改变输入框值
-const CK_CHANGRINPUTVALUE = 'CK_CHANGRINPUTVALUE'
+const ACCOUNT_CUSTOM_CHANGRINPUTVALUE = 'ACCOUNT_CUSTOM_CHANGRINPUTVALUE'
 
 //改变启用未启用状态
-const CK_CHANGEISWORK = 'CK_CHANGEISWORK'
+const ACCOUNT_CUSTOM_CHANGEISWORK = 'ACCOUNT_CUSTOM_CHANGEISWORK'
 
 //点击应用
-const CK_SETTINGAPPLY = 'CK_SETTINGAPPLY'
+const ACCOUNT_CUSTOM_SETTINGAPPLY = 'ACCOUNT_CUSTOM_SETTINGAPPLY'
 
-const CK_SETTINGCANCLE = 'CK_SETTINGCANCLE'
+const ACCOUNT_CUSTOM_SETTINGCANCLE = 'ACCOUNT_CUSTOM_SETTINGCANCLE'
 
 //
-const CK_UPITEM = 'CK_UPITEM'
-const CK_DOWNITEM = 'CK_DOWNITEM'
+const ACCOUNT_CUSTOM_UPITEM = 'ACCOUNT_CUSTOM_UPITEM'
+const ACCOUNT_CUSTOM_DOWNITEM = 'ACCOUNT_CUSTOM_DOWNITEM'
 
 
 const DATAITEM = 'DATAITEM'
@@ -74,8 +74,8 @@ export const dataItem = (data)=>{
         ]
     };
 
-        dispatch(_getTableData(CK_TABLE_GETDATA));
-        dispatch(_getTableData(CK_TABLE_GETDATA_SUCCESS, rowData))
+        dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA));
+        dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, rowData))
 
         // return fetch(url, {
         //     method: 'get',
@@ -85,9 +85,9 @@ export const dataItem = (data)=>{
         //         'Content-Type': 'application/json'
         //     }
         // }).then(response=> {
-        //     //dispatch(_getPeopleData(CK_SEARCH_GETDATA_SUCCESS, peopleListData))
+        //     //dispatch(_getPeopleData(ACCOUNT_CUSTOM_SEARCH_GETDATA_SUCCESS, peopleListData))
         //     if (response.status >= 400) {
-        //         //dispatch(_getReportData(CK_REPORT_GETDATA_ERROR_NETWORK))
+        //         //dispatch(_getReportData(ACCOUNT_CUSTOM_REPORT_GETDATA_ERROR_NETWORK))
         //         return {};
         //     }
         //     return response.json()
@@ -95,11 +95,11 @@ export const dataItem = (data)=>{
         //     json = rowData;//假数据
         //     //console.log(json);
         //     // if (json.rs) {
-        //     //     dispatch(_getPeopleData(CK_SEARCH_GETDATA_SUCCESS, json.data))
+        //     //     dispatch(_getPeopleData(ACCOUNT_CUSTOM_SEARCH_GETDATA_SUCCESS, json.data))
         //     // } else {
-        //     //     dispatch(_getPeopleData(CK_SEARCH_GETDATA_FAILURE))
+        //     //     dispatch(_getPeopleData(ACCOUNT_CUSTOM_SEARCH_GETDATA_FAILURE))
         //     // }
-        //     dispatch(_getTableData(CK_TABLE_GETDATA_SUCCESS, json))
+        //     dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, json))
         // })
     }
 }
@@ -132,7 +132,7 @@ export const selectedRowData = ({'selectedRow':selectedRow})=>{
     //selectedRow.editColumnsOptions = editColumnsOptions;
     
     return (dispatch, getState) => {
-        dispatch(_selectedRowData(CK_SELECTEDROWDATA,{'selectedRow':selectedRow,'editColumnsOptions':editColumnsOptions}))
+        dispatch(_selectedRowData(ACCOUNT_CUSTOM_SELECTEDROWDATA,{'selectedRow':selectedRow,'editColumnsOptions':editColumnsOptions}))
     }
 
 }
@@ -141,7 +141,7 @@ export const selectedRowData = ({'selectedRow':selectedRow})=>{
 
 export const clickCloseBtn = ()=>{
     return {
-        type: CK_SETTINGCLOSE,
+        type: ACCOUNT_CUSTOM_SETTINGCLOSE,
         payload: ''
     }
 }
@@ -150,7 +150,7 @@ export const clickCloseBtn = ()=>{
 
 export const clickCancleBtn = ()=>{
     return {
-        type: CK_SETTINGCANCLE,
+        type: ACCOUNT_CUSTOM_SETTINGCANCLE,
         payload: ''
     }
 }
@@ -183,7 +183,7 @@ export const clickapplyBtn = (editColumnsOptions)=> {
             }
             return response.json()
         }).then(function(json) {
-            dispatch(login(CK_APPLY_BTN))
+            dispatch(login(ACCOUNT_CUSTOM_APPLY_BTN))
         })
 
     }
@@ -198,7 +198,7 @@ export const clickapplyBtn = (editColumnsOptions)=> {
 //切换tab
 export const selectedTabIndex = ({'currentTabIndex':i})=>{
     return {
-        type: CK_CHANGETAB,
+        type: ACCOUNT_CUSTOM_CHANGETAB,
         payload: {'currentTabIndex':i}
     }
 }
@@ -207,7 +207,7 @@ export const selectedTabIndex = ({'currentTabIndex':i})=>{
 
 export const changeIsRequired = (changedSatus)=>{
     return {
-        type: CK_CHANGEISREQUIRED,
+        type: ACCOUNT_CUSTOM_CHANGEISREQUIRED,
         payload: changedSatus
     }
 }
@@ -216,7 +216,7 @@ export const changeIsRequired = (changedSatus)=>{
 //增加一行编辑项(同步)
 export const addItem = (i)=>{
     return {
-        type: CK_ADDITEM,
+        type: ACCOUNT_CUSTOM_ADDITEM,
         payload: i
     }
 }
@@ -224,7 +224,7 @@ export const addItem = (i)=>{
 //删除一行编辑项
 export const deletItem = (i)=>{
     return {
-        type: CK_DELETEITEM,
+        type: ACCOUNT_CUSTOM_DELETEITEM,
         payload: i
     }
 }
@@ -232,7 +232,7 @@ export const deletItem = (i)=>{
 // 改变输入框的值
 export const changeInputValue = (i,textValue)=>{
     return {
-        type: CK_CHANGRINPUTVALUE,
+        type: ACCOUNT_CUSTOM_CHANGRINPUTVALUE,
         payload: {index:i,value:textValue}
     }
 }
@@ -240,7 +240,7 @@ export const changeInputValue = (i,textValue)=>{
 // 改变状态启用未启用
 export const ChangeStatus = (changedIsWork)=>{
     return {
-        type: CK_CHANGEISWORK,
+        type: ACCOUNT_CUSTOM_CHANGEISWORK,
         payload: changedIsWork
     }
 }
@@ -248,33 +248,33 @@ export const ChangeStatus = (changedIsWork)=>{
 //后退
 export const DownItem = (i)=>{
     return {
-        type: CK_DOWNITEM,
+        type: ACCOUNT_CUSTOM_DOWNITEM,
         payload: i
     }
 }
 //后退
 export const UpItem = (i)=>{
     return {
-        type: CK_UPITEM,
+        type: ACCOUNT_CUSTOM_UPITEM,
         payload: i
     }
 }
 
 export {
-	CK_SELECTEDROWDATA,
-    CK_SETTINGCLOSE,
-    CK_CHANGETAB,
-    CK_CHANGEISREQUIRED,
-    CK_TABLE_GETDATA,
-    CK_TABLE_GETDATA_SUCCESS,
-    CK_ADDITEM,
-    CK_DELETEITEM,
-    CK_CHANGRINPUTVALUE,
-    CK_CHANGEISWORK,
-    CK_SETTINGAPPLY,
-    CK_DOWNITEM,
-    CK_UPITEM,
-    CK_SETTINGCANCLE,
+	ACCOUNT_CUSTOM_SELECTEDROWDATA,
+    ACCOUNT_CUSTOM_SETTINGCLOSE,
+    ACCOUNT_CUSTOM_CHANGETAB,
+    ACCOUNT_CUSTOM_CHANGEISREQUIRED,
+    ACCOUNT_CUSTOM_TABLE_GETDATA,
+    ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS,
+    ACCOUNT_CUSTOM_ADDITEM,
+    ACCOUNT_CUSTOM_DELETEITEM,
+    ACCOUNT_CUSTOM_CHANGRINPUTVALUE,
+    ACCOUNT_CUSTOM_CHANGEISWORK,
+    ACCOUNT_CUSTOM_SETTINGAPPLY,
+    ACCOUNT_CUSTOM_DOWNITEM,
+    ACCOUNT_CUSTOM_UPITEM,
+    ACCOUNT_CUSTOM_SETTINGCANCLE,
     DATAITEM
 }
 
