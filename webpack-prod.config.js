@@ -19,7 +19,16 @@ module.exports = {
             reducers: path.join(__dirname, 'src/reducers'),
             store: path.join(__dirname, 'src/store'),
             routes: path.join(__dirname, 'src/routes'),
-            ucjs_modules: path.join(__dirname, 'ucjs_modules'),
+            immutable: path.join(__dirname, 'node_modules/immutable/dist/immutable.min'),
+            moment: path.join(__dirname, 'node_modules/moment/min/moment-with-locales.min'),
+            react: path.join(__dirname, 'node_modules/react/dist/react-with-addons.min'),
+            redux: path.join(__dirname, 'node_modules/redux/dist/redux.min'),
+            'react-dom': path.join(__dirname, 'node_modules/react-dom/dist/react-dom.min'),
+            'react-proxy': path.join(__dirname, 'node_modules/react-proxy/dist/ReactProxy'),
+            'react-redux': path.join(__dirname, 'node_modules/react-redux/dist/react-redux.min'),
+            'react-router': path.join(__dirname, 'node_modules/react-router/umd/ReactRouter.min'),
+            'react-logger': path.join(__dirname, 'node_modules/react-logger/dist/index.min'),
+            'react-thunk': path.join(__dirname, 'node_modules/react-thunk/dist/redux-thunk.min'),
         }
     },
     module: {
@@ -49,9 +58,7 @@ module.exports = {
             React: 'react',
             ReactDOM: 'react-dom',
             Redux: 'redux',
-            jQuery: 'ucjs_modules/jquery/1.12.2/jquery',
-            $: 'ucjs_modules/jquery/1.12.2/jquery',
         }),
         new webpack.optimize.UglifyJsPlugin()
-    ]
+    ],
 };
