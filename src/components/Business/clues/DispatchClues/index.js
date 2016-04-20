@@ -3,13 +3,7 @@ import { findDOMNode } from 'react-dom'
 
 //日历组件
 //弹框组件
-import 'ucjs_modules/layer/2.2.0/skin/layer.css'
-import layer from '../../../../../ucjs_modules/layer/2.2.0/layer.js'
 
-
-
-//import  '../../../../ucjs_modules/ReactUI/themes'
-//import Datetime from '../../../../ucjs_modules/ReactUI/Datetime'
 
 
 export default class DispatchClues extends React.Component {

@@ -1,10 +1,8 @@
 import fetch from 'isomorphic-fetch'
 import { findDOMNode } from 'react-dom'
 
-//日历组件
-//弹框组件
-import 'ucjs_modules/layer/2.2.0/skin/layer.css'
-import layer from '../../../../../ucjs_modules/layer/2.2.0/layer.js'
+import { message, notification } from 'antd'
+
 
 import InfoPath from './infoPath'
 import InputDater from './inputDater'
@@ -14,11 +12,16 @@ import TableList from './tableList'
 import './less/basic_new_v2.less'
 import './less/numberReport.less'
 // mock data
-import { data,data2 } from './data/response'
+//import { data,data2 } from './data/response'
 
-//import  '../../../../ucjs_modules/ReactUI/themes'
-//import Datetime from '../../../../ucjs_modules/ReactUI/Datetime'
-
+const openNotification = function () {
+    const args = {
+        message: '错误信息',
+        description: '服务器错误，请联系客服',
+        duration: 0
+    };
+    notification.open(args);
+};
 
 export default class NumberReportView extends React.Component {
     constructor(props, context) {
@@ -27,18 +30,51 @@ export default class NumberReportView extends React.Component {
     }
 
 
+    componentWillMount(){
+        const { numberReportViewState ,actions } = this.props
+    }
+
+    fillZero(v){
+        return v < 10 ? '0'+v : v;
+    }
 
     componentDidMount(){
         const { numberReportViewState ,actions } = this.props
+        const myDate = new Date()
         //TODO 异步請求
-        actions.fetchDate(data);
-        console.log(data)
+        const obj = $('#viewNumList').data()
+
+        $.post(SCRM.url('/scrmnumreport/index/listAjax'), {
+            templateID:obj.templateid || 18,
+            date:myDate.getFullYear() +'-'+ this.fillZero(myDate.getMonth()+1) +'-'+ this.fillZero(myDate.getDate()),
+            dateType:obj.nptype
+        },function(data){
+            if(data.rs === true){
+                actions.fetchData(true,data.data);
+            }else{
+                openNotification()
+            }
+        },'json');
+
+        /*fetch(SCRM.url('/scrmnumreport/index/listAjax'), {
+            method: 'post',
+            headers: {
+                'API': 1,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: pram
+        }).then(function(json) {
+            console.log(json)
+        })*/
+
+
+
     }
 
     render() {
         const { numberReportViewState ,actions } = this.props
 
-        console.log(this.props);
         return (
             <div>
                 <div className="col_right">
@@ -49,9 +85,10 @@ export default class NumberReportView extends React.Component {
                             <InfoPath />
                             <div className="ck-numberReport-Function clearfix">
                                 <button className="ck-Function-btnreturn">返回</button>
-
-                                <InputDater actions = { actions } numberReportViewState = { numberReportViewState } />
-                                <DaterButton actions = { actions } numberReportViewState = { numberReportViewState } />
+                                <InputDater
+                                    actions = { actions }
+                                    numberReportViewState = { numberReportViewState }
+                                />
                                 <button className="ck-Function-Export">导出EXCEL</button>
 
                             </div>

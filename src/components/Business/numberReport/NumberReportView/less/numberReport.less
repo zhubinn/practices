@@ -59,7 +59,7 @@
   float: left;
   width: 296px;
   height: 30px;
-  margin-left: 172px;
+  margin-left: 215px;
 }
 
 .ck-Calendar-pre {
@@ -111,12 +111,12 @@
   background: #1eb8bb;
   border-radius: 5px;
   border: none;
-  margin-left: 97px;
+  margin-left: 140px;
   cursor: pointer;
 }
 
 .ck-Function-Export {
-  float: left;
+  float: right;
   width: 75px;
   height: 30px;
   color: #fff;
@@ -126,6 +126,7 @@
   border-radius: 5px;
   border: none;
   margin-left: 8px;
+  margin-right: 20px;
   cursor: pointer;
 }
 
@@ -154,34 +155,9 @@
 }
 
 //自定义日历
-.selfMonthWrap {
-  .monthHeader{
-    padding:10px 0;
-    text-align: center;
-    .year{
-      padding:0 30px;
-    }
-    .prev,.next{
-      cursor: pointer;
-    }
-  }
-
-  li{
-    float: left;
-    width: 25%;
-    text-align: center;
-    height: 36px;
-    line-height: 36px;
-    background: #fff;
-    &:hover{
-      background-color: rgb(205, 236, 250);
-    }
-  }
-  .active{
-    background-color: rgb(68, 153, 238);
-    color:#fff;
-    &:hover{
-      background-color: rgb(68, 153, 238);
-    }
+.ck-Calendar-date {
+  .ant-input {
+    border:0 none;
+    margin-top:-5px;
   }
 }

@@ -2,15 +2,10 @@
  * Created by c on 16/3/11.
  */
 import { findDOMNode } from 'react-dom'
+import { DatePicker } from 'antd';
+const MonthPicker = DatePicker.MonthPicker;
 
-import 'ucjs_modules/jquery-daterangepicker/1.0.0/jquery-daterangepicker.css'
-import 'ucjs_modules/jquery-daterangepicker/1.0.0/jquery-daterangepicker.js'
 
-/*import '../../../../ucjs_modules/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css'
-import '../../../../ucjs_modules/bootstrap-datetimepicker/js/bootstrap-datetimepicker'*/
-
-/*import  '../../../../ucjs_modules/ReactUI/themes'
-import Datetime from '../../../../ucjs_modules/ReactUI/Datetime'*/
 
 export default class DaterButton extends React.Component {
 
@@ -24,7 +19,7 @@ export default class DaterButton extends React.Component {
         console.log(numberReportViewState.toJS().npType)
         let npType = 'month'
 
-        if(npType == 'day'){
+        /*if(npType == 'day'){
             dateRangePicker('#daterButton')
                 .dateRangePicker({
                     __uncustom__: false,//这个参数为了支持显示12个月份
@@ -73,61 +68,12 @@ export default class DaterButton extends React.Component {
                     showTopbar: true,
                     batchMode: 'week'
                 })
-        }
-        /*dateRangePicker('#daterButton')
-            .dateRangePicker({
-                __uncustom__: true,//这个参数为了支持显示12个月份
-                separator:'-',
-                singleMonth: true,
-                showShortcuts: false,
-                showTopbar: true,
-                batchMode: ntType
-            })
-            .bind('datepicker-first-date-selected', function(event, obj) {
-                /!* This event will be triggered when first date is selected *!/
-                console.log('first-date-selected', obj);
-                // obj will be something like this:
-                // {
-                // 		date1: (Date object of the earlier date)
-                // }
-            })
-            .bind('datepicker-change', function(event, obj) {
-                /!* This event will be triggered when second date is selected *!/
-                console.log('change', obj);
-                // obj will be something like this:
-                // {
-                // 		date1: (Date object of the earlier date),
-                // 		date2: (Date object of the later date),
-                //	 	value: "2013-06-05 to 2013-06-07"
-                // }
-            })
-            .bind('datepicker-apply', function(event, obj) {
-                /!* This event will be triggered when user clicks on the apply button *!/
-                console.log('apply', obj);
-            })
-            .bind('datepicker-close', function() {
-                /!* This event will be triggered before date range picker close animation *!/
-                console.log('before close');
-            })
-            .bind('datepicker-closed', function() {
-                /!* This event will be triggered after date range picker close animation *!/
-                console.log('after close');
-            })
-            .bind('datepicker-open', function() {
-                /!* This event will be triggered before date range picker open animation *!/
-                console.log('before open');
-            })
-            .bind('datepicker-opened', function() {
-                /!* This event will be triggered after date range picker open animation *!/
-                console.log('after open');
-            });*/
-
-
+        }*/
 
 
     }
 
-    renderMonth(yy){
+    /*renderMonth(yy){
         const year = yy || new Date().getFullYear()
         let temp = '<div class="selfMonthWrap">' +
             '<div class="monthHeader"><span class="prev"><</span><span class="year">'+ year +'</span><span class="next">></span></div' +
@@ -140,7 +86,7 @@ export default class DaterButton extends React.Component {
         temp +='</ul></div>'
 
         return temp
-    }
+    }*/
 
     render() {
         const { numberReportViewState ,actions } = this.props;
@@ -148,6 +94,7 @@ export default class DaterButton extends React.Component {
 
         return (
             <button className="ck-Function-datecontrol" id="daterButton">日期控件</button>
+
         )
 
 

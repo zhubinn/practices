@@ -2,70 +2,34 @@ import { FETCH_DATA,CLICK_PREV_NEXT_BUTTON, CLICK_SURE_DATER_BUTTON, IMPORT_BUTT
 import Immutable from 'immutable'
 
 const $$initialState = {
-            responseJson:[]
-        }
-    //npType:'day',
-    //day:'2016-5-4',
-    //month:'2016-5',
-    //week:'2016.5.1 —— 2016.5.7',
-    //responseJson:[
-    //    {
-    //        id: 0,
-    //        department: '全体部门',
-    //        reportName: '梁玉洁',
-    //        reportItem: '今日入库',
-    //        num:8
-    //    },
-    //    {
-    //        id: 0,
-    //        department: '全体部门',
-    //        reportName: '梁玉洁',
-    //        reportItem: '今日入库',
-    //        num:8
-    //    },
-    //    {
-    //        id: 0,
-    //        department: '全体部门',
-    //        reportName: '梁玉洁',
-    //        reportItem: '今日入库',
-    //        num:8
-    //    },
-    //    {
-    //        id: 0,
-    //        department: '全体部门',
-    //        reportName: '梁玉洁',
-    //        reportItem: '今日入库',
-    //        num:8
-    //    },
-    //    {
-    //        id: 0,
-    //        department: '全体部门',
-    //        reportName: '梁玉洁',
-    //        reportItem: '今日入库',
-    //        num:8
-    //    },
-    //]
+            loading:false,
+            data:{
+                list:[{
+                    reportItems: []
+                }]
+            }
+}
 
 
 export default function numberReportViewState($$state = Immutable.fromJS($$initialState), action) {
 
     switch (action.type) {
         case FETCH_DATA:
-            return $$state.merge(action.data);
+            return $$state.merge({
+                "loading":action.loading,
+                "data":action.data
+            });
         case CLICK_PREV_NEXT_BUTTON:
             //可以直接使用返回過來的data
             //return $$state.merge(action.data);
             return $$state.merge({
-                "day":action.curInputValue,
-                "responseJson":action.data.responseJson
+                "loading":false,
+                "dater":action.curInputValue
             });
         case CLICK_SURE_DATER_BUTTON:
-            console.log(action.data.responseJson);
-
             return $$state.merge({
-                "day":action.curInputValue,
-                "responseJson":action.data.responseJson
-            })
+                "dater":action.curInputValue
+            });
 
         case IMPORT_BUTTON:
             state.splice(action.id,1);

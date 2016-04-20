@@ -18,10 +18,6 @@ import ModulePage from 'containers/Master/Module'
 import DemoTablePage from 'containers/__demo/Table'
 import DemoLoginPage from 'containers/__demo/Login'
 
-import DemoAutoCompletePage from 'containers/__demo/AutoComplete'
-import DemoDatePickerPage from 'containers/__demo/DatePicker'
-import DepToTreePage from 'containers/__demo/DepToTree'
-import DemoModalPage from 'containers/__demo/Modal'
 import DemoDataTablePage from 'containers/__demo/DataTable'
 
 import Error_404 from 'containers/Error/404'
@@ -41,28 +37,16 @@ export default (
     <Route path="dispatchCluesPage" component={DispatchCluesPage}/>
     <Route path="manageCluesPage" component={ManageCluesPage}/>
 
-    <Route path="autocomplete" component={DemoAutoCompletePage}/>
-    <Route path="datepicker" component={DemoDatePickerPage}/>
-    <Route path="daterange" component={DemoDatePickerPage}/>
-    <Route path="deptotree" component={DepToTreePage}/>
-    <Route path="modal" component={DemoModalPage}/>
-
     </Route>
     <Route path="numberReport">
         <Route path="numberReportViewPage" component={NumberReportViewPage}/>
     </Route>
-    <Route path="scrmnumreport/index/list/VISITID/1" component={NumberReportViewPage}/>
+    <Route path="scrmnumreport/index/list/:role/:id/:template/:tid" component={NumberReportViewPage}/>
+    /*<Route path="scrmnumreport/index/list/VISITID/1/templateID/528" component={NumberReportViewPage}/>*/
     <Route path="scrmweb" component={ModulePage}>
         <Route path="accounts/index/VISITID/1" component={AccountListPage}/>
     </Route>
-    <Route path="/" component={MasterPage}>
-        <Route path="__demo">
-            <Route path="table" component={DemoTablePage}/>
-            <Route path="login" component={DemoLoginPage}/>
-        </Route>
-        <Route path="*" component={Error_404}/>
 
-    </Route>
     <Route path="*" component={Error_404}/>
 
     </Route>

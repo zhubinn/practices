@@ -2,7 +2,7 @@
  * Created by c on 16/3/11.
  */
 import { findDOMNode } from 'react-dom'
-
+import { Spin } from 'antd';
 import Row from './row'
 
 export default class TableList extends React.Component {
@@ -17,13 +17,20 @@ export default class TableList extends React.Component {
     }
 
     renderRow(){
+        const { numberReportViewState ,actions } = this.props
+        const loading = numberReportViewState.toJS().loading
 
+        if(loading){
+            return <Row actions = { actions } numberReportViewState = { numberReportViewState } />
+        }else{
+            return <tbody><tr colSpan="4"><Spin /></tr></tbody>
+        }
     }
 
     render() {
         const { numberReportViewState ,actions } = this.props
 
-        console.log(actions);
+
         return (
             <div className="ck-numberReport-bottom">
                 <table className="ck-numberReport-tab01">
