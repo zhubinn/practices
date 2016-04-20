@@ -22,21 +22,61 @@ import {secondRowsData, secondColumns} from 'components/Business/DataTable/fakeD
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker;
 
+const FormItem = Form.Item;
+let SearchBar
+
+
+
+
+let Demo = React.createClass({
+    handleSubmit(e) {
+        e.preventDefault();
+        console.log('收到表单值：', this.props.form.getFieldsValue());
+    },
+
+    render() {
+        const { getFieldProps } = this.props.form;
+        return (
+            <Form inline onSubmit={this.handleSubmit}>
+                <FormItem
+                    label="账户：">
+                    <Input placeholder="请输入账户名"
+                        {...getFieldProps('userName')} />
+                </FormItem>
+                <FormItem
+                    label="密码：">
+                    <Input type="password" placeholder="请输入密码"
+                        {...getFieldProps('password')} />
+                </FormItem>
+
+                <Button type="primary" htmlType="submit">登录</Button>
+            </Form>
+        );
+    }
+});
+
+Demo = Form.create()(Demo);
+
 
 export default class DataTable extends React.Component {
     constructor(props) {
         super(props)
+
 
         this.resolveTables = this.resolveTables.bind(this)
         this.renderCheckBtn = this.renderCheckBtn.bind(this)
         this.renderTitleCell = this.renderTitleCell.bind(this)
         this.onCheckAll = this.onCheckAll.bind(this)
         this.renderSearch = this.renderSearch.bind(this)
+        this.createSearchBar = this.createSearchBar.bind(this)
         this.getCheckedRows = this.getCheckedRows.bind(this)
         this.getCheckedIndexes = this.getCheckedIndexes.bind(this)
+        this.getSearchForm = this.getSearchForm.bind(this)
         this.renderLoading = this.renderLoading.bind(this)
         this.identity = 'dataTable_' + randomString()
+
     }
+
 
     // 分割table
     resolveTables(rows, columns, selectedRowDetailObj) {
@@ -90,9 +130,9 @@ export default class DataTable extends React.Component {
 
     // 高级搜索点击确定后获取表单数据
     getSearchForm() {
-        // todo: 如果页面存在多个实例 `bug`
 
-        document.querySelectorAll('[name^="search-"]')
+        console.log(this.refs.searchForm)
+
 
 
 
@@ -159,7 +199,7 @@ export default class DataTable extends React.Component {
     }
 
 
-    renderSearch(datafield) {
+    renderSearch(datafield, getFieldProps) {
 
         let obj = this.props.searchColumns[datafield];
         if (typeof obj === 'undefined') return null
@@ -167,38 +207,108 @@ export default class DataTable extends React.Component {
         // todo: 拆分
         switch (obj.searchType || 0) {
             case 1:
-                return (<div name={'search-'+datafield}><Input /></div>)
+                console.log(getFieldProps('search-' + datafield))
+                return (<FormItem  ><Input {...getFieldProps('search-' + datafield)}  /></FormItem>)
             case 2:
-                return (<div><InputNumber name={'search-'+datafield}/></div>)
+                return (<FormItem><InputNumber {...getFieldProps('search-' + datafield)} /></FormItem>)
             case 3:
-                return (<div name={'search-'+datafield}><DatePicker name={'search-'+datafield}/></div>)
+                return (
+                    <FormItem  ><DatePicker format="yyyyMMdd" {...getFieldProps('search-' + datafield, {initialValue: obj.renderData.defaultValue})}  /></FormItem>)
             case 4:
-                return (<div name={'search-'+datafield}>
+                return (<FormItem  >
 
-                    <Select  defaultValue={obj.renderData.defaultValue}>
+                    <Select   {...getFieldProps('search-' + datafield, {initialValue: obj.renderData.defaultValue})}  >
 
                         {obj.renderData.options.map((item, i) => (
                             <Option key={i} value={item.value}>{item.text}</Option>))}
 
+
                     </Select>
 
 
-                </div>)
+                </FormItem>)
             case 5:
-                return (<div name = {'search-' + datafield}>
-                    <RangePicker  format="yyyyMMdd" defaultValue = {obj.renderData.defaultValue} />
+                return (<FormItem  >
+                    <RangePicker {...getFieldProps('search-' + datafield, {initialValue: obj.renderData.defaultValue})}
+                        format="yyyyMMdd"/>
 
 
-                </div>)
+                </FormItem>)
 
         }
         return null
     }
 
 
+    createSearchBar(checkMode, hasDetail, columns) {
+        const that = this
+
+        if(!SearchBar ){
+        SearchBar = React.createClass({
+            handleSubmit(e) {
+                e.preventDefault();
+                console.log('收到表单值：', this.props.form.getFieldsValue());
+                // that.props.toggleSearch(false, that.identity)
+            },
+            resetForm(){
+                this.props.form.resetFields()
+            },
+
+            render() {
+                const { getFieldProps } = this.props.form;
+
+                return (
+                    <Form inline onSubmit={this.handleSubmit}>
+                        <table >
+                            <tbody>
+                            <tr >
+                                {checkMode ? (<td>
+                                    <div className="small-cell"></div>
+                                </td>) : null}
+
+
+                                {hasDetail ? (<td>
+                                    <div className="small-cell"></div>
+                                </td>) : null}
+
+                                {columns.map((item, i) => (<td key={i}>
+
+                                    <div
+                                        style={{width: ''+ (item.width||150) +'px'}}>
+
+
+                                        {that.renderSearch(item.datafield, getFieldProps)}
+
+
+                                    </div>
+                                </td>))}
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Button type="ghost" onClick={(e) => {this.resetForm()}}>重置</Button>
+                                </td>
+                                <td>
+                                    <Button type="primary" htmlType="submit">确定</Button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </Form>
+                );
+            }
+        });
+
+        SearchBar = Form.create()(SearchBar);
+        }
+        return (<SearchBar />)
+    }
+
     renderLoading(pending) {
         return pending ? (<Spin />) : null
     }
+
 
     render() {
 
@@ -221,6 +331,8 @@ export default class DataTable extends React.Component {
 
         return (
             <div className="dataTableWrap">
+
+
                 <div className="dataTable" id={this.identity}
                      style={{width: ''+ (this.calculateWidth(columns, checkMode, hasDetail)) +'px'}}>
                     <div className="dataTable-title">
@@ -235,42 +347,49 @@ export default class DataTable extends React.Component {
                             </thead>
 
                         </table>
-                        <Form>
-                        <table className={searchBarStatus ? '' : 'hide'}>
-                            <tbody>
-                            <tr >
-                                {checkMode ? (<td>
-                                    <div className="small-cell"></div>
-                                </td>) : null}
+
+                        { /*    <Form  >
+                         <table className={searchBarStatus ? '' : 'hide'}>
+                         <tbody>
+                         <tr >
+                         {checkMode ? (<td>
+                         <div className="small-cell"></div>
+                         </td>) : null}
 
 
-                                {hasDetail ? (<td>
-                                    <div className="small-cell"></div>
-                                </td>) : null}
+                         {hasDetail ? (<td>
+                         <div className="small-cell"></div>
+                         </td>) : null}
 
 
-                                {columns.map((item, i) => (<td key={i}>
+                         {columns.map((item, i) => (<td key={i}>
 
-                                    <div
-                                        style={{width: ''+ (item.width||150) +'px'}}>
-
-
-                                        {this.renderSearch(item.datafield)}
+                         <div
+                         style={{width: ''+ (item.width||150) +'px'}}>
 
 
-                                    </div>
-                                </td>))}
+                         {this.renderSearch(item.datafield)}
 
-                            </tr>
-                            <tr>
-                                <td><Button type="ghost"  > 重置</Button></td>
-                                <td><Button htmlType="submit" type="primary"> 确定</Button></td>
-                            </tr>
-                            </tbody>
 
-                        </table>
+                         </div>
+                         </td>))}
 
-                            </Form>
+                         </tr>
+                         <tr>
+                         <td><Button type="ghost"  > 重置</Button></td>
+                         <td><Button htmlType="submit" type="primary" onClick = {(e)=>{this.getSearchForm()}}> 确定</Button></td>
+                         </tr>
+                         </tbody>
+
+                         </table>
+
+                         </Form>*/}
+
+
+                        <div className={searchBarStatus ? '' : 'hide'}>
+                            {this.createSearchBar(checkMode, hasDetail, columns)}
+                        </div>
+
                     </div>
 
                     {/*    <div className={pending ? '' : 'hide'} >拼命加载中...</div>*/}
