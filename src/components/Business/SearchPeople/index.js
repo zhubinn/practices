@@ -32,7 +32,7 @@ export default class SearchPage extends React.Component{
 					<div className = "mbox_BombBoxBg">
 					  <div className="mbox_BombBox">
 						 <div className = "mbox784" >
-					        <PeopleTitle/>
+					        <PeopleTitle           />
 					        <PeopleSearch 
 						        $$searchPeople = {$$searchPeople} 
 						        clickPeopleTag ={clickPeopleTag} 

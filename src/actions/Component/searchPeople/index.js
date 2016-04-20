@@ -35,7 +35,7 @@ const CK_CHANGEINPUT = 'CK_CHANGEINPUT'
 const DATA_SELECTPEOPLE_SOURCE = 'Account_static'
 
 
-export const initSource =(source)=>{
+export const selectPeopelinitSource =(source)=>{
     return {
         type: 'INIT_SOURCEPEOPLE',
         source

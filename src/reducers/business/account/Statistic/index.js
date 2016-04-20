@@ -3,7 +3,7 @@ import Immutable from 'immutable'
 
 
 const $$initialState = Immutable.fromJS({
-
+	IsPene:false
 })
 
 const  statistic = ($$state = $$initialState, action)=>{
