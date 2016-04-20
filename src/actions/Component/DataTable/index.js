@@ -41,6 +41,7 @@ const getData = (params, source)=> {
             source
         }
     }
+
     /*    const p = new Promise(function (resolve, reject) {
      setTimeout(function () {
      resolve({
@@ -54,6 +55,7 @@ const getData = (params, source)=> {
         dispatch(fetchData(GET_DATA, {pending: true, rows: []}, source))
         // todo: 封装
         fetch(params.url, {
+
             method: 'post',
             headers: {
                 'API': 1,
@@ -67,6 +69,7 @@ const getData = (params, source)=> {
             }
             return response.json()
         }).then(function (data) {
+
             dispatch(fetchData(GET_DATA_SUCCESS, {rows: data.rowsData, pending: false}, source))
 
         })

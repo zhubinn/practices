@@ -14,6 +14,14 @@ const DATA_TABLE_SOURCE = 'default'
 
 SCRM.url('front/js/')
 
+import { Pagination } from 'antd';
+
+function showTotal(total) {
+    return `共 ${total} 条`;
+}
+
+
+
 let params = {
     url: 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php',
     data: {
@@ -31,6 +39,17 @@ class DataTablePage extends React.Component {
         this.props.getData(params, DATA_TABLE_SOURCE)
 
         this.props.getData(params, this.refs.com1.Identity)
+
+    constructor() {
+        super()
+
+    }
+
+    componentDidMount() {
+        const id = this.refs.dataTable.identity
+        this.props.initSource(id)
+        //// 页面初始完,获取数据,触发action: GET_DATA
+        this.props.getData(params, id)
 
 
 
@@ -60,6 +79,32 @@ class DataTablePage extends React.Component {
                 <div>
                     <button onClick={function(){toggleSearch(true, DATA_TABLE_SOURCE)}}>高级搜索</button>
                     <button onClick={function(){toggleSearch(false, DATA_TABLE_SOURCE)}}>确定</button>
+
+
+        let dataSource = {}
+
+        if (this.refs.dataTable) {
+            const { $$dataTable } = this.props
+
+            const $$obj = $$dataTable.get(this.refs.dataTable.identity)
+
+            if ($$obj) {
+                dataSource = $$obj.toJS()
+            }
+        }
+
+        return (
+
+
+            <div style={{marginLeft: '20px'}}>
+
+                <div>
+                    <span>已处理客户</span>
+                    <span>已处理客户</span>
+                    <span>已处理客户</span>
+                    <span>已处理客户</span>
+                    <span>已处理客户</span>
+                    <span>已处理客户</span>
                 </div>
 
 
@@ -68,25 +113,24 @@ class DataTablePage extends React.Component {
                            checkMode={true}
                            onCheckRow={checkRow}
                            hasDetail={true}
-                           checkedRows={checkedRows}
-                           rows={rows}
-                           selectedRowDetailObj={selectedRowDetailObj}
+                           checkedRows={dataSource.checkedRows}
+                           rows={dataSource.rows}
+                           selectedRowDetailObj={dataSource.selectedRowDetailObj}
                            searchColumns={searchColumns}
                            columns={columns}
-                           searchBarStatus={searchBarShow}
+                           searchBarStatus={dataSource.searchBarShow}
                            onUpdateRow={updateRow}
                            onShowDetail={showDetail}
-                           pending={pending}
-
+                           pending={dataSource.pending}
                 />
                 <ul>
                     <li>1</li>
                     <li onClick={(e)=>{params.data.page = 2;this.props.getData(params
-
-                        , DATA_TABLE_SOURCE)}}>2
+                        
+                        , this.refs.dataTable.identity)}}>2
                     </li>
                 </ul>
-
+                <Pagination size="small" total={50}  showSizeChanger  showQuickJumper/>
             </div>
         )
     }
@@ -95,7 +139,8 @@ class DataTablePage extends React.Component {
 const mapStateToProps = (state, ownProps) => {
 
     return {
-        dataTable: state.components.dataTable
+
+        $$dataTable: state.components.dataTable
     }
 }
 

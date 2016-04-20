@@ -73,6 +73,9 @@ export default function dataTable($$state = Immutable.fromJS({
                     return selectedRowDetailObj.delete(index)
                 }
                 return selectedRowDetailObj.set(index, {rows: rows, columns: secondColumns})
+
+            }).updateIn([action.source], function(source){
+                return source.merge({pending: false})
             })
         case 'CHECK_ROW':
 

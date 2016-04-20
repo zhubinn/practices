@@ -1169,63 +1169,70 @@ let searchColumns = {
         searchType: 1
     },
     user: {
-        searchType: 1
+
+        searchType: 2
     },
     IsStop: {
-        searchType: 3,
+        searchType: 4,
         renderData: {
             options:[
                 {
                     text: '全部',
                     // Notes: 该条目0和1被占用,以后类似情况约定0为全部
-                    value: -1,
-                    default: true
+
+                    value: -1
                 },
                 {
                     text: '启动',
-                    value: 1,
-                    default: false
+                    value: 1
                 },
                 {
                     text: '停止',
-                    value: 0,
-                    default: false
+                    value: 0
                 }
 
-            ]
+            ],
+            defaultValue: 0
         }
     },
     IsSys: {
-        searchType: 3,
+        searchType: 4,
         renderData: {
             options:[
                 {
                     text: '全部',
                     // Notes: 该条目0和1被占用,以后类似情况约定0为全部
-                    value: -1,
-                    default: true
+
+                    value: -1
+
                 },
                 {
                     text: '是',
-                    value: 1,
-                    default: false
+                    value: 1
                 },
                 {
                     text: '否',
-                    value: 0,
-                    default: false
+                    value: 0
+
                 }
 
-            ]
+            ],
+            defaultValue: 0
         }
     },
     date: {
-        searchType: 2,
+        searchType: 3,
         renderData: {
-            startTime: '20160101',
-            endTime: '20160301'
+
+        }
+    },
+    NpStopTime: {
+        searchType: 5,
+        renderData: {
+            defaultValue: ['20160101', '20160405']
         }
     }
+
 
 }
 /*
@@ -1322,7 +1329,8 @@ let columns = [
             <option>自定义</option>
         </select>)
     }},
-    {text: '状态', datafield: 'IsStop', width: 60, cellsrenderer: function(rowData, column, value){
+
+    {text: '状态', datafield: 'IsStop', width: 260, cellsrenderer: function(rowData, column, value){
         return value == 0 ? '启动' : '停止'
     }},
     {text: '操作', datafield: 'ID', width: 150, cellsrenderer: function(rowData, column, value){
@@ -1338,7 +1346,8 @@ let columns = [
         //return (<EditBtn    deletename = '删除' ondelete = {()=>{this.refresh(Object.assign({}, rowData, {name: 'jdkaljdksa'}));}}  editname = '编辑' onedit = {function(){console.log(rowData)}}/>)
     }
     },
-    {text: '系统', datafield: 'IsSys', width: 50, cellsrenderer: function(rowData, column, value){
+
+    {text: '系统', datafield: 'IsSys', width: 250, cellsrenderer: function(rowData, column, value){
 
         return  value == '1' ? '是' : '否'
 

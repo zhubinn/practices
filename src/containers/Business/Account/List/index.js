@@ -15,6 +15,16 @@ const DATA_TABLE_SOURCE = 'Account_List'
 
 let params = {
     url: 'http://esn.fuwenfang.com/front/js/scrm/fakeData/tableData.php',
+import { Pagination } from 'antd';
+
+function showTotal(total) {
+    return `共 ${total} 条`;
+}
+
+
+
+let params = {
+    url: 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php',
     data: {
         page: 1,
         rowsPerPage: 20
@@ -22,73 +32,90 @@ let params = {
 }
 
 
-
 class AccountListPage extends React.Component {
-    componentDidMount() {
+    constructor() {
+        super()
 
-        this.props.initSource(DATA_TABLE_SOURCE)
-        // 页面初始完,获取数据,触发action: GET_DATA
-        this.props.getData(params, DATA_TABLE_SOURCE)
-        console.log(this.refs.dataTable)
+    }
+
+    componentDidMount() {
+        const id = this.refs.dataTable.identity
+        this.props.initSource(id)
+        //// 页面初始完,获取数据,触发action: GET_DATA
+        this.props.getData(params, id)
+
 
 
     }
 
     render() {
         const { showDetail, checkRow, updateRow, toggleSearch} = this.props
-        const $$dataTable = this.props.dataTable.get(DATA_TABLE_SOURCE)
 
-        const $$rows = $$dataTable && $$dataTable.get('rows')
-        const rows = ($$rows && $$rows.toJS()) || []
+        let dataSource = {}
 
-        const $$selectedRowDetailObj = $$dataTable && $$dataTable.get('selectedRowDetailObj')
-        const selectedRowDetailObj = ($$selectedRowDetailObj && $$selectedRowDetailObj.toJS()) || {}
+        if (this.refs.dataTable) {
+            const { $$dataTable } = this.props
 
-        const checkedRows = $$dataTable && $$dataTable.get('checkedRows').toJS() || []
+            const $$obj = $$dataTable.get(this.refs.dataTable.identity)
 
-        const searchBarShow = $$dataTable && $$dataTable.get('searchBarShow') || false
-
-        const pending = $$dataTable && $$dataTable.get('pending') || false
+            if ($$obj) {
+                dataSource = $$obj.toJS()
+            }
+        }
 
         return (
 
 
-            <div  style = {{marginLeft: '20px'}} >
+
+            <div style={{marginLeft: '20px'}}>
+
 
                 <div>
-                   <span>已处理客户</span>
-                   <span>已处理客户</span>
-                   <span>已处理客户</span>
-                   <span>已处理客户</span>
-                   <span>已处理客户</span>
-                   <span>已处理客户</span>
+                    <button onClick={(e)=>{console.log(this.refs.dataTable.getCheckedRows())}}>获取已经选择的行</button>
+                </div>
+                <div>
+                    <button onClick={(e) => {toggleSearch(true, this.refs.dataTable.identity )}}>高级搜索</button>
+                    <button onClick={(e) => {toggleSearch(false, this.refs.dataTable.identity)}}>确定</button>
                 </div>
 
 
+
+
+                <div>
+                    <span>已处理客户</span>
+                    <span>已处理客户</span>
+                    <span>已处理客户</span>
+                    <span>已处理客户</span>
+                    <span>已处理客户</span>
+                    <span>已处理客户</span>
+                </div>
+
+
+
+
+
                 <DataTable ref="dataTable"
-                           source={DATA_TABLE_SOURCE}
                            checkMode={true}
                            onCheckRow={checkRow}
                            hasDetail={true}
-                           checkedRows={checkedRows}
-                           rows={rows}
-                           selectedRowDetailObj={selectedRowDetailObj}
+                           checkedRows={dataSource.checkedRows}
+                           rows={dataSource.rows}
+                           selectedRowDetailObj={dataSource.selectedRowDetailObj}
                            searchColumns={searchColumns}
                            columns={columns}
-                           searchBarStatus={searchBarShow}
+                           searchBarStatus={dataSource.searchBarShow}
                            onUpdateRow={updateRow}
                            onShowDetail={showDetail}
-                           pending={pending}
-
+                           pending={dataSource.pending}
                 />
                 <ul>
                     <li>1</li>
                     <li onClick={(e)=>{params.data.page = 2;this.props.getData(params
 
-                        , DATA_TABLE_SOURCE)}}>2
+                        , this.refs.dataTable.identity)}}>2
                     </li>
                 </ul>
-
+                <Pagination size="small" total={50}  showSizeChanger  showQuickJumper/>
             </div>
         )
     }
@@ -97,7 +124,7 @@ class AccountListPage extends React.Component {
 const mapStateToProps = (state, ownProps) => {
 
     return {
-        dataTable: state.components.dataTable,
+        $$dataTable: state.components.dataTable,
         account_list: state.business.account_list
     }
 }
