@@ -1,4 +1,3 @@
-
 /**
  * Created by janeluck on 4/7/16.
  */
@@ -10,11 +9,6 @@ import DataTable from 'components/Business/DataTable'
 import  { initSource,getData, showDetail, checkRow, updateRow, toggleSearch}  from 'actions/Component/DataTable'
 
 import {rowsData, columns, searchColumns} from 'components/Business/DataTable/fakeData'
-
-const DATA_TABLE_SOURCE = 'Account_List'
-
-let params = {
-    url: 'http://esn.fuwenfang.com/front/js/scrm/fakeData/tableData.php',
 import { Pagination } from 'antd';
 
 function showTotal(total) {
@@ -24,7 +18,7 @@ function showTotal(total) {
 
 
 let params = {
-    url: 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php',
+    url: 'http://esn.fuwenfang.com/front/js/scrm/fakeData/tableData.php',
     data: {
         page: 1,
         rowsPerPage: 20
@@ -64,7 +58,6 @@ class AccountListPage extends React.Component {
         }
 
         return (
-
 
 
             <div style={{marginLeft: '20px'}}>
@@ -122,7 +115,6 @@ class AccountListPage extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-
     return {
         $$dataTable: state.components.dataTable,
         account_list: state.business.account_list

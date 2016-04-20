@@ -4,13 +4,11 @@
 
 import { findDOMNode } from 'react-dom'
 import { isPlainObject, isFunction, isString, isArray } from 'lodash'
-
 import randomString  from 'random-string'
 import BaseTable from './BaseTable'
 
 import './base.css'
 import './DataTable.less'
-
 
 
 import {  Spin, InputNumber, Input,  DatePicker, Select, Form ,Button} from 'antd';
@@ -19,7 +17,6 @@ import 'antd/lib/index.css';
 
 // todo: 获取数据action的详写
 import {secondRowsData, secondColumns} from 'components/Business/DataTable/fakeData'
-
 
 
 const Option = Select.Option;
@@ -67,7 +64,6 @@ export default class DataTable extends React.Component {
         this.renderTitleCell = this.renderTitleCell.bind(this)
         this.onCheckAll = this.onCheckAll.bind(this)
         this.renderSearch = this.renderSearch.bind(this)
-
         this.createSearchBar = this.createSearchBar.bind(this)
         this.getCheckedRows = this.getCheckedRows.bind(this)
         this.getCheckedIndexes = this.getCheckedIndexes.bind(this)
@@ -106,7 +102,6 @@ export default class DataTable extends React.Component {
     }
 
     onCheckAll() {
-
         this.props.onCheckRow(-1, !(this.props.rows.length === this.props.checkedRows.length), this.identity)
     }
 
@@ -130,7 +125,6 @@ export default class DataTable extends React.Component {
 
     // 高级搜索点击确定后获取表单数据
     getSearchForm() {
-
 
         console.log(this.refs.searchForm)
 
@@ -196,7 +190,6 @@ export default class DataTable extends React.Component {
     }
 
 
-
     renderSearch(datafield, getFieldProps) {
 
         let obj = this.props.searchColumns[datafield];
@@ -205,7 +198,6 @@ export default class DataTable extends React.Component {
         // todo: 拆分
         switch (obj.searchType || 0) {
             case 1:
-
                 return (<FormItem  ><Input {...getFieldProps('search-' + datafield)}  /></FormItem>)
             case 2:
                 return (<FormItem><InputNumber {...getFieldProps('search-' + datafield)} /></FormItem>)
@@ -234,7 +226,6 @@ export default class DataTable extends React.Component {
         }
         return null
     }
-
 
 
     createSearchBar(searchBarStatus, checkMode, hasDetail, columns) {
@@ -313,6 +304,7 @@ export default class DataTable extends React.Component {
             checkedRows,
             pending,
             searchBarStatus,
+
             onShowDetail,
             onCheckRow,
             onUpdateRow,
@@ -340,29 +332,6 @@ export default class DataTable extends React.Component {
                             </thead>
 
                         </table>
-                        <table>
-                            <tbody>
-                            <tr className={searchBarStatus ? '' : 'hide'}>
-                                {checkMode ? (<td>
-                                    <div className="small-cell"></div>
-                                </td>) : null}
-                                {hasDetail ? (<td>
-                                    <div className="small-cell"></div>
-                                </td>) : null}
-                                {columns.map((item, i) => (<td key={i}>
-                                    <div
-                                        style={{width: ''+ (item.width||150) +'px'}}>{this.renderSearch(item.datafield)}</div>
-                                </td>))}
-
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {/*    <div className={pending ? '' : 'hide'} >拼命加载中...</div>*/}
-                    {this.resolveTables(rows, columns, selectedRowDetailObj)
-                        .map(function (item, i) {
-
                         { /*    <Form  >
                          <table className={searchBarStatus ? '' : 'hide'}>
                          <tbody>
@@ -370,34 +339,22 @@ export default class DataTable extends React.Component {
                          {checkMode ? (<td>
                          <div className="small-cell"></div>
                          </td>) : null}
-
-
                          {hasDetail ? (<td>
                          <div className="small-cell"></div>
                          </td>) : null}
-
-
                          {columns.map((item, i) => (<td key={i}>
-
                          <div
                          style={{width: ''+ (item.width||150) +'px'}}>
-
-
                          {this.renderSearch(item.datafield)}
-
-
                          </div>
                          </td>))}
-
                          </tr>
                          <tr>
                          <td><Button type="ghost"  > 重置</Button></td>
                          <td><Button htmlType="submit" type="primary" onClick = {(e)=>{this.getSearchForm()}}> 确定</Button></td>
                          </tr>
                          </tbody>
-
                          </table>
-
                          </Form>*/}
 
                         {this.createSearchBar(searchBarStatus, checkMode, hasDetail, columns)}
@@ -416,7 +373,6 @@ export default class DataTable extends React.Component {
                                            onUpdateRow={onUpdateRow}
                                            checkedRows={checkedRows}
                                            checkMode={checkMode}
-
                                            source={this.identity}
                                            key={i}
                                            rows={item.rows}
@@ -430,7 +386,6 @@ export default class DataTable extends React.Component {
                                            rows={item.rows}
                                            columns={item.columns}
                                            isParentTable={false}
-
                                            source={this.identity}
                                 />
                             )
@@ -443,17 +398,15 @@ export default class DataTable extends React.Component {
 
 
 /*
-<<<<<<< HEAD
-* 内部方法: getCheckedRows
-*
-*
-*
-* */
+ * 内部方法: getCheckedRows
+ *
+ *
+ *
+ * */
 
 DataTable.propTypes = {
     columns: React.PropTypes.array,
     rows: React.PropTypes.array,
-
     checkedRows: React.PropTypes.array,
     searchColumns: React.PropTypes.object,
     checkMode: React.PropTypes.bool,
@@ -465,7 +418,6 @@ DataTable.propTypes = {
 DataTable.defaultProps = {
     columns: [],
     rows: [],
-
     checkedRows: [],
     searchColumns: {},
     selectedRowDetailObj: {},

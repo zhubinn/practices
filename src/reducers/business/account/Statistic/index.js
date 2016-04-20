@@ -1,5 +1,5 @@
 import Immutable from 'immutable'
-//import {} from 'actions/Business/Account/Customizable'
+import {CK_UPDATEISPENE} from 'actions/Business/Account/Statistic'
 
 
 const $$initialState = Immutable.fromJS({
@@ -8,6 +8,8 @@ const $$initialState = Immutable.fromJS({
 
 const  statistic = ($$state = $$initialState, action)=>{
     switch(action.type) {
+    	case CK_UPDATEISPENE:
+    		return $$state.merge({IsPene:true})
         default:
             return $$state
     }

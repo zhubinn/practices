@@ -3,7 +3,6 @@
  */
 import { combineReducers } from 'redux'
 import account_list from './account/list'
-<<<<<<< HEAD
 import account_Customizable from './account/Customizable'
 import account_statistic from './account/Statistic'
 
