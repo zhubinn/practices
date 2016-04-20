@@ -14,8 +14,8 @@ import AccountListPage from 'containers/Business/Account/List'
 
 
 export default (
-    <Route path="/" component={MasterPage}>
-        <Route path="__demo">
+    <Route path="/" >
+        <Route path="__demo" component={MasterPage}>
             <Route path="table" component={DemoTablePage}/>
             <Route path="login" component={DemoLoginPage}/>
         </Route>
