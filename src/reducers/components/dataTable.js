@@ -44,6 +44,7 @@ export default function dataTable($$state = Immutable.fromJS({
             })
 
         case GET_DATA_SUCCESS:
+            console.log(action.source)
             const { payload  } = action
 
             return $$state.updateIn([action.source], function (source) {

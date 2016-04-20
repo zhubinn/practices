@@ -10,11 +10,11 @@ const SEACH_DATA = 'SEACH_DATA'
 // 改变搜索数据
 const ON_CHANGE = 'ON_CHANGE'
 // 获取数据成功
-const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS'
+const GET_CHANGE_SUCCESS = 'GET_CHANGE_SUCCESS'
 // 获取数据失败
-const GET_DATA_FAILURE = 'GET_DATA_FAILURE'
+const GET_CHANGE_FAILURE = 'GET_CHANGE_FAILURE'
 
-const getData = (params)=> {
+const getDataobj = (params)=> {
     const fetchData = (type, payload, source)=> {
         return {
             type,
@@ -42,7 +42,7 @@ const getData = (params)=> {
         }).then(function (data) {
             console.log(data)
             debugger
-            dispatch(fetchData(GET_DATA_SUCCESS, {columns: data.columns, data:data.data}))
+            dispatch(fetchData(GET_CHANGE_SUCCESS, {columns: data.columns, data:data.data}))
         })
     }
 }
@@ -66,9 +66,9 @@ const getDataFailure = () => {
 export {
     SEACH_DATA,
     ON_CHANGE,
-    GET_DATA_SUCCESS,
-    GET_DATA_FAILURE,
-    getData,
+    GET_CHANGE_SUCCESS,
+    GET_CHANGE_FAILURE,
+    getDataobj,
     getDataSuccess,
     getDataFailure,
 }

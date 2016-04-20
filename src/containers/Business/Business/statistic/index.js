@@ -7,8 +7,12 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { Row, Col, Tabs, Table, Button} from 'antd'
+
+import DataTable from 'components/Business/DataTable'
+import  { initSource,getData, showDetail, checkRow, updateRow, toggleSearch}  from 'actions/Component/DataTable'
+
 import SearchInput from 'components/Business/SearchInput'
-import { getData, getDataSuccess, getDataFailure}  from 'actions/business/business/statistic'
+import { getDataobj, getDataSuccess, getDataFailure}  from 'actions/business/business/statistic'
 import { handleInputChange }  from 'actions/Component/SearchInput'
 import 'antd/lib/index.css';
 
@@ -18,6 +22,16 @@ let params = {
     url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/demoData.php',
 }
 
+
+let params1 = {
+    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/tableData.php',
+    data: {
+        page: 1,
+        rowsPerPage: 20
+    }
+}
+
+
 class BusinessStatistic extends React.Component {
     constructor(props) {
       super(props)
@@ -26,9 +40,9 @@ class BusinessStatistic extends React.Component {
     }
 
     componentDidMount() {
-      const { getData } = this.props
+      const { getDataobj } = this.props
       // 页面初始完,获取数据,触发action: GET_DATA
-      getData(params)
+      getDataobj(params)
     }
 
     handleInputChange(val) {
@@ -37,15 +51,16 @@ class BusinessStatistic extends React.Component {
     }
 
     onSearch (val) {
-      const { getData } = this.props
-      getData(val)
+      const { getDataobj } = this.props
+      getDataobj(val)
     }
 
     render() {
-        const { $$searchState } = this.props;
+        const { $$searchState, $$tableState} = this.props;
+        debugger
         let val = $$searchState.get('val');
-        let columns;
-        let data;
+        let columns = $$tableState.get("statisticReport").get('columns').toJS();
+        let data = $$tableState.get("statisticReport").get('data').toJS();
         return (
             <div  style = {{marginLeft: '20px'}} >
               <Row>
@@ -61,7 +76,7 @@ class BusinessStatistic extends React.Component {
               </Row>
               <Tabs defaultActiveKey="1" >
                 <TabPane tab="生意汇总表" key="1">
-                  
+                  <Table columns={columns} dataSource={data} />
                 </TabPane>
                 <TabPane tab="生意明细汇总表" key="2">
                   2222222
@@ -74,12 +89,13 @@ class BusinessStatistic extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$searchState: state.components.searchInput
+        $$searchState: state.components.searchInput,
+        $$tableState: state.business.statistic,
     }
 }
 
 export default connect(mapStateToProps, {
-    getData,
+    getDataobj,
     getDataSuccess,
     getDataFailure,
     handleInputChange,
