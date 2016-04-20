@@ -6,10 +6,6 @@ import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 import {rowsData, columns, searchColumns,secondRowsData, secondColumns} from 'components/Business/DataTable/fakeData'
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 7f4e613cfd97f4e920a1f9641a2fbc2f26b4bf36
 // 获取数据
 const GET_DATA = 'GET_DATA'
 // 获取数据成功
@@ -44,10 +40,6 @@ const getData = (params, source)=> {
             source
         }
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 7f4e613cfd97f4e920a1f9641a2fbc2f26b4bf36
     /*    const p = new Promise(function (resolve, reject) {
      setTimeout(function () {
      resolve({
@@ -75,10 +67,6 @@ const getData = (params, source)=> {
             }
             return response.json()
         }).then(function (data) {
-<<<<<<< HEAD
-=======
-
->>>>>>> 7f4e613cfd97f4e920a1f9641a2fbc2f26b4bf36
             dispatch(fetchData(GET_DATA_SUCCESS, {rows: data.rowsData, pending: false}, source))
 
         })
@@ -102,7 +90,6 @@ function showDetail(index, rowdata, source) {
         setTimeout(function () {
             resolve({
                 rows: secondRowsData,
-
                 pending: false,
                 index: index
             })
@@ -123,8 +110,6 @@ function showDetail(index, rowdata, source) {
 
         p.then(function (data) {
             dispatch(fetchData('GET_DETAIL_DATA_SUCCESS', data, source))
-
-
         })
 
     }

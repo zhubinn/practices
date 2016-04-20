@@ -3,9 +3,11 @@
  */
 import { combineReducers } from 'redux'
 import account_list from './account/list'
+import statistic from './business/statistic'
 
 const businessReducers = combineReducers({
     account_list,
+    statistic,
 })
 
 export default businessReducers

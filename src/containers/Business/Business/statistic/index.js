@@ -3,7 +3,6 @@
  * Created by ytm on 4/7/16.
  */
 
-
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
@@ -15,11 +14,21 @@ import 'antd/lib/index.css';
 
 const TabPane = Tabs.TabPane;
 
+let params = {
+    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/demoData.php',
+}
+
 class BusinessStatistic extends React.Component {
     constructor(props) {
-        super(props)
-        this.handleInputChange = this.handleInputChange.bind(this)
-        this.onSearch = this.onSearch.bind(this)
+      super(props)
+      this.handleInputChange = this.handleInputChange.bind(this)
+      this.onSearch = this.onSearch.bind(this)
+    }
+
+    componentDidMount() {
+      const { getData } = this.props
+      // 页面初始完,获取数据,触发action: GET_DATA
+      getData(params)
     }
 
     handleInputChange(val) {
@@ -34,7 +43,9 @@ class BusinessStatistic extends React.Component {
 
     render() {
         const { $$searchState } = this.props;
-        const val = $$searchState.get('val');
+        let val = $$searchState.get('val');
+        let columns;
+        let data;
         return (
             <div  style = {{marginLeft: '20px'}} >
               <Row>
@@ -50,7 +61,7 @@ class BusinessStatistic extends React.Component {
               </Row>
               <Tabs defaultActiveKey="1" >
                 <TabPane tab="生意汇总表" key="1">
-                  11111111
+                  
                 </TabPane>
                 <TabPane tab="生意明细汇总表" key="2">
                   2222222
