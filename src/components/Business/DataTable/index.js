@@ -209,7 +209,7 @@ export default class DataTable extends React.Component {
                 return (<FormItem><InputNumber {...getFieldProps('search-' + datafield)} /></FormItem>)
             case 3:
                 return (
-                    <FormItem  ><DatePicker {...getFieldProps('search-' + datafield, {initialValue: obj.renderData.defaultValue})}  /></FormItem>)
+                    <FormItem  ><DatePicker format="yyyyMMdd" {...getFieldProps('search-' + datafield, {initialValue: obj.renderData.defaultValue})}  /></FormItem>)
             case 4:
                 return (<FormItem  >
 

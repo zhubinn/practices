@@ -1226,7 +1226,7 @@ let searchColumns = {
     date: {
         searchType: 3,
         renderData: {
-            defaultValue: ''
+            defaultValue: '20160101'
         }
     },
     NpStopTime: {
