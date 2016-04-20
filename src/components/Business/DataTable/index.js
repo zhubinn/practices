@@ -203,7 +203,7 @@ export default class DataTable extends React.Component {
         // todo: 拆分
         switch (obj.searchType || 0) {
             case 1:
-                console.log(getFieldProps('search-' + datafield))
+
                 return (<FormItem  ><Input {...getFieldProps('search-' + datafield)}  /></FormItem>)
             case 2:
                 return (<FormItem><InputNumber {...getFieldProps('search-' + datafield)} /></FormItem>)
