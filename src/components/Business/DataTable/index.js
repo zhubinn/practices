@@ -234,11 +234,15 @@ export default class DataTable extends React.Component {
             handleSubmit(e) {
                 e.preventDefault();
                 console.log('收到表单值：', this.props.form.getFieldsValue());
+                //that.props.toggleSearch(false, that.identity)
+            },
+            resetForm(){
+                this.props.form.resetFields()
             },
 
             render() {
                 const { getFieldProps } = this.props.form;
-                console.log(getFieldProps)
+
                 return (
                     <Form inline onSubmit={this.handleSubmit}>
                         <table className={searchBarStatus ? '' : 'hide'}>
@@ -268,7 +272,10 @@ export default class DataTable extends React.Component {
                             </tr>
                             <tr>
                                 <td>
-                                    <Button type="primary" htmlType="submit">登录</Button>
+                                    <Button type="ghost" onClick={(e) => {this.resetForm()}} >重置</Button>
+                                </td>
+                                <td>
+                                    <Button type="primary" htmlType="submit">确定</Button>
                                 </td>
                             </tr>
                             </tbody>
