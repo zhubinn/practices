@@ -18,7 +18,7 @@ function showTotal(total) {
 
 
 let params = {
-    url: 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php',
+    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/tableData.php',
     data: {
         page: 1,
         rowsPerPage: 20
