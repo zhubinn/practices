@@ -1166,10 +1166,16 @@ let rowsData= [
  **/
 let searchColumns = {
     name: {
-        searchType: 1
+        searchType: 1,
+        renderData: {
+            defaultValue: ''
+        }
     },
     user: {
-        searchType: 2
+        searchType: 2,
+        renderData: {
+            defaultValue: ''
+        }
     },
     IsStop: {
         searchType: 4,
@@ -1220,7 +1226,7 @@ let searchColumns = {
     date: {
         searchType: 3,
         renderData: {
-
+            defaultValue: ''
         }
     },
     NpStopTime: {

@@ -23,6 +23,9 @@ const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker;
 
 const FormItem = Form.Item;
+let SearchBar
+
+
 
 
 let Demo = React.createClass({
@@ -59,6 +62,7 @@ export default class DataTable extends React.Component {
     constructor(props) {
         super(props)
 
+
         this.resolveTables = this.resolveTables.bind(this)
         this.renderCheckBtn = this.renderCheckBtn.bind(this)
         this.renderTitleCell = this.renderTitleCell.bind(this)
@@ -70,6 +74,7 @@ export default class DataTable extends React.Component {
         this.getSearchForm = this.getSearchForm.bind(this)
         this.renderLoading = this.renderLoading.bind(this)
         this.identity = 'dataTable_' + randomString()
+
     }
 
 
@@ -198,17 +203,19 @@ export default class DataTable extends React.Component {
         // todo: 拆分
         switch (obj.searchType || 0) {
             case 1:
+                console.log(getFieldProps('search-' + datafield))
                 return (<FormItem  ><Input {...getFieldProps('search-' + datafield)}  /></FormItem>)
             case 2:
                 return (<FormItem><InputNumber {...getFieldProps('search-' + datafield)} /></FormItem>)
             case 3:
-                return (<FormItem  ><DatePicker {...getFieldProps('search-' + datafield,   { initialValue:obj.renderData.defaultValue })}  /></FormItem>)
+                return (
+                    <FormItem  ><DatePicker {...getFieldProps('search-' + datafield, {initialValue: obj.renderData.defaultValue})}  /></FormItem>)
             case 4:
                 return (<FormItem  >
 
-                    <Select   {...getFieldProps('search-' + datafield,  { initialValue:obj.renderData.defaultValue })}  >
+                    <Select   {...getFieldProps('search-' + datafield, {initialValue: obj.renderData.defaultValue})}  >
 
-                            {obj.renderData.options.map((item, i) => (
+                        {obj.renderData.options.map((item, i) => (
                             <Option key={i} value={item.value}>{item.text}</Option>))}
 
 
@@ -218,7 +225,8 @@ export default class DataTable extends React.Component {
                 </FormItem>)
             case 5:
                 return (<FormItem  >
-                    <RangePicker {...getFieldProps('search-' + datafield,   { initialValue:obj.renderData.defaultValue })}  format="yyyyMMdd"  />
+                    <RangePicker {...getFieldProps('search-' + datafield, {initialValue: obj.renderData.defaultValue})}
+                        format="yyyyMMdd"/>
 
 
                 </FormItem>)
@@ -228,13 +236,15 @@ export default class DataTable extends React.Component {
     }
 
 
-    createSearchBar(searchBarStatus, checkMode, hasDetail, columns) {
+    createSearchBar(checkMode, hasDetail, columns) {
         const that = this
-        let SearchBar = React.createClass({
+
+        if(!SearchBar ){
+        SearchBar = React.createClass({
             handleSubmit(e) {
                 e.preventDefault();
                 console.log('收到表单值：', this.props.form.getFieldsValue());
-                //that.props.toggleSearch(false, that.identity)
+                // that.props.toggleSearch(false, that.identity)
             },
             resetForm(){
                 this.props.form.resetFields()
@@ -245,7 +255,7 @@ export default class DataTable extends React.Component {
 
                 return (
                     <Form inline onSubmit={this.handleSubmit}>
-                        <table className={searchBarStatus ? '' : 'hide'}>
+                        <table >
                             <tbody>
                             <tr >
                                 {checkMode ? (<td>
@@ -272,7 +282,7 @@ export default class DataTable extends React.Component {
                             </tr>
                             <tr>
                                 <td>
-                                    <Button type="ghost" onClick={(e) => {this.resetForm()}} >重置</Button>
+                                    <Button type="ghost" onClick={(e) => {this.resetForm()}}>重置</Button>
                                 </td>
                                 <td>
                                     <Button type="primary" htmlType="submit">确定</Button>
@@ -287,6 +297,7 @@ export default class DataTable extends React.Component {
         });
 
         SearchBar = Form.create()(SearchBar);
+        }
         return (<SearchBar />)
     }
 
@@ -317,7 +328,7 @@ export default class DataTable extends React.Component {
         return (
             <div className="dataTableWrap">
 
-                <Demo />
+
                 <div className="dataTable" id={this.identity}
                      style={{width: ''+ (this.calculateWidth(columns, checkMode, hasDetail)) +'px'}}>
                     <div className="dataTable-title">
@@ -332,6 +343,7 @@ export default class DataTable extends React.Component {
                             </thead>
 
                         </table>
+
                         { /*    <Form  >
                          <table className={searchBarStatus ? '' : 'hide'}>
                          <tbody>
@@ -369,7 +381,11 @@ export default class DataTable extends React.Component {
 
                          </Form>*/}
 
-                        {this.createSearchBar(searchBarStatus, checkMode, hasDetail, columns)}
+
+                        <div className={searchBarStatus ? '' : 'hide'}>
+                            {this.createSearchBar(checkMode, hasDetail, columns)}
+                        </div>
+
                     </div>
 
                     {/*    <div className={pending ? '' : 'hide'} >拼命加载中...</div>*/}
