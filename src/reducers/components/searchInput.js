@@ -1,4 +1,5 @@
 import Immutable from 'immutable'
+import { CK_INPUT_CHANGE } from 'actions/Component/SearchInput'
 
 let searchInputObj = {
     val: "",
@@ -6,8 +7,8 @@ let searchInputObj = {
 };
 export default function searchInput($$state = Immutable.fromJS(searchInputObj), action) {
     switch(action.type) {
-    	case 'getData':
-    	    return $$state;
+    	case CK_INPUT_CHANGE:
+    	    return $$state.merge({ val: action.val });
         default:
             return $$state;
     }

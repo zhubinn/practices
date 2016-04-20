@@ -1,6 +1,6 @@
 
 /**
- * Created by janeluck on 4/7/16.
+ * Created by ytm on 4/7/16.
  */
 
 
@@ -9,7 +9,8 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { Row, Col, Tabs, Table, Button} from 'antd'
 import SearchInput from 'components/Business/SearchInput'
-import  { getData, getDataSuccess, getDataFailure}  from 'actions/business/business/statistic'
+import { getData, getDataSuccess, getDataFailure}  from 'actions/business/business/statistic'
+import { handleInputChange }  from 'actions/Component/SearchInput'
 import 'antd/lib/index.css';
 
 const TabPane = Tabs.TabPane;
@@ -17,22 +18,28 @@ const TabPane = Tabs.TabPane;
 class BusinessStatistic extends React.Component {
     constructor(props) {
         super(props)
-
         this.handleInputChange = this.handleInputChange.bind(this)
+        this.onSearch = this.onSearch.bind(this)
     }
 
     handleInputChange(val) {
-       console.log(val);
+      const { handleInputChange } = this.props
+      handleInputChange(val)
+    }
+
+    onSearch (val) {
+      const { getData } = this.props
+      getData(val)
     }
 
     render() {
-        const { $$mapState } = this.props;
-        const val = $$mapState.get('val');
+        const { $$searchState } = this.props;
+        const val = $$searchState.get('val');
         return (
             <div  style = {{marginLeft: '20px'}} >
               <Row>
                 <Col span="9">
-                  <SearchInput placeholder="请输入..."  style={{ width: 300 }} val = { val } handleInputChange = {this.handleInputChange}/>
+                  <SearchInput placeholder="请输入..."  style={{ width: 300 }} val = { val } onSearch ={this.onSearch} handleInputChange = {this.handleInputChange}/>
                 </Col>
                 <Col span="10">
                   <Button type="primary"  style={{ marginLeft: 10 }} >高级搜索</Button>
@@ -56,7 +63,7 @@ class BusinessStatistic extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$mapState: state.components.searchInput
+        $$searchState: state.components.searchInput
     }
 }
 
@@ -64,4 +71,5 @@ export default connect(mapStateToProps, {
     getData,
     getDataSuccess,
     getDataFailure,
+    handleInputChange,
 })(BusinessStatistic)

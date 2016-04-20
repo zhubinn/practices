@@ -12,9 +12,13 @@ const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS'
 // 获取数据失败
 const GET_DATA_FAILURE = 'GET_DATA_FAILURE'
 
-const getData = (params, source)=> {
-   
+const getData = (val)=> {
+    return {
+            type: GET_DATA,
+            val,
+        }
 }
+
 
 const getDataSuccess = () => {
 

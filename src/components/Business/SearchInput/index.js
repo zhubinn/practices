@@ -30,8 +30,9 @@ export default class SearchInput extends React.Component {
   }
 
   handleSearch() {
+    let val = this.props.val;
     if (this.props.onSearch) {
-      this.props.onSearch();
+      this.props.onSearch(val);
     }
   }
 

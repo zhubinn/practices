@@ -1,12 +1,11 @@
 import Immutable from 'immutable'
+import { GET_DATA } from 'actions/business/statistic'
 
-let SearchInput = {
-    value: "",
-    focus: false,
-};
-export default function userLogin($$state = Immutable.fromJS(SearchInput), action) {
+export default function statistic($$state = Immutable.fromJS({}), action) {
+	debugger
     switch(action.type) {
-    	case 'getData':
+    	case GET_DATA:
+    	    alert(action.val)
     	    return $$state;
         default:
             return $$state;
