@@ -1,40 +1,65 @@
 /**
- * Created by janeluck on 4/7/16.
+ * Created by fuwenfang on 4/7/16.
  */
 
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import basic from './css/basic_new_v2.css'
-import Summary from './css/Summary.less'
-
-
+//import basic from './css/basic_new_v2.css'
+//import Statistic from './css/Statistic.less'
 
 import DataTable from 'components/Business/DataTable'
 import  { initSource,getData}  from 'actions/Component/DataTable'
+import {rowsData, searchColumns} from 'components/Business/DataTable/fakeData'
 
-import {rowsData, columns, searchColumns} from 'components/Business/DataTable/fakeData'
-
-import {searchKeyWord} from 'actions/Business/Account/Summary'
+import {updateIsPene,searchKeyWord} from 'actions/Business/Account/Statistic'
 
 
-let summaryColumns = [
+
+let detailcColumns = [
 
     {text: '部门名称', datafield: 'name', width: 120,cellsrenderer: function(rowData, column, value){
+      if(role==0){
         return (
-          <a  title = {value}>{value}</a>
+          <a href = "#" title = {value}>{value}</a>
           );
-      
+      }else{
+        return(
+          <div title = {value}>{value}</div>
+        )
+      }
     }},
-    {text: '全部客户数量', datafield: 'user', width: 160},
-    {text: '全部生意数量', datafield: 'date', width: 160},
-    {text: '全部预计销售金额', datafield: 'NpStopTime',width:160},
-    {text: '全部成交金额', datafield: 'ID', width: 160},
-    {text: '全部汇款金额', datafield: 'IsSys', width: 160},
-    {text: '全部输单金额', datafield: 'IsSys', width: 160}
+    {text: '员工姓名', datafield: 'user', width: 70,cellsrenderer: function(rowData, column, value){
+        return (
+          <a href = "#" title = {value}>{value}</a>
+          );
+    }},
+    {text: '创建时间', datafield: 'date', width: 160},
+    {text: '停止时间', datafield: 'NpStopTime'},
+    {text: 'ID', datafield: 'ID', width: 130, headerrenderer: function(){
+        return (<select>
+            <option>全部类型</option>
+            <option>系统</option>
+            <option>自定义</option>
+        </select>)
+    }},
+    {text: '系统', datafield: 'IsSys', width: 50, cellsrenderer: function(rowData, column, value){
+
+        return  value == '1' ? '是' : '否'
+
+    }
+    }
 ];
 
-let params = {
+/*需要根据权限判断是否角色 不同角色一级穿透明细统计表不同columns
+普通员工不变，领导以及负责人与上一级不同
+*/
+//假定角色  0 领导以及部门负责人；1 普通员工 
+const role = 0
+
+
+/*统计页面的请求接口*/
+let detailParams = {
     url: 'http://esn.fuwenfang.com/front/js/scrm/fakeData/tableData.php',
     data: {
         page: 1,
@@ -43,20 +68,17 @@ let params = {
 }
 
 
-class AccountSummaryPage extends React.Component {
-    constructor() {
-        super()
-
+class AccountDetail extends React.Component{
+  constructor(props) {
+        super(props)
     }
-
-    componentDidMount() {
+  componentDidMount() {
         const id = this.refs.dataTable.identity
         this.props.initSource(id)
-        //// 页面初始完,获取数据,触发action: GET_DATA
-        this.props.getData(params, id)
-
-    }
-    handleKeyUp(e){
+      // 页面初始完,获取统计数据,触发action: GET_DATA
+      this.props.getData(detailParams, id)
+  }
+  handleKeyUp(e){
     const textValue = e.currentTarget.value;
       let that = e.target;
       clearTimeout(that.timer);
@@ -73,9 +95,7 @@ class AccountSummaryPage extends React.Component {
       );
       
   }
-
-    render() {
-        const { showDetail, checkRow, updateRow, toggleSearch} = this.props
+  render(){
 
         let dataSource = {}
 
@@ -89,9 +109,7 @@ class AccountSummaryPage extends React.Component {
             }
         }
 
-        return (
-
-
+          return (
             <div style={{marginLeft: '20px'}}>
                 <div className = "col_cktop">
                   <div className="col_cktop-gongneng clearfix">
@@ -99,30 +117,32 @@ class AccountSummaryPage extends React.Component {
                      <button className="col_cktop-btnFpai">导出EXCEL</button>
                   </div>  
                 </div>
-
-
-               <DataTable ref="dataTable"
+                <DataTable ref="dataTable"
                            checkMode={false}
                            hasDetail={false}
                            rows={dataSource.rows}
                            searchColumns={searchColumns}
-                           columns={summaryColumns}
+                           columns={detailcColumns}
                            pending={dataSource.pending}
-                />
+                />            
             </div>
-        )
-    }
+          )
+        }
+  
 }
 
 const mapStateToProps = (state, ownProps) => {
+
     return {
+        $$account_statistic: state.business.account_statistic,
         $$dataTable: state.components.dataTable,
-        account_list: state.business.account_list
     }
 }
 
 export default connect(mapStateToProps, {
-    initSource,
-    getData,
-    searchKeyWord,
-})(AccountSummaryPage)
+  initSource,
+  getData,
+  searchColumns,
+  updateIsPene,
+  searchKeyWord,
+})(AccountDetail)

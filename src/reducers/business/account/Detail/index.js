@@ -1,18 +1,18 @@
 import Immutable from 'immutable'
-import {ACCOUNT_STATISTIC_SEARCH} from 'actions/Business/Account/Statistic'
+import {ACCOUNT_DETAIL_SEARCH} from 'actions/Business/Account/Detail'
 
 
 const $$initialState = Immutable.fromJS({
 	value:''
 })
 
-const  statistic = ($$state = $$initialState, action)=>{
+const  detail = ($$state = $$initialState, action)=>{
     switch(action.type) {
-    	case ACCOUNT_STATISTIC_SEARCH:
+    	case ACCOUNT_DETAIL_SEARCH:
     		return $$state.merge({value:action.payload})
         default:
             return $$state
     }
 }
 
-export default statistic
+export default detail

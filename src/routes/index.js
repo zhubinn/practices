@@ -16,6 +16,7 @@ import AccountListPage from 'containers/Business/Account/List'
 import CustomizablePage from 'containers/Business/Account/Customizable'
 import StatisticPage from 'containers/Business/Account/Statistic'
 import SummaryPage from 'containers/Business/Account/Summary'
+import DetailPage from 'containers/Business/Account/Detail'
 
 
 
@@ -32,6 +33,7 @@ export default (
             <Route path="accounts/define/VISITID/1" component={CustomizablePage}/>
             <Route path="accounts/statistic/VISITID/1" component={StatisticPage}/>
             <Route path="accounts/summary/VISITID/1" component={SummaryPage}/>
+            <Route path="accounts/detail/VISITID/1" component={DetailPage}/>
 
         </Route>
         <Route path="*" component={Error_404}/>

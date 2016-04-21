@@ -15,15 +15,13 @@ import {rowsData, searchColumns} from 'components/Business/DataTable/fakeData'
 import {updateIsPene,searchKeyWord} from 'actions/Business/Account/Statistic'
 
 
-let currentContext;
 
 let statisticColumns = [
 
     {text: '部门名称', datafield: 'name', width: 120,cellsrenderer: function(rowData, column, value){
-      const IsPenee = currentContext.props.$$account_statistic.toJS().IsPene
-      if(!IsPenee){
+      if(role==0){
         return (
-          <a  title = {value} onClick = {(e) => {currentContext.handleIsPene()}}>{value}</a>
+          <a href = "http://esn.fuwenfang.com/scrmweb/accounts/detail/VISITID/1" title = {value}>{value}</a>
           );
       }else{
         return(
@@ -31,7 +29,17 @@ let statisticColumns = [
         )
       }
     }},
-    {text: '创建人', datafield: 'user', width: 70},
+    {text: '员工姓名', datafield: 'user', width: 70,cellsrenderer: function(rowData, column, value){
+      if(role==0){
+        return (
+          <a href = "http://esn.fuwenfang.com/scrmweb/accounts/detail/VISITID/1" title = {value}>{value}</a>
+          );
+      }else{
+        return(
+          <div title = {value}>{value}</div>
+        )
+      }
+    }},
     {text: '创建时间', datafield: 'date', width: 160},
     {text: '停止时间', datafield: 'NpStopTime'},
     {text: 'ID', datafield: 'ID', width: 130, headerrenderer: function(){
@@ -52,42 +60,8 @@ let statisticColumns = [
 /*需要根据权限判断是否角色 不同角色一级穿透明细统计表不同columns
 普通员工不变，领导以及负责人与上一级不同
 */
-//假定角色  0 领导部门负责人；1 普通员工 
+//假定角色  0 领导以及部门负责人；1 普通员工 
 const role = 0
-
-let detailColumns = [
-
-    {text: '部门名称', datafield: 'name', width: 120,cellsrenderer: function(rowData, column, value){
-       return(
-            <div  title = {value}>{value}</div>
-        )
-
-        
-
-    }},
-    {text: '员工姓名', datafield: 'name', width: 120,cellsrenderer: function(rowData, column, value){
-        return (
-          <a href = "http://esn.fuwenfang.com/scrmweb/accounts/index/VISITID/1" title = {value} >{value}</a>
-          );
-
-    }},
-    {text: '创建人', datafield: 'user', width: 70},
-    {text: '创建时间', datafield: 'date', width: 160},
-    {text: '停止时间', datafield: 'NpStopTime'},
-    {text: 'ID', datafield: 'ID', width: 130, headerrenderer: function(){
-        return (<select>
-            <option>全部类型</option>
-            <option>系统</option>
-            <option>自定义</option>
-        </select>)
-    }},
-    {text: '系统', datafield: 'IsSys', width: 50, cellsrenderer: function(rowData, column, value){
-
-        return  value == '1' ? '是' : '否'
-
-    }
-    }
-];
 
 
 /*统计页面的请求接口*/
@@ -99,33 +73,16 @@ let statisticParams = {
     }
 }
 
-/*一级穿透页面的请求接口*/
-let detailParams = {
-    url: 'http://esn.fuwenfang.com/front/js/scrm/fakeData/tableData.php',
-    data: {
-        page: 1,
-        rowsPerPage: 20
-    }
-}
-
-
 
 class AccountStatistic extends React.Component{
   constructor(props) {
         super(props)
-        currentContext = this
     }
   componentDidMount() {
         const id = this.refs.dataTable.identity
         this.props.initSource(id)
       // 页面初始完,获取统计数据,触发action: GET_DATA
       this.props.getData(statisticParams, id)
-  }
-  handleIsPene(){
-      const refid = this.refs.dataTable.identity
-      const {updateIsPene} = this.props
-      updateIsPene()
-      this.props.getData(detailParams, refid)
   }
   handleKeyUp(e){
     const textValue = e.currentTarget.value;
@@ -158,9 +115,6 @@ class AccountStatistic extends React.Component{
             }
         }
 
-
-        const IsPene = this.props.$$account_statistic.toJS().IsPene
-
           return (
             <div style={{marginLeft: '20px'}}>
                 <div className = "col_cktop">
@@ -174,7 +128,7 @@ class AccountStatistic extends React.Component{
                            hasDetail={false}
                            rows={dataSource.rows}
                            searchColumns={searchColumns}
-                           columns={!IsPene?statisticColumns:role==0?detailColumns:statisticColumns}
+                           columns={statisticColumns}
                            pending={dataSource.pending}
                 />            
             </div>
