@@ -41,9 +41,9 @@ export default class NumberReportView extends React.Component {
     componentDidMount(){
         const { numberReportViewState ,actions } = this.props
         const myDate = new Date()
-        //TODO 异步請求
-        const obj = $('#viewNumList').data()
 
+        const obj = $('#viewNumList').data()
+        //TODO 异步請求
         $.post(SCRM.url('/scrmnumreport/index/listAjax'), {
             templateID:obj.templateid || 18,
             date:myDate.getFullYear() +'-'+ this.fillZero(myDate.getMonth()+1) +'-'+ this.fillZero(myDate.getDate()),
@@ -72,6 +72,38 @@ export default class NumberReportView extends React.Component {
 
     }
 
+    importExcel(){
+        const { numberReportViewState  } = this.props
+        const date = new Date()
+        const curDay = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate()
+        const dater = numberReportViewState.toJS().dater
+        const obj = $("#viewNumList").data()
+        let dateTime
+
+        switch (obj.nptype){
+            case 'day':
+                dateTime = dater ? dater : curDay;
+                break;
+            case 'month':
+                dateTime = dater ? dater + '-01' : curDay;
+                break;
+            case 'week':
+                dateTime = dater ? dater[0] : curDay;
+                break;
+        }
+
+        const parm = {
+            "objName":"NumReportList",
+            "TplID":obj.templateid,
+            "date":dateTime,
+            "dateType":obj.nptype
+        }
+
+        const parmStr = JSON.stringify(parm)
+
+        window.open(SCRM.url('/common/scrmExport/export')+'?param='+parmStr)
+    }
+
     render() {
         const { numberReportViewState ,actions } = this.props
 
@@ -84,12 +116,12 @@ export default class NumberReportView extends React.Component {
                         <div className="ck-numberReport-top">
                             <InfoPath />
                             <div className="ck-numberReport-Function clearfix">
-                                <button className="ck-Function-btnreturn">返回</button>
+                                <button className="ck-Function-btnreturn" onClick = { () => { history.back(-1) } }>返回</button>
                                 <InputDater
                                     actions = { actions }
                                     numberReportViewState = { numberReportViewState }
                                 />
-                                <button className="ck-Function-Export">导出EXCEL</button>
+                                <button className="ck-Function-Export" onClick = { this.importExcel.bind(this) } >导出EXCEL</button>
 
                             </div>
                         </div>
