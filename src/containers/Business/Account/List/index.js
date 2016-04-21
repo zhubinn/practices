@@ -21,11 +21,17 @@ let params = {
     url: 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php',
     data: {
         page: 1,
-        rowsPerPage: 20
+        rowsPerPage: 20,
+        searchData1: {
+
+        },
+        searchData2: {
+
+        }
     }
 }
 
-
+const searchUrl = 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php'
 class AccountListPage extends React.Component {
     constructor() {
         super()
@@ -68,7 +74,7 @@ class AccountListPage extends React.Component {
                 </div>
                 <div>
                     <button onClick={(e) => {toggleSearch(true, this.refs.dataTable.identity )}}>高级搜索</button>
-                    <button onClick={(e) => {toggleSearch(false, this.refs.dataTable.identity)}}>确定</button>
+
                 </div>
 
 
@@ -95,6 +101,7 @@ class AccountListPage extends React.Component {
                            rows={dataSource.rows}
                            selectedRowDetailObj={dataSource.selectedRowDetailObj}
                            searchColumns={searchColumns}
+                           searchUrl = {searchUrl}
                            columns={columns}
                            searchBarStatus={dataSource.searchBarShow}
                            onUpdateRow={updateRow}

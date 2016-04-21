@@ -4,6 +4,7 @@
 
 import { findDOMNode } from 'react-dom'
 import { isPlainObject, isFunction, isString, isArray } from 'lodash'
+import fetch from 'isomorphic-fetch'
 import randomString  from 'random-string'
 import BaseTable from './BaseTable'
 
@@ -11,7 +12,7 @@ import './base.css'
 import './DataTable.less'
 
 
-import {  Spin, InputNumber, Input,  DatePicker, Select, Form ,Button} from 'antd';
+import {  Spin, InputNumber, Input, DatePicker, Select, Form, Button  } from 'antd';
 import 'antd/lib/index.css';
 
 
@@ -21,7 +22,6 @@ import {secondRowsData, secondColumns} from 'components/Business/DataTable/fakeD
 
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker;
-
 const FormItem = Form.Item;
 let SearchBar
 
@@ -75,7 +75,43 @@ export default class DataTable extends React.Component {
         this.renderLoading = this.renderLoading.bind(this)
         this.identity = 'dataTable_' + randomString()
 
+
+        const that = this
+        // searchUrl不为空字符串, 获取高级搜索所需要的数据
+        if (this.props.searchUrl) {
+            fetch(this.props.searchUrl, {
+
+                method: 'post',
+                headers: {
+                    'API': 1,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify()
+            }).then(function(response) {
+                if (response.status >= 400) {
+                    throw new Error("Bad response from server")
+                }
+                return response.json()
+            }).then(function (data) {
+
+                that.searchColumns1 = data.searchColumns1
+                that.searchColumns2 = data.searchColumns2
+
+            })
+        }
+
+
+
     }
+
+
+
+    componentDidMount(){
+
+
+    }
+
 
 
     // 分割table
@@ -200,24 +236,25 @@ export default class DataTable extends React.Component {
 
 
     renderSearch(datafield, getFieldProps) {
+        if (!this.searchColumns1) return null
+        let obj = this.searchColumns1[datafield];
 
-        let obj = this.props.searchColumns[datafield];
         if (typeof obj === 'undefined') return null
 
         // todo: 拆分
         switch (obj.searchType || 0) {
             case 1:
 
-                return (<FormItem  ><Input {...getFieldProps('search-' + datafield)}  /></FormItem>)
+                return (<FormItem  ><Input {...getFieldProps(datafield)}  /></FormItem>)
             case 2:
-                return (<FormItem><InputNumber {...getFieldProps('search-' + datafield)} /></FormItem>)
+                return (<FormItem><InputNumber {...getFieldProps(datafield)} /></FormItem>)
             case 3:
                 return (
-                    <FormItem  ><DatePicker format="yyyyMMdd" {...getFieldProps('search-' + datafield, {initialValue: obj.renderData.defaultValue})}  /></FormItem>)
+                    <FormItem  ><DatePicker format="yyyyMMdd" {...getFieldProps(datafield, {initialValue: obj.renderData.defaultValue})}  /></FormItem>)
             case 4:
                 return (<FormItem  >
 
-                    <Select   {...getFieldProps('search-' + datafield, {initialValue: obj.renderData.defaultValue})}  >
+                    <Select   {...getFieldProps(datafield, {initialValue: obj.renderData.defaultValue})}  >
 
                         {obj.renderData.options.map((item, i) => (
                             <Option key={i} value={item.value}>{item.text}</Option>))}
@@ -229,7 +266,7 @@ export default class DataTable extends React.Component {
                 </FormItem>)
             case 5:
                 return (<FormItem  >
-                    <RangePicker {...getFieldProps('search-' + datafield, {initialValue: obj.renderData.defaultValue})}
+                    <RangePicker {...getFieldProps(datafield, {initialValue: obj.renderData.defaultValue})}
                         format="yyyyMMdd"/>
 
 
@@ -248,7 +285,8 @@ export default class DataTable extends React.Component {
             handleSubmit(e) {
                 e.preventDefault();
                 console.log('收到表单值：', this.props.form.getFieldsValue());
-                // that.props.toggleSearch(false, that.identity)
+                 that.props.toggleSearch(false, that.identity)
+                 that.props.getData()
             },
             resetForm(){
                 this.props.form.resetFields()
@@ -312,7 +350,8 @@ export default class DataTable extends React.Component {
 
     render() {
 
-        const {rows,
+        const {
+            rows,
             selectedRowDetailObj,
             columns,
             searchColumns,
@@ -431,7 +470,7 @@ export default class DataTable extends React.Component {
 
 /*
  * 内部方法: getCheckedRows
- *
+ *searchUrl: 获得searchColumns的url, 如果不为空字符串, 先获取数据
  *
  *
  * */
@@ -444,6 +483,7 @@ DataTable.propTypes = {
     checkMode: React.PropTypes.bool,
     hasDetail: React.PropTypes.bool,
     searchBarStatus: React.PropTypes.bool,
+    searchUrl: React.PropTypes.string,
     selectedRowDetailObj: React.PropTypes.object
 }
 
@@ -455,5 +495,6 @@ DataTable.defaultProps = {
     selectedRowDetailObj: {},
     searchBarStatus: false,
     hasDetail: false,
-    checkMode: false
+    checkMode: false,
+    searchUrl: ''
 }
