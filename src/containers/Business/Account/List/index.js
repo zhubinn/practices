@@ -36,7 +36,6 @@ class AccountListPage extends React.Component {
         const id = this.refs.dataTable.identity
         this.props.initSource(id)
         //// 页面初始完,获取数据,触发action: GET_DATA
-        console.log("1111")
         this.props.getData(params, id)
     }
 

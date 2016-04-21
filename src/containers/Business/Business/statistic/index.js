@@ -9,10 +9,9 @@ import classNames from 'classnames'
 import { Row, Col, Tabs, Table, Button} from 'antd'
 
 import DataTable from 'components/Business/DataTable'
-import  { initSource,getData, showDetail, checkRow, updateRow, toggleSearch}  from 'actions/Component/DataTable'
 
 import SearchInput from 'components/Business/SearchInput'
-import { getDataobj, getDataSuccess, getDataFailure}  from 'actions/business/business/statistic'
+import { getReportData, getDetailsData}  from 'actions/business/business/statistic'
 import { handleInputChange }  from 'actions/Component/SearchInput'
 import 'antd/lib/index.css';
 
@@ -20,14 +19,17 @@ const TabPane = Tabs.TabPane;
 
 let params = {
     url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/demoData.php',
+    data: {
+      page: 1,
+      rowsPerPage: 20
+    }
 }
 
-
 let params1 = {
-    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/tableData.php',
+    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/demoData.php',
     data: {
-        page: 1,
-        rowsPerPage: 20
+      page: 1,
+      rowsPerPage: 20
     }
 }
 
@@ -39,10 +41,11 @@ class BusinessStatistic extends React.Component {
       this.onSearch = this.onSearch.bind(this)
     }
 
-    componentDidMount() {
-      const { getDataobj } = this.props
-      // 页面初始完,获取数据,触发action: GET_DATA
-      getDataobj(params)
+    componentWillMount() {
+      const { getReportData, getDetailsData} = this.props
+      // 页面初始完,获取数据,触发action: getReportData
+      getReportData(params, '')
+      getDetailsData(params1, '')
     }
 
     handleInputChange(val) {
@@ -51,16 +54,21 @@ class BusinessStatistic extends React.Component {
     }
 
     onSearch (val) {
-      const { getDataobj } = this.props
-      getDataobj(val)
+      const { getReportData, getDetailsData} = this.props
+      getReportData(params, val)
+      getDetailsData(params1, '')
     }
 
     render() {
+
         const { $$searchState, $$tableState} = this.props;
-        debugger
         let val = $$searchState.get('val');
-        let columns = $$tableState.get("statisticReport").get('columns').toJS();
-        let data = $$tableState.get("statisticReport").get('data').toJS();
+        let reportColumns = $$tableState.get("statisticReport").get('columns').toJS();
+        let reportData = $$tableState.get("statisticReport").get('data').toJS();
+
+        let detailsColumns =  $$tableState.get("statisticDetails").get('columns').toJS();
+        let detailsData =  $$tableState.get("statisticDetails").get('data').toJS();
+
         return (
             <div  style = {{marginLeft: '20px'}} >
               <Row>
@@ -76,10 +84,10 @@ class BusinessStatistic extends React.Component {
               </Row>
               <Tabs defaultActiveKey="1" >
                 <TabPane tab="生意汇总表" key="1">
-                  <Table columns={columns} dataSource={data} />
+                  <Table columns={reportColumns} dataSource={reportData} />
                 </TabPane>
                 <TabPane tab="生意明细汇总表" key="2">
-                  2222222
+                  <Table columns={detailsColumns} dataSource={detailsData} />
                 </TabPane>
               </Tabs>
             </div>
@@ -95,8 +103,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 export default connect(mapStateToProps, {
-    getDataobj,
-    getDataSuccess,
-    getDataFailure,
+    getReportData,
+    getDetailsData,
     handleInputChange,
 })(BusinessStatistic)

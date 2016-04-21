@@ -17,10 +17,14 @@ export default class SearchInput extends React.Component {
     this.state = {
       focus: false,
     };
+
+    this.timer;
   }
 
   handleInputChange(e) {
     this.props.handleInputChange(e.target.value);
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => { this.handleSearch(); }, 300);
   }
 
   handleFocusBlur(e) {
