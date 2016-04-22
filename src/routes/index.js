@@ -52,6 +52,6 @@ export default (
 
     <Route path="*" component={Error_404}/>
 
-    </Route>
 
+    </Route>
 )

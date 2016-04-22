@@ -41,7 +41,6 @@ class IndexPage extends React.Component {
                             table
                         </Link>
                     </li>
-
                 </ul>
                 {this.props.children}
             </div>

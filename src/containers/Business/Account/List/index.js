@@ -9,9 +9,11 @@ import DataTable from 'components/Business/DataTable'
 import  { initSource,getData, showDetail, checkRow, updateRow, toggleSearch}  from 'actions/Component/DataTable'
 
 import {rowsData, columns, searchColumns} from 'components/Business/DataTable/fakeData'
+import { Pagination } from 'antd';
 
-
-
+function showTotal(total) {
+    return `共 ${total} 条`;
+}
 
 
 
@@ -19,11 +21,17 @@ let params = {
     url: 'http://esn.lishangxi.com/front/js/scrm/fakeData/tableData.php',
     data: {
         page: 1,
-        rowsPerPage: 20
+        rowsPerPage: 20,
+        searchData1: {
+
+        },
+        searchData2: {
+
+        }
     }
 }
 
-
+const searchUrl = 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php'
 class AccountListPage extends React.Component {
     constructor() {
         super()
@@ -60,6 +68,18 @@ class AccountListPage extends React.Component {
 
             <div style={{marginLeft: '20px'}}>
 
+
+                <div>
+                    <button onClick={(e)=>{console.log(this.refs.dataTable.getCheckedRows())}}>获取已经选择的行</button>
+                </div>
+                <div>
+                    <button onClick={(e) => {toggleSearch(true, this.refs.dataTable.identity )}}>高级搜索</button>
+
+                </div>
+
+
+
+
                 <div>
                     <span>已处理客户</span>
                     <span>已处理客户</span>
@@ -70,6 +90,9 @@ class AccountListPage extends React.Component {
                 </div>
 
 
+
+
+
                 <DataTable ref="dataTable"
                            checkMode={true}
                            onCheckRow={checkRow}
@@ -78,10 +101,12 @@ class AccountListPage extends React.Component {
                            rows={dataSource.rows}
                            selectedRowDetailObj={dataSource.selectedRowDetailObj}
                            searchColumns={searchColumns}
+                           searchUrl = {searchUrl}
                            columns={columns}
                            searchBarStatus={dataSource.searchBarShow}
                            onUpdateRow={updateRow}
                            onShowDetail={showDetail}
+                           toggleSearch={toggleSearch}
                            pending={dataSource.pending}
                 />
                 <ul>
@@ -91,7 +116,7 @@ class AccountListPage extends React.Component {
                         , this.refs.dataTable.identity)}}>2
                     </li>
                 </ul>
-
+                <Pagination size="small" total={50}  showSizeChanger  showQuickJumper/>
             </div>
         )
     }
