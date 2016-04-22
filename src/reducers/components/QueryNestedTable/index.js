@@ -3,10 +3,9 @@
  */
 import Immutable from 'immutable'
 import { CK_COMPONENT_QUERYNESTEDTABLE_UPDATE } from 'actions/components/QueryNestedTable'
-import INPUTTYPE from 'components/QueryNestedTable/inputType'
 
 const EMPTY_ARRAY = []
-const EMPTY_OBJECT = []
+const EMPTY_OBJECT = {}
 
 const $$initialState = Immutable.fromJS({
     columns: EMPTY_ARRAY,
@@ -22,11 +21,9 @@ const $$initialState = Immutable.fromJS({
 })
 
 const report = ($$state = $$initialState, action) => {
-    let payload = action.payload
-
     switch (action.type) {
         case CK_COMPONENT_QUERYNESTEDTABLE_UPDATE:
-            return $$state.merge(payload)
+            return $$state.mergeDeep(action.payload)
 
         default:
             return $$state

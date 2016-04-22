@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Breadcrumb } from 'antd'
 import QueryNestedTable from 'components/QueryNestedTable'
 import INPUTTYPE from 'components/QueryNestedTable/inputType'
-import { expandRow, updateDataSource } from 'actions/__demo/queryNestedTable'
+import { updateDataSource, updateChildDataSource } from 'actions/__demo/queryNestedTable'
 import 'antd/style/index.less'
 
 const columns = [{
@@ -32,11 +32,11 @@ class QueryNestedTablePage extends React.Component {
     }
 
     updateDataSource() {
-        const { updateDataSource } = this.props
-        updateDataSource(columns)
+        this.props.updateDataSource(columns, columns)
     }
 
     render() {
+        const { updateChildDataSource } = this.props
         const {
             dataSource,
             childProps,
@@ -57,6 +57,7 @@ class QueryNestedTablePage extends React.Component {
                     size="middle"
                     bordered
                     updateDataSource={this.updateDataSource}
+                    updateChildDataSource={updateChildDataSource}
                 />
             </div>
         )
@@ -70,5 +71,6 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 export default connect(mapStateToProps, {
-    updateDataSource
+    updateDataSource,
+    updateChildDataSource,
 })(QueryNestedTablePage)

@@ -3,11 +3,13 @@
  */
 import { findDOMNode } from 'react-dom'
 import { Table, TimePicker, InputNumber, Form } from 'antd'
+import QueryTable from './QueryTable'
 import INPUTTYPE from './inputType'
 
 export default class QueryNestedTable extends React.Component {
     constructor() {
         super()
+        this.handleQuery = this.handleQuery.bind(this)
         this.expandedRowRender = this.expandedRowRender.bind(this)
         this.renderSearchTable = this.renderSearchTable.bind(this)
     }
@@ -20,17 +22,21 @@ export default class QueryNestedTable extends React.Component {
         const [ rowData, index ] = [...args]
         const { childProps } = this.props
 
+        this.props.updateChildDataSource(rowData, index)
+
         return (
             <Table
                 loading={childProps.loading[index]}
-                dataSource={childProps.dataSource[index]}
                 columns={childProps.columns}
+                dataSource={childProps.dataSource[index]}
             />
         )
     }
 
-    handleSubmit() {
-        console.log(arguments)
+    handleQuery() {
+        const { childProps, form } = this.props
+
+        childProps.search()
     }
 
     renderControls(col) {
@@ -51,30 +57,33 @@ export default class QueryNestedTable extends React.Component {
     renderSearchTable(columns, childProps) {
         const renderTable = (columns, childProps) => {
             return (
-                <table>
-                    <thead className="ant-table-thead">
-                    <tr>
-                        {
-                            columns.map(col => <th>{col.title}</th>)
-                        }
-                    </tr>
-                    </thead>
-                    <tbody className="ant-table-tbody">
-                    <tr className="ant-table-row  ant-table-row-level-0">
-                        {
-                            columns.map(col => <td>{ this.renderControls(col) }</td>)
-                        }
-                    </tr>
-                    </tbody>
-                </table>
+                <div className="ant-table-body">
+                    <table>
+                        <thead className="ant-table-thead">
+                        <tr>
+                            {
+                                columns.map(col => <th>{col.title}</th>)
+                            }
+                        </tr>
+                        </thead>
+                        <tbody className="ant-table-tbody">
+                        <tr className="ant-table-row  ant-table-row-level-0">
+                            {
+                                columns.map(col => <td>{ this.renderControls(col) }</td>)
+                            }
+                        </tr>
+                        </tbody>
+                    </table>
+                    { !!childProps && renderTable(childProps.columns, childProps.childProps) }
+                </div>
             )
         }
         return (
             <Form className="ant-table ant-table-middle ant-table-bordered" onSubmit={this.handleSubmit}>
-                <div className="ant-table-body">
-                    {renderTable(columns, childProps)}
+                {renderTable(columns, childProps)}
+                <div>
+                    <button disabled>查询</button>
                 </div>
-                { !!childProps && renderTable(childProps.columns, childProps.childProps) }
             </Form>
         )
     }
@@ -84,7 +93,13 @@ export default class QueryNestedTable extends React.Component {
 
         return (
             <div className="ck_qntable">
-                { !!showSearchTable && this.renderSearchTable(columns, childProps) }
+                <QueryTable
+                    dataSource={dataSource}
+                    columns={columns}
+                    childProps={childProps}
+                    show={showSearchTable}
+                    onQuery={this.handleQuery}
+                />
                 <Table
                     dataSource={dataSource}
                     columns={columns}
@@ -98,5 +113,6 @@ export default class QueryNestedTable extends React.Component {
 }
 
 QueryNestedTable.propTypes = {
-    childProps: React.PropTypes.object.isRequired
+    childProps: React.PropTypes.object.isRequired,
+    updateChildDataSource: React.PropTypes.func.isRequired,
 }

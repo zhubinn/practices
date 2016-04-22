@@ -3,7 +3,7 @@
  */
 import { CK_COMPONENT_QUERYNESTEDTABLE_UPDATE } from 'actions/components/QueryNestedTable'
 
-const updateDataSource = (columns) => {
+const updateDataSource = (columnsFirstLevel, columnsSecondLevel) => {
     const dataSource = [{
         key: '1',
         name: '胡彦斌',
@@ -19,12 +19,34 @@ const updateDataSource = (columns) => {
     return (dispatch, getState) => dispatch({
         type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
         payload: {
-            columns,
+            columns: columnsFirstLevel,
             dataSource,
             loading: false,
             showSearchTable: true,
             childProps: {
-                columns,
+                columns: columnsSecondLevel,
+            }
+        }
+    })
+}
+
+const updateChildDataSource = (rowData, index) => {
+    const dataSource = [{
+        key: '1',
+        name: '胡彦斌',
+        age: 32,
+        address: '西湖区湖底公园1号'
+    }, {
+        key: '2',
+        name: '胡彦祖',
+        age: 42,
+        address: '西湖区湖底公园1号'
+    }]
+
+    return (dispatch, getState) => dispatch({
+        type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
+        payload: {
+            childProps: {
                 dataSource: {
                     0: dataSource,
                     1: dataSource
@@ -45,4 +67,5 @@ const updateDataSource = (columns) => {
 
 export {
     updateDataSource,
+    updateChildDataSource,
 }
