@@ -6,90 +6,126 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { Row, Col, Tabs, Table, Button} from 'antd'
-
+import { Row, Col, Table, Button, Input, Pagination, Modal} from 'antd'
 import DataTable from 'components/Business/DataTable'
 
-import SearchInput from 'components/Business/SearchInput'
-import { getReportData, getDetailsData}  from 'actions/business/business/statistic'
-import { handleInputChange }  from 'actions/Component/SearchInput'
-import 'antd/lib/index.css';
+import {handleInputChange, getReportData}  from 'actions/business/business/statistic'
+import {rowsData, columns, searchColumns} from 'components/Business/DataTable/fakeData'
+import  { initSource,getData, showDetail, checkRow, updateRow, toggleSearch}  from 'actions/Component/DataTable'
 
-const TabPane = Tabs.TabPane;
+import 'antd/lib/index.css'
 
 let params = {
-    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/demoData.php',
+    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/tableData.php',
     data: {
-      page: 1,
-      rowsPerPage: 20
+        page: 1,
+        rowsPerPage: 20
     }
 }
-
-let params1 = {
-    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/demoData.php',
-    data: {
-      page: 1,
-      rowsPerPage: 20
-    }
-}
-
 
 class BusinessStatistic extends React.Component {
     constructor(props) {
       super(props)
       this.handleInputChange = this.handleInputChange.bind(this)
-      this.onSearch = this.onSearch.bind(this)
+      this.exportConfirm = this.exportConfirm.bind(this)
+      this.searchTimer;
+      this.state = { 
+        visible: false 
+      };
     }
 
-    componentWillMount() {
-      const { getReportData, getDetailsData} = this.props
-      // 页面初始完,获取数据,触发action: getReportData
-      getReportData(params, '')
-      getDetailsData(params1, '')
+    componentDidMount() {
+      const id = this.refs.dataTable.identity
+      this.props.initSource(id)
+      this.props.getData(params, id)
     }
 
-    handleInputChange(val) {
-      const { handleInputChange } = this.props
-      handleInputChange(val)
+    handleInputChange() {
+      let val = this.refs.seachVal.getDOMNode().value;
+      const { getData } = this.props;
+      const id = this.refs.dataTable.identity;
+
+      // clearTimeout(this.searchTimer)
+      // this.searchTimer = setTimeout(() => { getData(params, id) }, 500);
+
+      getData(params, id)
     }
 
-    onSearch (val) {
-      const { getReportData, getDetailsData} = this.props
-      getReportData(params, val)
-      getDetailsData(params1, '')
+    onShowSizeChange(current, pageSize) {
+      alert(current, pageSize);
+      const id = this.refs.dataTable.identity
+      this.props.getData(params, id)
+    }
+
+    pageOnChange(page){
+      alert(page);
+      const id = this.refs.dataTable.identity
+      this.props.getData(params, id)
+    }
+
+    showPageTotal(total){
+      return `共 ${total} 条`;
+    }
+
+    exportConfirm() {
+      Modal.confirm({
+        title: '您是否确认导出？',
+        content: '导出Excel表。',
+        onOk() {
+          console.log('确定');
+        },
+        onCancel() {}
+      });
     }
 
     render() {
+        const { $$searchState} = this.props;
+        let seachVal = $$searchState.get('seachVal') || '';
+     
+        const { showDetail, checkRow, updateRow, toggleSearch} = this.props
 
-        const { $$searchState, $$tableState} = this.props;
-        let val = $$searchState.get('val');
-        let reportColumns = $$tableState.get("statisticReport").get('columns').toJS();
-        let reportData = $$tableState.get("statisticReport").get('data').toJS();
+        let dataSource = {}
 
-        let detailsColumns =  $$tableState.get("statisticDetails").get('columns').toJS();
-        let detailsData =  $$tableState.get("statisticDetails").get('data').toJS();
+        if (this.refs.dataTable) {
+            const { $$dataTable } = this.props
 
+            const $$obj = $$dataTable.get(this.refs.dataTable.identity)
+
+            if ($$obj) {
+                dataSource = $$obj.toJS()
+            }
+        }
+
+        let that = this;
         return (
             <div  style = {{marginLeft: '20px'}} >
               <Row>
                 <Col span="9">
-                  <SearchInput placeholder="请输入..."  style={{ width: 300 }} val = { val } onSearch ={this.onSearch} handleInputChange = {this.handleInputChange}/>
+                  <input placeholder="请输入..." style={{ width: 220 }} ref = "seachVal"/>
+                  <Button type="primary" onClick = {this.handleInputChange}>搜索</Button>
                 </Col>
                 <Col span="10">
-                  <Button type="primary"  style={{ marginLeft: 10 }} >高级搜索</Button>
+                  <Button type="primary"  onClick={(e) => {toggleSearch(!dataSource.searchBarShow, this.refs.dataTable.identity )}} style={{ marginLeft: 10 }} >{dataSource.searchBarShow ? "隐藏搜索" : "高级搜索"}</Button>
                 </Col>
                 <Col span="4">
-                  <Button type="ghost">导出EXCEL</Button>
+                  <Button type="ghost" onClick = {this.exportConfirm}>导出EXCEL</Button>
                 </Col>
               </Row>
-              <Tabs defaultActiveKey="1" >
-                <TabPane tab="生意汇总表" key="1">
-                  <Table columns={reportColumns} dataSource={reportData} />
-                </TabPane>
-                <TabPane tab="生意明细汇总表" key="2">
-                  <Table columns={detailsColumns} dataSource={detailsData} />
-                </TabPane>
-              </Tabs>
+              <DataTable ref="dataTable"
+                           checkMode={false}
+                           onCheckRow={checkRow}
+                           hasDetail={false}
+                           checkedRows={dataSource.checkedRows}
+                           rows={dataSource.rows}
+                           selectedRowDetailObj={dataSource.selectedRowDetailObj}
+                           searchColumns={searchColumns}
+                           columns={columns}
+                           searchBarStatus={dataSource.searchBarShow}
+                           onUpdateRow={updateRow}
+                           onShowDetail={showDetail}
+                           toggleSearch={toggleSearch}
+                           pending={dataSource.pending}
+                />
             </div>
         )
     }
@@ -97,13 +133,18 @@ class BusinessStatistic extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$searchState: state.components.searchInput,
-        $$tableState: state.business.statistic,
+        $$searchState: state.business.statistic,
+        $$dataTable: state.components.dataTable
     }
 }
 
 export default connect(mapStateToProps, {
     getReportData,
-    getDetailsData,
     handleInputChange,
+    initSource,
+    getData,
+    showDetail,
+    checkRow,
+    updateRow,
+    toggleSearch,
 })(BusinessStatistic)

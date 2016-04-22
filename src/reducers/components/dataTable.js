@@ -31,7 +31,6 @@ export default function dataTable($$state = Immutable.fromJS({
                 })
             })
         case GET_DATA:
-            debugger
             return $$state.updateIn([action.source], function (source) {
                 return source.merge({
                     rows: [],

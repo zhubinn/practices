@@ -21,7 +21,7 @@ let statisticColumns = [
     {text: '部门名称', datafield: 'name', width: 120,cellsrenderer: function(rowData, column, value){
       if(role==0){
         return (
-          <a href = "http://esn.fuwenfang.com/scrmweb/accounts/detail/VISITID/1" title = {value}>{value}</a>
+          <a href = "http://esn.yangtianming.com/scrmweb/accounts/detail/VISITID/1" title = {value}>{value}</a>
           );
       }else{
         return(
@@ -32,7 +32,7 @@ let statisticColumns = [
     {text: '员工姓名', datafield: 'user', width: 70,cellsrenderer: function(rowData, column, value){
       if(role==0){
         return (
-          <a href = "http://esn.fuwenfang.com/scrmweb/accounts/detail/VISITID/1" title = {value}>{value}</a>
+          <a href = "http://esn.yangtianming.com/scrmweb/accounts/detail/VISITID/1" title = {value}>{value}</a>
           );
       }else{
         return(
@@ -66,7 +66,7 @@ const role = 0
 
 /*统计页面的请求接口*/
 let statisticParams = {
-    url: 'http://esn.fuwenfang.com/front/js/scrm/fakeData/tableData.php',
+    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/tableData.php',
     data: {
         page: 1,
         rowsPerPage: 20

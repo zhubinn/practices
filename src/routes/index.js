@@ -32,17 +32,14 @@ export default (
             <Route path="Demopagination" component={DemoPagination}/>
             <Route path="DemoTodoList" component={DemoTodoList}/>
         </Route>
-        <Route path="input" component={FormControl}>
-        </Route>
-
         <Route path="scrmweb" component={ModulePage}>
-            <Route path="accounts/index/VISITID/1" component={AccountListPage}/>
-            <Route path="business/statistic/VISITID/1" component={BusinessStatistic}/>
-            <Route path="business/summary/VISITID/1" component={BusinessSummary}/>
-            <Route path="accounts/define/VISITID/1" component={CustomizablePage}/>
-            <Route path="accounts/statistic/VISITID/1" component={StatisticPage}/>
-            <Route path="accounts/summary/VISITID/1" component={SummaryPage}/>
-            <Route path="accounts/detail/VISITID/1" component={DetailPage}/>
+            <Route path="accounts/index/VISITID/1" component={AccountListPage} />
+            <Route path="business/statistic/VISITID/1" component={BusinessStatistic} />
+            <Route path="business/summary/VISITID/1" component={BusinessSummary} />
+            <Route path="accounts/define/VISITID/1" component={CustomizablePage} />
+            <Route path="accounts/statistic/VISITID/1" component={StatisticPage} />
+            <Route path="accounts/summary/VISITID/1" component={SummaryPage} />
+            <Route path="accounts/detail/VISITID/1" component={DetailPage} />
         </Route>
         <Route path="*" component={Error_404}/>
     </Route>
