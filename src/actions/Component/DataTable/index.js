@@ -74,7 +74,7 @@ const getTableData = (params, source)=> {
             return response.json()
         }).then(function (data) {
 
-            dispatch(fetchData(GET_TABLE_DATA_SUCCESS, {rows: data.rowsData, pending: false}, source))
+            dispatch(fetchData(GET_TABLE_DATA_SUCCESS, {total: data.total, rows: data.rowsData, pending: false}, source))
 
         })
 

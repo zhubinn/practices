@@ -17,9 +17,6 @@ function showTotal(total) {
 }
 
 
-
-
-
 const searchUrl = 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php'
 const url = 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php'
 class AccountListPage extends React.Component {
@@ -35,14 +32,13 @@ class AccountListPage extends React.Component {
         this.props.getTableData({url: url}, id)
 
 
-
-
     }
 
     render() {
         const { showDetail, checkRow, updateRow, toggleSearch, getTableData} = this.props
 
         let dataSource = {}
+
 
         if (this.refs.dataTable) {
             const { $$dataTable } = this.props
@@ -53,7 +49,7 @@ class AccountListPage extends React.Component {
                 dataSource = $$obj.toJS()
             }
         }
-
+        console.log(dataSource.rows && dataSource.rows.length)
         return (
 
 
@@ -69,8 +65,6 @@ class AccountListPage extends React.Component {
                 </div>
 
 
-
-
                 <div>
                     <span>已处理客户</span>
                     <span>已处理客户</span>
@@ -81,9 +75,6 @@ class AccountListPage extends React.Component {
                 </div>
 
 
-
-
-
                 <DataTable ref="dataTable"
                            checkMode={true}
                            onCheckRow={checkRow}
@@ -92,7 +83,7 @@ class AccountListPage extends React.Component {
                            rows={dataSource.rows}
                            selectedRowDetailObj={dataSource.selectedRowDetailObj}
                            searchColumns={searchColumns}
-                           searchUrl = {searchUrl}
+                           searchUrl={searchUrl}
                            columns={columns}
                            searchBarStatus={dataSource.searchBarShow}
                            onUpdateRow={updateRow}
@@ -109,17 +100,19 @@ class AccountListPage extends React.Component {
                             },this.refs.dataTable.identity)}}
                            pending={dataSource.pending}
                 />
-                <ul>
-                    <li onClick={(e)=>{this.props.getTableData({data:{
-                        page: 1
-                    }}, this.refs.dataTable.identity)}}>1</li>
-                    <li onClick={(e)=>{this.props.getTableData({data:{
-                        page: 2
-                    }}, this.refs.dataTable.identity)}}>
-                        2
-                    </li>
-                </ul>
-                <Pagination size="small" total={50}  showSizeChanger  showQuickJumper/>
+
+                <Pagination size="small"
+                            onChange={(pageNumber)=>{this.props.getTableData({data:{
+                                page: pageNumber
+                            }}, this.refs.dataTable.identity)}}
+                            total={dataSource.total}
+                            pageSize={dataSource.rows && dataSource.rows.length}
+                            onShowSizeChange={(pageSize)=>{this.props.getTableData({data:{
+                                rowsPerPage: pageSize
+                            }}, this.refs.dataTable.identity)}}
+                            showSizeChanger
+                            showQuickJumper
+                />
             </div>
         )
     }

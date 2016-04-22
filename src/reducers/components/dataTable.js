@@ -9,6 +9,7 @@ import {secondRowsData, secondColumns} from 'components/Business/DataTable/fakeD
 
 export default function dataTable($$state = Immutable.fromJS({
     default: {
+        total: 0,
         rows: [],
         pending: true,
         separatedIndexes: Immutable.OrderedSet(),
@@ -23,6 +24,7 @@ export default function dataTable($$state = Immutable.fromJS({
         case 'INIT_SOURCE':
             return $$state.merge({
                 [action.source]: Immutable.fromJS({
+                    total: 0,
                     rows: [],
                     pending: true,
                     separatedIndexes: Immutable.OrderedSet(),
@@ -34,6 +36,7 @@ export default function dataTable($$state = Immutable.fromJS({
         case GET_TABLE_DATA:
             return $$state.updateIn([action.source], function (source) {
                 return source.merge({
+                    total: 0,
                     rows: [],
                     pending: true,
                     separatedIndexes: Immutable.OrderedSet(),
@@ -48,6 +51,7 @@ export default function dataTable($$state = Immutable.fromJS({
 
             return $$state.updateIn([action.source], function (source) {
                 return source.merge({
+                    total: payload.total,
                     rows: payload.rows,
                     pending: payload.pending
                 })
