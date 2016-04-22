@@ -15,10 +15,10 @@ class DispatchCluesPage extends Component {
 
 
     render() {
-
+        const { dispatchCluesState, actions } = this.props
         return (
             <div>
-               分派
+                <DispatchClues numberReportViewState={ dispatchCluesState }  actions={actions} />
             </div>
         )
     }
@@ -29,13 +29,13 @@ class DispatchCluesPage extends Component {
 
 
 DispatchCluesPage.propTypes = {
-    numberReportViewState: PropTypes.object.isRequired,
+    dispatchCluesState: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
     return {
-        numberReportViewState: state.business.numberReportViewState //所有的业务页面state，都在state.business下
+        dispatchCluesState: state.business.dispatchCluesState //所有的业务页面state，都在state.business下
     }
 }
 
@@ -44,7 +44,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 
     return {
-        actions: bindActionCreators(NumberReportViewActions, dispatch)
+        actions: bindActionCreators(DispatchCluesActions, dispatch)
     }
 }
 

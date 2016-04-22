@@ -9,7 +9,6 @@ import InputDater from './inputDater'
 import DaterButton from './daterButton'
 import TableList from './tableList'
 //less
-import './less/basic_new_v2.less'
 import './less/numberReport.less'
 // mock data
 //import { data,data2 } from './data/response'

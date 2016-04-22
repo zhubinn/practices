@@ -11,7 +11,6 @@ class NumberReportViewPage extends Component {
 
     render() {
         const { numberReportViewState, actions } = this.props
-        console.log(this.props)
         return (
             <div>
                 <NumberReportView numberReportViewState={ numberReportViewState }  actions={actions} />

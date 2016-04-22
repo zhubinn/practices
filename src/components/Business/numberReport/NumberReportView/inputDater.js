@@ -15,7 +15,7 @@ let COUNT = 0
 let daterValue
 let WEEK_END_DATER
 let WEEK_DATER
-const TEMP_DATA = $('#viewNumList').data()
+const TEMP_DATA = $('#viewNumList').data() || {}
 
 $(function () {
     if (TEMP_DATA.nptype == 'week') {
