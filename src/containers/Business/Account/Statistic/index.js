@@ -14,7 +14,7 @@ import {rowsData, searchColumns} from 'components/Business/DataTable/fakeData'
 
 import {updateIsPene,searchKeyWord} from 'actions/Business/Account/Statistic'
 
-import { Pagination } from 'antd';
+import { Modal, Button } from 'antd';
 
 let statisticColumns = [
 
@@ -57,9 +57,6 @@ let statisticColumns = [
     }
 ];
 
-/*需要根据权限判断是否角色 不同角色一级穿透明细统计表不同columns
-普通员工不变，领导以及负责人与上一级不同
-*/
 //假定角色  0 领导以及部门负责人；1 普通员工 
 const role = 0
 
@@ -101,15 +98,15 @@ class AccountStatistic extends React.Component{
       );
       
   }
-  onShowSizeChange(current, pageSize) {
-    console.log(current, pageSize);
-  }
-  pageOnChange(page){
-    console.log(page);
-  }
-  showPageTotal(total){
-    return `共 ${total} 条`;
-  }
+  exportTable(){
+    Modal.confirm({
+        title: <span>报表导出</span>,
+        content: <button>11111</button>,
+        okText: '确认',
+        cancelText: '取消',
+        iconClassName:'a',
+      });
+    }
   render(){
 
         let dataSource = {}
@@ -128,8 +125,8 @@ class AccountStatistic extends React.Component{
             <div style={{marginLeft: '20px'}}>
                 <div className = "col_cktop">
                   <div className="col_cktop-gongneng clearfix">
-                     <div className="col_cktop-Hightsearch"><input type="text" className="Hightsearch_input" onKeyUp = {this.handleKeyUp.bind(this)}/><button className="Hightsearch-btn">高级搜索</button></div>
-                     <button className="col_cktop-btnFpai">导出EXCEL</button>
+                     <div className="col_cktop-Hightsearch"><input type="text" className="Hightsearch_input" onKeyUp = {this.handleKeyUp.bind(this)}/><button>搜索</button></div>
+                     <Button className="col_cktop-btnFpai" onClick={this.exportTable.bind(this)}>导出EXCEL</Button>
                   </div>  
                 </div>
                 <DataTable ref="dataTable"
@@ -140,14 +137,6 @@ class AccountStatistic extends React.Component{
                    columns={statisticColumns}
                    pending={dataSource.pending}
                 /> 
-                <Pagination 
-                  showSizeChanger 
-                  showQuickJumper 
-                  total={54} 
-                  onShowSizeChange = {this.onShowSizeChange}
-                  onChange={this.pageOnChange}
-                  showTotal={this.showPageTotal} 
-                />           
             </div>
           )
         }

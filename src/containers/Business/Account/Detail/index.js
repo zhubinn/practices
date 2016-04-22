@@ -95,6 +95,7 @@ class AccountDetail extends React.Component{
       );
       
   }
+
   render(){
 
         let dataSource = {}
@@ -113,18 +114,18 @@ class AccountDetail extends React.Component{
             <div style={{marginLeft: '20px'}}>
                 <div className = "col_cktop">
                   <div className="col_cktop-gongneng clearfix">
-                     <div className="col_cktop-Hightsearch"><input type="text" className="Hightsearch_input" onKeyUp = {this.handleKeyUp.bind(this)}/><button className="Hightsearch-btn">高级搜索</button></div>
+                     <div className="col_cktop-Hightsearch"><input type="text" className="Hightsearch_input" onKeyUp = {this.handleKeyUp.bind(this)}/><button>搜索</button></div>
                      <button className="col_cktop-btnFpai">导出EXCEL</button>
                   </div>  
                 </div>
                 <DataTable ref="dataTable"
-                           checkMode={false}
-                           hasDetail={false}
-                           rows={dataSource.rows}
-                           searchColumns={searchColumns}
-                           columns={detailcColumns}
-                           pending={dataSource.pending}
-                />            
+                   checkMode={false}
+                   hasDetail={false}
+                   rows={dataSource.rows}
+                   searchColumns={searchColumns}
+                   columns={detailcColumns}
+                   pending={dataSource.pending}
+                />  
             </div>
           )
         }
