@@ -14,7 +14,7 @@ import {rowsData, searchColumns} from 'components/Business/DataTable/fakeData'
 
 import {updateIsPene,searchKeyWord} from 'actions/Business/Account/Statistic'
 
-
+import { Pagination } from 'antd';
 
 let statisticColumns = [
 
@@ -101,6 +101,15 @@ class AccountStatistic extends React.Component{
       );
       
   }
+  onShowSizeChange(current, pageSize) {
+    console.log(current, pageSize);
+  }
+  pageOnChange(page){
+    console.log(page);
+  }
+  showPageTotal(total){
+    return `共 ${total} 条`;
+  }
   render(){
 
         let dataSource = {}
@@ -124,13 +133,21 @@ class AccountStatistic extends React.Component{
                   </div>  
                 </div>
                 <DataTable ref="dataTable"
-                           checkMode={false}
-                           hasDetail={false}
-                           rows={dataSource.rows}
-                           searchColumns={searchColumns}
-                           columns={statisticColumns}
-                           pending={dataSource.pending}
-                />            
+                   checkMode={false}
+                   hasDetail={false}
+                   rows={dataSource.rows}
+                   searchColumns={searchColumns}
+                   columns={statisticColumns}
+                   pending={dataSource.pending}
+                /> 
+                <Pagination 
+                  showSizeChanger 
+                  showQuickJumper 
+                  total={54} 
+                  onShowSizeChange = {this.onShowSizeChange}
+                  onChange={this.pageOnChange}
+                  showTotal={this.showPageTotal} 
+                />           
             </div>
           )
         }
