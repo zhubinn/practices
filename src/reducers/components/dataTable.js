@@ -3,7 +3,7 @@
  */
 import Immutable from 'immutable'
 import { combineReducers } from 'redux'
-import {GET_DATA, GET_DATA_SUCCESS,GET_DATA_FAILURE,getData, showDetail, updateRow} from 'actions/Component/DataTable'
+import {GET_TABLE_DATA, GET_TABLE_DATA_SUCCESS,GET_TABLE_DATA_FAILURE,getData, showDetail, updateRow} from 'actions/Component/DataTable'
 import {secondRowsData, secondColumns} from 'components/Business/DataTable/fakeData'
 
 
@@ -31,7 +31,7 @@ export default function dataTable($$state = Immutable.fromJS({
                     searchBarShow: false
                 })
             })
-        case GET_DATA:
+        case GET_TABLE_DATA:
             return $$state.updateIn([action.source], function (source) {
                 return source.merge({
                     rows: [],
@@ -43,7 +43,7 @@ export default function dataTable($$state = Immutable.fromJS({
                 })
             })
 
-        case GET_DATA_SUCCESS:
+        case GET_TABLE_DATA_SUCCESS:
             const { payload  } = action
 
             return $$state.updateIn([action.source], function (source) {
@@ -54,7 +54,7 @@ export default function dataTable($$state = Immutable.fromJS({
             })
 
 
-        case GET_DATA_FAILURE:
+        case GET_TABLE_DATA_FAILURE:
             return $$state
 
         case 'GET_DETAIL_DATA':

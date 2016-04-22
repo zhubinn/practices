@@ -6,7 +6,8 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import DataTable from 'components/Business/DataTable'
-import  { initSource,getData, showDetail, checkRow, updateRow, toggleSearch}  from 'actions/Component/DataTable'
+import  { getTableData, initSource, showDetail, checkRow, updateRow, toggleSearch}  from 'actions/Component/DataTable'
+/*import  {}  from 'actions/business/account/list'*/
 
 import {rowsData, columns, searchColumns} from 'components/Business/DataTable/fakeData'
 import { Pagination } from 'antd';
@@ -17,21 +18,10 @@ function showTotal(total) {
 
 
 
-let params = {
-    url: 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php',
-    data: {
-        page: 1,
-        rowsPerPage: 20,
-        searchData1: {
 
-        },
-        searchData2: {
-
-        }
-    }
-}
 
 const searchUrl = 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php'
+const url = 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php'
 class AccountListPage extends React.Component {
     constructor() {
         super()
@@ -42,14 +32,15 @@ class AccountListPage extends React.Component {
         const id = this.refs.dataTable.identity
         this.props.initSource(id)
         //// 页面初始完,获取数据,触发action: GET_DATA
-        this.props.getData(params, id)
+        this.props.getTableData({url: url}, id)
+
 
 
 
     }
 
     render() {
-        const { showDetail, checkRow, updateRow, toggleSearch} = this.props
+        const { showDetail, checkRow, updateRow, toggleSearch, getTableData} = this.props
 
         let dataSource = {}
 
@@ -107,13 +98,25 @@ class AccountListPage extends React.Component {
                            onUpdateRow={updateRow}
                            onShowDetail={showDetail}
                            toggleSearch={toggleSearch}
+                           onSure={(searchData)=>{getTableData({data:
+
+
+                            {
+                            page:1,
+                            searchData1: searchData
+                            }
+
+                            },this.refs.dataTable.identity)}}
                            pending={dataSource.pending}
                 />
                 <ul>
-                    <li>1</li>
-                    <li onClick={(e)=>{params.data.page = 2;this.props.getData(params
-
-                        , this.refs.dataTable.identity)}}>2
+                    <li onClick={(e)=>{this.props.getTableData({data:{
+                        page: 1
+                    }}, this.refs.dataTable.identity)}}>1</li>
+                    <li onClick={(e)=>{this.props.getTableData({data:{
+                        page: 2
+                    }}, this.refs.dataTable.identity)}}>
+                        2
                     </li>
                 </ul>
                 <Pagination size="small" total={50}  showSizeChanger  showQuickJumper/>
@@ -131,7 +134,7 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps, {
     initSource,
-    getData,
+    getTableData,
     showDetail,
     checkRow,
     updateRow,

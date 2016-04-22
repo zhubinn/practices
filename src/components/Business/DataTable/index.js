@@ -167,12 +167,12 @@ export default class DataTable extends React.Component {
     // 高级搜索点击确定后获取表单数据
     getSearchForm() {
 
-        console.log(this.refs.searchForm)
+      //  console.log(this.refs.searchForm)
 
 
 
 
-        console.log(Array.prototype.forEach.call(document.querySelectorAll('[name^=search-]'), function(item){console.log(item.querySelectorAll('input'))}))
+      //  console.log(Array.prototype.forEach.call(document.querySelectorAll('[name^=search-]'), function(item){console.log(item.querySelectorAll('input'))}))
 
     }
 
@@ -285,8 +285,8 @@ export default class DataTable extends React.Component {
             handleSubmit(e) {
                 e.preventDefault();
                 console.log('收到表单值：', this.props.form.getFieldsValue());
-                 that.props.toggleSearch(false, that.identity)
-                 that.props.getData()
+                 //that.props.toggleSearch(false, that.identity)
+                 that.props.onSure(this.props.form.getFieldsValue())
             },
             resetForm(){
                 this.props.form.resetFields()
@@ -322,16 +322,14 @@ export default class DataTable extends React.Component {
                                 </td>))}
 
                             </tr>
-                            <tr>
-                                <td>
-                                    <Button type="ghost" onClick={(e) => {this.resetForm()}}>重置</Button>
-                                </td>
-                                <td>
-                                    <Button type="primary" htmlType="submit">确定</Button>
-                                </td>
-                            </tr>
                             </tbody>
+
+
                         </table>
+                        <div className="formFooter">
+                            <Button type="ghost" onClick={(e) => {this.resetForm()}}>重置</Button>
+                            <Button type="primary" htmlType="submit">确定</Button>
+                        </div>
 
                     </Form>
                 );

@@ -9,11 +9,11 @@ let FormData = require('form-data');
 
 
 // 获取数据
-const GET_DATA = 'GET_DATA'
+const GET_TABLE_DATA = 'GET_TABLE_DATA'
 // 获取数据成功
-const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS'
+const GET_TABLE_DATA_SUCCESS = 'GET_TABLE_DATA_SUCCESS'
 // 获取数据失败
-const GET_DATA_FAILURE = 'GET_DATA_FAILURE'
+const GET_TABLE_DATA_FAILURE = 'GET_TABLE_DATA_FAILURE'
 
 
 
@@ -25,15 +25,23 @@ function initSource(source) {
 }
 
 
+let table_params = {
+    url: '',
+    data: {
+        page: 1,
+        rowsPerPage: 0,
+        searchData1: {},
+        searchData2: {}
+    }
+}
 
-
-
-/**
- * 获取数据
- * @params {url:'', data: {}}
- * @returns {Function}
- */
-const getData = (params, source)=> {
+/*
+ * getData
+ * @params url{string}
+ * @params data{object}
+ *
+ * */
+const getTableData = (params, source)=> {
     const fetchData = (type, payload, source)=> {
 
         return {
@@ -43,19 +51,12 @@ const getData = (params, source)=> {
         }
     }
 
-    /*    const p = new Promise(function (resolve, reject) {
-     setTimeout(function () {
-     resolve({
-     rows: rowsData,
-     pending: false
-     })
-     }, 1000)
-     })*/
+
     return (dispatch, getState) => {
 
-        dispatch(fetchData(GET_DATA, {pending: true, rows: []}, source))
-        // todo: 封装
-        fetch(params.url, {
+        dispatch(fetchData(GET_TABLE_DATA, {pending: true, rows: []}, source))
+
+        fetch( table_params.url = params.url || table_params.url, {
 
             method: 'post',
             headers: {
@@ -63,15 +64,17 @@ const getData = (params, source)=> {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(params.data)
-        }).then(function(response) {
+            body: JSON.stringify(
+                Object.assign(table_params.data, params.data)
+            )
+        }).then(function (response) {
             if (response.status >= 400) {
                 throw new Error("Bad response from server")
             }
             return response.json()
         }).then(function (data) {
 
-            dispatch(fetchData(GET_DATA_SUCCESS, {rows: data.rowsData, pending: false}, source))
+            dispatch(fetchData(GET_TABLE_DATA_SUCCESS, {rows: data.rowsData, pending: false}, source))
 
         })
 
@@ -156,10 +159,10 @@ function refreshData() {
 }
 
 export {
-    GET_DATA,
-    GET_DATA_SUCCESS,
-    GET_DATA_FAILURE,
-    getData,
+    GET_TABLE_DATA,
+    GET_TABLE_DATA_SUCCESS,
+    GET_TABLE_DATA_FAILURE,
+    getTableData,
     showDetail,
     checkRow,
     updateRow,

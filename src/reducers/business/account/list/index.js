@@ -5,7 +5,20 @@ import Immutable from 'immutable'
 
 
 
-export default function userLogin($$state = Immutable.fromJS({}), action) {
+export default function account_list ($$state = Immutable.fromJS({
+        formData: {
+            rowsPerPage: 0,
+            page: 1,
+            searchData1: {
+
+            },
+            searchData2: {
+
+            }
+
+    }
+
+}), action) {
     switch(action.type) {
         default:
             return $$state.merge({
