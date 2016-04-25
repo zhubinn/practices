@@ -99,7 +99,7 @@ class DataLog extends React.Component {
             <div  style = {{marginLeft: '20px'}} >
               <Row>
                 <Col span="9">
-                  <input placeholder="请输入..." style={{ width: 220 }} ref = "seachVal"/>
+                  <input placeholder="请输入..." className="Hightsearch_input" style={{ width: 220 }} ref = "seachVal"/>
                   <Button type="primary" onClick = {this.handleInputChange}>搜索</Button>
                 </Col>
                 <Col span="10">

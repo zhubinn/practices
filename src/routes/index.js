@@ -25,9 +25,8 @@ import BusinessStatistic from 'containers/Business/Business/Statistic'
 import BusinessSummary from 'containers/Business/Business/Summary'
 
 //日志
-import FunctionLog from 'containers/Business/Log/FunctionLog'
+import FuncLog from 'containers/Business/Log/FuncLog'
 import DataLog from 'containers/Business/Log/DataLog'
-import ClearLog from 'containers/Business/Log/ClearLog'
 
 export default (
     <Route path="/">
@@ -43,13 +42,12 @@ export default (
             <Route path="accounts/statistic/VISITID/1" component={StatisticPage} />
             <Route path="accounts/summary/VISITID/1" component={SummaryPage} />
             <Route path="accounts/detail/VISITID/1" component={DetailPage} />
-            
+
             <Route path="business/statistic/VISITID/1" component={BusinessStatistic} />
             <Route path="business/summary/VISITID/1" component={BusinessSummary} />
 
-            <Route path="log/func/VISITID/1" component={FunctionLog} />
+            <Route path="log/func/VISITID/1" component={FuncLog} />
             <Route path="log/datalog/VISITID/1" component={DataLog} />
-            <Route path="log/clearlog/VISITID/1" component={ClearLog} />
         </Route>
         <Route path="*" component={Error_404}/>
     </Route>
