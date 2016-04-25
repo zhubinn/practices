@@ -63,14 +63,37 @@ export const dataItem = (data)=>{
 
     return (dispatch, getState) => {
 
-        //const url = 'http://esn.chenhuangfang.com/scrmnumreport/index/tpllist/VISITID/1?filterscount=0&groupscount=0&pagenum=1&pagesize=20&recordstartindex=0&recordendindex=13&_=1458806730117'
-        const url = '/actions/_demo/list.json';
+        const url = 'http://esn.xuyajun.com/scrmdefined/account/getAccountEnumAttrList/VISITID/1';
         const rowData = {
         rows: [
-        {col_name:'客户级别',col_type:'单选类型',col_IsRequired:'是',col_Remark:'用户自定义',id:1},
-        {col_name:'所属区域',col_type:'单选类型',col_IsRequired:'否',col_Remark:'用户自定义',id:2},
-        {col_name:'客户来源',col_type:'单选类型',col_IsRequired:'是',col_Remark:'用户自定义',id:3},
-        {col_name:'行业分类',col_type:'单选类型',col_IsRequired:'是',col_Remark:'用户自定义',id:4}
+        {Label:'客户级别',AttrType:'单选类型',IsMast:'是',Content:'用户自定义',ID:1,
+        Enums:[
+                {
+                    Val:"值值值值值值",//枚举值.
+                    IsStop:1,//停用启用.
+                    IsSys:0,//是否是系统属性.
+                },
+                {
+                    Val:"凤飞飞凤飞飞凤飞飞",//枚举值.
+                    IsStop:0,//停用启用.
+                    IsSys:0,//是否是系统属性.
+                },
+                {
+                    Val:"大苏打大苏打大苏打",//枚举值.
+                    IsStop:0,//停用启用.
+                    IsSys:1,//是否是系统属性.
+                }
+            ]
+        },
+        {Label:'所属区域',AttrType:'单选类型',IsMast:'否',Content:'用户自定义',ID:2,
+        Enums:[]
+        },
+        {Label:'客户来源',AttrType:'单选类型',IsMast:'是',Content:'用户自定义',ID:3,
+        Enums:[]
+        },
+        {Label:'行业分类',AttrType:'单选类型',IsMast:'是',Content:'用户自定义',ID:4,
+        Enums:[]
+        }
         ]
     };
 
@@ -104,38 +127,34 @@ export const dataItem = (data)=>{
     }
 }
 
-    
-export const selectedRowData = ({'selectedRow':selectedRow})=>{
-    //此处需要请求到每个自定义字段的编辑项信息，此处用假数据代替
-    const _selectedRowData = (type, data)=> {
 
+export const selectedRowData = (selectedRow,editColumnsOptions)=>{
+    if(editColumnsOptions.length == 0){
+        let editColumnsOptions = [
+            {
+                Val:"",//枚举值.
+                IsStop:0,//1：停用 0：启用.
+                IsSys:1,//是否是系统属性.
+            }
+        ]
         return {
-            type,
-            payload: data
+            type:ACCOUNT_CUSTOM_SELECTEDROWDATA,
+            payload: {
+                'selectedRow':selectedRow,
+                'editColumnsOptions':editColumnsOptions
+            }
+        }
+    }else{
+        return {
+            type:ACCOUNT_CUSTOM_SELECTEDROWDATA,
+            payload: {
+                'selectedRow':selectedRow,
+                'editColumnsOptions':editColumnsOptions
+            }
         }
     }
-/*
-**初始默认进入页面室时会从后台带过来用户所选择的字段的设置的编辑项只有一条数据
-如果后台返回的是空的，说明用户没有设置过，那前端给一个默认的数据如下,并且不可删除
-*/
-    const editColumnsOptions = [
-    {optionInfor:'',IsDelete:'否',status:'启用'}
-]
-
-/*
-**
-如果后台返回的是不为空，说明用户已经设置过，那前端就直接展示该数据,并且用户是可以删除的
-*/
-
-
-
-    //selectedRow.editColumnsOptions = editColumnsOptions;
-    
-    return (dispatch, getState) => {
-        dispatch(_selectedRowData(ACCOUNT_CUSTOM_SELECTEDROWDATA,{'selectedRow':selectedRow,'editColumnsOptions':editColumnsOptions}))
-    }
-
 }
+
 
 //点击关闭按钮
 
@@ -222,10 +241,13 @@ export const addItem = (i)=>{
 }
 
 //删除一行编辑项
-export const deletItem = (i)=>{
+export const deletItem = (i,IsLast)=>{
     return {
         type: ACCOUNT_CUSTOM_DELETEITEM,
-        payload: i
+        payload: {
+            index:i,
+            isLast:IsLast
+        }
     }
 }
 

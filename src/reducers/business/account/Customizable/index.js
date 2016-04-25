@@ -30,17 +30,17 @@ const  Customizable = ($$state = $$initialState, action)=>{
         case ACCOUNT_CUSTOM_CHANGETAB:
         	return $$state.merge(action.payload)
         case ACCOUNT_CUSTOM_CHANGEISREQUIRED:
-            return $$state.updateIn(['selectedRow', 'col_IsRequired'], col_IsRequired => {
-                return action.payload.col_IsRequired
+            return $$state.updateIn(['selectedRow', 'IsMast'], IsMast => {
+                return action.payload.IsMast
             })
         case ACCOUNT_CUSTOM_ADDITEM:
-            const $$additemCon =  Immutable.fromJS({'optionInfor':'','IsDelete':'是','status':'启用'})
+            const $$additemCon =  Immutable.fromJS({Val:'',IsSys:0,IsStop:0})
             return $$state.updateIn(['editColumnsOptions'], editColumnsOptions => {
                 return editColumnsOptions.push($$additemCon)
             })
         case ACCOUNT_CUSTOM_DELETEITEM:
-            if(action.payload === 0){
-            const $$lastitemCon =  Immutable.fromJS([{optionInfor:'',IsDelete:'否',status:'启用'}])
+            if(action.payload.index === 0 && action.payload.isLast==1){
+            const $$lastitemCon =  Immutable.fromJS([{Val:'',IsSys:1,IsStop:0}])
                 return $$state.updateIn(['editColumnsOptions'], editColumnsOptions => {
                     
                     return $$lastitemCon
@@ -48,7 +48,7 @@ const  Customizable = ($$state = $$initialState, action)=>{
             }else{
                 return $$state.updateIn(['editColumnsOptions'], editColumnsOptions => {
                     
-                    return editColumnsOptions.delete(action.payload)
+                    return editColumnsOptions.delete(action.payload.index)
                 })
             }
         case ACCOUNT_CUSTOM_CHANGRINPUTVALUE:
@@ -58,7 +58,7 @@ const  Customizable = ($$state = $$initialState, action)=>{
             let editColumnsOptions = $$state.get('editColumnsOptions')
             editColumnsOptions = editColumnsOptions.map((r, i) => {
                 if (i === index) {
-                    return r.updateIn(['optionInfor'], optionInfor => {
+                    return r.updateIn(['Val'], Val => {
                         return NewoptionInfor
                     })
                 }
@@ -66,8 +66,8 @@ const  Customizable = ($$state = $$initialState, action)=>{
             })
             editColumnsOptions = editColumnsOptions.map((r, i) => {
                 if(i === 0 && NewoptionInfor.length>0 ) {
-                    return r.updateIn(['IsDelete'], IsDelete => {
-                        return '是'
+                    return r.updateIn(['IsSys'], IsSys => {
+                        return 0
                     })
 
                 }
@@ -76,11 +76,11 @@ const  Customizable = ($$state = $$initialState, action)=>{
             return $$state.set('editColumnsOptions', editColumnsOptions)
         case ACCOUNT_CUSTOM_CHANGEISWORK:
             let changeIndex = action.payload.index
-            let Newostatus = action.payload.status
+            let Newostatus = action.payload.IsStop
             let columnsOptions = $$state.get('editColumnsOptions')
             columnsOptions = columnsOptions.map((r, i) => {
                 if (i === changeIndex) {
-                    return r.updateIn(['status'], status => {
+                    return r.updateIn(['IsStop'], IsStop => {
                         return Newostatus
                     })
                 }

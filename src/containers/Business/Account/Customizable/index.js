@@ -2,14 +2,13 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Customizable from './CustomizablePage.less'
 
-import Table from './Table'
 import DivTab from './DivTab'
 import DivList from './DivList'
 import { selectedRowData,clickCloseBtn,selectedTabIndex,changeIsRequired,getTableData,
     addItem,deletItem,changeInputValue,ChangeStatus,clickapplyBtn,DownItem,UpItem,
     clickCancleBtn,dataItem} from 'actions/Business/Account/Customizable'
 
-
+import { Table, Icon,message } from 'antd';
 //import 'ucjs_modules/Ztree/3.5.0/css/zTreeStyle.css'
 //import 'ucjs_modules/jquery-deptotree/1.0.0/jquery-deptotree.css'
 
@@ -19,29 +18,50 @@ import { selectedRowData,clickCloseBtn,selectedTabIndex,changeIsRequired,getTabl
 //import 'ucjs_modules/jquery-deptotree/1.0.0/jquery-deptotree.js'
 
 
+let currentText
+
 
 let columns = [
-    {text: '客户名称', datafield: 'col_name', width: 230},
-    {text: '客户类型', datafield: 'col_type', width: 70},
-    {text: '是否必填', datafield: 'col_IsRequired', width: 160},
-    {text: '备注说明', datafield: 'col_Remark', width: 160},
-    {text: '操作', datafield: 'id', width: 265, cellsrenderer: function(rowData, column, value){
-        // this -> 所在行<Tr/>
+    {title: '客户名称', dataIndex: 'Label',key: 'Label', width: 120},
+    {title: '客户类型', dataIndex: 'AttrType',key: 'AttrType', width: 120},
+    {title: '是否必填', dataIndex: 'IsMast',key: 'IsMast', width: 160},
+    {title: '备注说明', dataIndex: 'Content',key: 'Content' },
+    {title: '操作', dataIndex: 'ID',key: 'ID' , width: 130, render: function(text, record, index){
         return (
-            <div>
-                <button className = "ck-customize-bnt01">设置</button>
-            </div>
-
-        )
-    }
-    }
+                <button className = "ck-customize-bnt01" onClick = {e=>currentText.handleSelectSet(record)}>设置</button>
+          );
+    }}
 ];
 
 
+
+
 class CustomizablePage extends  React.Component{
+    constructor(props) {
+        super(props)
+        currentText = this
+    }
     handleClose(){
         const {clickCloseBtn} = this.props;
         clickCloseBtn();
+    }
+    componentDidMount() {
+      // 页面初始完,获取统计数据,触发action: GET_DATA
+      this.props.getTableData()
+    }
+    handleSelectSet(record){
+        const {selectedRowData} = this.props;
+        let selectedRow={}
+        selectedRow.Label = record.Label
+        selectedRow.AttrType = record.AttrType
+        selectedRow.IsMast = record.IsMast
+        selectedRow.col_Remark = record.col_Remark
+        selectedRow.ID = record.ID
+
+        let editColumnsOptions = []
+        editColumnsOptions = record.Enums 
+        console.log(editColumnsOptions)
+        selectedRowData(selectedRow,editColumnsOptions)
     }
     // handleclickDept(){
     //     const {dataItem} = this.props;
@@ -69,32 +89,6 @@ class CustomizablePage extends  React.Component{
     //     )
 
     // }
-    // handleclickPeople(){
-    //     const {dataItem} = this.props;
-
-    //     deptotree('#date-range1')
-    //     .DeptoTree(
-    //         {
-    //             type: 1,  // 类型1 会员 2部门
-    //             maxNum:20000, // 最大数量
-    //             isMultiple:1, // 是否多选
-    //             deptid: 0,  // 部门ID ，默认为0 全部
-    //             headImg: GLOBAL_INFO.imageUrl + '/images/default_avatar.jpg', // 默认头像, defaultHeadImgUrl ./images/default_avatar.jpg.thumb.jpg
-    //             requestUrl: [], // 请求接口路径路径，可填写1-3个数组元素，如:['url-1','url-2','url-3'],依次对应为部门列表、员工列表、搜索会员列表
-    //             // requestUrl: [
-    //             //     SCRM.url('/deptcomponent/DeptComponent/getDeptTree'),
-    //             //     SCRM.url('/deptcomponent/DeptComponent/getMemberListByDeptId'),
-    //             //     SCRM.url('/deptcomponent/DeptComponent/getUserList')
-    //             // ],
-
-    //             beforeSuccess:function(obj,data,index){
-    //             },// 确认提交回调函数
-    //             success:function(data){
-    //                 dataItem(data)
-    //             }
-    //         }
-    //     )
-    // }
 	render(){
         const {selectedRowData,$$mapState, getTableData,dataItem} = this.props;
         const IsShow = $$mapState.toJS().IsShow;
@@ -102,17 +96,17 @@ class CustomizablePage extends  React.Component{
         const data = $$mapState.toJS().data;
         if(!IsShow){
              return (
-                <div className = "col_right">
-                    <div className="col_cktop">
-                        <div className="col_cktop-topTitle"><a>客户</a>><a>自定义</a></div>
+                <div className = "col_right" >
+                    <div style={{marginLeft: '20px'}}>
+                        <Table ref = "dataTable"
+                         columns={columns} 
+                         dataSource={rows} 
+                         useFixedHeader 
+                         pagination = {false}
+                         selectedRowData = {selectedRowData}
+                         getTableData = {getTableData}
+                        />
                     </div>
-                    <Table 
-                       columns={columns}
-                       rows = {rows} 
-                       selectedRowData = {selectedRowData}
-                       getTableData = {getTableData}
-                     >
-                     </Table>
                 </div>
             )
         }else{
@@ -121,17 +115,18 @@ class CustomizablePage extends  React.Component{
         const col_name = $$mapState.toJS().selectedRow["col_name"];
         const applyTankuangShow = $$mapState.toJS().applyTankuangShow
             return (
-                <div className = "col_right">
-                    <div className="col_cktop">
-                        <div className="col_cktop-topTitle"><a>客户</a>><a>自定义</a></div>
+                <div className = "col_right" >
+                    <div style={{marginLeft: '20px'}}>
+                        <Table ref = "dataTable"
+                         columns={columns} 
+                         dataSource={rows} 
+                         useFixedHeader 
+                         pagination = {false}
+                         selectedRowData = {selectedRowData}
+                         getTableData = {getTableData}
+                        />
+
                     </div>
-                    <Table 
-                       columns={columns}
-                       rows = {rows} 
-                       selectedRowData = {selectedRowData}
-                       getTableData = {getTableData}
-                     >
-                     </Table>
                      <div className = "CustomizableSettingBg">
                         <div className = "ck-customize-popBox">
                             <div className = "CustomizableSettingHead">{col_name}

@@ -1,5 +1,6 @@
 import { isPlainObject, isFunction, isString } from 'lodash'
 import warning from 'fbjs/lib/warning'
+import {message } from 'antd';
 
 class DivEdit extends React.Component{
 	constructor(props) {
@@ -8,15 +9,22 @@ class DivEdit extends React.Component{
     }
 	handleAddItem(i){
 		const {addItem} = this.props;
+        const ColumnsOptions = this.props.$$mapState.toJS().editColumnsOptions;
 		/*zanding 20 tiao*/
-		if(i<20){
+		if(ColumnsOptions.length<20){
 			addItem(i);
 		}else{
+			message.warn('最多可添加20条选项');
 		}
 	}
 	handleDeletItem(i){
 		const {deletItem} = this.props;
-		deletItem(i);
+        const ColumnsOptions = this.props.$$mapState.toJS().editColumnsOptions;
+        let IsLast 
+        if(ColumnsOptions.length ==1){
+        	IsLast =1
+        }
+		deletItem(i,IsLast);
 	}
 	handleChangeInput(i,e){
 		const value = e.currentTarget.value;
@@ -27,7 +35,7 @@ class DivEdit extends React.Component{
 	handleChangeselect(i,e){
         const ColumnsOptions = this.props.$$mapState.toJS().editColumnsOptions[i];
         const {ChangeStatus}=this.props;
-        ColumnsOptions['status']=='启用'?ChangeStatus({'index':i,'status':'未启用'}):ChangeStatus({'index':i,'status':'启用'})
+        ColumnsOptions['IsStop']==1?ChangeStatus({index:i,IsStop:0}):ChangeStatus({index:i,IsStop:1})
 		
 	}
 	handleItemUp(i){
@@ -68,15 +76,16 @@ class DivEdit extends React.Component{
 				                          <div className={i==lastLen?'Sequence-none02':'Sequence-bottom'} onClick = {this.handleItemDown.bind(this,i)}></div>
 			                         </div>
 									<div className = "ck-gongncnt-first">
-										<input type = 'text' value = {opt.optionInfor} placeholder = "输入文字"  onChange = {this.handleChangeInput.bind(this,i)} />
+										<input type = 'text' value = {opt.Val} placeholder = "输入文字"  onChange = {this.handleChangeInput.bind(this,i)} />
 									</div>
 									<div className = "ck-gongncnt-second clearfix">
-										<button className={i==19?'disableadd':'add'} onClick = {this.handleAddItem.bind(this,i)}>+</button><button className={i==0?'disableCut':'cut'} disabled = {opt.IsDelete=='否'?'disabled':''} onClick = {this.handleDeletItem.bind(this,i)}>-</button>
+										<button className={i==19?'disableadd':'add'} onClick = {this.handleAddItem.bind(this,i)}>+</button>
+										<button className={opt.IsSys=='1'?'disableCut':'cut'} disabled = {opt.IsSys=='1'?'disabled':''} onClick = {this.handleDeletItem.bind(this,i)}>-</button>
 									</div>
 									<div className = "ck-gongncnt-third">
-										<select name = "statusSelect" value = {opt.status} onChange={this.handleChangeselect.bind(this,i)}>
-											<option value = "启用" >启用</option>
-											<option value = "未启用" >未启用</option>
+										<select name = "statusSelect" value = {opt.IsStop} onChange={this.handleChangeselect.bind(this,i)}>
+											<option value = "1" >未启用</option>
+											<option value = "0" >启用</option>
 										</select>
 									</div>
 								</li>

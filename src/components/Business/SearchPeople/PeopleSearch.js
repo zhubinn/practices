@@ -31,6 +31,7 @@ export  default class PeopleSearch extends Component{
 
 		}
 		if(nameItemData.length == 0 && e.keyCode == 8){
+			//TODO 
 			console.log("当删除最后一个tag时重新拿到全部数据")
 
 		}
@@ -56,6 +57,7 @@ export  default class PeopleSearch extends Component{
 					const { searchPeopleData} = this.props;
 					//当textValue为空的时候，搜索的结果默认为初始数据
 					if(textValue.length == 0){
+						//TODO
 						if(nameItemData.length == 0){
 							searchPeopleData(searchParams)
 						}
