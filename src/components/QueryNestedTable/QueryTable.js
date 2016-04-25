@@ -5,31 +5,18 @@ import { findDOMNode } from 'react-dom'
 import { Table, TimePicker, InputNumber, Form, Button } from 'antd'
 import INPUTTYPE from './inputType'
 
+const prefix = '_ck_qt_'
+
 class QueryTable extends React.Component {
-    static togglePrefix(name, level) {
-        const _prefix = `_ck_qt_${level}_`
-
-        return name.startsWith(_prefix) ?
-            name.substr(_prefix) : _prefix + name
-    }
-
-    static togglePropPrefix(obj, level) {
-        const finalObj = {}
-
-        for (let prop in obj) {
-            if (!obj.hasOwnProperty(prop))
-                continue
-
-            const finalProp = QueryTable.togglePrefix(prop, level)
-            finalObj[finalProp] = obj[prop]
-        }
-    }
-
     constructor() {
         super()
 
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleClear = this.handleClear.bind(this)
+        this.setState({
+            formVal1: null,
+            formVal2: null,
+        })
     }
 
     handleSubmit(e) {
@@ -37,20 +24,41 @@ class QueryTable extends React.Component {
 
         const { form, onQuery } = this.props
         const formVal = form.getFieldsValue()
-        const finalFormVal = QueryTable.togglePropPrefix(formVal)
+        const prefix1 = '_ck_qt_1_'
+        const prefix2 = '_ck_qt_2_'
+        const formVal1 = {}
+        const formVal2 = {}
 
-        onQuery(finalFormVal)
+        for (let prop in formVal) {
+            if (!formVal.hasOwnProperty(prop))
+                continue
+
+            if (prop.startsWith(prefix1)) {
+                formVal1[prop.substr(prefix1.length)] = formVal[prop]
+
+            } else if (prop.startsWith(prefix2)) {
+                formVal2[prop.substr(prefix2.length)] = formVal[prop]
+            }
+        }
+
+        this.setState({
+            formVal1,
+            formVal2,
+        })
+
+        onQuery(formVal1)
     }
 
     handleClear() {
         const { form } = this.props
-        form.resetFields()
+
+        form.resetFields(this.state.finalFormVal)
     }
 
     renderControls(col, level) {
         const { queryParams, form } = this.props
         const { getFieldProps } = form
-        const fieldName = QueryTable.togglePrefix(col.key, level)
+        const fieldName = `_ck_qt_${level}_${col.key}`
         const fieldProps = getFieldProps(fieldName)
 
         fieldProps.defaultValue = col.defaultValue
@@ -123,7 +131,16 @@ QueryTable.propTypes = {
 
 export default Form.create({
     mapPropsToFields(props) {
-        return props.queryParams
+        const finalObj = {}
+
+        for (let prop in props.queryParams) {
+            if (!props.queryParams.hasOwnProperty(prop))
+                continue
+
+            const finalProp = prop.substr(prefix.length + 2)
+            finalObj[finalProp] = props.queryParams[prop]
+        }
+        return finalObj
     },
 
     onFieldsChange(props, fields) {
