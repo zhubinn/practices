@@ -12,8 +12,6 @@ const toggleQueryPanel = () => {
 }
 
 const changeQueryParams = (queryParams) => {
-    console.log(queryParams)
-    //TODO: ajax by queryParams
     return (dispatch, getState) => dispatch({
         type: CK_COMPONENT_QUERYTABLE_CHANGE,
         payload: {
