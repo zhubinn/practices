@@ -10,17 +10,17 @@ import {
     initQueryNestedTable,
     updateDataSource,
     updateChildDataSource,
-} from 'actions/__demo/queryNestedTable'
+} from 'actions/business/account/summary'
 import {
     toggleQueryPanel,
 } from 'actions/components/QueryNestedTable'
 import 'antd/style/index.less'
-import { account_list_columns } from './data'
+import { account_summary_columns, account_summary_business_columns } from './data'
 
-const columns = account_list_columns
-const columns_2 = account_list_columns
+const columns = account_summary_columns
+const columns_2 = account_summary_business_columns
 
-class Account_List extends React.Component {
+class Account_Summary_Page extends React.Component {
     constructor() {
         super()
     }
@@ -40,10 +40,7 @@ class Account_List extends React.Component {
 
         return (
             <div>
-                <Breadcrumb>
-                    <Breadcrumb.Item>客户</Breadcrumb.Item>
-                    <Breadcrumb.Item href="">客户列表</Breadcrumb.Item>
-                </Breadcrumb>
+
                 <div>
                     <Button type="ghost">变更联系人</Button>
                     <Button type="ghost">导出</Button>
@@ -58,6 +55,7 @@ class Account_List extends React.Component {
                     initQueryNestedTable={initQueryNestedTable}
                     updateDataSource={updateDataSource}
                     updateChildDataSource={updateChildDataSource}
+
                 />
             </div>
         )
@@ -75,4 +73,4 @@ export default connect(mapStateToProps, {
     updateDataSource,
     updateChildDataSource,
     toggleQueryPanel,
-})(QueryNestedTablePage)
+})(Account_Summary_Page)

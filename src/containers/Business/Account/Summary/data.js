@@ -1,9 +1,10 @@
 /**
  * Created by janeluck on 4/25/16.
  */
+
 import INPUTTYPE from 'components/QueryNestedTable/inputType'
 
-const account_list_columns = [{
+const account_summary_columns = [{
     title: '客户名称',
     dataIndex: 'Name',
     key: 'Name',
@@ -109,7 +110,8 @@ const account_list_columns = [{
     key: 'CreatedTime',
     inputType: INPUTTYPE.DATE,
 }];
-const account_list_business_columns = [
+
+const account_summary_business_columns = [
     {
         title: '生意名称',
         dataIndex: 'optnty_name',
@@ -125,29 +127,9 @@ const account_list_business_columns = [
         dataIndex: ' owner_user_id',
         key: ' owner_user_id',
         inputType: INPUTTYPE.STRING,
-    },{
-        title: '电子邮件',
-        dataIndex: 'Email',
-        key: 'Email',
-        inputType: INPUTTYPE.STRING,
-    }, {
-        title: '客户联系人',
-        dataIndex: 'AccountConnect',
-        key: 'AccountConnect',
-        inputType: INPUTTYPE.STRING,
-    },{
-        title: '备注',
-        dataIndex: 'Beizhu',
-        key: 'Beizhu',
-        inputType: INPUTTYPE.STRING,
-    }, {
-        title: '创建时间',
-        dataIndex: 'CreatedTime',
-        key: 'CreatedTime',
-        inputType: INPUTTYPE.DATE,
     }
 ]
-
 export {
-    account_list_columns
+    account_summary_columns,
+    account_summary_business_columns
 }
