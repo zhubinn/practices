@@ -20,9 +20,14 @@ import StatisticPage from 'containers/Business/Account/Statistic'
 import SummaryPage from 'containers/Business/Account/Summary'
 import DetailPage from 'containers/Business/Account/Detail'
 
+//生意
+import BusinessStatistic from 'containers/Business/Business/Statistic'
+import BusinessSummary from 'containers/Business/Business/Summary'
 
-import BusinessStatistic from 'containers/Business/Business/statistic'
-import BusinessSummary from 'containers/Business/Business/summary'
+//日志
+import FunctionLog from 'containers/Business/Log/FunctionLog'
+import DataLog from 'containers/Business/Log/DataLog'
+import ClearLog from 'containers/Business/Log/ClearLog'
 
 export default (
     <Route path="/">
@@ -34,12 +39,17 @@ export default (
         </Route>
         <Route path="scrmweb" component={ModulePage}>
             <Route path="accounts/index/VISITID/1" component={AccountListPage} />
-            <Route path="business/statistic/VISITID/1" component={BusinessStatistic} />
-            <Route path="business/summary/VISITID/1" component={BusinessSummary} />
             <Route path="accounts/define/VISITID/1" component={CustomizablePage} />
             <Route path="accounts/statistic/VISITID/1" component={StatisticPage} />
             <Route path="accounts/summary/VISITID/1" component={SummaryPage} />
             <Route path="accounts/detail/VISITID/1" component={DetailPage} />
+            
+            <Route path="business/statistic/VISITID/1" component={BusinessStatistic} />
+            <Route path="business/summary/VISITID/1" component={BusinessSummary} />
+
+            <Route path="log/func/VISITID/1" component={FunctionLog} />
+            <Route path="log/datalog/VISITID/1" component={DataLog} />
+            <Route path="log/clearlog/VISITID/1" component={ClearLog} />
         </Route>
         <Route path="*" component={Error_404}/>
     </Route>
