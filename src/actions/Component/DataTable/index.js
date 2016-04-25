@@ -52,7 +52,6 @@ const getData = (params, source)=> {
      }, 1000)
      })*/
     return (dispatch, getState) => {
-
         dispatch(fetchData(GET_DATA, {pending: true, rows: []}, source))
         // todo: 封装
         fetch(params.url, {
