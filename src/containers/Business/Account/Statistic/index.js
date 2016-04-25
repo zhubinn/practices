@@ -107,6 +107,17 @@ class AccountStatistic extends React.Component{
         iconClassName:'a',
       });
     }
+  handleOnChange(e){
+      const textValue = e.currentTarget.value;
+      const {changeInputVal} = this.props
+      changeInputVal(textValue)
+    }
+  handleClickSearch(e){
+    const textValue = this.props.$$account_deptsummary.toJS().value
+    const {searchKeyWord} = this.props
+    searchKeyWord(textValue)
+  }
+  
   render(){
 
         let dataSource = {}
@@ -125,7 +136,10 @@ class AccountStatistic extends React.Component{
             <div style={{marginLeft: '20px'}}>
                 <div className = "col_cktop">
                   <div className="col_cktop-gongneng clearfix">
-                     <div className="col_cktop-Hightsearch"><input type="text" className="Hightsearch_input" onKeyUp = {this.handleKeyUp.bind(this)}/><button>搜索</button></div>
+                     <div className="col_cktop-Hightsearch">
+                         <input type="text" className="Hightsearch_input" onChange = {this.handleOnChange.bind(this)}/>
+                         <button onClick = {this.handleClickSearch.bind(this)}>搜索</button>
+                     </div>
                      <Button className="col_cktop-btnFpai" onClick={this.exportTable.bind(this)}>导出EXCEL</Button>
                   </div>  
                 </div>

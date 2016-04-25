@@ -92,7 +92,6 @@ class AccountDeptSummaryPage extends React.Component {
     const textValue = this.props.$$account_deptsummary.toJS().value
     const {searchKeyWord} = this.props
     searchKeyWord(textValue)
-      
   }
 
     handleDeptPene(e){
