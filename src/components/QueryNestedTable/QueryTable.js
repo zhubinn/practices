@@ -2,24 +2,37 @@
  * Created by c on 4/21/16.
  */
 import { findDOMNode } from 'react-dom'
-import { Table, TimePicker, InputNumber, Form } from 'antd'
+import { Table, TimePicker, InputNumber, Form, Button } from 'antd'
 import INPUTTYPE from './inputType'
 
 class QueryTable extends React.Component {
-    handleSubmit() {
-        this.props.onSubmit()
+    constructor() {
+        super()
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleClear = this.handleClear.bind(this)
+    }
+
+    handleSubmit(e) {
+        e.preventDefault()
+        const formVal = this.props.form.getFieldsValue()
+        this.props.onQuery(formVal)
+    }
+
+    handleClear() {
+
     }
 
     renderControls(col) {
         const onChange = col
+        const { getFieldProps } = this.props.form
 
         switch (col.inputType) {
             case INPUTTYPE.DATE:
-                return <TimePicker onChange={onChange}/>
+                return <TimePicker {...getFieldProps(col.key)} onChange={onChange}/>
             case INPUTTYPE.NUMBER:
-                return <InputNumber min={1} max={10} defaultValue={3} onChange={onChange}/>
+                return <InputNumber {...getFieldProps(col.key)} min={1} max={10} defaultValue={3} onChange={onChange}/>
             case INPUTTYPE.STRING:
-                return <input type="text"/>
+                return <input {...getFieldProps(col.key)} type="text"/>
             default:
                 return null
         }
@@ -50,14 +63,17 @@ class QueryTable extends React.Component {
     }
 
     render() {
-        const { dataSource, columns, childProps, showSearchTable } = this.props
-        console.log(columns)
+        const { columns, childProps, show } = this.props
+
+        if (!show)
+            return null
 
         return (
             <Form className="ant-table ant-table-middle ant-table-bordered" onSubmit={this.handleSubmit}>
                 { this.renderTable(columns, childProps) }
                 <div>
-                    <button disabled>查询</button>
+                    <Button type="primary" htmlType="submit">确定</Button>
+                    <Button type="ghost" onClick={this.handleClear}>清空</Button>
                 </div>
             </Form>
         )
@@ -65,7 +81,8 @@ class QueryTable extends React.Component {
 }
 
 QueryTable.propTypes = {
-    onSubmit: React.PropTypes.func.isRequired
+    columns: React.PropTypes.array.isRequired,
+    onQuery: React.PropTypes.func.isRequired
 }
 
-export default QueryTable;
+export default Form.create()(QueryTable)

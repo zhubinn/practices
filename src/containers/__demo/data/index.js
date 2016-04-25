@@ -1,6 +1,7 @@
 /**
  * Created by janeluck on 4/25/16.
  */
+import INPUTTYPE from 'components/QueryNestedTable/inputType'
 
 const account_list_columns = [{
     title: '客户名称',
@@ -17,7 +18,7 @@ const account_list_columns = [{
     dataIndex: 'Bank',
     key: 'Bank',
     inputType: INPUTTYPE.NUMBER,
-},{
+}, {
     title: '银行账号',
     dataIndex: 'BankAccount',
     key: 'BankAccount',
@@ -27,7 +28,7 @@ const account_list_columns = [{
     dataIndex: 'OwnerID',
     key: 'OwnerID',
     inputType: INPUTTYPE.STRING,
-},{
+}, {
     title: '客户公司地址',
     dataIndex: 'Address',
     key: 'Address',
@@ -37,7 +38,7 @@ const account_list_columns = [{
     dataIndex: 'Phone',
     key: 'Phone',
     inputType: INPUTTYPE.NUMBER,
-},{
+}, {
     title: '客户简介',
     dataIndex: 'Descriptions',
     key: 'Descriptions',
@@ -47,7 +48,7 @@ const account_list_columns = [{
     dataIndex: 'AccountIndustry',
     key: 'AccountIndustry',
     inputType: INPUTTYPE.STRING,
-},{
+}, {
     title: '主营产品',
     dataIndex: 'MainProduct',
     key: 'MainProduct',
@@ -57,7 +58,7 @@ const account_list_columns = [{
     dataIndex: 'Scale',
     key: 'Scale',
     inputType: INPUTTYPE.STRING,
-},{
+}, {
     title: '客户级别',
     dataIndex: 'AccountLevel',
     key: 'AccountLevel',
@@ -67,7 +68,7 @@ const account_list_columns = [{
     dataIndex: 'AccountIndustry',
     key: 'AccountIndustry',
     inputType: INPUTTYPE.STRING,
-},{
+}, {
     title: '所属区域',
     dataIndex: 'Area',
     key: 'Area',
@@ -77,7 +78,7 @@ const account_list_columns = [{
     dataIndex: 'WebSite',
     key: 'WebSite',
     inputType: INPUTTYPE.STRING,
-},{
+}, {
     title: '旺旺',
     dataIndex: 'Ww',
     key: 'Ww',
@@ -87,7 +88,7 @@ const account_list_columns = [{
     dataIndex: 'Msnqq',
     key: 'Msnqq',
     inputType: INPUTTYPE.STRING,
-},{
+}, {
     title: '电子邮件',
     dataIndex: 'Email',
     key: 'Email',
@@ -97,7 +98,7 @@ const account_list_columns = [{
     dataIndex: 'AccountConnect',
     key: 'AccountConnect',
     inputType: INPUTTYPE.STRING,
-},{
+}, {
     title: '备注',
     dataIndex: 'Beizhu',
     key: 'Beizhu',
