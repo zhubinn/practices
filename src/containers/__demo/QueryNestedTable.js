@@ -12,12 +12,16 @@ import {
 } from 'actions/__demo/queryNestedTable'
 import {
     toggleQueryPanel,
+    changeQueryParams,
 } from 'actions/components/QueryNestedTable'
 import 'antd/style/index.less'
-import { account_list_columns } from './data'
+import {
+    account_list_columns,
+    account_list_columns_2,
+} from './data'
 
 const columns = account_list_columns
-const columns_2 = account_list_columns
+const columns_2 = account_list_columns_2
 
 class QueryNestedTablePage extends React.Component {
     constructor() {
@@ -30,11 +34,13 @@ class QueryNestedTablePage extends React.Component {
             updateDataSource,
             updateChildDataSource,
             toggleQueryPanel,
+            changeQueryParams,
             } = this.props
         const {
             showSearchTable,
             dataSource,
             childProps,
+            queryParams,
             } = this.props.$$QueryNestedTable.toJS()
 
         return (
@@ -54,9 +60,11 @@ class QueryNestedTablePage extends React.Component {
                     columns_2={columns_2}
                     dataSource={dataSource}
                     childProps={childProps}
+                    queryParams={queryParams}
                     initQueryNestedTable={initQueryNestedTable}
                     updateDataSource={updateDataSource}
                     updateChildDataSource={updateChildDataSource}
+                    changeQueryParams={changeQueryParams}
                 />
             </div>
         )
@@ -74,4 +82,5 @@ export default connect(mapStateToProps, {
     updateDataSource,
     updateChildDataSource,
     toggleQueryPanel,
+    changeQueryParams,
 })(QueryNestedTablePage)

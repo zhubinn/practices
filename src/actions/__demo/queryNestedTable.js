@@ -51,6 +51,10 @@ const updateDataSource = (queryParams) => {
         payload: {
             dataSource,
             loading: false,
+            childProps: {
+                columns: [],
+                dataSource: {}
+            }
         }
     })
 }

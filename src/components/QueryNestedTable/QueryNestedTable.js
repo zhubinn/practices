@@ -42,7 +42,9 @@ export default class QueryNestedTable extends React.Component {
             columns,
             dataSource,
             childProps,
+            queryParams,
             showSearchTable,
+            changeQueryParams,
             } = this.props
 
         return (
@@ -52,7 +54,9 @@ export default class QueryNestedTable extends React.Component {
                     dataSource={dataSource}
                     columns={columns}
                     childProps={childProps}
+                    queryParams={queryParams}
                     onQuery={this.handleQuery}
+                    changeQueryParams={changeQueryParams}
                 />
                 <Table
                     dataSource={dataSource}
@@ -71,4 +75,5 @@ QueryNestedTable.propTypes = {
     initQueryNestedTable: React.PropTypes.func.isRequired,
     updateDataSource: React.PropTypes.func.isRequired,
     updateChildDataSource: React.PropTypes.func.isRequired,
+    changeQueryParams: React.PropTypes.func.isRequired,
 }

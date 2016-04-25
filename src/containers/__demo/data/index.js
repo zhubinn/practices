@@ -8,6 +8,10 @@ const account_list_columns = [{
     dataIndex: 'Name',
     key: 'Name',
     inputType: INPUTTYPE.STRING,
+    defaultValue: '默认值',
+    render: text => {
+        return <a href="http://baidu.com" target="_blank">{text}</a>
+    }
 }, {
     title: '简称',
     dataIndex: 'ShortName',
@@ -109,45 +113,20 @@ const account_list_columns = [{
     key: 'CreatedTime',
     inputType: INPUTTYPE.DATE,
 }];
-const account_list_business_columns = [
-    {
-        title: '生意名称',
-        dataIndex: 'optnty_name',
-        key: 'optnty_name',
-        inputType: INPUTTYPE.STRING,
-    },{
-        title: '生意阶段',
-        dataIndex: 'optnty_stage',
-        key: 'optnty_stage',
-        inputType: INPUTTYPE.STRING,
-    }, {
-        title: '负责人',
-        dataIndex: ' owner_user_id',
-        key: ' owner_user_id',
-        inputType: INPUTTYPE.STRING,
-    },{
-        title: '电子邮件',
-        dataIndex: 'Email',
-        key: 'Email',
-        inputType: INPUTTYPE.STRING,
-    }, {
-        title: '客户联系人',
-        dataIndex: 'AccountConnect',
-        key: 'AccountConnect',
-        inputType: INPUTTYPE.STRING,
-    },{
-        title: '备注',
-        dataIndex: 'Beizhu',
-        key: 'Beizhu',
-        inputType: INPUTTYPE.STRING,
-    }, {
-        title: '创建时间',
-        dataIndex: 'CreatedTime',
-        key: 'CreatedTime',
-        inputType: INPUTTYPE.DATE,
-    }
-]
+
+const account_list_columns_2 = [{
+    title: '客户名称1',
+    dataIndex: 'Name1',
+    key: 'Name1',
+    inputType: INPUTTYPE.STRING,
+}, {
+    title: '简称1',
+    dataIndex: 'ShortName1',
+    key: 'ShortName1',
+    inputType: INPUTTYPE.STRING,
+}]
 
 export {
-    account_list_columns
+    account_list_columns,
+    account_list_columns_2,
 }
