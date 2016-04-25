@@ -5,6 +5,7 @@ import Immutable from 'immutable'
 import {
     CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
     CK_COMPONENT_QUERYNESTEDTABLE_TOGGLEQUERYPANEL,
+    CK_COMPONENT_QUERYTABLE_CHANGE,
 } from 'actions/components/QueryNestedTable'
 
 const EMPTY_ARRAY = []
@@ -20,7 +21,8 @@ const $$initialState = Immutable.fromJS({
         dataSource: EMPTY_OBJECT,
         loading: EMPTY_OBJECT,
         showSearchTable: EMPTY_OBJECT,
-    }
+    },
+    queryParams: {}
 })
 
 const report = ($$state = $$initialState, action) => {
@@ -30,6 +32,11 @@ const report = ($$state = $$initialState, action) => {
 
         case CK_COMPONENT_QUERYNESTEDTABLE_TOGGLEQUERYPANEL:
             return $$state.update('showSearchTable', x=>!x)
+
+        case CK_COMPONENT_QUERYTABLE_CHANGE:
+            return $$state.update('queryParams', $$params=> {
+                return $$params.merge(action.payload)
+            })
 
         default:
             return $$state

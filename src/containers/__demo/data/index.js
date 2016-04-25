@@ -8,6 +8,10 @@ const account_list_columns = [{
     dataIndex: 'Name',
     key: 'Name',
     inputType: INPUTTYPE.STRING,
+    defaultValue: '默认值',
+    render: text => {
+        return <a href="http://baidu.com" target="_blank">{text}</a>
+    }
 }, {
     title: '简称',
     dataIndex: 'ShortName',
@@ -109,6 +113,20 @@ const account_list_columns = [{
     key: 'CreatedTime',
     inputType: INPUTTYPE.DATE,
 }];
+
+const account_list_columns_2 = [{
+    title: '客户名称1',
+    dataIndex: 'Name1',
+    key: 'Name1',
+    inputType: INPUTTYPE.STRING,
+}, {
+    title: '简称1',
+    dataIndex: 'ShortName1',
+    key: 'ShortName1',
+    inputType: INPUTTYPE.STRING,
+}]
+
 export {
-    account_list_columns
+    account_list_columns,
+    account_list_columns_2,
 }

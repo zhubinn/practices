@@ -3,6 +3,7 @@
  */
 const CK_COMPONENT_QUERYNESTEDTABLE_UPDATE = 'CK_COMPONENT_QUERYNESTEDTABLE_UPDATE'
 const CK_COMPONENT_QUERYNESTEDTABLE_TOGGLEQUERYPANEL = 'CK_COMPONENT_QUERYNESTEDTABLE_TOGGLEQUERYPANEL'
+const CK_COMPONENT_QUERYTABLE_CHANGE = 'CK_COMPONENT_QUERYTABLE_CHANGE'
 
 const toggleQueryPanel = () => {
     return {
@@ -10,8 +11,21 @@ const toggleQueryPanel = () => {
     }
 }
 
+const changeQueryParams = (queryParams) => {
+    console.log(queryParams)
+    //TODO: ajax by queryParams
+    return (dispatch, getState) => dispatch({
+        type: CK_COMPONENT_QUERYTABLE_CHANGE,
+        payload: {
+            ...queryParams
+        }
+    })
+}
+
 export {
     CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
     CK_COMPONENT_QUERYNESTEDTABLE_TOGGLEQUERYPANEL,
+    CK_COMPONENT_QUERYTABLE_CHANGE,
     toggleQueryPanel,
+    changeQueryParams,
 }

@@ -5,34 +5,54 @@ import { findDOMNode } from 'react-dom'
 import { Table, TimePicker, InputNumber, Form, Button } from 'antd'
 import INPUTTYPE from './inputType'
 
+const prefix = 'qt_'
+
 class QueryTable extends React.Component {
     constructor() {
         super()
+
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleClear = this.handleClear.bind(this)
     }
 
     handleSubmit(e) {
         e.preventDefault()
-        const formVal = this.props.form.getFieldsValue()
-        this.props.onQuery(formVal)
+
+        const { form } = this.props
+        const formVal = form.getFieldsValue()
+        const finalFormVal = {}
+
+        for (let field in formVal) {
+            if (!formVal.hasOwnProperty(field))
+                continue
+
+            const finalField = field.substr(prefix.length)
+            finalFormVal[finalField] = formVal[field]
+        }
+        this.props.onQuery(finalFormVal)
     }
 
     handleClear() {
-
+        const { form } = this.props
+        form.resetFields()
     }
 
     renderControls(col) {
-        const onChange = col
         const { getFieldProps } = this.props.form
+        const {
+            value,
+            ...fieldProps
+            } = getFieldProps(prefix + col.key)
+        fieldProps.defaultValue = col.defaultValue
+        console.log(fieldProps)
 
         switch (col.inputType) {
             case INPUTTYPE.DATE:
-                return <TimePicker {...getFieldProps(col.key)} onChange={onChange}/>
+                return <TimePicker {...fieldProps} />
             case INPUTTYPE.NUMBER:
-                return <InputNumber {...getFieldProps(col.key)} min={1} max={10} defaultValue={3} onChange={onChange}/>
+                return <InputNumber {...fieldProps} />
             case INPUTTYPE.STRING:
-                return <input {...getFieldProps(col.key)} type="text"/>
+                return <input {...fieldProps} type="text"/>
             default:
                 return null
         }
@@ -85,4 +105,33 @@ QueryTable.propTypes = {
     onQuery: React.PropTypes.func.isRequired
 }
 
-export default Form.create()(QueryTable)
+export default Form.create({
+    mapPropsToFields(props) {
+        const { queryParams } = props
+        const finalQueryParams = {}
+
+        for (let param in queryParams) {
+            if (!queryParams.hasOwnProperty(param))
+                continue
+
+            const finalField = prefix + param
+            finalQueryParams[finalField] = queryParams[param]
+        }
+        return finalQueryParams;
+    },
+
+    onFieldsChange(props, fields) {
+        const finalFields = {}
+
+        for (let field in fields) {
+            if (!fields.hasOwnProperty(field))
+                continue
+
+            const finalField = field.substr(prefix.length)
+            finalFields[finalField] = fields[field].value
+        }
+        props.changeQueryParams({
+            ...finalFields
+        });
+    },
+})(QueryTable)
