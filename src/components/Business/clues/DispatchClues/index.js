@@ -1,184 +1,161 @@
-
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import DataTable from 'components/Business/DataTable'
-import  { initSource,getData, showDetail, checkRow, updateRow, toggleSearch}  from 'actions/Component/DataTable'
-
-
-import { Pagination } from 'antd';
-
+import fetch from 'isomorphic-fetch'
+import { findDOMNode } from 'react-dom'
+import { Table, Modal, Button, Radio, Input } from 'antd'
+const RadioGroup = Radio.Group;
 //less
 import './less/clues.less'
 
-let columns = [
+const columns = [{
+    title: '公司名称',
+    dataIndex: 'Company',
+}, {
+    title: '姓名',
+    dataIndex: 'CreatedByID',
+}, {
+    title: '导入来源',
+    dataIndex: 'Source',
+}, {
+    title: '创建时间',
+    dataIndex: 'CreatedTime',
+}, {
+    title: '线索负责人',
+    dataIndex: 'manager',
+}, {
+    title: '线索录入人',
+    dataIndex: 'recorder',
+}, {
+    title: '微信',
+    dataIndex: 'weixin',
+}];
 
-    {text: '公司名称', datafield: 'firmname', width: 120},
-    {text: '姓名', datafield: 'username', width: 70},
-    {text: '导入来源', datafield: 'infoSource', width: 160},
-    {text: '创建时间', datafield: 'createTime', width: 80},
-
-    {text: '线索负责人', datafield: 'importPle', width: 100},
-    {text: '线索录入人', datafield: 'ID', width: 100},
-    {text: '微信', datafield: 'weixin', width: 100}
-];
 
 
-/*$.post(SCRM.url('/scrmlead/index/getAssignList'),{
-    assigned:0,
-    page:1,
-    rowsPerPage:20,
-    ownerID:12,
-    canAssign:1,
 
-    searchData1: {
 
-    },
-    searchData2: {
+export default class DispatchClues extends React.Component {
+    constructor(props, context) {
+        super(props, context)
 
     }
-},function(data){
-    console.log(data)
-},'json')*/
 
-fetch(SCRM.url('/scrmlead/index/getAssignList'), {
+    componentDidMount(){
+        const { actions } = this.props
+        $.post(SCRM.url('/scrmlead/index/getAssignList'),{
+            assigned:0,
+            page:1,
+            rowsPerPage:20,
+            ownerID:12,
+            canAssign:1
+        },function(data){
+            const rowData = data.data.rowData;
+            actions.fetchData(true,rowData)
+        },'json')
 
-    method: 'post',
-    headers: {
-        'API': 1,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    },
-    body: {
-        assigned:0,
-        page:1,
-        rowsPerPage:20,
-        ownerID:12,
-        canAssign:1,
+    }
 
-        searchData1: {
+    showModal(){
+        const { dispatchCluesState ,actions } = this.props
+        const isShowModal = dispatchCluesState.toJS().showModal
+        const rowData = dispatchCluesState.toJS().selectData
 
-        },
-        searchData2: {
+        if(!rowData.length ) return;
 
+        const idArr = rowData.map((item) => item.ID)
+
+
+        actions.showDispatchModal(!isShowModal)
+
+        if(!isShowModal){
+            $.post(SCRM.url('/deptcomponent/DeptComponent/getUserListForLeadAssign'),function(data){
+                if(data.rs === true){
+                    actions.fetchDeptData(true,data.data)
+                }
+            },'json')
         }
-    }
-}).then(function(response) {
-    if (response.status >= 400) {
-        throw new Error("Bad response from server")
-    }
-    //return response.json()
-}).then(function (data) {
-
-    console.log(data)
-})
-
-let params = {
-    url: SCRM.url('/scrmlead/index/getAssignList'),
-    //url: 'http://esn.lishangxi.com/front/js/scrm/fakeData/tableData.php',
-    data:{
-        assigned:0,
-        page:1,
-        rowsPerPage:20,
-        ownerID:12,
-        canAssign:1,
-
-        searchData1: {
-
-        },
-        searchData2: {
-
-        }
-    }
-
-}
-
-//const searchUrl = 'http://esn.lishangxi.com/front/js/scrm/fakeData/tableData.php'
-class DispatchClues extends React.Component {
-    constructor() {
-        super()
 
     }
 
-    componentDidMount() {
-        const id = this.refs.dataTable.identity
-        this.props.initSource(id)
-        //// 页面初始完,获取数据,触发action: GET_DATA
-        this.props.getData(params, id)
+
+
+    renderModalBox(){
+        const { dispatchCluesState ,actions } = this.props
+        const isShowModal = dispatchCluesState.toJS().showModal
+        const deptData = dispatchCluesState.toJS().deptData
 
 
 
+        return (
+            <div>
+                <Modal ref="modal"
+                       visible={ isShowModal }
+                       title="选择要分派的人员" onOk={this.handleOk} onCancel={this.showModal.bind(this)}
+                       footer={[
+                <Button key="back" type="ghost" size="large" onClick={this.showModal.bind(this)}>关闭</Button>,
+                <Button key="submit" type="primary" size="large"  onClick={this.handleOk}>
+                  确定分派
+                </Button>]}>
+                    {
+                        <div className="ds-dept-list">
+                            <RadioGroup>
+                            {
+                                deptData.map((item, index) => {
+                                    console.log(index)
+                                    return (
+                                        <Radio  key={ index } value={item.ID}>
+                                            <div>
+                                                <img src={ item.Avatar }/>
+                                                <span>{ item.Name }</span>
+                                            </div>
+                                        </Radio>
+
+                                    )
+                                })
+                            }
+                            </RadioGroup>
+                        </div>
+                    }
+                </Modal>
+            </div>
+        )
+    }
+
+    onSelectChange(selectedRowKeys,selectedRows){
+        const { dispatchCluesState ,actions } = this.props
+        console.log(this.props,selectedRows)
+        actions.selectChange(selectedRowKeys, selectedRows)
     }
 
     render() {
-        const { showDetail, checkRow, updateRow, toggleSearch} = this.props
+        const { dispatchCluesState ,actions } = this.props
+        const rowData = dispatchCluesState.toJS().rowData
+        // 通过 rowSelection 对象表明需要行选择
 
-        let dataSource = {}
-
-        if (this.refs.dataTable) {
-            const { $$dataTable } = this.props
-
-            const $$obj = $$dataTable.get(this.refs.dataTable.identity)
-
-            if ($$obj) {
-                dataSource = $$obj.toJS()
-            }
-        }
-        console.log(dataSource)
+        const rowSelection = {
+            onChange: this.onSelectChange.bind(this)
+        };
         return (
-
-
-            <div className="col-right">
-
-                <div className="col-cktop">
-
-                    <div className="col-cktop-gongneng clearfix">
-                        <div className="col-cktop-Hightsearch">
-                            <input type="text" className="Hightsearch_input" placeholder="输入线索负责人" />
-                            <button className="Hightsearch-btn" onClick={(e) => {toggleSearch(true, this.refs.dataTable.identity )}}>高级搜索</button>
+            <div>
+                <div className="col-right">
+                    <div className="col-cktop">
+                        <div className="col-cktop-gongneng clearfix">
+                            <div className="col-cktop-Hightsearch">
+                                <input type="text" className="Hightsearch_input" placeholder="输入线索负责人" />
+                                <button className="Hightsearch-btn">高级搜索</button>
+                            </div>
+                            <button className="col-cktop-btn" onClick = { this.showModal.bind(this) }>分派</button>
                         </div>
-                        <button className="col-cktop-btn">导入</button>
-                        <button className="col-cktop-btn" style= {{"marginLeft":"20px"}}>导出</button>
 
                     </div>
-
-
+                    <div className="ck-tab-hd">
+                        <ul className="clearfix">
+                            <li className="active"><a href="">未分派</a></li>
+                            <li><a href="">已分派</a></li>
+                        </ul>
+                    </div>
+                    <Table rowSelection={rowSelection} columns={columns} dataSource={rowData} />
                 </div>
-
-
-                <DataTable ref="dataTable"
-                           checkMode={true}
-                           onCheckRow={checkRow}
-                           hasDetail={true}
-                           checkedRows={dataSource.checkedRows}
-                           rows={dataSource.rows}
-                           selectedRowDetailObj={dataSource.selectedRowDetailObj}
-
-                           columns={columns}
-                           searchBarStatus={dataSource.searchBarShow}
-                           onUpdateRow={updateRow}
-                           hasDetail = {false}
-                           toggleSearch={toggleSearch}
-                           pending={dataSource.pending}
-                />
-
-                <Pagination size="small" total={50}  showSizeChanger  showQuickJumper/>
+                { this.renderModalBox() }
             </div>
         )
     }
 }
-
-const mapStateToProps = (state, ownProps) => {
-    return {
-        $$dataTable: state.components.dataTable,
-        account_list: state.business.account_list
-    }
-}
-
-export default connect(mapStateToProps, {
-    initSource,
-    getData,
-    showDetail,
-    checkRow,
-    updateRow,
-    toggleSearch
-})(DispatchClues)

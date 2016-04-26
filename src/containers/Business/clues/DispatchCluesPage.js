@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import DispatchClues from 'components/Business/clues/DispatchClues'
 
-import * as DispatchCluesActions from 'actions/clues/DispatchCluesActions'
+import * as DispatchCluesActions from 'actions/DispatchClues/DispatchCluesActions'
 
 
 class DispatchCluesPage extends Component {
@@ -18,7 +18,7 @@ class DispatchCluesPage extends Component {
         const { dispatchCluesState, actions } = this.props
         return (
             <div>
-                <DispatchClues numberReportViewState={ dispatchCluesState }  actions={actions} />
+                <DispatchClues dispatchCluesState={ dispatchCluesState }  actions={actions} />
             </div>
         )
     }

@@ -24,10 +24,7 @@ export default class DispatchClues extends React.Component {
 
 
                     <div className="col-cktop">
-                        <div className="col-cktop-topTitle">
-                            <a>线索</a>&gt;
-                            <a>线索分派</a>
-                        </div>
+
                         <div className="col-cktop-gongneng clearfix">
                             <div className="col-cktop-Hightsearch">
                                 <input type="text" className="Hightsearch_input" placeholder="输入线索负责人" />
