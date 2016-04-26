@@ -22,7 +22,8 @@ const $$initialState = Immutable.fromJS({
         loading: EMPTY_OBJECT,
         showSearchTable: EMPTY_OBJECT,
     },
-    queryParams: {}
+    queryParams: EMPTY_OBJECT,
+    childQueryParams: EMPTY_OBJECT,
 })
 
 const report = ($$state = $$initialState, action) => {
@@ -34,9 +35,7 @@ const report = ($$state = $$initialState, action) => {
             return $$state.update('showSearchTable', x=>!x)
 
         case CK_COMPONENT_QUERYTABLE_CHANGE:
-            return $$state.update('queryParams', $$params=> {
-                return $$params.merge(action.payload)
-            })
+            return $$state.mergeDeep(action.payload)
 
         default:
             return $$state

@@ -18,21 +18,23 @@ export default class QueryNestedTable extends React.Component {
         initQueryNestedTable(columns, columns_2)
     }
 
-    handleQuery(params) {
-        this.props.updateDataSource(params)
+    handleQuery() {
+        const { queryParams } = this.props
+        this.props.updateDataSource(queryParams)
     }
 
     expandedRowRender(...args) {
         const [ rowData, index ] = [...args]
-        const { childProps } = this.props
+        const { childProps, childQueryParams } = this.props
 
-        this.props.updateChildDataSource(rowData, index)
+        this.props.updateChildDataSource(childQueryParams, rowData, index)
 
         return (
             <Table
                 loading={childProps.loading[index]}
                 columns={childProps.columns}
                 dataSource={childProps.dataSource[index]}
+                pagination={false}
             />
         )
     }
@@ -43,6 +45,7 @@ export default class QueryNestedTable extends React.Component {
             dataSource,
             childProps,
             queryParams,
+            childQueryParams,
             showSearchTable,
             changeQueryParams,
             } = this.props
@@ -55,6 +58,7 @@ export default class QueryNestedTable extends React.Component {
                     columns={columns}
                     childProps={childProps}
                     queryParams={queryParams}
+                    childQueryParams={childQueryParams}
                     onQuery={this.handleQuery}
                     changeQueryParams={changeQueryParams}
                 />

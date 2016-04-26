@@ -12,11 +12,10 @@ const toggleQueryPanel = () => {
 }
 
 const changeQueryParams = (queryParams) => {
+    console.log(queryParams)
     return (dispatch, getState) => dispatch({
         type: CK_COMPONENT_QUERYTABLE_CHANGE,
-        payload: {
-            ...queryParams
-        }
+        payload: queryParams
     })
 }
 

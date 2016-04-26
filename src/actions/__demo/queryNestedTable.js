@@ -62,14 +62,14 @@ const updateDataSource = (queryParams) => {
 const updateChildDataSource = (rowData, index) => {
     const dataSource = [{
         key: 1,
-        Name: '胡彦斌3',
-        ShortName: '胡3',
+        Name1: '胡彦斌3',
+        ShortName1: '胡3',
         Bank: '招商银行3'
     }, {
         key: 2,
-        Name: '吴彦祖3',
-        ShortName: '吴3',
-        Bank: '建设银行3'
+        Name1: '吴彦祖3',
+        ShortName1: '吴3',
+        Bank1: '建设银行3'
     }]
 
     console.log(rowData, index)
