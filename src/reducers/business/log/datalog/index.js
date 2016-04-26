@@ -30,7 +30,6 @@ export default function Datalog($$state = Immutable.fromJS(datalog), action) {
     	case GET_DATALOG_DATA:
     	    return $$state;
     	case GET_DATALOG_SUCCESS:
-            debugger
     	    return $$state.merge({ dataResult: action.payload });
         default:
             return $$state;

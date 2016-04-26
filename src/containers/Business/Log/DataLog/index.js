@@ -56,10 +56,6 @@ class DataLog extends React.Component {
       //this.props.selectPeopelinitSource(DATA_SELECTPEOPLE_SOURCE)
     }
 
-    // componentWillUpdate (){
-    //   this.props.getDataLogData(DataLogParams);
-    // }
-
     handleInputChange() {
       let val = this.refs.seachVal.getDOMNode().value;
       alert(val)

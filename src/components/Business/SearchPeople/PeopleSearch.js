@@ -9,41 +9,48 @@ export  default class PeopleSearch extends Component{
 
     }
 	handleTag(i){
-		let nameItemData = this.props.$$searchPeople.get('Account_static').toJS().itemdata;
-		let newareapadding = this.props.$$searchPeople.get('Account_static').toJS().areapadding;
+        const source = this.props.$$searchPeople.toJS().source
+		let nameItemData = this.props.$$searchPeople.get(source).toJS().itemdata;
+		let newareapadding = this.props.$$searchPeople.get(source).toJS().areapadding;
 		
 		newareapadding = newareapadding -nameItemData[i].itemWidth;
 		nameItemData.splice(i,1);
 		const { clickPeopleTag } = this.props;
 
-		clickPeopleTag({"itemdata":nameItemData,"areapadding":newareapadding});
+		clickPeopleTag({"itemdata":nameItemData,"areapadding":newareapadding},source);
 
 	}
 	handleDown(e){
-		let nameItemData = this.props.$$searchPeople.get('Account_static').toJS().itemdata;
-		let newareapadding = this.props.$$searchPeople.get('Account_static').toJS().areapadding;
+        const source = this.props.$$searchPeople.toJS().source
+		let nameItemData = this.props.$$searchPeople.get(source).toJS().itemdata;
+		let newareapadding = this.props.$$searchPeople.get(source).toJS().areapadding;
 		const textValue = e.currentTarget.value;
 		if(e.keyCode == 8&&textValue.length == 0){
 			newareapadding = newareapadding -nameItemData[nameItemData.length-1].itemWidth;
 			nameItemData.splice(nameItemData.length-1,1);
 			const { deletePeopleTag } = this.props;
-			deletePeopleTag({"itemdata":nameItemData,"areapadding":newareapadding});
+			deletePeopleTag({"itemdata":nameItemData,"areapadding":newareapadding},source);
 
 		}
 		if(nameItemData.length == 0 && e.keyCode == 8){
+			//TODO 
 			console.log("当删除最后一个tag时重新拿到全部数据")
 
 		}
 	}
 	handleUp(e){
+        const source = this.props.$$searchPeople.toJS().source
 		const textValue = e.currentTarget.value;
-		const nameItemData = this.props.$$searchPeople.get('Account_static').toJS().itemdata;
-		let searchParams = {
-		    url: 'http://esn.fuwenfang.com/setting/scrm/getSelectList/VISITID/1',
-		    data:{
-		      page:1,
-		      keyword:textValue,
-		    }
+		const nameItemData = this.props.$$searchPeople.get(source).toJS().itemdata;
+		const params = this.props.$$searchPeople.get(source).toJS().params
+		const searchData = {
+			page:1,
+			pagesize:20,
+			keyword:textValue
+		}
+		const searchParams = {
+			url:params.url,
+			data:searchData
 		}
 	    let that = e.target;
 	    clearTimeout(that.timer);
@@ -56,11 +63,12 @@ export  default class PeopleSearch extends Component{
 					const { searchPeopleData} = this.props;
 					//当textValue为空的时候，搜索的结果默认为初始数据
 					if(textValue.length == 0){
+						//TODO
 						if(nameItemData.length == 0){
-							searchPeopleData(searchParams)
+							searchPeopleData(searchParams,source)
 						}
 					}else{
-							searchPeopleData(searchParams)
+							searchPeopleData(searchParams,source)
 					}
 
 	        }.bind(this),
@@ -69,14 +77,16 @@ export  default class PeopleSearch extends Component{
 			
 	}
 	changeInput(e){
+        const source = this.props.$$searchPeople.toJS().source
 		const value = e.currentTarget.value;
 		const {handleChangeInput} = this.props;
-		handleChangeInput(value)
+		handleChangeInput(value,source)
 	}
 	render(){
-		const nameItemData = this.props.$$searchPeople.get('Account_static').toJS().itemdata;
-		const arreapadding = this.props.$$searchPeople.get('Account_static').toJS().areapadding;
-		const value = this.props.$$searchPeople.get('Account_static').toJS().textValue;
+        const source = this.props.$$searchPeople.toJS().source
+		const nameItemData = this.props.$$searchPeople.get(source).toJS().itemdata;
+		const arreapadding = this.props.$$searchPeople.get(source).toJS().areapadding;
+		const value = this.props.$$searchPeople.get(source).toJS().textValue;
 		return (
 			<div className="mbox784_textwrap">
 	          <textarea id="textarea" rows="1" className="M01text" 

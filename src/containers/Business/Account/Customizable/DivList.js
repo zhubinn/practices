@@ -1,6 +1,7 @@
 import { isPlainObject, isFunction, isString } from 'lodash'
 import warning from 'fbjs/lib/warning'
 import DivEdit from './DivEdit'
+import {message } from 'antd';
 
 
 class DivList extends React.Component{
@@ -11,14 +12,14 @@ class DivList extends React.Component{
     handleCheckbox(){
         const selectedRow = this.props.$$mapState.toJS().selectedRow;
         const {changeIsRequired}=this.props;
-        selectedRow['col_IsRequired']=='是'?changeIsRequired({'col_IsRequired':'否'}):changeIsRequired({'col_IsRequired':'是'})
+        selectedRow['IsMast']=='是'?changeIsRequired({'IsMast':'否'}):changeIsRequired({'IsMast':'是'})
     }
     handleApply(){
         const editColumnsOptions = this.props.$$mapState.toJS().editColumnsOptions
         //数据可能需要过滤 如果没有任何选项就应用  则提示要先选择应用
         const {clickapplyBtn} = this.props
-        if(editColumnsOptions.length ==1 && editColumnsOptions[0].optionInfor == ''){
-            layer.msg('请填写选项信息', {icon: 7}); 
+        if(editColumnsOptions.length ==1 && editColumnsOptions[0].Val == ''){
+            message.warn('请填写选项信息');
         }else{
             clickapplyBtn(editColumnsOptions)
         }
@@ -38,11 +39,10 @@ class DivList extends React.Component{
             return (
                 <div >
                     <ul className = "ck-customize-Txt01 clearfix">
-                        <li>字段名称：{selectedRow["col_name"]}</li>
-                        <li>字段类型：{selectedRow["col_type"]}</li>
+                        <li>字段名称：{selectedRow["Label"]}</li>
+                        <li>字段类型：{selectedRow["AttrType"]}</li>
                         <li>是否必填：<input type = "checkbox" ref="checkboxInput" 
-                        defaultChecked={selectedRow['col_IsRequired']=='是'?'checked':''} onChange = {this.handleCheckbox}
-                        disabled = {editColumnsOptions[0].optionInfor.length == 0?'disabled':''}/>必填</li>
+                        defaultChecked={selectedRow['IsMast']=='是'?'checked':''} onChange = {this.handleCheckbox}/>必填</li>
                     </ul>
                     <DivEdit addItem={addItem} $$mapState={$$mapState} deletItem={deletItem} 
                     changeInputValue={changeInputValue} ChangeStatus={ChangeStatus}
@@ -67,25 +67,27 @@ class DivList extends React.Component{
              let editColumnsOptions = this.props.$$mapState.toJS().editColumnsOptions
             /*只展示从后台拿到的启用状态的选项*/
              let showColumnsOptions = []
-             if(editColumnsOptions.length ==1 && editColumnsOptions[0].optionInfor == ''){
-                showColumnsOptions = [{optionInfor:'请选择',status:'启用'}]
+             if(editColumnsOptions.length ==1 && editColumnsOptions[0].Val == ''){
+                showColumnsOptions = [{Val:'请选择',IsStop:0}]
 
              }else {
                  editColumnsOptions.map((r, i) => {
-                    if (r.status =='启用') {
+                    if (r.IsStop ==0) {
                         return showColumnsOptions.push(r)
-                    }else{
-                        showColumnsOptions = [{optionInfor:'请选择',status:'启用'}]
                     }
                 })
+                 if(showColumnsOptions.length == 0){
+                    showColumnsOptions = [{Val:'请选择',IsStop:0}]
+                 }
+                 console.log(showColumnsOptions)
              }
 
             return(
                 <div className = "ck-customize-CntMian">
                     <ul className = "ck-customize-Txt01 clearfix">
-                        <li>字段名称：{selectedRow["col_name"]}</li>
-                        <li>字段类型：{selectedRow["col_type"]}</li>
-                        <li>是否必填：{selectedRow["col_IsRequired"]=="是"?"必填":"不必填"}</li>
+                        <li>字段名称：{selectedRow["Label"]}</li>
+                        <li>字段类型：{selectedRow["AttrType"]}</li>
+                        <li>是否必填：{selectedRow["IsMast"]=="是"?"必填":"不必填"}</li>
                     </ul>
                     <div className = "ck-customize-gongn02">
                         <ul className = "ck-customize-gongn02Tit clearfix">
@@ -95,11 +97,11 @@ class DivList extends React.Component{
                         <ul className = "ck-customize-gongn02cnt clearfix">
                             {
                                 showColumnsOptions.map((opt,i)=>{
-                                    if(opt.optionInfor){
+                                    if(opt.Val){
                                     return (
                                         <li key = {i}>
-                                            <div className = "ck-gongn02cnt-first">{opt.optionInfor}</div>
-                                            <div className = "ck-gongn02cnt-third">{opt.status}</div>
+                                            <div className = "ck-gongn02cnt-first">{opt.Val}</div>
+                                            <div className = "ck-gongn02cnt-third">{opt.IsStop==1?'未启用':'启用'}</div>
                                         </li>
                                         )
                                     }

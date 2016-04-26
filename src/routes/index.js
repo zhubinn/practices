@@ -17,7 +17,8 @@ import FormControl from 'components/common/base/FormControl'
 import AccountListPage from 'containers/Business/Account/List'
 import CustomizablePage from 'containers/Business/Account/Customizable'
 import StatisticPage from 'containers/Business/Account/Statistic'
-import SummaryPage from 'containers/Business/Account/Summary'
+import DeptSummaryPage from 'containers/Business/Account/Summary/DeptSummary'
+import PerSummaryPage from 'containers/Business/Account/Summary/PerSummary'
 import DetailPage from 'containers/Business/Account/Detail'
 
 //生意
@@ -41,18 +42,18 @@ export default (
             
         </Route>
         <Route path="scrmweb" component={ModulePage}>
-            <Route path="accounts/index/VISITID/1" component={AccountListPage} />
-            <Route path="accounts/define/VISITID/1" component={CustomizablePage} />
-            <Route path="accounts/statistic/VISITID/1" component={StatisticPage} />
-            <Route path="accounts/summary/VISITID/1" component={SummaryPage} />
-            <Route path="accounts/detail/VISITID/1" component={DetailPage} />
+            <Route path="accounts/index/VISITID/1" component={AccountListPage}/>
+            <Route path="accounts/define/VISITID/1" component={CustomizablePage}/>
+            <Route path="accounts/statistic/VISITID/1" component={StatisticPage}/>
+            <Route path="accounts/deptsummary/VISITID/1" component={DeptSummaryPage}/>
+            <Route path="accounts/persummary/VISITID/1" component={PerSummaryPage}/>
+            <Route path="accounts/detail/VISITID/1" component={DetailPage}/>
 
             <Route path="business/statistic/VISITID/1" component={BusinessStatistic} />
             <Route path="business/summary/VISITID/1" component={BusinessSummary} />
 
             <Route path="log/datalog/VISITID/1" component={DataLog} />
             <Route path="log/func/VISITID/1" component={FuncLog} />
-            
         </Route>
         <Route path="*" component={Error_404}/>
     </Route>

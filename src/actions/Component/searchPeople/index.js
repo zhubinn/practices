@@ -1,12 +1,13 @@
 import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 
-// 获取列表数据
+// 获取搜索列表数据
 const COMPONENT_SEARCH_GETDATA = 'COMPONENT_SEARCH_GETDATA'
 const COMPONENT_SEARCH_GETDATA_SUCCESS = 'COMPONENT_SEARCH_GETDATA_SUCCESS'
-const COMPONENT_SEARCH_GETDATA_FAILURE = 'COMPONENT_SEARCH_GETDATA_FAILURE'
-const COMPONENT_SEARCH_GETDATA_ERROR_NETWORK = 'COMPONENT_SEARCH_GETDATA_ERROR_NETWORK'
 
+
+const COMPONENT_GETPEOPLEDATA = 'COMPONENT_GETPEOPLEDATA'
+const COMPONENT_GETPEOPLEDATA_SUCCESS = 'COMPONENT_GETPEOPLEDATA_SUCCESS'
 //点击列表
 const COMPONENT_CLICK_GETDATA = 'COMPONENT_CLICK_GETDATA'
 
@@ -30,23 +31,33 @@ const COMPONENT_LOADMORE_GETDATA_SUCCESS = 'COMPONENT_LOADMORE_GETDATA_SUCCESS'
 
 //改变输入框值
 const COMPONENT_CHANGEINPUT = 'COMPONENT_CHANGEINPUT'
+//改变当前页
+const COMPONENT_CHANGE_PAGE = 'COMPONENT_CHANGE_PAGE'
 
-//源定义
-const DATA_SELECTPEOPLE_SOURCE = 'log_filter'
 
-
-export const selectPeopelinitSource =(source)=>{
+export const changePageNum =(page,source)=>{
+    return {
+        type: COMPONENT_CHANGE_PAGE,
+        payload:page,
+        source:source
+    }
+}
+export const selectPeopelinitSource =(source,params,confirmOkParams)=>{
     return {
         type: 'COMPONENT_INIT_SOURCEPEOPLE',
+        payload:{
+            getDataParams:params,
+            confirmOkParams:confirmOkParams
+        },
         source
     }
 }
 
-export const changeIsMultiselect = (IsMultiselect)=>{
+export const changeIsMultiselect = (IsMultiselect,source)=>{
     return {
         type: 'COMPONENT_CHANGE_ISMUTISELECT',
         payload:IsMultiselect,
-        source:DATA_SELECTPEOPLE_SOURCE
+        source:source
     }
 }
 
@@ -68,8 +79,8 @@ export const getPeopleData = (params, source) => {
 
     return (dispatch, getState) => {
         const url = params.url;
-        debugger
-        dispatch(_getPeopleData(COMPONENT_SEARCH_GETDATA,{},source));
+
+        dispatch(_getPeopleData(COMPONENT_GETPEOPLEDATA,{},source));
 
             fetch(params.url, {
                 credentials: 'include',
@@ -87,7 +98,7 @@ export const getPeopleData = (params, source) => {
                 return response.json()
             }).then(function (data) {
 
-                dispatch(_getPeopleData(COMPONENT_SEARCH_GETDATA_SUCCESS, data.data.users, source))
+                dispatch(_getPeopleData(COMPONENT_GETPEOPLEDATA_SUCCESS, data.data.users, source))
 
             })
         
@@ -103,11 +114,11 @@ export const getPeopleData = (params, source) => {
  * @returns {Function}
  */
 
-export const clickPeopleDate = ({"itemdata":itemdata,"areapadding":InittextareaPadding})=>{
+export const clickPeopleDate = ({"itemdata":itemdata,"areapadding":InittextareaPadding},source)=>{
     return {
         type: COMPONENT_CLICK_GETDATA,
         payload: {"itemdata":itemdata,"areapadding":InittextareaPadding},
-        source:DATA_SELECTPEOPLE_SOURCE
+        source:source
     }
 }
 
@@ -117,11 +128,11 @@ export const clickPeopleDate = ({"itemdata":itemdata,"areapadding":InittextareaP
  * 点击peopleList数据生成tag
  */
 
-export const clickPeopleTag = ({"itemdata":itemdata,"areapadding":newareapadding})=>{
+export const clickPeopleTag = ({"itemdata":itemdata,"areapadding":newareapadding},source)=>{
     return {
         type: COMPONENT_TAG_UPDATEDATA,
         payload: {"itemdata":itemdata,"areapadding":newareapadding},
-        source:DATA_SELECTPEOPLE_SOURCE
+        source:source
     }
 }
 
@@ -130,19 +141,19 @@ export const clickPeopleTag = ({"itemdata":itemdata,"areapadding":newareapadding
 
  */
 
-export const deletePeopleTag = ({"itemdata":nameItemData,"areapadding":newareapadding})=>{
+export const deletePeopleTag = ({"itemdata":nameItemData,"areapadding":newareapadding},source)=>{
     return {
         type: COMPONENT_TAG_DELETEDATA,
         payload: {"itemdata":nameItemData,"areapadding":newareapadding},
-        source:DATA_SELECTPEOPLE_SOURCE
+        source:source
     }
 }
 
-export const handleChangeInput = (value)=>{
+export const handleChangeInput = (value,source)=>{
     return {
         type: COMPONENT_CHANGEINPUT,
         payload: value,
-        source:DATA_SELECTPEOPLE_SOURCE
+        source:source
     }
 }
 /**
@@ -152,18 +163,18 @@ export const handleChangeInput = (value)=>{
  * @returns {Function}
  */
 
-export const searchPeopleData = (searchParams)=>{
-    const _searchPeopleData = (type, data)=> {
+export const searchPeopleData = (searchParams,source)=>{
+    const _searchPeopleData = (type, data,source)=> {
         return {
             type,
             payload: data,
-            source:DATA_SELECTPEOPLE_SOURCE
+            source:source
         }
     }
 
     return (dispatch, getState) => {
     const url = searchParams.url;
-    dispatch(_searchPeopleData(COMPONENT_SEARCH_GETDATA,{}));
+    dispatch(_searchPeopleData(COMPONENT_SEARCH_GETDATA,{},source));
 
         fetch(url, {
             credentials: 'include',
@@ -181,7 +192,7 @@ export const searchPeopleData = (searchParams)=>{
             return response.json()
         }).then(function (data) {
 
-            dispatch(_searchPeopleData(COMPONENT_SEARCH_ITEMDATA, data.data.users))
+            dispatch(_searchPeopleData(COMPONENT_SEARCH_ITEMDATA, data.data.users,source))
 
         })
             
@@ -195,20 +206,53 @@ export const searchPeopleData = (searchParams)=>{
 }
 
 // 点击确认按钮 发送请求把所选用户的ID
-export const submitData = ({"chosedNameData":choseNameData})=>{
-    return {
-        type: COMPONENT_SUBMITBTN,
-        payload: {"chosedNameData":choseNameData},
-        source:DATA_SELECTPEOPLE_SOURCE
+export const submitData = (confirmOkParams,source)=>{
+    const _submitData = (type, data,source)=> {
+        return {
+            type,
+            payload: data,
+            source:source
+        }
     }
+
+    return (dispatch, getState) => {
+    const url = confirmOkParams.url;
+        fetch(url, {
+            credentials: 'include',
+            method: 'post',
+            headers: {
+                'API': 1,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(confirmOkParams.data)
+        }).then(function(response) {
+            if (response.status >= 400) {
+                throw new Error("Bad response from server")
+            }
+            return response.json()
+        }).then(function (data) {
+
+            dispatch(_submitData(COMPONENT_SUBMITBTN,source))
+
+        })
+            
+        
+    }
+
 }
 
+
+
+
+
+
 // 点击取消按钮
-export const handleCancle = ()=>{
+export const handleCancle = (source)=>{
     return {
         type: COMPONENT_CANCLEBTN,
         payload: '',
-        source:DATA_SELECTPEOPLE_SOURCE
+        source:source
     }
 }
 
@@ -220,17 +264,17 @@ export const handleCancle = ()=>{
  * @returns {Function}
  */
 
-export const loadNextPage = (NextPageParams) => {
-    const _loadNextPage = (type, data)=> {
+export const loadNextPage = (NextPageParams,source) => {
+    const _loadNextPage = (type, data,source)=> {
         return {
             type,
             payload: data,
-            source:DATA_SELECTPEOPLE_SOURCE
+            source:source
         }
     }
     return (dispatch, getState) => {
     const url = NextPageParams.url;
-    dispatch(_loadNextPage(COMPONENT_LOADMORE_GETDATA,{}));
+    dispatch(_loadNextPage(COMPONENT_LOADMORE_GETDATA,{},source));
 
         fetch(url, {
             credentials: 'include',
@@ -248,7 +292,7 @@ export const loadNextPage = (NextPageParams) => {
             return response.json()
         }).then(function (data) {
 
-            dispatch(_loadNextPage(COMPONENT_LOADMORE_GETDATA_SUCCESS, data.data.users))
+            dispatch(_loadNextPage(COMPONENT_LOADMORE_GETDATA_SUCCESS, data.data.users,source))
 
         })
             
@@ -261,18 +305,17 @@ export const loadNextPage = (NextPageParams) => {
 
 
 export {
-    COMPONENT_SEARCH_GETDATA,
-    COMPONENT_SEARCH_GETDATA_SUCCESS,
-    COMPONENT_SEARCH_GETDATA_FAILURE,
-    COMPONENT_SEARCH_GETDATA_ERROR_NETWORK,
+    COMPONENT_GETPEOPLEDATA,
+    COMPONENT_GETPEOPLEDATA_SUCCESS,
     COMPONENT_CLICK_GETDATA,
     COMPONENT_TAG_UPDATEDATA,
     COMPONENT_TAG_DELETEDATA,
+    COMPONENT_SEARCH_GETDATA,
     COMPONENT_SEARCH_ITEMDATA,
     COMPONENT_SUBMITBTN,
     COMPONENT_CANCLEBTN,
     COMPONENT_LOADMORE_GETDATA,
     COMPONENT_LOADMORE_GETDATA_SUCCESS,
     COMPONENT_CHANGEINPUT,
-
+    COMPONENT_CHANGE_PAGE,
 }
