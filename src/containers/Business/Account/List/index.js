@@ -10,7 +10,7 @@ import {
     initQueryNestedTable,
     updateDataSource,
     updateChildDataSource,
-} from 'actions/__demo/queryNestedTable'
+} from 'actions/business/account/list'
 import {
     toggleQueryPanel,
 } from 'actions/components/QueryNestedTable'
@@ -18,9 +18,9 @@ import 'antd/style/index.less'
 import { account_list_columns } from './data'
 
 const columns = account_list_columns
-const columns_2 = account_list_columns
 
-class Account_List extends React.Component {
+
+class Account_List_Page extends React.Component {
     constructor() {
         super()
     }
@@ -52,7 +52,7 @@ class Account_List extends React.Component {
                 <QueryNestedTable
                     showSearchTable={showSearchTable}
                     columns={columns}
-                    columns_2={columns_2}
+
                     dataSource={dataSource}
                     childProps={childProps}
                     initQueryNestedTable={initQueryNestedTable}
@@ -66,7 +66,8 @@ class Account_List extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$QueryNestedTable: state.components.QueryNestedTable
+        $$QueryNestedTable: state.components.QueryNestedTable,
+        $$account_list: state.business.account_list
     }
 }
 
@@ -75,4 +76,4 @@ export default connect(mapStateToProps, {
     updateDataSource,
     updateChildDataSource,
     toggleQueryPanel,
-})(QueryNestedTablePage)
+})(Account_List_Page)

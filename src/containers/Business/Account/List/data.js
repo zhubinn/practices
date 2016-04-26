@@ -111,25 +111,6 @@ const account_list_columns = [{
     inputType: INPUTTYPE.DATE,
 }];
 
-const account_list_business_columns = [
-    {
-        title: '生意名称',
-        dataIndex: 'optnty_name',
-        key: 'optnty_name',
-        inputType: INPUTTYPE.STRING,
-    },{
-        title: '生意阶段',
-        dataIndex: 'optnty_stage',
-        key: 'optnty_stage',
-        inputType: INPUTTYPE.STRING,
-    }, {
-        title: '负责人',
-        dataIndex: ' owner_user_id',
-        key: ' owner_user_id',
-        inputType: INPUTTYPE.STRING,
-    }
-]
 export {
-    account_list_columns,
-    account_list_business_columns
+    account_list_columns
 }

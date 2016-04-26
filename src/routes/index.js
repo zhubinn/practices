@@ -8,6 +8,7 @@ import ModulePage from 'containers/Master/Module'
 import DemoTablePage from 'containers/__demo/Table'
 import DemoLoginPage from 'containers/__demo/Login'
 import DemoQueryNestedTablePage from 'containers/__demo/QueryNestedTable'
+import Account_List_Page from 'containers/Business/Account/List'
 import Account_Summary_Page from 'containers/Business/Account/Summary'
 import Error_404 from 'containers/Error/404'
 
@@ -22,6 +23,7 @@ export default (
 
         <Route path="scrmweb" component={ModulePage}>
             <Route path="accounts/deptsummary/VISITID/1" component={Account_Summary_Page}/>
+            <Route path="accounts/deptlist/VISITID/1" component={Account_List_Page}/>
         </Route>
         <Route path="*" component={Error_404}/>
     </Route>

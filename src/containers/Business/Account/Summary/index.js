@@ -3,7 +3,7 @@
  */
 
 import { connect } from 'react-redux'
-import { Breadcrumb, Button } from 'antd'
+import { Breadcrumb, Button, Icon, Input, Row, Col } from 'antd'
 import QueryNestedTable from 'components/QueryNestedTable'
 import INPUTTYPE from 'components/QueryNestedTable/inputType'
 import {
@@ -19,6 +19,68 @@ import { account_summary_columns, account_summary_business_columns } from './dat
 
 const columns = account_summary_columns
 const columns_2 = account_summary_business_columns
+
+
+
+
+/*普通搜索*/
+
+import classNames from 'classnames';
+const InputGroup = Input.Group;
+
+const SearchInput = React.createClass({
+    getInitialState() {
+        return {
+            value: '',
+            focus: false,
+        };
+    },
+    handleInputChange(e) {
+        this.setState({
+            value: e.target.value,
+        });
+    },
+    handleFocusBlur(e) {
+        this.setState({
+            focus: e.target === document.activeElement,
+        });
+    },
+    handleSearch() {
+        if (this.props.onSearch) {
+            this.props.onSearch();
+        }
+    },
+    render() {
+        const btnCls = classNames({
+            'ant-search-btn': true,
+            'ant-search-btn-noempty': !!this.state.value.trim(),
+        });
+        const searchCls = classNames({
+            'ant-search-input': true,
+            'ant-search-input-focus': this.state.focus,
+        });
+        return (
+            <InputGroup className={searchCls} style={this.props.style}>
+                <Input {...this.props} value={this.state.value} onChange={this.handleInputChange}
+                                       onFocus={this.handleFocusBlur} onBlur={this.handleFocusBlur} />
+                <div className="ant-input-group-wrap">
+                    <Button className={btnCls} size={this.props.size} onClick={this.handleSearch}>
+                        <Icon type="search" />
+                    </Button>
+                </div>
+            </InputGroup>
+        );
+    }
+});
+
+
+
+
+
+
+
+
+
 
 class Account_Summary_Page extends React.Component {
     constructor() {
@@ -41,11 +103,19 @@ class Account_Summary_Page extends React.Component {
         return (
             <div>
 
-                <div>
-                    <Button type="ghost">变更联系人</Button>
-                    <Button type="ghost">导出</Button>
-                    <Button type="primary" onClick={toggleQueryPanel}>筛选</Button>
-                </div>
+                <Row>
+                    <Col span="8"> <SearchInput placeholder="请输入搜索内容" style={{ width: 200 }} /></Col>
+                    <Col span="8" offset="8">
+
+
+                            <Button type="primary" onClick={toggleQueryPanel}>筛选</Button>
+
+                            <Button type="ghost">变更联系人</Button>
+                            <Button type="ghost">导出</Button>
+
+                        </Col>
+                </Row>
+
                 <QueryNestedTable
                     showSearchTable={showSearchTable}
                     columns={columns}
@@ -64,7 +134,8 @@ class Account_Summary_Page extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$QueryNestedTable: state.components.QueryNestedTable
+        $$QueryNestedTable: state.components.QueryNestedTable,
+        $$account_summary: state.business.account_summary
     }
 }
 
