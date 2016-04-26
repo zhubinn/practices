@@ -53,77 +53,38 @@ export const dataItem = (data)=>{
  * @param 
  * @returns {Function}
  */
- export const getTableData = () => {
+ export const getTableData = (params) => {
     const _getTableData = (type, data)=> {
         return {
             type,
             payload: data
         }
     }
+        return (dispatch, getState) => {
+        const url = params.url;
+        dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA,{}));
 
-    return (dispatch, getState) => {
-
-        const url = 'http://esn.xuyajun.com/scrmdefined/account/getAccountEnumAttrList/VISITID/1';
-        const rowData = {
-        rows: [
-        {Label:'客户级别',AttrType:'单选类型',IsMast:'是',Content:'用户自定义',ID:1,
-        Enums:[
-                {
-                    Val:"值值值值值值",//枚举值.
-                    IsStop:1,//停用启用.
-                    IsSys:0,//是否是系统属性.
+            fetch(params.url, {
+                credentials: 'include',
+                method: 'post',
+                headers: {
+                    'API': 1,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                {
-                    Val:"凤飞飞凤飞飞凤飞飞",//枚举值.
-                    IsStop:0,//停用启用.
-                    IsSys:0,//是否是系统属性.
-                },
-                {
-                    Val:"大苏打大苏打大苏打",//枚举值.
-                    IsStop:0,//停用启用.
-                    IsSys:1,//是否是系统属性.
+                body: JSON.stringify(params.data)
+            }).then(function(response) {
+                if (response.status >= 400) {
+                    throw new Error("Bad response from server")
                 }
-            ]
-        },
-        {Label:'所属区域',AttrType:'单选类型',IsMast:'否',Content:'用户自定义',ID:2,
-        Enums:[]
-        },
-        {Label:'客户来源',AttrType:'单选类型',IsMast:'是',Content:'用户自定义',ID:3,
-        Enums:[]
-        },
-        {Label:'行业分类',AttrType:'单选类型',IsMast:'是',Content:'用户自定义',ID:4,
-        Enums:[]
-        }
-        ]
-    };
+                return response.json()
+            }).then(function (data) {
 
-        dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA));
-        dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, rowData))
+                dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data.users))
 
-        // return fetch(url, {
-        //     method: 'get',
-        //     headers: {
-        //         'API': 1,
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     }
-        // }).then(response=> {
-        //     //dispatch(_getPeopleData(ACCOUNT_CUSTOM_SEARCH_GETDATA_SUCCESS, peopleListData))
-        //     if (response.status >= 400) {
-        //         //dispatch(_getReportData(ACCOUNT_CUSTOM_REPORT_GETDATA_ERROR_NETWORK))
-        //         return {};
-        //     }
-        //     return response.json()
-        // }).then(json=> {
-        //     json = rowData;//假数据
-        //     //console.log(json);
-        //     // if (json.rs) {
-        //     //     dispatch(_getPeopleData(ACCOUNT_CUSTOM_SEARCH_GETDATA_SUCCESS, json.data))
-        //     // } else {
-        //     //     dispatch(_getPeopleData(ACCOUNT_CUSTOM_SEARCH_GETDATA_FAILURE))
-        //     // }
-        //     dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, json))
-        // })
+            })
+        
+    
     }
 }
 

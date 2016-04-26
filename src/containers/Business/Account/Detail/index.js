@@ -16,16 +16,38 @@ import { Table, Icon } from 'antd';
 
 let detailColumns = [
 
-    {title: '部门名称', dataIndex: 'Name',key: 'Name', width: 120},
-    {title: '员工姓名', dataIndex: 'user',key: 'user', width: 70,render: function(text, record, index){
+    {title: '部门名称', dataIndex: 'deptName',key: 'deptName', width: 120,render: function(text, record, index){
         return (
-          <a href = "#" title = {text}>{text}</a>
+          <div>{text}</div>
           );
     }},
-    {title: '全部客户数量', dataIndex: 'All', key: 'All',width: 120},
-    {title: '负责的客户数量', dataIndex: 'Owner',key: 'Owner', width: 120},
-    {title: '参与的客户数量', dataIndex: 'Relation', key: 'Relation',width: 120},
-    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width: 120}
+    {title: '员工姓名', dataIndex: 'Name',key: 'Name', width: 120,render: function(text, record, index){
+        return (
+          <div>
+              <a href = "#" title = {text}>{text}</a>
+          </div>
+          );
+    }},
+    {title: '全部客户数量', dataIndex: 'All', key: 'All',width: 120,render: function(text, record, index){
+        return (
+          <div>{text}</div>
+          );
+    }},
+    {title: '负责的客户数量', dataIndex: 'Owner',key: 'Owner', width: 120,render: function(text, record, index){
+        return (
+          <div>{text}</div>
+          );
+    }},
+    {title: '参与的客户数量', dataIndex: 'Relation', key: 'Relation',width: 120,render: function(text, record, index){
+        return (
+          <div>{text}</div>
+          );
+    }},
+    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',render: function(text, record, index){
+        return (
+          <div>{text}</div>
+          );
+    }}
 ];
 
 

@@ -33,7 +33,12 @@ let columns = [
     }}
 ];
 
-
+let params = {
+    url:SCRM.url('/scrmdefined/account/getAccountEnumAttrList'),
+    data:{
+        
+    }
+}
 
 
 class CustomizablePage extends  React.Component{
@@ -47,7 +52,7 @@ class CustomizablePage extends  React.Component{
     }
     componentDidMount() {
       // 页面初始完,获取统计数据,触发action: GET_DATA
-      this.props.getTableData()
+      this.props.getTableData(params)
     }
     handleSelectSet(record){
         const {selectedRowData} = this.props;

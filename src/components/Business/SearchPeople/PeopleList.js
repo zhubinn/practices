@@ -4,7 +4,6 @@ let itemdata = [];
 let iStart=0;
 let iTop=0;
 let scrollBool=false;
-let pageNum = 1;
 //let ReactDOM.findDOMNode(this.refs.mListUl).scrollTop=0;    //刷新时，还原内容位置，如果不想还原，此处应该修改滚动条的坐标。
 
 export  default class PeopleSearch extends Component{
@@ -56,11 +55,12 @@ export  default class PeopleSearch extends Component{
         };
     }
     haddleClick(i){
-       const myLiNameText = this.props.$$searchPeople.get('Account_static').toJS().data[i].Name;
-       const ownerId = this.props.$$searchPeople.get('Account_static').toJS().data[i].ID
-       const IsMultiselect = this.props.$$searchPeople.get('Account_static').toJS().IsMultiselect
-       let itemdata = this.props.$$searchPeople.get('Account_static').toJS().itemdata;
-       let InittextareaPadding = this.props.$$searchPeople.get('Account_static').toJS().areapadding;
+        const source = this.props.$$searchPeople.toJS().source
+       const myLiNameText = this.props.$$searchPeople.get(source).toJS().data[i].Name;
+       const ownerId = this.props.$$searchPeople.get(source).toJS().data[i].ID
+       const IsMultiselect = this.props.$$searchPeople.get(source).toJS().IsMultiselect
+       let itemdata = this.props.$$searchPeople.get(source).toJS().itemdata;
+       let InittextareaPadding = this.props.$$searchPeople.get(source).toJS().areapadding;
 
         let itemWidth = 20;
         for(let j = 0; j<myLiNameText.length;j++){
@@ -94,9 +94,8 @@ export  default class PeopleSearch extends Component{
             }
         }
 
-       
         const { clickPeopleDate } = this.props;
-        clickPeopleDate({"itemdata":itemdata,"areapadding":InittextareaPadding});
+        clickPeopleDate({"itemdata":itemdata,"areapadding":InittextareaPadding},source);
         
     }
     mousedownDar(e){
@@ -179,26 +178,37 @@ export  default class PeopleSearch extends Component{
       const scroll_top = ReactDOM.findDOMNode(this.refs.mbox_boxList).scrollTop;
 
       if ((scroll_height - win_height - scroll_top) == 0&&scroll_top>0 ) {
-        pageNum++;
+        const source = this.props.$$searchPeople.toJS().source
+        let currentpage = this.props.$$searchPeople.get(source).toJS().page
+        currentpage++
+        const {changePageNum} = this.props
+        changePageNum(currentpage,source)
+        const params = this.props.$$searchPeople.get(source).toJS().params
+        const nextPageData = {
+            page:currentpage,
+            pagesize:20,
+            keyword:''
+        }
+        const nextPageParams = {
+            url:params.url,
+            data:nextPageData
+        }
         let NextPageParams = {
-            url: 'http://esn.fuwenfang.com/setting/scrm/getSelectList/VISITID/1',
-            data:{
-              page:pageNum
-            }
+            url: params.url,
+            data:nextPageData
         }
 
 
-
         const {loadNextPage} = this.props;
-        loadNextPage(NextPageParams);
+        loadNextPage(NextPageParams,source);
 
       }
     }
 
 	render(){
     const { $$searchPeople }  = this.props;
-	
-    const peopleListData = $$searchPeople.get('Account_static').toJS().data;
+    const source = $$searchPeople.toJS().source
+    const peopleListData = $$searchPeople.get(source).toJS().data;
 		return (
 	        <div className="mbox_BombBoxList01"  ref = "BombBoxList" >
             <div className = "mbox_boxList02" ref = "mbox_boxList" onScroll ={this.handleScroll}>
