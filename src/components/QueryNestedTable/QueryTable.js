@@ -13,7 +13,7 @@ class QueryTable extends React.Component {
         super()
 
         this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleClear = this.handleClear.bind(this)
+        this.handleReset = this.handleReset.bind(this)
     }
 
     handleSubmit(e) {
@@ -22,10 +22,9 @@ class QueryTable extends React.Component {
         this.props.onQuery()
     }
 
-    handleClear() {
-        const { form } = this.props
-
-        form.resetFields()
+    handleReset(e) {
+        e.preventDefault();
+        this.props.form.resetFields()
     }
 
     renderControls(col, level) {
@@ -100,7 +99,7 @@ class QueryTable extends React.Component {
                 </div>
                 <div>
                     <Button type="primary" htmlType="submit">确定</Button>
-                    <Button type="ghost" onClick={this.handleClear}>清空</Button>
+                    <Button type="ghost" onClick={this.handleReset}>清空</Button>
                 </div>
             </Form>
         ) : null

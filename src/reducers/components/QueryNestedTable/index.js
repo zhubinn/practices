@@ -24,12 +24,17 @@ const $$initialState = Immutable.fromJS({
     },
     queryParams: EMPTY_OBJECT,
     childQueryParams: EMPTY_OBJECT,
+    finalQueryParams: EMPTY_OBJECT,
+    finalChildQueryParams: EMPTY_OBJECT,
 })
 
 const report = ($$state = $$initialState, action) => {
     switch (action.type) {
         case CK_COMPONENT_QUERYNESTEDTABLE_UPDATE:
-            return $$state.mergeDeep(action.payload)
+            return $$state.mergeDeep(action.payload, {
+                finalQueryParams: $$state.get('queryParams'),
+                finalChildQueryParams: $$state.get('childQueryParams'),
+            })
 
         case CK_COMPONENT_QUERYNESTEDTABLE_TOGGLEQUERYPANEL:
             return $$state.update('showSearchTable', x=>!x)

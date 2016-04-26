@@ -119,11 +119,13 @@ const account_list_columns_2 = [{
     dataIndex: 'Name1',
     key: 'Name1',
     inputType: INPUTTYPE.STRING,
+    defaultValue: '默认值',
 }, {
     title: '简称1',
     dataIndex: 'ShortName1',
     key: 'ShortName1',
     inputType: INPUTTYPE.STRING,
+    defaultValue: '默认值',
 }]
 
 export {

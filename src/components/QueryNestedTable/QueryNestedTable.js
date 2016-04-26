@@ -25,9 +25,9 @@ export default class QueryNestedTable extends React.Component {
 
     expandedRowRender(...args) {
         const [ rowData, index ] = [...args]
-        const { childProps, childQueryParams } = this.props
+        const { childProps, finalChildQueryParams } = this.props
 
-        this.props.updateChildDataSource(childQueryParams, rowData, index)
+        this.props.updateChildDataSource(finalChildQueryParams, rowData, index)
 
         return (
             <Table
