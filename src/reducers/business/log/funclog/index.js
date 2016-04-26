@@ -3,26 +3,35 @@
  */
 import Immutable from 'immutable'
 import { 
-    CK_INPUT_CHANGE,
-    GET_REPORT_DATA, 
-    GET_REPORT_SUCCESS,
+    FUNCLOG_INPUT_CHANGE,
+    FUNCLOGSIZE_CHANGE,
+    GET_FUNCLOG_DATA,
+    GET_FUNCLOG_SUCCESS,
+    GET_FUNCLOG_FAILURE,
 } from 'actions/business/Log/FunctionLog'
 
-let statistic = {
-	statisticReport:{
+let funclog = {
+    dataResult:{
         columns:[],
         data:[]
+    },
+    pageData:{
+        page: 1,
+        pageSize: 10
     }
 }
 
-export default function statistic($$state = Immutable.fromJS(statistic), action) {
+export default function FuncLog($$state = Immutable.fromJS(funclog), action) {
+     debugger
     switch(action.type) {
-        case CK_INPUT_CHANGE:
-            return $$state.merge({ statisticReport: action.payload });
-    	case GET_REPORT_DATA:
-    	    return $$state;
-    	case GET_REPORT_SUCCESS:
-    	    return $$state.merge({ statisticReport: action.payload });
+        case FUNCLOG_INPUT_CHANGE:
+            return $$state.merge({ dataResult: action.payload });
+        case FUNCLOGSIZE_CHANGE:
+            return $$state.merge({ pageData: action.payload });
+        case GET_FUNCLOG_DATA:
+            return $$state;
+        case GET_FUNCLOG_SUCCESS:
+            return $$state.merge({ dataResult: action.payload });
         default:
             return $$state;
     }

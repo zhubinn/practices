@@ -6,18 +6,15 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { Row, Col, Table, Button, Input, Pagination, Modal} from 'antd'
-import DataTable from 'components/Business/DataTable'
-import {rowsData, columns, searchColumns} from 'components/Business/DataTable/fakeData'
-import  { initSource,getData, showDetail, checkRow, updateRow, toggleSearch}  from 'actions/Component/DataTable'
-import {handleInputChange, getReportData}  from 'actions/business/Log/FunctionLog'
+import { Row, Col, Table, Radio, Button, Input, Pagination, Modal} from 'antd'
+import {handleInputChange, getFuncLogData, pageSizeChange}  from 'actions/business/Log/FunctionLog'
 import 'antd/lib/index.css'
 
-let params = {
-    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/tableData.php',
+let DataLogParams = {
+    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/funcLog.php',
     data: {
         page: 1,
-        rowsPerPage: 20
+        pageSize: 10
     }
 }
 
@@ -27,38 +24,29 @@ class FunctionLog extends React.Component {
       this.handleInputChange = this.handleInputChange.bind(this)
       this.exportConfirm = this.exportConfirm.bind(this)
       this.searchTimer;
-      this.state = { 
-        visible: false 
-      };
+      this.state = {};
     }
 
     componentDidMount() {
-      const id = this.refs.dataTable.identity
-      this.props.initSource(id)
-      this.props.getData(params, id)
+      this.props.getFuncLogData(DataLogParams);
     }
 
     handleInputChange() {
       let val = this.refs.seachVal.getDOMNode().value;
-      const { getData } = this.props;
-      const id = this.refs.dataTable.identity;
-
-      // clearTimeout(this.searchTimer)
-      // this.searchTimer = setTimeout(() => { getData(params, id) }, 500);
-
-      getData(params, id)
+      alert(val)
+      clearTimeout(this.searchTimer)
+      this.searchTimer = setTimeout(() => { this.props.getFuncLogData(DataLogParams) }, 300);
     }
 
     onShowSizeChange(current, pageSize) {
-      alert(current, pageSize);
-      const id = this.refs.dataTable.identity
-      this.props.getData(params, id)
+      DataLogParams.data.page = current;
+      DataLogParams.data.pageSize = pageSize;
+      this.props.pageSizeChange({current, pageSize});
     }
 
     pageOnChange(page){
-      alert(page);
-      const id = this.refs.dataTable.identity
-      this.props.getData(params, id)
+      DataLogParams.data.page = page;
+      this.props.getFuncLogData(DataLogParams);
     }
 
     showPageTotal(total){
@@ -76,62 +64,54 @@ class FunctionLog extends React.Component {
       });
     }
 
+    handleChange(){
+      flag = true
+      const IsMultiselect = 0;
+      this.props.changeIsMultiselect(IsMultiselect)
+      this.props.getPeopleData(selectPeopleParams, DATA_SELECTPEOPLE_SOURCE)
+    }
+
+    showfilter() {
+      flag = true;
+      const IsMultiselect = 1;
+      this.props.changeIsMultiselect(IsMultiselect)
+      this.props.getPeopleData(selectPeopleParams, DATA_SELECTPEOPLE_SOURCE)
+    }
+
     render() {
-        const { $$searchState} = this.props;
-        let seachVal = $$searchState.get('seachVal') || '';
-     
-        const { showDetail, checkRow, updateRow, toggleSearch} = this.props
+        const { $$funcLogState } = this.props;
 
-        let dataSource = {}
+        const dataSource = $$funcLogState.get('dataResult').get('data').toJS();
 
-        if (this.refs.dataTable) {
-            const { $$dataTable } = this.props
+        const columns = $$funcLogState.get('dataResult').get('columns').toJS();
 
-            const $$obj = $$dataTable.get(this.refs.dataTable.identity)
+        const pageSize = $$funcLogState.get('pageData').get('pageSize');
 
-            if ($$obj) {
-                dataSource = $$obj.toJS()
-            }
-        }
+        
+        //分页配置
+        const pagination = {
+          total: dataSource.length,
+          showSizeChanger: true,
+          showQuickJumper: true,
+          pageSize:pageSize,
+          onShowSizeChange: this.onShowSizeChange.bind(this),
+          onChange: this.pageOnChange.bind(this),
+          showTotal: this.showPageTotal
+        };
 
-        let that = this;
         return (
             <div  style = {{marginLeft: '20px'}} >
               <Row>
-                <Col span="9">
-                  <input placeholder="请输入..." style={{ width: 220 }} ref = "seachVal"/>
+                <Col span="16">
+                  <input placeholder="请输入.." className="Hightsearch_input" style={{ width: 220 }} ref = "seachVal"/>
                   <Button type="primary" onClick = {this.handleInputChange}>搜索</Button>
                 </Col>
-                <Col span="10">
-                  <Button type="primary"  onClick={(e) => {toggleSearch(!dataSource.searchBarShow, this.refs.dataTable.identity )}} style={{ marginLeft: 10 }} >{dataSource.searchBarShow ? "隐藏搜索" : "高级搜索"}</Button>
-                </Col>
-                <Col span="4">
+                <Col span="6">
+                  <Button type="primary" style = {{marginRight: '10px'}}  onClick = {this.showfilter.bind(this)}>筛选</Button>
                   <Button type="ghost" onClick = {this.exportConfirm}>导出EXCEL</Button>
                 </Col>
               </Row>
-              <DataTable ref="dataTable"
-                           checkMode={false}
-                           onCheckRow={checkRow}
-                           hasDetail={false}
-                           checkedRows={dataSource.checkedRows}
-                           rows={dataSource.rows}
-                           selectedRowDetailObj={dataSource.selectedRowDetailObj}
-                           searchColumns={searchColumns}
-                           columns={columns}
-                           searchBarStatus={dataSource.searchBarShow}
-                           onUpdateRow={updateRow}
-                           onShowDetail={showDetail}
-                           toggleSearch={toggleSearch}
-                           pending={dataSource.pending}
-                />
-                <Pagination 
-                  showSizeChanger 
-                  showQuickJumper 
-                  total={54} 
-                  onShowSizeChange = {this.onShowSizeChange}
-                  onChange={this.pageOnChange}
-                  showTotal={this.showPageTotal} 
-                /> 
+              <Table dataSource={dataSource} columns={columns} pagination={pagination}/>
             </div>
         )
     }
@@ -139,18 +119,12 @@ class FunctionLog extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$searchState: state.business.statistic,
-        $$dataTable: state.components.dataTable
+      $$funcLogState: state.business.FuncLog
     }
 }
 
 export default connect(mapStateToProps, {
-    getReportData,
+    getFuncLogData,
     handleInputChange,
-    initSource,
-    getData,
-    showDetail,
-    checkRow,
-    updateRow,
-    toggleSearch,
+    pageSizeChange
 })(FunctionLog)

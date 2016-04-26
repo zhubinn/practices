@@ -32,7 +32,7 @@ const COMPONENT_LOADMORE_GETDATA_SUCCESS = 'COMPONENT_LOADMORE_GETDATA_SUCCESS'
 const COMPONENT_CHANGEINPUT = 'COMPONENT_CHANGEINPUT'
 
 //源定义
-const DATA_SELECTPEOPLE_SOURCE = 'Account_static'
+const DATA_SELECTPEOPLE_SOURCE = 'log_filter'
 
 
 export const selectPeopelinitSource =(source)=>{
@@ -68,6 +68,7 @@ export const getPeopleData = (params, source) => {
 
     return (dispatch, getState) => {
         const url = params.url;
+        debugger
         dispatch(_getPeopleData(COMPONENT_SEARCH_GETDATA,{},source));
 
             fetch(params.url, {

@@ -1,0 +1,81 @@
+{
+    "rs": true,
+    "data": {
+        "total": 184,
+        "pages": 19,
+        "currentPage": 1,
+        "pageRow": 10,
+        "users": [
+            {
+                "ID": "153030",
+                "Name": "赵立凤",
+                "Dept": "暂无部门",
+                "Title": "暂无职位",
+                "Avatar": "http://esn.yangtianming.com/front/images/scrm/default_avatar.png"
+            },
+            {
+                "ID": "152888",
+                "Name": "赵立凤",
+                "Dept": "暂无部门",
+                "Title": "暂无职位",
+                "Avatar": "http://esn.yangtianming.com/front/images/scrm/default_avatar.png"
+            },
+            {
+                "ID": "152885",
+                "Name": "张家营",
+                "Dept": "全公司",
+                "Title": "部门成员",
+                "Avatar": "http://esn.yangtianming.com/front/images/scrm/default_avatar.png"
+            },
+            {
+                "ID": "152881",
+                "Name": "啵啵……！？。。",
+                "Dept": "销售一部",
+                "Title": "第一负责人",
+                "Avatar": "http://test.staticoss.upesn.com/1/152881/201603/25/14588902196bd146afc935429c4de8c0874289a459.png.thumb.jpg"
+            },
+            {
+                "ID": "152880",
+                "Name": "张杰",
+                "Dept": "全公司",
+                "Title": "部门成员",
+                "Avatar": "http://esn.yangtianming.com/front/images/scrm/default_avatar.png"
+            },
+            {
+                "ID": "152874",
+                "Name": "赵立凤",
+                "Dept": "全公司",
+                "Title": "部门成员",
+                "Avatar": "http://esn.yangtianming.com/front/images/scrm/default_avatar.png"
+            },
+            {
+                "ID": "152873",
+                "Name": "菠菜菜",
+                "Dept": "暂无部门",
+                "Title": "暂无职位",
+                "Avatar": "http://esn.yangtianming.com/front/images/scrm/default_avatar.png"
+            },
+            {
+                "ID": "152701",
+                "Name": "lrbhb",
+                "Dept": "llll",
+                "Title": "部门成员",
+                "Avatar": "http://esn.yangtianming.com/front/images/scrm/default_avatar.png"
+            },
+            {
+                "ID": "152610",
+                "Name": "周新喆",
+                "Dept": "全公司",
+                "Title": "部门成员",
+                "Avatar": "http://test.staticoss.upesn.com/1/152610/201603/14/14579346095b586e88337a17b365a289103a19cf73.jpg.thumb.jpg"
+            },
+            {
+                "ID": "152609",
+                "Name": "周景超",
+                "Dept": "全公司",
+                "Title": "部门成员",
+                "Avatar": "http://esn.yangtianming.com/front/images/scrm/default_avatar.png"
+            }
+        ]
+    }
+}

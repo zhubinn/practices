@@ -5,7 +5,7 @@ import { combineReducers } from 'redux'
 import statistic from './business/statistic'
 
 import datalog from "./log/datalog"
-import funclog from "./log/funclog"
+import FuncLog from "./log/funclog"
 
 import account_list from './account/list'
 import account_Customizable from './account/Customizable'
@@ -15,7 +15,7 @@ import account_detail from './account/Detail'
 
 const businessReducers = combineReducers({
 	datalog,
-	funclog,
+	FuncLog,
     statistic,
     account_list,
     account_Customizable,

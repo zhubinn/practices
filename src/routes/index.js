@@ -28,6 +28,8 @@ import BusinessSummary from 'containers/Business/Business/Summary'
 import FuncLog from 'containers/Business/Log/FuncLog'
 import DataLog from 'containers/Business/Log/DataLog'
 
+import searchPeople from 'containers/__demo/searchPeople'
+
 export default (
     <Route path="/">
         <Route path="__demo" component={MasterPage}>
@@ -35,6 +37,8 @@ export default (
             <Route path="login" component={DemoLoginPage}/>
             <Route path="Demopagination" component={DemoPagination}/>
             <Route path="DemoTodoList" component={DemoTodoList}/>
+            <Route path="searchPeople" component={searchPeople}/>
+            
         </Route>
         <Route path="scrmweb" component={ModulePage}>
             <Route path="accounts/index/VISITID/1" component={AccountListPage} />
@@ -46,8 +50,9 @@ export default (
             <Route path="business/statistic/VISITID/1" component={BusinessStatistic} />
             <Route path="business/summary/VISITID/1" component={BusinessSummary} />
 
-            <Route path="log/func/VISITID/1" component={FuncLog} />
             <Route path="log/datalog/VISITID/1" component={DataLog} />
+            <Route path="log/func/VISITID/1" component={FuncLog} />
+            
         </Route>
         <Route path="*" component={Error_404}/>
     </Route>
