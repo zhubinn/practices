@@ -59,7 +59,7 @@ const updateDataSource = (queryParams) => {
     })
 }
 
-const updateChildDataSource = (rowData, index) => {
+const updateChildDataSource = (childQueryParams, rowData, index) => {
     const dataSource = [{
         key: 1,
         Name1: '胡彦斌3',
@@ -72,7 +72,7 @@ const updateChildDataSource = (rowData, index) => {
         Bank1: '建设银行3'
     }]
 
-    console.log(rowData, index)
+    console.log(childQueryParams, rowData, index)
     //TODO: ajax by rowData
     return (dispatch, getState) => dispatch({
         type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
