@@ -3,6 +3,7 @@
  */
 import { findDOMNode } from 'react-dom'
 import { Table } from 'antd'
+import { isArray } from 'lodash'
 import QueryTable from './QueryTable'
 import INPUTTYPE from './inputType'
 
@@ -11,6 +12,7 @@ export default class QueryNestedTable extends React.Component {
         super()
         this.handleQuery = this.handleQuery.bind(this)
         this.expandedRowRender = this.expandedRowRender.bind(this)
+        this.onRowClick = this.onRowClick.bind(this)
     }
 
     componentDidMount() {
@@ -23,11 +25,13 @@ export default class QueryNestedTable extends React.Component {
         this.props.updateDataSource(queryParams)
     }
 
-    expandedRowRender(...args) {
-        const [ rowData, index ] = [...args]
-        const { childProps, finalChildQueryParams } = this.props
+    expandedRowRender(record, index) {
+        const { childProps } = this.props
+        const dataSource = childProps.dataSource[index]
 
-        this.props.updateChildDataSource(finalChildQueryParams, rowData, index)
+        if (!isArray(dataSource) || dataSource.length === 0) {
+            return null
+        }
 
         return (
             <Table
@@ -37,6 +41,14 @@ export default class QueryNestedTable extends React.Component {
                 pagination={false}
             />
         )
+    }
+
+    onRowClick(record, index) {
+        const { childProps, finalChildQueryParams } = this.props
+
+        if (!childProps.dataSource[index]) {
+            this.props.updateChildDataSource(finalChildQueryParams, record, index)
+        }
     }
 
     render() {
@@ -66,6 +78,7 @@ export default class QueryNestedTable extends React.Component {
                     dataSource={dataSource}
                     columns={columns}
                     expandedRowRender={this.expandedRowRender}
+                    onRowClick={this.onRowClick}
                 />
             </div>
         )

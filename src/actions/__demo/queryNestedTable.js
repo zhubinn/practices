@@ -2,7 +2,9 @@
  * Created by c on 4/21/16.
  */
 import {
-    CK_COMPONENT_QUERYNESTEDTABLE_UPDATE
+    CK_COMPONENT_QUERYNESTEDTABLE_INIT,
+    CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
+    CK_COMPONENT_QUERYNESTEDTABLE_UPDATECHILD,
 } from 'actions/components/QueryNestedTable'
 
 const initQueryNestedTable = (columns, columns_2) => {
@@ -20,7 +22,7 @@ const initQueryNestedTable = (columns, columns_2) => {
 
     //TODO: ajax init
     return (dispatch, getState) => dispatch({
-        type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
+        type: CK_COMPONENT_QUERYNESTEDTABLE_INIT,
         payload: {
             dataSource,
             loading: false,
@@ -48,14 +50,7 @@ const updateDataSource = (queryParams) => {
     //TODO: ajax by queryParams
     return (dispatch, getState) => dispatch({
         type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
-        payload: {
-            dataSource,
-            loading: false,
-            childProps: {
-                columns: [],
-                dataSource: {}
-            }
-        }
+        payload: dataSource
     })
 }
 
@@ -75,7 +70,7 @@ const updateChildDataSource = (childQueryParams, rowData, index) => {
     console.log(childQueryParams, rowData, index)
     //TODO: ajax by rowData
     return (dispatch, getState) => dispatch({
-        type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
+        type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATECHILD,
         payload: {
             childProps: {
                 dataSource: {

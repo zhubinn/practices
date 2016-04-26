@@ -3,7 +3,9 @@
  */
 import Immutable from 'immutable'
 import {
+    CK_COMPONENT_QUERYNESTEDTABLE_INIT,
     CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
+    CK_COMPONENT_QUERYNESTEDTABLE_UPDATECHILD,
     CK_COMPONENT_QUERYNESTEDTABLE_TOGGLEQUERYPANEL,
     CK_COMPONENT_QUERYTABLE_CHANGE,
 } from 'actions/components/QueryNestedTable'
@@ -30,10 +32,35 @@ const $$initialState = Immutable.fromJS({
 
 const report = ($$state = $$initialState, action) => {
     switch (action.type) {
+        case CK_COMPONENT_QUERYNESTEDTABLE_INIT:
+            return $$state.mergeDeep(action.payload)
+
         case CK_COMPONENT_QUERYNESTEDTABLE_UPDATE:
-            return $$state.mergeDeep(action.payload, {
+            /*return $$state.update(k => {
+             return k.set('childProps', {
+             columns: EMPTY_ARRAY,
+             dataSource: EMPTY_OBJECT
+             })*/
+            /*k.finalQueryParams = $$state.get('queryParams')
+             k.childQueryParams = $$state.get('childQueryParams')
+             k.childProps = {
+             columns: EMPTY_ARRAY,
+             dataSource: EMPTY_OBJECT
+             }
+             return k*/
+            //})
+            return $$state.mergeDeep({
+                dataSource: action.payload,
                 finalQueryParams: $$state.get('queryParams'),
                 finalChildQueryParams: $$state.get('childQueryParams'),
+            }).updateIn(['childProps', 'dataSource'], x => EMPTY_OBJECT)
+                .updateIn(['childProps', 'loading'], x => EMPTY_OBJECT)
+
+        case CK_COMPONENT_QUERYNESTEDTABLE_UPDATECHILD:
+            return $$state.mergeDeep(action.payload, {
+                childProps: {
+                    dataSource: EMPTY_OBJECT
+                },
             })
 
         case CK_COMPONENT_QUERYNESTEDTABLE_TOGGLEQUERYPANEL:
