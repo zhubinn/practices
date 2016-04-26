@@ -6,6 +6,7 @@ import { Table } from 'antd'
 import { isArray } from 'lodash'
 import QueryTable from './QueryTable'
 import INPUTTYPE from './inputType'
+import $ from 'jquery'
 
 export default class QueryNestedTable extends React.Component {
     constructor() {
@@ -30,6 +31,9 @@ export default class QueryNestedTable extends React.Component {
         const dataSource = childProps.dataSource[index]
 
         if (!isArray(dataSource) || dataSource.length === 0) {
+            $('.ant-table-row-expanded')
+                .removeClass('ant-table-row-expanded')
+                .addClass('ant-table-row-collapsed')
             return null
         }
 
