@@ -5,7 +5,7 @@ import { findDOMNode } from 'react-dom'
 import { Table, TimePicker, InputNumber, Form, Button } from 'antd'
 import INPUTTYPE from './inputType'
 
-const prefix = 'qt_'
+const prefix = '_ck_qt_'
 
 class QueryTable extends React.Component {
     constructor() {
@@ -13,38 +13,56 @@ class QueryTable extends React.Component {
 
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleClear = this.handleClear.bind(this)
+        this.setState({
+            formVal1: null,
+            formVal2: null,
+        })
     }
 
     handleSubmit(e) {
         e.preventDefault()
 
-        const { form } = this.props
+        const { form, onQuery } = this.props
         const formVal = form.getFieldsValue()
-        const finalFormVal = {}
+        const prefix1 = '_ck_qt_1_'
+        const prefix2 = '_ck_qt_2_'
+        const formVal1 = {}
+        const formVal2 = {}
 
-        for (let field in formVal) {
-            if (!formVal.hasOwnProperty(field))
+        for (let prop in formVal) {
+            if (!formVal.hasOwnProperty(prop))
                 continue
 
-            const finalField = field.substr(prefix.length)
-            finalFormVal[finalField] = formVal[field]
+            if (prop.startsWith(prefix1)) {
+                formVal1[prop.substr(prefix1.length)] = formVal[prop]
+
+            } else if (prop.startsWith(prefix2)) {
+                formVal2[prop.substr(prefix2.length)] = formVal[prop]
+            }
         }
-        this.props.onQuery(finalFormVal)
+
+        this.setState({
+            formVal1,
+            formVal2,
+        })
+
+        onQuery(formVal1)
     }
 
     handleClear() {
         const { form } = this.props
-        form.resetFields()
+
+        form.resetFields(this.state.finalFormVal)
     }
 
-    renderControls(col) {
-        const { getFieldProps } = this.props.form
-        const {
-            value,
-            ...fieldProps
-            } = getFieldProps(prefix + col.key)
+    renderControls(col, level) {
+        const { queryParams, form } = this.props
+        const { getFieldProps } = form
+        const fieldName = `_ck_qt_${level}_${col.key}`
+        const fieldProps = getFieldProps(fieldName)
+
         fieldProps.defaultValue = col.defaultValue
-        console.log(fieldProps)
+        fieldProps.value = queryParams[fieldName]
 
         switch (col.inputType) {
             case INPUTTYPE.DATE:
@@ -58,7 +76,7 @@ class QueryTable extends React.Component {
         }
     }
 
-    renderTable(columns, childProps) {
+    renderTable(columns, childProps, level) {
         return (
             <div className="ant-table-body">
                 <table>
@@ -72,12 +90,20 @@ class QueryTable extends React.Component {
                     <tbody className="ant-table-tbody">
                     <tr className="ant-table-row  ant-table-row-level-0">
                         {
-                            columns.map(col => <td>{ this.renderControls(col) }</td>)
+                            columns.map(col => (
+                                <td>
+                                    {
+                                        this.renderControls(col, level)
+                                    }
+                                </td>
+                            ))
                         }
                     </tr>
                     </tbody>
                 </table>
-                { !!childProps && this.renderTable(childProps.columns, childProps.childProps) }
+                {
+                    !!childProps && this.renderTable(childProps.columns, childProps.childProps, ++level)
+                }
             </div>
         )
     }
@@ -85,39 +111,36 @@ class QueryTable extends React.Component {
     render() {
         const { columns, childProps, show } = this.props
 
-        if (!show)
-            return null
-
-        return (
+        return !!show ? (
             <Form className="ant-table ant-table-middle ant-table-bordered" onSubmit={this.handleSubmit}>
-                { this.renderTable(columns, childProps) }
+                { this.renderTable(columns, childProps, 1) }
                 <div>
                     <Button type="primary" htmlType="submit">确定</Button>
                     <Button type="ghost" onClick={this.handleClear}>清空</Button>
                 </div>
             </Form>
-        )
+        ) : null
     }
 }
 
 QueryTable.propTypes = {
     columns: React.PropTypes.array.isRequired,
+    childProps: React.PropTypes.object.isRequired,
     onQuery: React.PropTypes.func.isRequired
 }
 
 export default Form.create({
     mapPropsToFields(props) {
-        const { queryParams } = props
-        const finalQueryParams = {}
+        const finalObj = {}
 
-        for (let param in queryParams) {
-            if (!queryParams.hasOwnProperty(param))
+        for (let prop in props.queryParams) {
+            if (!props.queryParams.hasOwnProperty(prop))
                 continue
 
-            const finalField = prefix + param
-            finalQueryParams[finalField] = queryParams[param]
+            const finalProp = prop.substr(prefix.length + 2)
+            finalObj[finalProp] = props.queryParams[prop]
         }
-        return finalQueryParams;
+        return finalObj
     },
 
     onFieldsChange(props, fields) {
@@ -127,9 +150,9 @@ export default Form.create({
             if (!fields.hasOwnProperty(field))
                 continue
 
-            const finalField = field.substr(prefix.length)
-            finalFields[finalField] = fields[field].value
+            finalFields[field] = fields[field].value
         }
+
         props.changeQueryParams({
             ...finalFields
         });
