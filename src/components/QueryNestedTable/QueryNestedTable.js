@@ -68,6 +68,7 @@ class QueryNestedTable extends React.Component {
             } = this.props
 
         const {
+            pending,
             columns,
             dataSource,
             childProps,
@@ -84,6 +85,7 @@ class QueryNestedTable extends React.Component {
         return (
             <div className="ck_qntable">
                 <QueryTable
+                    pending={pending}
                     show={showSearchTable}
                     dataSource={dataSource}
                     columns={columns}

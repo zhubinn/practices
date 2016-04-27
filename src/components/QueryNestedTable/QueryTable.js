@@ -19,7 +19,10 @@ class QueryTable extends React.Component {
     handleSubmit(e) {
         e.preventDefault()
 
-        this.props.onQuery()
+        const { onQuery, pending } = this.props
+        if (!pending) {
+            onQuery()
+        }
     }
 
     handleReset(e) {

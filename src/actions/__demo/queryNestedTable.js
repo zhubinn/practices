@@ -12,9 +12,6 @@ import {
     account_list_childColumns,
 } from './data'
 
-const columns = account_list_columns
-const childColumns = account_list_childColumns
-
 const initQueryNestedTable = () => {
     const dataSource = [{
         key: 1,
@@ -32,11 +29,11 @@ const initQueryNestedTable = () => {
     return (dispatch, getState) => dispatch({
         type: CK_COMPONENT_QUERYNESTEDTABLE_INIT,
         payload: {
-            columns,
+            columns: account_list_columns,
             dataSource,
             loading: false,
             childProps: {
-                columns: childColumns
+                columns: account_list_childColumns
             }
         }
     })
@@ -57,16 +54,27 @@ const updateDataSource = (queryParams, pageIndex = 1) => {
 
     console.log(queryParams, pageIndex)
     //TODO: ajax by queryParams
-    return (dispatch, getState) => dispatch({
-        type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
-        payload: {
-            dataSource,
-            pagination: {
-                total: 300,
-                current: 3,
+    return (dispatch, getState) => {
+        dispatch({
+            type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
+            payload: {
+                // TODO: 查询xhr未完成, 点击查询无效
+                pending: true
             }
-        }
-    })
+        })
+        //fetch
+        dispatch({
+            type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
+            payload: {
+                pending: false,
+                dataSource,
+                pagination: {
+                    total: 300,
+                    current: 3,
+                }
+            }
+        })
+    }
 }
 
 const updateChildDataSource = (childQueryParams, rowData, index) => {

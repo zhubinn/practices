@@ -14,6 +14,7 @@ const EMPTY_ARRAY = []
 const EMPTY_OBJECT = {}
 
 const $$initialState = Immutable.fromJS({
+    pending: false,
     columns: EMPTY_ARRAY,
     dataSource: EMPTY_ARRAY,
     loading: true,
