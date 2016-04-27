@@ -4,7 +4,6 @@
 import { connect } from 'react-redux'
 import { Breadcrumb, Button } from 'antd'
 import QueryNestedTable from 'components/QueryNestedTable'
-import INPUTTYPE from 'components/QueryNestedTable/inputType'
 import {
     initQueryNestedTable,
     updateDataSource,
@@ -12,19 +11,16 @@ import {
 } from 'actions/__demo/queryNestedTable'
 import {
     toggleQueryPanel,
-    changeQueryParams,
 } from 'actions/components/QueryNestedTable'
-import 'antd/style/index.less'
 
 class QueryNestedTablePage extends React.Component {
     render() {
         const {
+            $$QueryNestedTable,
             initQueryNestedTable,
             updateDataSource,
             updateChildDataSource,
             toggleQueryPanel,
-            changeQueryParams,
-            $$QueryNestedTable,
             } = this.props
 
         return (
@@ -40,10 +36,9 @@ class QueryNestedTablePage extends React.Component {
                 </div>
                 <QueryNestedTable
                     immutableState={$$QueryNestedTable.toJS()}
-                    initQueryNestedTable={initQueryNestedTable}
+                    init={initQueryNestedTable}
                     updateDataSource={updateDataSource}
                     updateChildDataSource={updateChildDataSource}
-                    changeQueryParams={changeQueryParams}
                 />
             </div>
         )
@@ -61,5 +56,4 @@ export default connect(mapStateToProps, {
     updateDataSource,
     updateChildDataSource,
     toggleQueryPanel,
-    changeQueryParams,
 })(QueryNestedTablePage)
