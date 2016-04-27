@@ -3,8 +3,7 @@
  */
 import Immutable from 'immutable'
 import { 
-    FUNCLOG_INPUT_CHANGE,
-    FUNCLOGSIZE_CHANGE,
+    FUNCLOG_SIZE_CHANGE,
     GET_FUNCLOG_DATA,
     GET_FUNCLOG_SUCCESS,
     GET_FUNCLOG_FAILURE,
@@ -22,11 +21,8 @@ let funclog = {
 }
 
 export default function FuncLog($$state = Immutable.fromJS(funclog), action) {
-     debugger
     switch(action.type) {
-        case FUNCLOG_INPUT_CHANGE:
-            return $$state.merge({ dataResult: action.payload });
-        case FUNCLOGSIZE_CHANGE:
+        case FUNCLOG_SIZE_CHANGE:
             return $$state.merge({ pageData: action.payload });
         case GET_FUNCLOG_DATA:
             return $$state;

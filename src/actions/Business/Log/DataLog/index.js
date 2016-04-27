@@ -5,11 +5,8 @@
 import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 
-//搜索框值改变
-const DATALOG_INPUT_CHANGE = 'DATALOG_INPUT_CHANGE'
-
 // 数据日志页码长度改变
-const DATALOGSIZE_CHANGE = 'DATALOGSIZE_CHANGE'
+const DATALOG_SIZE_CHANGE = 'DATALOG_SIZE_CHANGE'
 // 获取数据日志报表
 const GET_DATALOG_DATA = 'GET_DATALOG_DATA'
 // 获取数据日志报表成功
@@ -17,18 +14,6 @@ const GET_DATALOG_SUCCESS = 'GET_DATALOG_SUCCESS'
 // 获取数据日志报表失败
 const GET_DATALOG_FAILURE = 'GET_DATALOG_FAILURE'
 
-
-const handleInputChange = (val) => {
-    const fetchData = (type, payload)=> {
-        return {
-            type,
-            payload
-        }
-    }
-    return (dispatch, getState) => {
-        dispatch(fetchData(DATALOG_INPUT_CHANGE, {pending: true, rows: []}))
-    }
-}
 
 const pageSizeChange = (val) => {
     const fetchData = (type, payload)=> {
@@ -73,12 +58,10 @@ const getDataLogData = (params ,val)=> {
 }
 
 export {
-    DATALOG_INPUT_CHANGE,
-    DATALOGSIZE_CHANGE,
+    DATALOG_SIZE_CHANGE,
     GET_DATALOG_DATA,
     GET_DATALOG_SUCCESS,
     GET_DATALOG_FAILURE,
-    handleInputChange,
     getDataLogData,
     pageSizeChange,
 }

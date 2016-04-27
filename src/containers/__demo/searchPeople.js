@@ -16,7 +16,7 @@ const DATA_SELECTPEOPLE_SOURCE = 'Account_static'
 
 
 let selectPeopleParams = {
-    url: 'http://esn.yangtianming.com/setting/scrm/getSelectList/VISITID/1',
+    url: 'http://esn.yangtianming.com/scrmweb/accounts/deptsummary/VISITID/1',
     data:{
       page:1
     }

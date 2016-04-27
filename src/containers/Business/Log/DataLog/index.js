@@ -9,9 +9,10 @@ import classNames from 'classnames'
 import { Row, Col, Table, Radio, Button, Input, Pagination, Modal} from 'antd'
 import {handleInputChange, getDataLogData, pageSizeChange}  from 'actions/business/Log/DataLog'
 
-import SearchPeople from 'components/Business/SearchPeople'
+//引入选人组件
+import SearchPeople from 'components/Business/searchPeople'
+import { selectPeopelinitSource }  from 'actions/Component/searchPeople'
 import {
-  selectPeopelinitSource,
   changeIsMultiselect, 
   getPeopleData,
   clickPeopleDate,
@@ -21,42 +22,60 @@ import {
   submitData,
   handleCancle,
   loadNextPage,
-  handleChangeInput
+  handleChangeInput,
+  changePageNum
 } from 'actions/Component/searchPeople'
 
 import 'antd/lib/index.css'
 
+//table列表数据接口
 let DataLogParams = {
     url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/logData.php',
     data: {
         page: 1,
-        pageSize: 10
+        pageSize: 10,
+        keyword:''
+    }
+}
+//引入选人组件接口
+let getPeopleParams = {
+    url: 'http://esn.yangtianming.com/setting/scrm/getSelectList/VISITID/1',
+    data:{
+      page:1,
+      rowsPerPage:20,
+      keyword:''
     }
 }
 
-let selectPeopleParams = {
-    url: 'http://esn.yangtianming.com/setting/scrm/getSelectList/VISITID/1',
-}
-
-
-const DATA_SELECTPEOPLE_SOURCE = 'log_filter'
+/*给筛选变更设定一个flag*/
 let flag = false;
+let confirmOkParams = {
+    url: '',//根据需求确认接口地址
+    data:{
+      filter:[],
+      page:1,
+      rowsPerPage:20,
+      keyword:''
+    }
+}
 
 class DataLog extends React.Component {
     constructor(props) {
       super(props)
-      this.handleInputChange = this.handleInputChange.bind(this)
+      this.searchInputChange = this.searchInputChange.bind(this)
       this.exportConfirm = this.exportConfirm.bind(this)
       this.searchTimer;
-      this.state = {};
     }
 
     componentDidMount() {
       this.props.getDataLogData(DataLogParams);
-      //this.props.selectPeopelinitSource(DATA_SELECTPEOPLE_SOURCE)
+
+      //引入选人组件
+      const  id  = this.refs.searchPeopleCom.identity
+      this.props.selectPeopelinitSource(id,getPeopleParams,confirmOkParams)
     }
 
-    handleInputChange() {
+    searchInputChange() {
       let val = this.refs.seachVal.getDOMNode().value;
       alert(val)
       clearTimeout(this.searchTimer)
@@ -89,30 +108,29 @@ class DataLog extends React.Component {
       });
     }
 
+    //引入选人组件方法
+    handleSelection(){
+      flag = true
+      const IsMultiselect = 1;
+      const source = this.props.$$searchPeople.toJS().source
+      this.props.changeIsMultiselect(IsMultiselect,source)
+      this.props.getPeopleData(getPeopleParams, source)
+    }
+
     handleChange(){
       flag = true
       const IsMultiselect = 0;
-      this.props.changeIsMultiselect(IsMultiselect)
-      this.props.getPeopleData(selectPeopleParams, DATA_SELECTPEOPLE_SOURCE)
-    }
-
-    showfilter() {
-      flag = true;
-      const IsMultiselect = 1;
-      this.props.changeIsMultiselect(IsMultiselect)
-      this.props.getPeopleData(selectPeopleParams, DATA_SELECTPEOPLE_SOURCE)
+      const source = this.props.$$searchPeople.toJS().source
+      this.props.changeIsMultiselect(IsMultiselect,source)
+      this.props.getPeopleData(getPeopleParams, source)
     }
 
     render() {
         //table数据配置
         const { $$logState } = this.props;
-
         const dataSource = $$logState.get('dataResult').get('data').toJS();
-
         const columns = $$logState.get('dataResult').get('columns').toJS();
-
         const pageSize = $$logState.get('pageData').get('pageSize');
-
         
         //分页配置
         const pagination = {
@@ -126,44 +144,45 @@ class DataLog extends React.Component {
         };
 
         //选人组件配置
-        let IsModalShow = false
-        let IsMultiselect = 1
-        if(!flag){
-           IsModalShow = this.props.$$searchPeople.get('default').toJS().IsShow
-           IsMultiselect = this.props.$$searchPeople.get('default').toJS().IsMultiselect
+          let IsModalShow = false
+          let IsMultiselect = 1
+          const source = this.props.$$searchPeople.toJS().source
+          if(!flag){
+             IsModalShow = this.props.$$searchPeople.get('default').toJS().IsShow
+             IsMultiselect = this.props.$$searchPeople.get('default').toJS().IsMultiselect
 
-        }else{
-           IsModalShow = this.props.$$searchPeople.get('log_filter').toJS().IsShow
-           IsMultiselect = this.props.$$searchPeople.get('log_filter').toJS().IsMultiselect
-        }
-        const { $$searchPeople } =  this.props; 
-
-        const { 
-          getPeopleData,
-          clickPeopleDate,
-          clickPeopleTag ,
-          deletePeopleTag,
-          searchPeopleData,
-          submitData,
-          handleCancle,
-          loadNextPage,
-          handleChangeInput
-        }  = this.props;
+          }else{
+             IsModalShow = this.props.$$searchPeople.get(source).toJS().IsShow
+             IsMultiselect = this.props.$$searchPeople.get(source).toJS().IsMultiselect
+          }
+          const {$$searchPeople} =  this.props; 
+          const { 
+            getPeopleData,
+            clickPeopleDate,
+            clickPeopleTag ,
+            deletePeopleTag,
+            searchPeopleData,
+            submitData,
+            handleCancle,
+            loadNextPage,
+            handleChangeInput,
+            changePageNum
+          }  = this.props;
 
         return (
             <div  style = {{marginLeft: '20px'}} >
               <Row>
                 <Col span="16">
                   <input placeholder="请输入.." className="Hightsearch_input" style={{ width: 220 }} ref = "seachVal"/>
-                  <Button type="primary" onClick = {this.handleInputChange}>搜索</Button>
+                  <Button type="primary" onClick = {this.searchInputChange}>搜索</Button>
                 </Col>
                 <Col span="6">
-                  <Button type="primary" style = {{marginRight: '10px'}}  onClick = {this.showfilter.bind(this)}>筛选</Button>
+                  <Button type="primary" style = {{marginRight: '10px'}}  onClick = {this.handleSelection.bind(this)}>筛选</Button>
                   <Button type="ghost" onClick = {this.exportConfirm}>导出EXCEL</Button>
                 </Col>
               </Row>
               <Table dataSource={dataSource} columns={columns} pagination={pagination}/>
-              <SearchPeople 
+              <SearchPeople ref = "searchPeopleCom"
               clickPeopleDate = {clickPeopleDate}
               clickPeopleTag = {clickPeopleTag} 
               deletePeopleTag= {deletePeopleTag}
@@ -171,6 +190,7 @@ class DataLog extends React.Component {
               submitData= {submitData}
               handleCancle= {handleCancle}
               loadNextPage= {loadNextPage}
+              changePageNum={changePageNum}
               handleChangeInput= {handleChangeInput}
               IsModalShow= {IsModalShow}
               IsMultiselect = {IsMultiselect}
@@ -183,8 +203,8 @@ class DataLog extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$logState: state.business.datalog,
-        $$searchPeople: state.components.searchPeople,
+      $$searchPeople: state.components.searchPeople,
+      $$logState: state.business.datalog
     }
 }
 
@@ -196,6 +216,7 @@ export default connect(mapStateToProps, {
     selectPeopelinitSource,
     changeIsMultiselect,
     getPeopleData,
+    getPeopleData,
     clickPeopleDate,
     clickPeopleTag ,
     deletePeopleTag,
@@ -204,4 +225,5 @@ export default connect(mapStateToProps, {
     handleCancle,
     loadNextPage,
     handleChangeInput,
+    changePageNum
 })(DataLog)
