@@ -1,113 +1,130 @@
 /**
- * Created by janeluck on 4/7/16.
+ * Created by janeluck on 4/25/16.
  */
 
-
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import basic from './css/basic_new_v2.css'
-import Summary from './css/Summary.less'
+import { Breadcrumb, Button, Icon, Input, Row, Col } from 'antd'
+import QueryNestedTable from 'components/QueryNestedTable'
+import INPUTTYPE from 'components/QueryNestedTable/inputType'
+import {
+    initQueryNestedTable,
+    updateDataSource,
+    updateChildDataSource,
+} from 'actions/business/account/summary'
+import {
+    toggleQueryPanel,
+} from 'actions/components/QueryNestedTable'
+import 'antd/style/index.less'
+import { account_summary_columns, account_summary_business_columns } from './data'
+
+const columns = account_summary_columns
+const columns_2 = account_summary_business_columns
 
 
 
-import DataTable from 'components/Business/DataTable'
-import  { initSource,getData}  from 'actions/Component/DataTable'
 
-import {rowsData, columns, searchColumns} from 'components/Business/DataTable/fakeData'
+/*普通搜索*/
 
-import {searchKeyWord} from 'actions/Business/Account/Summary'
+import classNames from 'classnames';
+const InputGroup = Input.Group;
 
-
-let summaryColumns = [
-
-    {text: '部门名称', datafield: 'name', width: 120,cellsrenderer: function(rowData, column, value){
+const SearchInput = React.createClass({
+    getInitialState() {
+        return {
+            value: '',
+            focus: false,
+        };
+    },
+    handleInputChange(e) {
+        this.setState({
+            value: e.target.value,
+        });
+    },
+    handleFocusBlur(e) {
+        this.setState({
+            focus: e.target === document.activeElement,
+        });
+    },
+    handleSearch() {
+        if (this.props.onSearch) {
+            this.props.onSearch();
+        }
+    },
+    render() {
+        const btnCls = classNames({
+            'ant-search-btn': true,
+            'ant-search-btn-noempty': !!this.state.value.trim(),
+        });
+        const searchCls = classNames({
+            'ant-search-input': true,
+            'ant-search-input-focus': this.state.focus,
+        });
         return (
-          <a  title = {value}>{value}</a>
-          );
-      
-    }},
-    {text: '全部客户数量', datafield: 'user', width: 160},
-    {text: '全部生意数量', datafield: 'date', width: 160},
-    {text: '全部预计销售金额', datafield: 'NpStopTime',width:160},
-    {text: '全部成交金额', datafield: 'ID', width: 160},
-    {text: '全部汇款金额', datafield: 'IsSys', width: 160},
-    {text: '全部输单金额', datafield: 'IsSys', width: 160}
-];
-
-let params = {
-    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/tableData.php',
-    data: {
-        page: 1,
-        rowsPerPage: 20
+            <InputGroup className={searchCls} style={this.props.style}>
+                <Input {...this.props} value={this.state.value} onChange={this.handleInputChange}
+                                       onFocus={this.handleFocusBlur} onBlur={this.handleFocusBlur} />
+                <div className="ant-input-group-wrap">
+                    <Button className={btnCls} size={this.props.size} onClick={this.handleSearch}>
+                        <Icon type="search" />
+                    </Button>
+                </div>
+            </InputGroup>
+        );
     }
-}
+});
 
 
-class AccountSummaryPage extends React.Component {
+
+
+
+
+
+
+
+
+class Account_Summary_Page extends React.Component {
     constructor() {
         super()
-
     }
-
-    componentDidMount() {
-        const id = this.refs.dataTable.identity
-        this.props.initSource(id)
-        //// 页面初始完,获取数据,触发action: GET_DATA
-        this.props.getData(params, id)
-
-    }
-    handleKeyUp(e){
-    const textValue = e.currentTarget.value;
-      let that = e.target;
-      clearTimeout(that.timer);
-
-      that.timer = setTimeout(
-          function()
-          {
-              delete that.timer;
-              // why delete? it is about high performance?
-            const {searchKeyWord} = this.props
-            searchKeyWord(textValue)
-          }.bind(this),
-          500
-      );
-      
-  }
 
     render() {
-        const { showDetail, checkRow, updateRow, toggleSearch} = this.props
-
-        let dataSource = {}
-
-        if (this.refs.dataTable) {
-            const { $$dataTable } = this.props
-
-            const $$obj = $$dataTable.get(this.refs.dataTable.identity)
-
-            if ($$obj) {
-                dataSource = $$obj.toJS()
-            }
-        }
+        const {
+            initQueryNestedTable,
+            updateDataSource,
+            updateChildDataSource,
+            toggleQueryPanel,
+            } = this.props
+        const {
+            showSearchTable,
+            dataSource,
+            childProps,
+            } = this.props.$$QueryNestedTable.toJS()
 
         return (
+            <div>
+
+                <Row>
+                    <Col span="8"> <SearchInput placeholder="请输入搜索内容" style={{ width: 200 }} /></Col>
+                    <Col span="8" offset="8">
 
 
-            <div style={{marginLeft: '20px'}}>
-                <div className = "col_cktop">
-                  <div className="col_cktop-gongneng clearfix">
-                     <div className="col_cktop-Hightsearch"><input type="text" className="Hightsearch_input" onKeyUp = {this.handleKeyUp.bind(this)}/><button className="Hightsearch-btn">高级搜索</button></div>
-                     <button className="col_cktop-btnFpai">导出EXCEL</button>
-                  </div>  
-                </div>
+                            <Button type="primary" onClick={toggleQueryPanel}>筛选</Button>
 
+                            <Button type="ghost">变更联系人</Button>
+                            <Button type="ghost">导出</Button>
 
-               <DataTable ref="dataTable"
-                           checkMode={false}
-                           hasDetail={false}
-                           rows={dataSource.rows}
-                           searchColumns={searchColumns}
-                           columns={summaryColumns}
-                           pending={dataSource.pending}
+                        </Col>
+                </Row>
+
+                <QueryNestedTable
+                    showSearchTable={showSearchTable}
+                    columns={columns}
+                    columns_2={columns_2}
+                    dataSource={dataSource}
+                    childProps={childProps}
+                    initQueryNestedTable={initQueryNestedTable}
+                    updateDataSource={updateDataSource}
+                    updateChildDataSource={updateChildDataSource}
                 />
             </div>
         )
@@ -116,13 +133,14 @@ class AccountSummaryPage extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$dataTable: state.components.dataTable,
-        account_list: state.business.account_list
+        $$QueryNestedTable: state.components.QueryNestedTable,
+        $$account_summary: state.business.account_summary
     }
 }
 
 export default connect(mapStateToProps, {
-    initSource,
-    getData,
-    searchKeyWord,
-})(AccountSummaryPage)
+    initQueryNestedTable,
+    updateDataSource,
+    updateChildDataSource,
+    toggleQueryPanel,
+})(Account_Summary_Page)

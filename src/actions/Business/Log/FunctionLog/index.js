@@ -24,7 +24,7 @@ const pageSizeChange = (val) => {
         }
     }
     return (dispatch, getState) => {
-        dispatch(fetchData(FUNCLOGSIZE_CHANGE, {pageSize: val.pageSize, page: val.current}))
+        dispatch(fetchData(FUNCLOG_SIZE_CHANGE, {pageSize: val.pageSize, page: val.current}))
     }
 }
 
@@ -52,7 +52,6 @@ const getFuncLogData = (params ,val)=> {
             }
             return response.json()
         }).then(function (data) {
-            debugger
             dispatch(fetchData(GET_FUNCLOG_SUCCESS, {columns: data.columns, data:data.data}))
         })
     }

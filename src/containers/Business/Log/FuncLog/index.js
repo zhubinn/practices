@@ -28,7 +28,7 @@ import {
 } from 'actions/Component/searchPeople'
 
 //获取table列表数据接口
-let DataLogParams = {
+let FuncLogParams = {
     url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/funcLog.php',
     data: {
         page: 1,
@@ -56,33 +56,34 @@ class FunctionLog extends React.Component {
       super(props);
       this.searchInputChange = this.searchInputChange.bind(this);
       this.exportConfirm = this.exportConfirm.bind(this);
+      this.exportHandleOkClick = this.exportHandleOkClick.bind(this);
       this.searchTimer;
     }
 
     componentDidMount() {
-      this.props.getFuncLogData(DataLogParams);
-
+      //初始获取数据
+      this.props.getFuncLogData(FuncLogParams);
       //引入选人组件
       const  id  = this.refs.searchPeopleCom.identity;
-      this.props.selectPeopelinitSource(id, getPeopleParams, DataLogParams);
+      this.props.selectPeopelinitSource(id, getPeopleParams, FuncLogParams);
     }
 
     searchInputChange() {
       let val = this.refs.seachVal.getDOMNode().value;
       alert(val);
       clearTimeout(this.searchTimer);
-      this.searchTimer = setTimeout(() => { this.props.getFuncLogData(DataLogParams) }, 300);
+      this.searchTimer = setTimeout(() => { this.props.getFuncLogData(FuncLogParams) }, 300);
     }
 
     onShowSizeChange(current, pageSize) {
-      DataLogParams.data.page = current;
-      DataLogParams.data.pageSize = pageSize;
+      FuncLogParams.data.page = current;
+      FuncLogParams.data.pageSize = pageSize;
       this.props.pageSizeChange({current, pageSize});
     }
 
     pageOnChange(page){
-      DataLogParams.data.page = page;
-      this.props.getFuncLogData(DataLogParams);
+      FuncLogParams.data.page = page;
+      this.props.getFuncLogData(FuncLogParams);
     }
 
     showPageTotal(total){
@@ -115,6 +116,12 @@ class FunctionLog extends React.Component {
       const source = this.props.$$searchPeople.toJS().source;
       this.props.changeIsMultiselect(IsMultiselect,source);
       this.props.getPeopleData(getPeopleParams, source);
+    }
+
+    exportHandleOkClick(filter){
+      console.log(filter)
+      FuncLogParams.data.filter = filter;
+      this.props.getFuncLogData(FuncLogParams);
     }
 
     render() {
@@ -174,18 +181,19 @@ class FunctionLog extends React.Component {
               </Row>
               <Table dataSource={dataSource} columns={columns} pagination={pagination} />
               <SearchPeople ref = "searchPeopleCom"
-              clickPeopleDate = {clickPeopleDate}
-              clickPeopleTag = {clickPeopleTag} 
-              deletePeopleTag= {deletePeopleTag}
-              searchPeopleData ={searchPeopleData}
-              submitData= {submitData}
-              handleCancle= {handleCancle}
-              loadNextPage= {loadNextPage}
-              changePageNum={changePageNum}
-              handleChangeInput= {handleChangeInput}
-              IsModalShow= {IsModalShow}
-              IsMultiselect = {IsMultiselect}
-              $$searchPeople = {$$searchPeople}
+                clickPeopleDate = {clickPeopleDate}
+                clickPeopleTag = {clickPeopleTag} 
+                deletePeopleTag= {deletePeopleTag}
+                searchPeopleData ={searchPeopleData}
+                submitData= {submitData}
+                handleCancle= {handleCancle}
+                loadNextPage= {loadNextPage}
+                changePageNum={changePageNum}
+                handleChangeInput= {handleChangeInput}
+                IsModalShow= {IsModalShow}
+                IsMultiselect = {IsMultiselect}
+                $$searchPeople = {$$searchPeople}
+                parentHandleClick = {this.exportHandleOkClick}
               />
             </div>
         )

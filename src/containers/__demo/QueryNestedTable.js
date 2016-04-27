@@ -1,42 +1,27 @@
 /**
- * Created by janeluck on 4/25/16.
+ * Created by c on 4/21/16.
  */
-
 import { connect } from 'react-redux'
 import { Breadcrumb, Button } from 'antd'
 import QueryNestedTable from 'components/QueryNestedTable'
-import INPUTTYPE from 'components/QueryNestedTable/inputType'
 import {
     initQueryNestedTable,
     updateDataSource,
     updateChildDataSource,
-} from 'actions/business/account/list'
+} from 'actions/__demo/queryNestedTable'
 import {
     toggleQueryPanel,
 } from 'actions/components/QueryNestedTable'
-import 'antd/style/index.less'
-import { account_list_columns } from './data'
 
-const columns = account_list_columns
-
-
-class Account_List_Page extends React.Component {
-    constructor() {
-        super()
-    }
-
+class QueryNestedTablePage extends React.Component {
     render() {
         const {
+            $$QueryNestedTable,
             initQueryNestedTable,
             updateDataSource,
             updateChildDataSource,
             toggleQueryPanel,
             } = this.props
-        const {
-            showSearchTable,
-            dataSource,
-            childProps,
-            } = this.props.$$QueryNestedTable.toJS()
 
         return (
             <div>
@@ -50,12 +35,7 @@ class Account_List_Page extends React.Component {
                     <Button type="primary" onClick={toggleQueryPanel}>筛选</Button>
                 </div>
                 <QueryNestedTable
-                    showSearchTable={showSearchTable}
-                    columns={columns}
-
-                    dataSource={dataSource}
-                    childProps={childProps}
-                    initQueryNestedTable={initQueryNestedTable}
+                    init={initQueryNestedTable}
                     updateDataSource={updateDataSource}
                     updateChildDataSource={updateChildDataSource}
                 />
@@ -66,8 +46,7 @@ class Account_List_Page extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$QueryNestedTable: state.components.QueryNestedTable,
-        $$account_list: state.business.account_list
+
     }
 }
 
@@ -76,4 +55,4 @@ export default connect(mapStateToProps, {
     updateDataSource,
     updateChildDataSource,
     toggleQueryPanel,
-})(Account_List_Page)
+})(QueryNestedTablePage)

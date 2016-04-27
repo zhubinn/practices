@@ -9,6 +9,9 @@ import MasterPage from 'containers/Master/Default'
 import ModulePage from 'containers/Master/Module'
 import DemoTablePage from 'containers/__demo/Table'
 import DemoLoginPage from 'containers/__demo/Login'
+import DemoQueryNestedTablePage from 'containers/__demo/QueryNestedTable'
+import Account_List_Page from 'containers/Business/Account/List'
+import Account_Summary_Page from 'containers/Business/Account/Summary'
 import Error_404 from 'containers/Error/404'
 import DemoPagination from 'containers/__demo/DemoPagination'
 import DemoTodoList from 'containers/__demo/DemoTodoList'
@@ -39,7 +42,7 @@ export default (
             <Route path="Demopagination" component={DemoPagination}/>
             <Route path="DemoTodoList" component={DemoTodoList}/>
             <Route path="searchPeople" component={searchPeople}/>
-            
+            <Route path="nested_table" component={DemoQueryNestedTablePage}/>
         </Route>
         <Route path="scrmweb" component={ModulePage}>
             <Route path="accounts/index/VISITID/1" component={AccountListPage}/>
@@ -51,10 +54,11 @@ export default (
 
             <Route path="business/statistic/VISITID/1" component={BusinessStatistic} />
             <Route path="business/summary/VISITID/1" component={BusinessSummary} />
-
             <Route path="log/datalog/VISITID/1" component={DataLog} />
-            <Route path="log/func/VISITID/1" component={FuncLog} />
+            <Route path="log/func/VISITID/1" component={DemoQueryNestedTablePage} />
         </Route>
         <Route path="*" component={Error_404}/>
     </Route>
+
+
 )

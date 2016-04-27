@@ -20,13 +20,8 @@ class IndexPage extends React.Component {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/__demo/Demopagination">
-                            Demopagination
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/__demo/DemoTodoList">
-                            DemoTodoList
+                        <Link to="/__demo/nested_table">
+                            查询嵌套表格
                         </Link>
                     </li>
                 </ul>

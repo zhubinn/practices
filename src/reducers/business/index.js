@@ -13,12 +13,14 @@ import account_statistic from './account/Statistic'
 import account_deptsummary from './account/Summary/DeptSummary'
 import account_persummary from './account/Summary/PerSummary'
 import account_detail from './account/Detail'
+import account_summary from './account/summary'
 
 const businessReducers = combineReducers({
 	datalog,
 	FuncLog,
     statistic,
     account_list,
+    account_summary,
     account_Customizable,
     account_statistic,
     account_deptsummary,

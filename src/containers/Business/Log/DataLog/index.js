@@ -64,6 +64,7 @@ class DataLog extends React.Component {
       super(props)
       this.searchInputChange = this.searchInputChange.bind(this)
       this.exportConfirm = this.exportConfirm.bind(this)
+      this.exportHandleOkClick = this.exportHandleOkClick.bind(this)
       this.searchTimer;
     }
 
@@ -125,6 +126,12 @@ class DataLog extends React.Component {
       this.props.getPeopleData(getPeopleParams, source)
     }
 
+    exportHandleOkClick(filter){
+      console.log(filter)
+      DataLogParams.data.filter = filter;
+      this.props.getDataLogData(DataLogParams);
+    }
+
     render() {
         //table数据配置
         const { $$logState } = this.props;
@@ -183,18 +190,19 @@ class DataLog extends React.Component {
               </Row>
               <Table dataSource={dataSource} columns={columns} pagination={pagination}/>
               <SearchPeople ref = "searchPeopleCom"
-              clickPeopleDate = {clickPeopleDate}
-              clickPeopleTag = {clickPeopleTag} 
-              deletePeopleTag= {deletePeopleTag}
-              searchPeopleData ={searchPeopleData}
-              submitData= {submitData}
-              handleCancle= {handleCancle}
-              loadNextPage= {loadNextPage}
-              changePageNum={changePageNum}
-              handleChangeInput= {handleChangeInput}
-              IsModalShow= {IsModalShow}
-              IsMultiselect = {IsMultiselect}
-              $$searchPeople = {$$searchPeople}
+                clickPeopleDate = {clickPeopleDate}
+                clickPeopleTag = {clickPeopleTag} 
+                deletePeopleTag= {deletePeopleTag}
+                searchPeopleData ={searchPeopleData}
+                submitData= {submitData}
+                handleCancle= {handleCancle}
+                loadNextPage= {loadNextPage}
+                changePageNum={changePageNum}
+                handleChangeInput= {handleChangeInput}
+                IsModalShow= {IsModalShow}
+                IsMultiselect = {IsMultiselect}
+                $$searchPeople = {$$searchPeople}
+                parentHandleClick = {this.exportHandleOkClick}
               />
             </div>
         )
