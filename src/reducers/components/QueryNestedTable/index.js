@@ -28,6 +28,16 @@ const $$initialState = Immutable.fromJS({
     childQueryParams: EMPTY_OBJECT,
     finalQueryParams: EMPTY_OBJECT,
     finalChildQueryParams: EMPTY_OBJECT,
+    pagination: {
+        current: 1,
+        defaultCurrent: 1,
+        total: 0,
+        defaultPageSize: 20,
+        pageSize: 20,
+        showSizeChanger: false,
+        pageSizeOptions: ['10', '20', '30', '40'],
+        showQuickJumper: false,
+    },
 })
 
 const report = ($$state = $$initialState, action) => {
@@ -36,24 +46,13 @@ const report = ($$state = $$initialState, action) => {
             return $$state.mergeDeep(action.payload)
 
         case CK_COMPONENT_QUERYNESTEDTABLE_UPDATE:
-            /*return $$state.update(k => {
-             return k.set('childProps', {
-             columns: EMPTY_ARRAY,
-             dataSource: EMPTY_OBJECT
-             })*/
-            /*k.finalQueryParams = $$state.get('queryParams')
-             k.childQueryParams = $$state.get('childQueryParams')
-             k.childProps = {
-             columns: EMPTY_ARRAY,
-             dataSource: EMPTY_OBJECT
-             }
-             return k*/
-            //})
-            return $$state.mergeDeep({
-                dataSource: action.payload,
-                finalQueryParams: $$state.get('queryParams'),
-                finalChildQueryParams: $$state.get('childQueryParams'),
-            }).updateIn(['childProps', 'dataSource'], x => EMPTY_OBJECT)
+            return $$state
+                .mergeDeep(action.payload)
+                .mergeDeep({
+                    finalQueryParams: $$state.get('queryParams'),
+                    finalChildQueryParams: $$state.get('childQueryParams'),
+                })
+                .updateIn(['childProps', 'dataSource'], x => EMPTY_OBJECT)
                 .updateIn(['childProps', 'loading'], x => EMPTY_OBJECT)
 
         case CK_COMPONENT_QUERYNESTEDTABLE_UPDATECHILD:

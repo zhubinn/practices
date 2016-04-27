@@ -22,8 +22,8 @@ export default class QueryNestedTable extends React.Component {
     }
 
     handleQuery() {
-        const { queryParams } = this.props
-        this.props.updateDataSource(queryParams)
+        const { updateDataSource, queryParams } = this.props
+        updateDataSource(queryParams)
         $('span.ant-table-row-expand-icon.ant-table-row-expanded').click()
     }
 
@@ -60,9 +60,14 @@ export default class QueryNestedTable extends React.Component {
             childProps,
             queryParams,
             childQueryParams,
+            pagination,
             showSearchTable,
             changeQueryParams,
+            updateDataSource,
             } = this.props
+        pagination.onChange = function (pageIndex) {
+            updateDataSource(queryParams, pageIndex)
+        }
 
         return (
             <div className="ck_qntable">
@@ -81,6 +86,7 @@ export default class QueryNestedTable extends React.Component {
                     columns={columns}
                     expandedRowRender={this.expandedRowRender}
                     onRowClick={this.onRowClick}
+                    pagination={pagination}
                 />
             </div>
         )
@@ -91,6 +97,7 @@ QueryNestedTable.propTypes = {
     columns: React.PropTypes.array.isRequired,
     columns_2: React.PropTypes.array.isRequired,
     childProps: React.PropTypes.object.isRequired,
+    pagination: React.PropTypes.object,
     initQueryNestedTable: React.PropTypes.func.isRequired,
     updateDataSource: React.PropTypes.func.isRequired,
     updateChildDataSource: React.PropTypes.func.isRequired,

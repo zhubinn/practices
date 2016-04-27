@@ -33,7 +33,7 @@ const initQueryNestedTable = (columns, columns_2) => {
     })
 }
 
-const updateDataSource = (queryParams) => {
+const updateDataSource = (queryParams, pageIndex = 1) => {
     const dataSource = [{
         key: 1,
         Name: '胡彦斌1',
@@ -46,11 +46,17 @@ const updateDataSource = (queryParams) => {
         Bank: '建设银行2'
     }]
 
-    console.log(queryParams)
+    console.log(queryParams, pageIndex)
     //TODO: ajax by queryParams
     return (dispatch, getState) => dispatch({
         type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
-        payload: dataSource
+        payload: {
+            dataSource,
+            pagination: {
+                total: 300,
+                current: 3,
+            }
+        }
     })
 }
 

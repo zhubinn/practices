@@ -44,6 +44,7 @@ class QueryNestedTablePage extends React.Component {
             childQueryParams,
             finalQueryParams,
             finalChildQueryParams,
+            pagination,
             } = this.props.$$QueryNestedTable.toJS()
 
         return (
@@ -71,6 +72,7 @@ class QueryNestedTablePage extends React.Component {
                     updateDataSource={updateDataSource}
                     updateChildDataSource={updateChildDataSource}
                     changeQueryParams={changeQueryParams}
+                    pagination={pagination}
                 />
             </div>
         )
