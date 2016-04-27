@@ -23,8 +23,12 @@ let currentText
 
 let columns = [
     {title: '客户名称', dataIndex: 'Label',key: 'Label', width: 120},
-    {title: '客户类型', dataIndex: 'AttrType',key: 'AttrType', width: 120},
-    {title: '是否必填', dataIndex: 'IsMast',key: 'IsMast', width: 160},
+    {title: '客户类型', dataIndex: 'AttrType',key: 'AttrType', width: 120,render: function(text, record, index){
+        return (<div>{text==13?'下拉单选':''}</div>);
+    }},
+    {title: '是否必填', dataIndex: 'IsMust',key: 'IsMust', width: 160,render: function(text, record, index){
+        return (<div>{text==1?'是':'否'}</div>);
+    }},
     {title: '备注说明', dataIndex: 'Content',key: 'Content' },
     {title: '操作', dataIndex: 'ID',key: 'ID' , width: 130, render: function(text, record, index){
         return (
@@ -59,13 +63,13 @@ class CustomizablePage extends  React.Component{
         let selectedRow={}
         selectedRow.Label = record.Label
         selectedRow.AttrType = record.AttrType
-        selectedRow.IsMast = record.IsMast
+        selectedRow.IsMust = record.IsMust
         selectedRow.col_Remark = record.col_Remark
         selectedRow.ID = record.ID
+        selectedRow.Name= record.Name
 
         let editColumnsOptions = []
         editColumnsOptions = record.Enums 
-        console.log(editColumnsOptions)
         selectedRowData(selectedRow,editColumnsOptions)
     }
     // handleclickDept(){

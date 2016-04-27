@@ -61,6 +61,8 @@ export default class SearchPage extends React.Component{
 						        submitData={submitData} 
 						        handleCancle = {handleCancle} 
 						        $$searchPeople = {$$searchPeople}
+						        parentHandleClick = {this.props.parentHandleClick}
+
 					        />
 					      </div>
 				      </div>

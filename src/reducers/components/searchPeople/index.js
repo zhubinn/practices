@@ -31,7 +31,6 @@ const $$initialstate = Immutable.fromJS({
         textValue:'',
         params:{},
         page:1,
-        confirmOkParams:{}
     }
 })
 
@@ -49,7 +48,6 @@ const $$initialstate = Immutable.fromJS({
                     chosedNameData:[],
                     textValue:'',
                     params:action.payload.getDataParams,
-                    confirmOkParams:action.payload.confirmOkParams,
                     page:1
                 })
             })
