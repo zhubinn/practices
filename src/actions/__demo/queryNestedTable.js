@@ -2,10 +2,20 @@
  * Created by c on 4/21/16.
  */
 import {
-    CK_COMPONENT_QUERYNESTEDTABLE_UPDATE
+    CK_COMPONENT_QUERYNESTEDTABLE_INIT,
+    CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
+    CK_COMPONENT_QUERYNESTEDTABLE_UPDATECHILD,
 } from 'actions/components/QueryNestedTable'
 
-const initQueryNestedTable = (columns, columns_2) => {
+import {
+    account_list_columns,
+    account_list_childColumns,
+} from './data'
+
+const columns = account_list_columns
+const childColumns = account_list_childColumns
+
+const initQueryNestedTable = () => {
     const dataSource = [{
         key: 1,
         Name: '胡彦斌',
@@ -20,18 +30,19 @@ const initQueryNestedTable = (columns, columns_2) => {
 
     //TODO: ajax init
     return (dispatch, getState) => dispatch({
-        type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
+        type: CK_COMPONENT_QUERYNESTEDTABLE_INIT,
         payload: {
+            columns,
             dataSource,
             loading: false,
             childProps: {
-                columns: columns_2
+                columns: childColumns
             }
         }
     })
 }
 
-const updateDataSource = (queryParams) => {
+const updateDataSource = (queryParams, pageIndex = 1) => {
     const dataSource = [{
         key: 1,
         Name: '胡彦斌1',
@@ -44,38 +55,37 @@ const updateDataSource = (queryParams) => {
         Bank: '建设银行2'
     }]
 
-    console.log(queryParams)
+    console.log(queryParams, pageIndex)
     //TODO: ajax by queryParams
     return (dispatch, getState) => dispatch({
         type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
         payload: {
             dataSource,
-            loading: false,
-            childProps: {
-                columns: [],
-                dataSource: {}
+            pagination: {
+                total: 300,
+                current: 3,
             }
         }
     })
 }
 
-const updateChildDataSource = (rowData, index) => {
+const updateChildDataSource = (childQueryParams, rowData, index) => {
     const dataSource = [{
         key: 1,
-        Name: '胡彦斌3',
-        ShortName: '胡3',
+        Name1: '胡彦斌3',
+        ShortName1: '胡3',
         Bank: '招商银行3'
     }, {
         key: 2,
-        Name: '吴彦祖3',
-        ShortName: '吴3',
-        Bank: '建设银行3'
+        Name1: '吴彦祖3',
+        ShortName1: '吴3',
+        Bank1: '建设银行3'
     }]
 
-    console.log(rowData, index)
+    console.log(childQueryParams, rowData, index)
     //TODO: ajax by rowData
     return (dispatch, getState) => dispatch({
-        type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
+        type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATECHILD,
         payload: {
             childProps: {
                 dataSource: {
