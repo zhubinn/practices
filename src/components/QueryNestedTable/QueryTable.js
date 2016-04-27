@@ -35,6 +35,9 @@ class QueryTable extends React.Component {
         const fieldProps = getFieldProps(fieldName)
 
         fieldProps.defaultValue = col.defaultValue
+        fieldProps.style = {
+            width: col.width - 10
+        }
 
         if (queryParams.hasOwnProperty(col.key)) {
             fieldProps.value = queryParams[col.key]
@@ -62,7 +65,7 @@ class QueryTable extends React.Component {
                     <thead className="ant-table-thead">
                     <tr>
                         {
-                            columns.map(col => <th>{col.title}</th>)
+                            columns.map(col => <th width={col.width}>{col.title}</th>)
                         }
                     </tr>
                     </thead>

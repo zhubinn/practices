@@ -24,6 +24,7 @@ export default class QueryNestedTable extends React.Component {
     handleQuery() {
         const { queryParams } = this.props
         this.props.updateDataSource(queryParams)
+        $('span.ant-table-row-expand-icon.ant-table-row-expanded').click()
     }
 
     expandedRowRender(record, index) {
@@ -31,9 +32,6 @@ export default class QueryNestedTable extends React.Component {
         const dataSource = childProps.dataSource[index]
 
         if (!isArray(dataSource) || dataSource.length === 0) {
-            $('.ant-table-row-expanded')
-                .removeClass('ant-table-row-expanded')
-                .addClass('ant-table-row-collapsed')
             return null
         }
 
