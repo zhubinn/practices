@@ -131,7 +131,7 @@ const account_list_columns = [{
     inputType: INPUTTYPE.DATE,
 }];
 
-const account_list_columns_2 = [{
+const account_list_childColumns = [{
     title: '客户名称1',
     dataIndex: 'Name1',
     key: 'Name1',
@@ -147,5 +147,5 @@ const account_list_columns_2 = [{
 
 export {
     account_list_columns,
-    account_list_columns_2,
+    account_list_childColumns,
 }

@@ -7,7 +7,15 @@ import {
     CK_COMPONENT_QUERYNESTEDTABLE_UPDATECHILD,
 } from 'actions/components/QueryNestedTable'
 
-const initQueryNestedTable = (columns, columns_2) => {
+import {
+    account_list_columns,
+    account_list_childColumns,
+} from './data'
+
+const columns = account_list_columns
+const childColumns = account_list_childColumns
+
+const initQueryNestedTable = () => {
     const dataSource = [{
         key: 1,
         Name: '胡彦斌',
@@ -24,10 +32,11 @@ const initQueryNestedTable = (columns, columns_2) => {
     return (dispatch, getState) => dispatch({
         type: CK_COMPONENT_QUERYNESTEDTABLE_INIT,
         payload: {
+            columns,
             dataSource,
             loading: false,
             childProps: {
-                columns: columns_2
+                columns: childColumns
             }
         }
     })

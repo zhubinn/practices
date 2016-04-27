@@ -17,18 +17,32 @@ export default class QueryNestedTable extends React.Component {
     }
 
     componentDidMount() {
-        const { columns, columns_2, initQueryNestedTable } = this.props
-        initQueryNestedTable(columns, columns_2)
+        const {
+            immutableState,
+            initQueryNestedTable,
+            } = this.props
+        const {
+            columns,
+            childColumns,
+            } = immutableState
+
+        initQueryNestedTable(columns, childColumns)
     }
 
     handleQuery() {
-        const { updateDataSource, queryParams } = this.props
+        const {
+            immutableState,
+            updateDataSource,
+            } = this.props
+        const {
+            queryParams
+            } = immutableState
         updateDataSource(queryParams)
         $('span.ant-table-row-expand-icon.ant-table-row-expanded').click()
     }
 
     expandedRowRender(record, index) {
-        const { childProps } = this.props
+        const { childProps } = this.props.immutableState
         const dataSource = childProps.dataSource[index]
 
         if (!isArray(dataSource) || dataSource.length === 0) {
@@ -46,14 +60,27 @@ export default class QueryNestedTable extends React.Component {
     }
 
     onRowClick(record, index) {
-        const { childProps, finalChildQueryParams } = this.props
+        const {
+            immutableState,
+            updateChildDataSource,
+            } = this.props
+        const {
+            childProps,
+            finalChildQueryParams,
+            } = immutableState
 
         if (!childProps.dataSource[index]) {
-            this.props.updateChildDataSource(finalChildQueryParams, record, index)
+            updateChildDataSource(finalChildQueryParams, record, index)
         }
     }
 
     render() {
+        const {
+            immutableState,
+            updateDataSource,
+            changeQueryParams,
+            } = this.props
+
         const {
             columns,
             dataSource,
@@ -62,9 +89,8 @@ export default class QueryNestedTable extends React.Component {
             childQueryParams,
             pagination,
             showSearchTable,
-            changeQueryParams,
-            updateDataSource,
-            } = this.props
+            } = immutableState
+
         pagination.onChange = function (pageIndex) {
             updateDataSource(queryParams, pageIndex)
         }
@@ -94,10 +120,7 @@ export default class QueryNestedTable extends React.Component {
 }
 
 QueryNestedTable.propTypes = {
-    columns: React.PropTypes.array.isRequired,
-    columns_2: React.PropTypes.array.isRequired,
     childProps: React.PropTypes.object.isRequired,
-    pagination: React.PropTypes.object,
     initQueryNestedTable: React.PropTypes.func.isRequired,
     updateDataSource: React.PropTypes.func.isRequired,
     updateChildDataSource: React.PropTypes.func.isRequired,
