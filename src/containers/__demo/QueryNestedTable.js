@@ -35,7 +35,6 @@ class QueryNestedTablePage extends React.Component {
                     <Button type="primary" onClick={toggleQueryPanel}>筛选</Button>
                 </div>
                 <QueryNestedTable
-                    immutableState={$$QueryNestedTable.toJS()}
                     init={initQueryNestedTable}
                     updateDataSource={updateDataSource}
                     updateChildDataSource={updateChildDataSource}
@@ -47,7 +46,7 @@ class QueryNestedTablePage extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$QueryNestedTable: state.components.QueryNestedTable
+
     }
 }
 
