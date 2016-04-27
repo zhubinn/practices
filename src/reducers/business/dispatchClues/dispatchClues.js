@@ -1,7 +1,8 @@
-import { FETCH_DATA, FETCH_DEPT_DATA, CLICK_DISPATCH_BUTTON, SELECT_CHANGE } from '../../../constants/dispatchCluesTypes'
+import { FETCH_DATA, FETCH_DEPT_DATA, CLICK_DISPATCH_BUTTON, SELECT_CHANGE, SELECTED_DEPT_CHANGE, CLICK_TAB_HEADER } from '../../../constants/dispatchCluesTypes'
 import Immutable from 'immutable'
 
 const $$initialState = {
+            dispatchState:0, // 0 未分派(默认) 1已分派
             showModal:false,
             rowData:[],
             selectData:[],
@@ -16,6 +17,11 @@ export default function dispatchCluesState($$state = Immutable.fromJS($$initialS
             return $$state.merge({
                 "loading":action.loading,
                 "rowData":action.data
+            });
+        case CLICK_TAB_HEADER:
+            return $$state.merge({
+                "loading":action.loading,
+                "dispatchState":action.state
             });
         case FETCH_DEPT_DATA:
             return $$state.merge({
@@ -32,7 +38,10 @@ export default function dispatchCluesState($$state = Immutable.fromJS($$initialS
             return $$state.merge({
                 "selectData":action.selectedRows
             });
-
+        case SELECTED_DEPT_CHANGE:
+            return $$state.merge({
+                "selectedRadioID":action.value
+            });
         default:
             return $$state
     }

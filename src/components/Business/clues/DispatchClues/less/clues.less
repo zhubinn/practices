@@ -110,10 +110,39 @@
     }
   }
 }
-
+.hidden{
+    display:none;
+}
 .ds-dept-list{
   max-height: 180px;
   overflow:auto;
-  img{
+  .ant-radio{
+      float: left;
   }
+  label{
+      width:140px;
+      margin-bottom: 10px;
+      margin-right:10px;
+  }
+  .photo{
+      float:left;
+      width:100px;
+      overflow: hidden;
+      white-space: nowrap;
+  }
+  img{
+      width:25px;
+      height:25px;
+      border-radius: 50%;
+  }
+}
+
+.clues-table{
+    .ant-table{
+        overflow: auto;
+    }
+    .ant-table-body{
+        table-layout: fixed;
+        width:1160px;
+    }
 }
