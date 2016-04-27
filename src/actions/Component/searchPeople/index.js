@@ -47,7 +47,6 @@ export const selectPeopelinitSource =(source,params,confirmOkParams)=>{
         type: 'COMPONENT_INIT_SOURCEPEOPLE',
         payload:{
             getDataParams:params,
-            confirmOkParams:confirmOkParams
         },
         source
     }
@@ -206,40 +205,12 @@ export const searchPeopleData = (searchParams,source)=>{
 }
 
 // 点击确认按钮 发送请求把所选用户的ID
-export const submitData = (confirmOkParams,source)=>{
-    const _submitData = (type, data,source)=> {
+export const submitData = (source)=>{
         return {
-            type,
-            payload: data,
+            type :COMPONENT_SUBMITBTN,
+            payload: '',
             source:source
         }
-    }
-
-    return (dispatch, getState) => {
-    const url = confirmOkParams.url;
-        fetch(url, {
-            credentials: 'include',
-            method: 'post',
-            headers: {
-                'API': 1,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(confirmOkParams.data)
-        }).then(function(response) {
-            if (response.status >= 400) {
-                throw new Error("Bad response from server")
-            }
-            return response.json()
-        }).then(function (data) {
-
-            dispatch(_submitData(COMPONENT_SUBMITBTN,source))
-
-        })
-            
-        
-    }
-
 }
 
 

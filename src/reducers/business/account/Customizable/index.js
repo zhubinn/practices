@@ -20,8 +20,9 @@ const  Customizable = ($$state = $$initialState, action)=>{
     	case ACCOUNT_CUSTOM_TABLE_GETDATA:
     		return $$state
     	case ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS:
-            return $$state.merge(action.payload)
+            return $$state.merge({rows:action.payload})
         case ACCOUNT_CUSTOM_SELECTEDROWDATA:
+            console.log(action.payload)
             return $$state.merge(action.payload,{'IsShow':true})
         case ACCOUNT_CUSTOM_SETTINGCLOSE:
             return $$state.merge({'IsShow':false})
@@ -30,33 +31,33 @@ const  Customizable = ($$state = $$initialState, action)=>{
         case ACCOUNT_CUSTOM_CHANGETAB:
         	return $$state.merge(action.payload)
         case ACCOUNT_CUSTOM_CHANGEISREQUIRED:
-            return $$state.updateIn(['selectedRow', 'IsMast'], IsMast => {
-                return action.payload.IsMast
+            return $$state.updateIn(['selectedRow', 'IsMust'], IsMust => {
+                return action.payload.changedSatus
             })
         case ACCOUNT_CUSTOM_ADDITEM:
             const $$additemCon =  Immutable.fromJS({Val:'',IsSys:0,IsStop:0})
-            return $$state.updateIn(['editColumnsOptions'], editColumnsOptions => {
-                return editColumnsOptions.push($$additemCon)
+            return $$state.updateIn(['localeditColumnsOptions'], localeditColumnsOptions => {
+                return localeditColumnsOptions.push($$additemCon)
             })
         case ACCOUNT_CUSTOM_DELETEITEM:
             if(action.payload.index === 0 && action.payload.isLast==1){
             const $$lastitemCon =  Immutable.fromJS([{Val:'',IsSys:1,IsStop:0}])
-                return $$state.updateIn(['editColumnsOptions'], editColumnsOptions => {
+                return $$state.updateIn(['localeditColumnsOptions'], localeditColumnsOptions => {
                     
                     return $$lastitemCon
                 })
             }else{
-                return $$state.updateIn(['editColumnsOptions'], editColumnsOptions => {
+                return $$state.updateIn(['localeditColumnsOptions'], localeditColumnsOptions => {
                     
-                    return editColumnsOptions.delete(action.payload.index)
+                    return localeditColumnsOptions.delete(action.payload.index)
                 })
             }
         case ACCOUNT_CUSTOM_CHANGRINPUTVALUE:
 
             let index = action.payload.index
             let NewoptionInfor = action.payload.value
-            let editColumnsOptions = $$state.get('editColumnsOptions')
-            editColumnsOptions = editColumnsOptions.map((r, i) => {
+            let localeditColumnsOptions = $$state.get('localeditColumnsOptions')
+            localeditColumnsOptions = localeditColumnsOptions.map((r, i) => {
                 if (i === index) {
                     return r.updateIn(['Val'], Val => {
                         return NewoptionInfor
@@ -64,7 +65,7 @@ const  Customizable = ($$state = $$initialState, action)=>{
                 }
                 return r
             })
-            editColumnsOptions = editColumnsOptions.map((r, i) => {
+            localeditColumnsOptions = localeditColumnsOptions.map((r, i) => {
                 if(i === 0 && NewoptionInfor.length>0 ) {
                     return r.updateIn(['IsSys'], IsSys => {
                         return 0
@@ -73,11 +74,11 @@ const  Customizable = ($$state = $$initialState, action)=>{
                 }
                 return r
             })
-            return $$state.set('editColumnsOptions', editColumnsOptions)
+            return $$state.set('localeditColumnsOptions', localeditColumnsOptions)
         case ACCOUNT_CUSTOM_CHANGEISWORK:
             let changeIndex = action.payload.index
             let Newostatus = action.payload.IsStop
-            let columnsOptions = $$state.get('editColumnsOptions')
+            let columnsOptions = $$state.get('localeditColumnsOptions')
             columnsOptions = columnsOptions.map((r, i) => {
                 if (i === changeIndex) {
                     return r.updateIn(['IsStop'], IsStop => {
@@ -86,12 +87,12 @@ const  Customizable = ($$state = $$initialState, action)=>{
                 }
                 return r
             })
-            return $$state.set('editColumnsOptions', columnsOptions)
+            return $$state.set('localeditColumnsOptions', columnsOptions)
         case ACCOUNT_CUSTOM_APPLY_BTN:
             return $$state.merge({'submit':true})
         case ACCOUNT_CUSTOM_DOWNITEM:
             const DownIndex = action.payload
-            let curOptions = $$state.get('editColumnsOptions')
+            let curOptions = $$state.get('localeditColumnsOptions')
             let currentItem = new Map()
             let currentRnext =new Map()
             let templeItem = new Map()
@@ -114,10 +115,10 @@ const  Customizable = ($$state = $$initialState, action)=>{
                 }
                 return r
             })
-            return $$state.set('editColumnsOptions', curOptions)
+            return $$state.set('localeditColumnsOptions', curOptions)
         case ACCOUNT_CUSTOM_UPITEM:
             const UpIndex = action.payload
-            let Options = $$state.get('editColumnsOptions')
+            let Options = $$state.get('localeditColumnsOptions')
             let currentR = new Map()
             let currentRpre =new Map()
             let templemap = new Map()
@@ -140,7 +141,7 @@ const  Customizable = ($$state = $$initialState, action)=>{
                 }
                 return r
             })
-            return $$state.set('editColumnsOptions', Options)
+            return $$state.set('localeditColumnsOptions', Options)
         default:
             return $$state
     }

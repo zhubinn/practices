@@ -79,8 +79,8 @@ export const dataItem = (data)=>{
                 }
                 return response.json()
             }).then(function (data) {
-
-                dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data.users))
+                console.log(data.data)
+                dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data))
 
             })
         
@@ -102,7 +102,8 @@ export const selectedRowData = (selectedRow,editColumnsOptions)=>{
             type:ACCOUNT_CUSTOM_SELECTEDROWDATA,
             payload: {
                 'selectedRow':selectedRow,
-                'editColumnsOptions':editColumnsOptions
+                'servereditColumnsOptions':editColumnsOptions,
+                'localeditColumnsOptions':editColumnsOptions
             }
         }
     }else{
@@ -110,7 +111,8 @@ export const selectedRowData = (selectedRow,editColumnsOptions)=>{
             type:ACCOUNT_CUSTOM_SELECTEDROWDATA,
             payload: {
                 'selectedRow':selectedRow,
-                'editColumnsOptions':editColumnsOptions
+                'servereditColumnsOptions':editColumnsOptions,
+                'localeditColumnsOptions':editColumnsOptions
             }
         }
     }

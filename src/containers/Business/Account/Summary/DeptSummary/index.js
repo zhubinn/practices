@@ -24,16 +24,6 @@ let getPeopleParams = {
     }
 }
 
-let confirmOkParams = {
-    url: '',//根据需求确认接口地址
-    data:{
-      filter:[],
-      page:1,
-      rowsPerPage:20,
-      keyword:''
-    }
-}
-
 /*给筛选变更设定一个flag*/
 let flag = false;
 
@@ -41,7 +31,7 @@ class AccountDeptSummaryPage extends React.Component{
 
     componentDidMount() {
       const  id  = this.refs.searchPeopleCom.identity
-      this.props.selectPeopelinitSource(id,getPeopleParams,confirmOkParams)
+      this.props.selectPeopelinitSource(id,getPeopleParams)
   }
   handleSelection(){
     flag = true
@@ -57,6 +47,9 @@ class AccountDeptSummaryPage extends React.Component{
     this.props.changeIsMultiselect(IsMultiselect,source)
     this.props.getPeopleData(getPeopleParams, source)
   }
+  exportHandleOkClick(filter){
+    console.log(filter)
+  }
   render(){
     let IsModalShow = false
     let IsMultiselect = 1
@@ -71,7 +64,7 @@ class AccountDeptSummaryPage extends React.Component{
     }
     const {$$searchPeople} =  this.props; 
     const { getPeopleData,clickPeopleDate,clickPeopleTag ,deletePeopleTag,searchPeopleData,submitData,handleCancle,
-  loadNextPage,handleChangeInput,changePageNum}  = this.props;
+  loadNextPage,handleChangeInput,changePageNum,parentHandleClick}  = this.props;
 
     return (
       <div>
@@ -90,6 +83,7 @@ class AccountDeptSummaryPage extends React.Component{
           IsModalShow= {IsModalShow}
           IsMultiselect = {IsMultiselect}
           $$searchPeople = {$$searchPeople}
+          parentHandleClick = {this.exportHandleOkClick}
           />
           
           
@@ -120,6 +114,7 @@ export default connect(mapStateToProps, {
   handleCancle,
   loadNextPage,
   handleChangeInput,
-  changePageNum
+  changePageNum,
+
 
 })(AccountDeptSummaryPage)
