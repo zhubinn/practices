@@ -15,10 +15,7 @@ import {
     toggleQueryPanel,
 } from 'actions/components/QueryNestedTable'
 import 'antd/style/index.less'
-import { account_summary_columns, account_summary_business_columns } from './data'
 
-const columns = account_summary_columns
-const columns_2 = account_summary_business_columns
 
 
 
@@ -89,16 +86,12 @@ class Account_Summary_Page extends React.Component {
 
     render() {
         const {
+            $$QueryNestedTable,
             initQueryNestedTable,
             updateDataSource,
             updateChildDataSource,
             toggleQueryPanel,
             } = this.props
-        const {
-            showSearchTable,
-            dataSource,
-            childProps,
-            } = this.props.$$QueryNestedTable.toJS()
 
         return (
             <div>
@@ -117,15 +110,9 @@ class Account_Summary_Page extends React.Component {
                 </Row>
 
                 <QueryNestedTable
-                    showSearchTable={showSearchTable}
-                    columns={columns}
-                    columns_2={columns_2}
-                    dataSource={dataSource}
-                    childProps={childProps}
-                    initQueryNestedTable={initQueryNestedTable}
+                    init={initQueryNestedTable}
                     updateDataSource={updateDataSource}
                     updateChildDataSource={updateChildDataSource}
-
                 />
             </div>
         )
