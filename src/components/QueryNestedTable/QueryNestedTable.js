@@ -116,10 +116,10 @@ QueryNestedTable.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$QueryNestedTable: state.components.QueryNestedTable
+        immutableState: state.components.QueryNestedTable.toJS()
     }
 }
 
-export default  connect(mapStateToProps, {
+export default connect(mapStateToProps, {
     changeQueryParams,
 })(QueryNestedTable)
