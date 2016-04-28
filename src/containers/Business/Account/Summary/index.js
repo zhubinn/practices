@@ -43,9 +43,25 @@ const SearchInput = React.createClass({
         });
     },
     handleSearch() {
+        console.log('search')
         if (this.props.onSearch) {
             this.props.onSearch();
+
         }
+
+    },
+    // 支持enter键触发搜索
+    handleKeyup(e){
+        if (e.keyCode == 13) {
+            this.handleSearch()
+        }
+    },
+
+    // 清空
+    emptyInput(){
+        this.setState({
+            value: ''
+        });
     },
     render() {
         const btnCls = classNames({
@@ -59,7 +75,10 @@ const SearchInput = React.createClass({
         return (
             <InputGroup className={searchCls} style={this.props.style}>
                 <Input {...this.props} value={this.state.value} onChange={this.handleInputChange}
-                                       onFocus={this.handleFocusBlur} onBlur={this.handleFocusBlur} />
+                                       onFocus={this.handleFocusBlur} onBlur={this.handleFocusBlur}
+                                       onKeyUp={this.handleKeyup}
+
+                />
                 <div className="ant-input-group-wrap">
                     <Button className={btnCls} size={this.props.size} onClick={this.handleSearch}>
                         <Icon type="search" />
@@ -69,8 +88,6 @@ const SearchInput = React.createClass({
         );
     }
 });
-
-
 
 
 

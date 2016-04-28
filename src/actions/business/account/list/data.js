@@ -18,7 +18,7 @@ const account_list_columns = [{
     title: '开户银行',
     dataIndex: 'Bank',
     key: 'Bank',
-    inputType: INPUTTYPE.NUMBER,
+    inputType: INPUTTYPE.STRING,
 }, {
     title: '银行账号',
     dataIndex: 'BankAccount',
@@ -38,7 +38,7 @@ const account_list_columns = [{
     title: '客户公司电话',
     dataIndex: 'Phone',
     key: 'Phone',
-    inputType: INPUTTYPE.NUMBER,
+    inputType: INPUTTYPE.STRING,
 }, {
     title: '客户简介',
     dataIndex: 'Descriptions',
@@ -48,12 +48,12 @@ const account_list_columns = [{
     title: '业务类型',
     dataIndex: 'AccountIndustry',
     key: 'AccountIndustry',
-    inputType: INPUTTYPE.STRING,
+    inputType: INPUTTYPE.STRING,// ??????????????????????
 }, {
     title: '主营产品',
     dataIndex: 'MainProduct',
     key: 'MainProduct',
-    inputType: INPUTTYPE.STRING,
+    inputType: INPUTTYPE.NULL,
 }, {
     title: '客户规模',
     dataIndex: 'Scale',
@@ -112,5 +112,5 @@ const account_list_columns = [{
 }];
 
 export {
-    account_list_columns
+    account_list_columns,
 }
