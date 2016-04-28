@@ -44,8 +44,9 @@ export default function dispatchCluesState($$state = Immutable.fromJS($$initialS
                 "selectedRadioID":action.value
             });
         case FETCH_SEARCH_SUGGEST:
+
             return $$state.merge({
-                "suggestData":action.data
+                "suggestData":action.data.length ? action.data : []
             });
         default:
             return $$state

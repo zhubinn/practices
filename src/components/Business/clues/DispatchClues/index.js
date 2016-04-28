@@ -67,7 +67,7 @@ const columns = [{
 export default class DispatchClues extends React.Component {
     constructor(props, context) {
         super(props, context)
-        this.state = {}
+
     }
 
     componentDidMount(){

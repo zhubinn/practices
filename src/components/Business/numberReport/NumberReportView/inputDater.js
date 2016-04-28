@@ -67,7 +67,7 @@ export default class InputDater extends React.Component {
     }
 
     componentDidMount() {
-
+        //console.log($(findDOMNode(this.refs.rangePicker)))
     }
 
     handlePrevNextBtn(dir) {
@@ -238,6 +238,7 @@ export default class InputDater extends React.Component {
                 return (
 
                     <RangePicker
+                        ref="rangePicker"
                         style={{"width":"250px"}}
                         value={ numberReportViewState.toJS().dater ? numberReportViewState.toJS().dater.split('~') : [this.weekDater()[0],this.weekDater()[1]]}
                         onChange={ this.handleChange.bind(this) }
