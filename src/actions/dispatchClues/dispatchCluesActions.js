@@ -1,4 +1,4 @@
-import { FETCH_DATA, FETCH_DEPT_DATA, CLICK_DISPATCH_BUTTON, SELECT_CHANGE, SELECTED_DEPT_CHANGE, CLICK_TAB_HEADER } from '../../constants/dispatchCluesTypes'
+import { FETCH_DATA, FETCH_DEPT_DATA, CLICK_DISPATCH_BUTTON, SELECT_CHANGE, SELECTED_DEPT_CHANGE, CLICK_TAB_HEADER, FETCH_SEARCH_SUGGEST , CHANGE_SEARCH_SUGGEST } from '../../constants/dispatchCluesTypes'
 
 export function fetchData(loading,data) {
     return { type: FETCH_DATA,loading, data }
@@ -22,4 +22,12 @@ export function selectDeptChange(value) {
 
 export function clickTab(state,loading) {
     return { type: CLICK_TAB_HEADER ,state,loading }
+}
+
+export function fetchSuggestData(data){
+    return { type:FETCH_SEARCH_SUGGEST ,data }
+}
+
+export function changeSearchSuggest(value){
+    return { type:CHANGE_SEARCH_SUGGEST ,value }
 }

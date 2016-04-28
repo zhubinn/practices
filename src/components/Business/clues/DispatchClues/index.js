@@ -2,6 +2,7 @@ import fetch from 'isomorphic-fetch'
 import { findDOMNode } from 'react-dom'
 import { Table, Modal, Spin,  Button, Radio, message, Input } from 'antd'
 const RadioGroup = Radio.Group;
+import Search from './search'
 //less
 import './less/clues.less'
 
@@ -66,7 +67,7 @@ const columns = [{
 export default class DispatchClues extends React.Component {
     constructor(props, context) {
         super(props, context)
-
+        this.state = {}
     }
 
     componentDidMount(){
@@ -247,10 +248,7 @@ export default class DispatchClues extends React.Component {
                 <div className="col-right">
                     <div className="col-cktop">
                         <div className="col-cktop-gongneng clearfix">
-                            <div className="col-cktop-Hightsearch">
-                                <input type="text" className="Hightsearch_input" placeholder="输入线索负责人" />
-                                <button className="Hightsearch-btn">高级搜索</button>
-                            </div>
+                            <Search dispatchCluesState = { dispatchCluesState } actions = { actions }  />
                             <button className = { dispatchState === 0 ? "col-cktop-btn " : "col-cktop-btn hidden" }  onClick = { this.showModal.bind(this) }>分派</button>
                         </div>
 

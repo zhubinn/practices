@@ -50,7 +50,7 @@ export default class InputDater extends React.Component {
         const dater = numberReportViewState.toJS().dater
 
         const myDate = daterValue ? new Date(daterValue) : new Date()
-        console.log('日期', myDate)
+
         switch (type) {
             case 'day':
                 myDate.setDate(myDate.getDate() + i);
@@ -60,10 +60,7 @@ export default class InputDater extends React.Component {
                 myDate.setMonth(myDate.getMonth() + i);
                 return myDate.getFullYear() + '-' + this.fillZero(myDate.getMonth() + 1) + '-01';
                 break;
-            case 'week':
 
-                return this.nextWeekDater(this.weekDater().end);
-                break;
         }
 
 
@@ -92,9 +89,10 @@ export default class InputDater extends React.Component {
 
         } else if (TEMP_DATA.nptype === 'week') {
             if (dir == 'left') {
-                dater = this.prevWeekDater()
+                dater = this.prevWeekDater().join('~')
             } else if (dir == 'right') {
-                dater = this.nextWeekDater()
+
+                dater = this.nextWeekDater().join('~')
             }
 
             actions.prevNextClick(dater)
@@ -102,7 +100,7 @@ export default class InputDater extends React.Component {
 
 
         //TODO 异步請求
-        $.post(SCRM.url('/scrmnumreport/index/listAjax'), {
+        $.post(SCRM.url('/scrmnumreport/index/listAjax'),{
             templateID: TEMP_DATA.templateid,
             date: TEMP_DATA.nptype !== 'week' ? dater : dater[0],
             dateType: TEMP_DATA.nptype
@@ -110,7 +108,7 @@ export default class InputDater extends React.Component {
             if (data.rs === true) {
                 actions.fetchData(true, data.data)
             } else {
-                openNotification()
+                message.error('服务器错误，请联系客服')
             }
         }, 'json');
 
@@ -118,6 +116,11 @@ export default class InputDater extends React.Component {
 
     handleChange(value) {
         const { actions } = this.props
+
+        if(TEMP_DATA.nptype === 'week' && value instanceof Array){
+            value = value[0]
+        }
+
         const date = value ? new Date(value) : null
 
 
@@ -130,22 +133,25 @@ export default class InputDater extends React.Component {
                 break;
             case 'week':
                 //TODO 待处理
-                daterValue = this.weekDater().start + '~' + this.weekDater().end
+
+                daterValue = this.weekDater(value)[0] + '~' + this.weekDater(value)[1]
                 break;
         }
+
+
         actions.prevNextClick(daterValue)
         //初始化COUNT为0
         COUNT = 0;
         //TODO 异步請求
         $.post(SCRM.url('/scrmnumreport/index/listAjax'), {
             templateID: TEMP_DATA.templateid || 18,//TODO 18为测试数据
-            date: daterValue,
+            date: TEMP_DATA.nptype === 'week'? daterValue.split('~')[0] : daterValue,
             dateType: TEMP_DATA.nptype
         }, function (data) {
             if (data.rs === true) {
                 actions.fetchData(true, data.data)
             } else {
-                openNotification()
+                message.error('服务器错误，请联系客服')
             }
         }, 'json');
 
@@ -159,10 +165,12 @@ export default class InputDater extends React.Component {
         startDate.setDate(startDate.getDate() - curWeek1 + 1);
         const start = startDate.getFullYear() + '-' + this.fillZero(startDate.getMonth() + 1) + '-' + this.fillZero(startDate.getDate());
 
-        let endDate = new Date()
+        let endDate = value ? new Date(value) : new Date()
         const curWeek2 = endDate.getDay()
         endDate.setDate(endDate.getDate() + (7 - curWeek2));
         const end = endDate.getFullYear() + '-' + this.fillZero(endDate.getMonth() + 1) + '-' + this.fillZero(endDate.getDate());
+
+
 
         WEEK_END_DATER = end;
         WEEK_DATER = new Date(WEEK_END_DATER)
@@ -193,7 +201,7 @@ export default class InputDater extends React.Component {
         WEEK_DATER.setDate(WEEK_DATER.getDate() + (7 - curWeek2));
         const end = WEEK_DATER.getFullYear() + '-' + this.fillZero(WEEK_DATER.getMonth() + 1) + '-' + this.fillZero(WEEK_DATER.getDate());
 
-
+        console.log('1:',[start,end]);
         return [start, end];
     }
 
@@ -227,11 +235,11 @@ export default class InputDater extends React.Component {
                 break;
             case 'week':
 
-
                 return (
+
                     <RangePicker
                         style={{"width":"250px"}}
-                        value={ numberReportViewState.toJS().dater ? numberReportViewState.toJS().dater : [this.weekDater()[0],this.weekDater()[1]]}
+                        value={ numberReportViewState.toJS().dater ? numberReportViewState.toJS().dater.split('~') : [this.weekDater()[0],this.weekDater()[1]]}
                         onChange={ this.handleChange.bind(this) }
                     />
                 );
@@ -262,5 +270,5 @@ export default class InputDater extends React.Component {
     }
 }
 
-
+//初始化 Dater
 new InputDater().weekDater()
