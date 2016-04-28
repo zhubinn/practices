@@ -55,7 +55,7 @@ export default (
             <Route path="business/statistic/VISITID/1" component={BusinessStatistic} />
             <Route path="business/summary/VISITID/1" component={BusinessSummary} />
             <Route path="log/datalog/VISITID/1" component={DataLog} />
-            <Route path="log/func/VISITID/1" component={DemoQueryNestedTablePage} />
+            <Route path="log/func/VISITID/1" component={FuncLog} />
         </Route>
         <Route path="*" component={Error_404}/>
     </Route>

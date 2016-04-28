@@ -23,12 +23,13 @@ const pageSizeChange = (val) => {
         }
     }
     return (dispatch, getState) => {
-        dispatch(fetchData(DATALOG_SIZE_CHANGE, {pageSize: val.pageSize, page: val.current}))
+        dispatch(fetchData(DATALOG_SIZE_CHANGE, data))
     }
 }
 
-const getDataLogData = (params ,val)=> {
-    const fetchData = (type, payload)=> {
+const getDataLogData = (params ,val) => {
+    debugger
+    const fetchData = (type, payload) => {
         return {
             type,
             payload
@@ -36,7 +37,7 @@ const getDataLogData = (params ,val)=> {
     }
 
     return (dispatch, getState) => {
-        dispatch(fetchData(GET_DATALOG_DATA, {pending: true, rows: []}))
+        dispatch(fetchData(GET_DATALOG_DATA))
         fetch(params.url, {
             method: 'post',
             headers: {
@@ -51,7 +52,7 @@ const getDataLogData = (params ,val)=> {
             }
             return response.json()
         }).then(function (data) {
-            dispatch(fetchData(GET_DATALOG_SUCCESS, {columns: data.columns, data:data.data}))
+            dispatch( fetchData(GET_DATALOG_SUCCESS, {data: data}) )
         })
     }
 }

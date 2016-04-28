@@ -33,10 +33,10 @@ let DataLogParams = {
     url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/logData.php',
     data: {
         page: 1,
-        pageSize: 10,
-        keyword:''
+        pageSize: 10
     }
 }
+
 //引入选人组件接口
 let getPeopleParams = {
     url: 'http://esn.yangtianming.com/setting/scrm/getSelectList/VISITID/1',
@@ -49,15 +49,15 @@ let getPeopleParams = {
 
 /*给筛选变更设定一个flag*/
 let flag = false;
-let confirmOkParams = {
-    url: '',//根据需求确认接口地址
-    data:{
-      filter:[],
-      page:1,
-      rowsPerPage:20,
-      keyword:''
-    }
-}
+// let confirmOkParams = {
+//     url: '',//根据需求确认接口地址
+//     data:{
+//       filter:[],
+//       page:1,
+//       rowsPerPage:20,
+//       keyword:''
+//     }
+// }
 
 class DataLog extends React.Component {
     constructor(props) {
@@ -73,7 +73,7 @@ class DataLog extends React.Component {
 
       //引入选人组件
       const  id  = this.refs.searchPeopleCom.identity
-      this.props.selectPeopelinitSource(id,getPeopleParams,confirmOkParams)
+      this.props.selectPeopelinitSource(id, getPeopleParams, DataLogParams)
     }
 
     searchInputChange() {
@@ -135,16 +135,19 @@ class DataLog extends React.Component {
     render() {
         //table数据配置
         const { $$logState } = this.props;
-        const dataSource = $$logState.get('dataResult').get('data').toJS();
-        const columns = $$logState.get('dataResult').get('columns').toJS();
-        const pageSize = $$logState.get('pageData').get('pageSize');
-        
+        const dataSource = $$logState.get('tableData').get('data').get('Data').toJS();
+        const columns = $$logState.get('tableColumns').toJS();
+
         //分页配置
+        const pageSize = $$logState.get('tableData').get('data').get('PageRow');
+        const pageTotal = $$logState.get('tableData').get('data').get('Total');
+        const pageCurrent = $$logState.get('tableData').get('data').get('CurrentPage');
         const pagination = {
-          total: dataSource.length,
+          current: pageCurrent,
+          total: pageTotal,
+          pageSize:pageSize,
           showSizeChanger: true,
           showQuickJumper: true,
-          pageSize:pageSize,
           onShowSizeChange: this.onShowSizeChange.bind(this),
           onChange: this.pageOnChange.bind(this),
           showTotal: this.showPageTotal
