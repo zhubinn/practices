@@ -30,8 +30,8 @@ import 'antd/lib/index.css'
 
 //table列表数据接口
 let DataLogParams = {
-    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/logData.php',
-    //url: 'http://esn.yangtianming.com/scrmoplog/index/oplogIndex',
+    //url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/logData.php',
+    url: 'http://esn.yangtianming.com/scrmoplog/index/opdetaillogIndex',
     data: {
         page: 1,
         pageSize: 10
@@ -137,13 +137,13 @@ class DataLog extends React.Component {
     render() {
         //table数据配置
         const { $$logState } = this.props;
-        const dataSource = $$logState.get('tableData').get('data').get('Data').toJS();
+        const dataSource = $$logState.get('tableData').get('data').get('rowData').toJS();
         const columns = $$logState.get('tableColumns').toJS();
 
         //分页配置
-        const pageSize = $$logState.get('tableData').get('data').get('PageRow');
-        const pageTotal = $$logState.get('tableData').get('data').get('Total');
-        const pageCurrent = $$logState.get('tableData').get('data').get('CurrentPage');
+        const pageSize = $$logState.get('tableData').get('data').get('pageSize');
+        const pageTotal = $$logState.get('tableData').get('data').get('total');
+        const pageCurrent = $$logState.get('tableData').get('data').get('current');
         const pagination = {
           current: pageCurrent,
           total: pageTotal,

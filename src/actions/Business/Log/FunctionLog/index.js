@@ -38,14 +38,14 @@ const getFuncLogData = (params ,val)=> {
 
     return (dispatch, getState) => {
         dispatch(fetchData(GET_FUNCLOG_DATA))
+        debugger
         fetch(params.url, {
+            credentials: 'include',
             method: 'post',
             headers: {
-                'API': 1,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: JSON.stringify(params.data)
+            body: 'params=' + JSON.stringify(params.data)
         }).then(function(response) {
             if (response.status >= 400) {
                 throw new Error("Bad response from server")

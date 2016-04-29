@@ -10,6 +10,7 @@ import { Row, Col, Table, Radio, Button, Input, Pagination, Modal} from 'antd'
 import {handleInputChange, getFuncLogData, pageSizeChange}  from 'actions/business/Log/FunctionLog'
 import 'antd/lib/index.css'
 
+import SearchInput from 'components/Business/SearchInput'
 //引入选人组件
 import SearchPeople from 'components/Business/searchPeople'
 import { selectPeopelinitSource }  from 'actions/Component/searchPeople'
@@ -29,8 +30,8 @@ import {
 
 //获取table列表数据接口
 let FuncLogParams = {
-    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/funcLog.php',
-    //url: 'http://esn.yangtianming.com/scrmoplog/index/opdetaillogIndex',
+    //url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/funcLog.php',
+    url: 'http://esn.yangtianming.com/scrmoplog/index/oplogIndex',
     data: {
         page: 1,
         pageSize: 10
@@ -67,8 +68,7 @@ class FunctionLog extends React.Component {
       this.props.selectPeopelinitSource(id, getPeopleParams, FuncLogParams);
     }
 
-    searchInputChange() {
-      let val = this.refs.seachVal.getDOMNode().value;
+    searchInputChange(val) {
       alert(val);
       clearTimeout(this.searchTimer);
       this.searchTimer = setTimeout(() => { this.props.getFuncLogData(FuncLogParams) }, 300);
@@ -83,6 +83,7 @@ class FunctionLog extends React.Component {
     pageOnChange(page){
       alert(page)
       FuncLogParams.data.page = page;
+      debugger
       this.props.getFuncLogData(FuncLogParams);
     }
 
@@ -127,13 +128,13 @@ class FunctionLog extends React.Component {
     render() {
         //table数据配置
         const { $$funcLogState } = this.props;
-        const dataSource = $$funcLogState.get('tableData').get('data').get('Data').toJS();
+        const dataSource = $$funcLogState.get('tableData').get('data').get('rowData').toJS();
         const columns = $$funcLogState.get('tableColumns').toJS();
 
         //分页配置
-        const pageSize = $$funcLogState.get('tableData').get('data').get('PageRow');
-        const pageTotal = $$funcLogState.get('tableData').get('data').get('Total');
-        const pageCurrent = $$funcLogState.get('tableData').get('data').get('CurrentPage');
+        const pageSize = $$funcLogState.get('tableData').get('data').get('pageSize');
+        const pageTotal = $$funcLogState.get('tableData').get('data').get('total');
+        const pageCurrent = $$funcLogState.get('tableData').get('data').get('current');
         const pagination = {
           current: pageCurrent,
           total: pageTotal,
@@ -174,9 +175,8 @@ class FunctionLog extends React.Component {
         return (
             <div  style = {{marginLeft: '20px'}} >
               <Row>
-                <Col span="16">
-                  <input placeholder="请输入.." className="Hightsearch_input" style={{ width: 220 }} ref = "seachVal"/>
-                  <Button type="primary" onClick = {this.searchInputChange}>搜索</Button>
+                <Col span="8">
+                  <SearchInput onSearch = {this.searchInputChange} />
                 </Col>
                 <Col span="6">
                   <Button type="primary" style = {{marginRight: '10px'}}  onClick = {this.handleSelection.bind(this)}>筛选</Button>

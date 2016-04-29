@@ -13,11 +13,10 @@ let datalog = {
     "tableData":{
         "rs": true,
         "data": {
-            "Total": 128,
-            "Pages": 13,
-            "CurrentPage": 10,
-            "PageRow": 10,
-            "Data":[]
+            "total": 128,
+            "current": 10,
+            "pageSize": 10,
+            "rowData":[]
         }
     },
     "tableColumns":[

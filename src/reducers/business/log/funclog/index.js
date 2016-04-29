@@ -13,11 +13,10 @@ let funclog = {
     "tableData":{
         "rs": true,
         "data": {
-            "Total": 128,
-            "Pages": 13,
-            "CurrentPage": 10,
-            "PageRow": 10,
-            "Data":[]
+            "total": 128,
+            "current": 1,
+            "pageSize": 10,
+            "rowData":[]
         }
     },
     "tableColumns":[
@@ -51,6 +50,7 @@ export default function FuncLog($$state = Immutable.fromJS(funclog), action) {
         case GET_FUNCLOG_DATA:
             return $$state;
         case GET_FUNCLOG_SUCCESS:
+            debugger
             return $$state.mergeDeep({tableData: action.payload.data});
         default:
             return $$state;
