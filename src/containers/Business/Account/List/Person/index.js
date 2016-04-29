@@ -159,10 +159,15 @@ class QueryDataTable extends React.Component {
             selectedRowKeys: []
         })
     }
-    onSelectAll = (e) =>{
+
+    handleSelectAll = (e) =>{
         console.log(e.target.checked)
-    }
-    handleSelectAllRow = (e) =>{
+        if (e.target.checked) {
+            this.setState({
+                selectedRowKeys: [1,2,3,4,5,6,7,8,9]
+            })
+        }
+       // const defaultSelection = this.state.selectedRowKeys;
 
     }
     getSelection = (e) =>{
@@ -230,7 +235,7 @@ class QueryDataTable extends React.Component {
                                         <thead className="ant-table-thead">
                                         <tr>
                                             {checkMode ?
-                                                (<th className="ant-table-selection-column"><Checkbox defaultChecked={this.state.selectedRowKeys.length === dataSource.length} onChange={this.onSelectAll} /></th>) : null }
+                                                (<th className="ant-table-selection-column"><Checkbox defaultChecked={false} onChange={this.handleSelectAll} /></th>) : null }
 
                                             {
                                                 columns.map(col => <th width={col.width}>{col.title}</th>)
