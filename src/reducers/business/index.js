@@ -1,5 +1,5 @@
 /**
- * Created by chenhf on 16-4-13.
+ * Created by fuwenfang on 16-4-13.
  */
 import { combineReducers } from 'redux'
 import account_Customizable from './account/Customizable'
@@ -9,6 +9,11 @@ import account_perstatistic from './account/Statistic/PerStatistic'
 import account_deptsummary from './account/Summary/DeptSummary'
 import account_persummary from './account/Summary/PerSummary'
 import account_deptsummarydetail from './account/Summary/DeptSummaryDetail'
+import account_list from './account/list'
+import account_list_person from './account/list/person'
+import account_detail from './account/detail'
+
+
 
 const businessReducers = combineReducers({
     account_Customizable,
@@ -18,6 +23,10 @@ const businessReducers = combineReducers({
     account_deptsummary,
     account_persummary,
     account_deptsummarydetail,
+    account_list,
+    account_detail,
+    account_list_person,
 })
 
-export default businessReducers
+
+export default componentReducers
