@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
-import { getTableData } from 'actions/business/account/list/person'
+import { getTableData, getTableQuery } from 'actions/business/account/list/person'
 
 const TabPane = Tabs.TabPane;
 
@@ -118,27 +118,56 @@ const columns = [{
 }];
 
 
-class Account_List_Person_Page extends React.Component {
-    constructor() {
-        super()
+// 查询表格
+// 依赖Table, Pagination
+class QueryDataTable extends React.Component {
+    constructor(props) {
+        super(props)
+        this.clearSelectedRows = this.clearSelectedRows.bind(this)
+        this.onSelectChange = this.onSelectChange.bind(this)
 
+        this.state = {
+            isSearchShow: false,
+            selectedRowKeys: []
+
+        }
     }
 
-    componentDidMount() {
-        this.props.getTableData({
-            url: 'http://esn.jianyu.com/scrmweb/accounts/getList'
+    onSelectChange(selectedRowKeys) {
+        console.log('selectedRowKeys changed: ', selectedRowKeys);
+        this.setState({selectedRowKeys});
+    }
+
+    clearSelectedRows() {
+        this.setState({
+            selectedRowKeys: []
         })
+    }
+
+    getSelection() {
+
 
     }
+
+    renderQueryTable() {
+
+    }
+
+    renderQuery() {
+
+    }
+
 
     render() {
-        const {
-            $$account_list_person
-            } = this.props
-        const dataSource = $$account_list_person.toJS().rows
-        const current = $$account_list_person.toJS().current
-        const total = $$account_list_person.toJS().total
-        const pageSize = $$account_list_person.toJS().pageSize
+        const {dataSource, columns,  current, pageSize, total} = this.props
+        const {isSearchShow, selectedRowKeys} = this.state
+
+        const rowSelection = {
+            selectedRowKeys,
+            onChange: this.onSelectChange
+        };
+
+
         // 分页
         const pagination = {
             current: current,
@@ -147,20 +176,85 @@ class Account_List_Person_Page extends React.Component {
             showSizeChanger: true,
             showQuickJumper: true,
             onChange: (pageNumber) => {
-                this.props.getTableData({
-                    data: {
+                this.clearSelectedRows()
+                this.props.onGetTableData({
+
                         page: pageNumber
-                    }
+
                 })
             },
             onShowSizeChange: (current, pageSize) => {
-                this.props.getTableData({
-                    data: {
+                this.clearSelectedRows()
+                this.props.onGetTableData({
+
                         pageSize: pageSize
-                    }
+
                 })
             }
         }
+        return (
+
+            <div>
+
+                <div style={{width: '800px', height: '500px',  overflow: "auto"}}>
+                    <div style={{width: '2000px'}}>
+
+
+                        <Table ref='dataTable'
+                               dataSource={dataSource}
+                               columns={columns}
+                               rowSelection={rowSelection}
+                               pagination={false}
+                        >
+                        </Table>
+                    </div>
+
+                </div>
+
+                <Pagination  {...pagination}/>
+            </div>
+        )
+    }
+}
+
+
+QueryDataTable.propTypes = {
+    showPagination: React.PropTypes.bool,
+    pagination: React.PropTypes.object,
+    queryColumns: React.PropTypes.object,
+    // 刷新数据回调函数
+    onGetTableData: React.PropTypes.function
+}
+
+
+class Account_List_Person_Page extends React.Component {
+    constructor() {
+        super()
+
+    }
+
+    componentDidMount() {
+        // todo: url包装
+        this.props.getTableData({
+
+            url: 'http://esn.jianyu.com/scrmweb/accounts/getList'
+        })
+        this.props.getTableQuery('http://esn.jianyu.com/scrmweb/accounts/getAccountFilter')
+    }
+
+    render() {
+        const {
+            $$account_list_person,
+            getTableData
+
+            } = this.props
+
+        let queryDataTable = {}
+        queryDataTable.dataSource = $$account_list_person.toJS().rows
+        queryDataTable.current = $$account_list_person.toJS().current
+        queryDataTable.total = $$account_list_person.toJS().total
+        queryDataTable.pageSize = $$account_list_person.toJS().pageSize
+        queryDataTable.queryColumns = $$account_list_person.toJS().queryColumns
         return (
             <div>
                 <Row>
@@ -174,32 +268,22 @@ class Account_List_Person_Page extends React.Component {
                 <Tabs defaultActiveKey="1">
                     <TabPane tab="全部客户" key="1">
 
-                        <div style={{width: '800px', height: '500px',  overflow: "auto"}}>
-                            <div style={{width: '2000px'}}>
+
+                        <QueryDataTable
+                            columns = {columns}
+                            {...queryDataTable}
+                            onGetTableData={
+
+                                (obj)=>{
+                                    this.props.getTableData({
+                                        data: obj
+                                    })
+                                }
+                            }
+                        >
+                        </QueryDataTable>
 
 
-
-
-
-                                <Table dataSource={dataSource}
-                                       columns={columns}
-                                       pagination={false}
-                                       rowSelection={
-                                            {
-                                                onSelect: (record, selected, selectedRows) => {
-                                                    console.log(record)
-                                                }
-
-                                            }
-                                        }
-                                >
-                                </Table>
-                            </div>
-
-                        </div>
-                        <Pagination
-                            {...pagination}>
-                        </Pagination>
                     </TabPane>
                     <TabPane tab="负责的客户" key="2">
                     </TabPane>
@@ -223,5 +307,6 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 export default connect(mapStateToProps, {
-    getTableData
+    getTableData,
+    getTableQuery
 })(Account_List_Person_Page)

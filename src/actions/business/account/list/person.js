@@ -13,6 +13,13 @@ const GET_TABLE_DATA_SUCCESS = 'GET_TABLE_DATA_SUCCESS'
 // 获取数据失败
 const GET_TABLE_DATA_FAILURE = 'GET_TABLE_DATA_FAILURE'
 
+// 获取数据
+const GET_TABLE_QUERY = 'GET_TABLE_QUERY'
+// 获取数据成功
+const GET_TABLE_QUERY_SUCCESS = 'GET_TABLE_QUERY_SUCCESS'
+// 获取数据失败
+const GET_TABLE_QUERY_FAILURE = 'GET_TABLE_QUERY_FAILURE'
+
 
 
 
@@ -28,6 +35,7 @@ let table_params = {
     }
 }
 
+let table_query_url = ''
 
 
 /**
@@ -74,7 +82,7 @@ const getTableData = (params)=> {
             //body: JSON.stringify(Object.assign(table_params.data, params.data))
             //body: data
             //body: [['key', 'value'].join('='), ['key', 'value'].join('=')].join('&')
-            body: 'params=' + encodeURI(JSON.stringify(Object.assign(table_params.data, params.data)))
+            body: 'params=' +JSON.stringify(Object.assign(table_params.data, params.data))
         }).then(function(response) {
             if (response.status >= 400) {
                 throw new Error("Bad response from server")
@@ -94,6 +102,47 @@ const getTableData = (params)=> {
 
     }
 }
+const getTableQuery = (url)=> {
+    const fetchData = (type, payload)=> {
+
+        return {
+            type,
+            payload
+        }
+    }
+
+
+
+    /*
+    *     body:  Object.assign(table_params.data, params.data)
+    *    */
+    return (dispatch, getState) => {
+
+        dispatch(fetchData(GET_TABLE_QUERY, {queryColumns: {}}))
+
+        fetch(table_query_url = url || table_query_url, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+
+            body: ''
+        }).then(function(response) {
+            if (response.status >= 400) {
+                throw new Error("Bad response from server")
+            }
+            return response.json()
+        }).then(function (data) {
+
+            dispatch(fetchData(GET_TABLE_QUERY_SUCCESS, {
+                queryColumns: data.data
+            }))
+
+        })
+
+    }
+}
 
 
 
@@ -102,5 +151,9 @@ export {
     GET_TABLE_DATA,
     GET_TABLE_DATA_SUCCESS,
     GET_TABLE_DATA_FAILURE,
-    getTableData
+    getTableData,
+    getTableQuery,
+    GET_TABLE_QUERY,
+    GET_TABLE_QUERY_SUCCESS,
+    GET_TABLE_QUERY_FAILURE,
 }
