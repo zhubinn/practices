@@ -123,7 +123,6 @@ const columns = [{
 class QueryDataTable extends React.Component {
 
 
-
     static propTypes = {
         showPagination: React.PropTypes.bool,
         checkMode: React.PropTypes.bool,
@@ -136,7 +135,6 @@ class QueryDataTable extends React.Component {
     static defaultProps = {
         checkMode: false
     }
-
 
 
     constructor(props) {
@@ -154,23 +152,22 @@ class QueryDataTable extends React.Component {
         this.setState({selectedRowKeys});
     }
 
-    clearSelectedRows = () =>{
+    clearSelectedRows = () => {
         this.setState({
             selectedRowKeys: []
         })
     }
 
-    handleSelectAll = (e) =>{
+    handleSelectAll = (e, dataSource) => {
         console.log(e.target.checked)
         if (e.target.checked) {
             this.setState({
-                selectedRowKeys: [1,2,3,4,5,6,7,8,9]
+                selectedRowKeys: dataSource.map((item, index) => {return index })
             })
         }
-       // const defaultSelection = this.state.selectedRowKeys;
 
     }
-    getSelection = (e) =>{
+    getSelection = (e) => {
 
 
     }
@@ -188,13 +185,12 @@ class QueryDataTable extends React.Component {
         const {dataSource, columns,  current, pageSize, total, checkMode} = this.props
         const {isSearchShow, selectedRowKeys} = this.state
         let rowSelection = null
-        if (checkMode)  {
+        if (checkMode) {
             rowSelection = {
                 selectedRowKeys,
                 onChange: this.onSelectChange
             };
         }
-
 
 
         // 分页
@@ -235,7 +231,10 @@ class QueryDataTable extends React.Component {
                                         <thead className="ant-table-thead">
                                         <tr>
                                             {checkMode ?
-                                                (<th className="ant-table-selection-column"><Checkbox defaultChecked={false} onChange={this.handleSelectAll} /></th>) : null }
+                                                (<th className="ant-table-selection-column"><Checkbox
+                                                    ref="SelectAll"
+                                                    defaultChecked={false} onChange={
+                                                (e)=>{this.handleSelectAll(e, dataSource)}}/></th>) : null }
 
                                             {
                                                 columns.map(col => <th width={col.width}>{col.title}</th>)
@@ -269,8 +268,6 @@ class QueryDataTable extends React.Component {
         )
     }
 }
-
-
 
 
 class Account_List_Person_Page extends React.Component {
@@ -317,7 +314,7 @@ class Account_List_Person_Page extends React.Component {
 
                         <QueryDataTable
                             columns={columns}
-                            checkMode = {true}
+                            checkMode={true}
                             {...queryDataTable}
                             onGetTableData={
 
