@@ -10,24 +10,48 @@ import {
 } from 'actions/business/Log/FunctionLog'
 
 let funclog = {
-    dataResult:{
-        columns:[],
-        data:[]
+    "tableData":{
+        "rs": true,
+        "data": {
+            "Total": 128,
+            "Pages": 13,
+            "CurrentPage": 10,
+            "PageRow": 10,
+            "Data":[]
+        }
     },
-    pageData:{
-        page: 1,
-        pageSize: 10
-    }
+    "tableColumns":[
+        {
+            "title": "操作员",
+            "dataIndex": "Operator",
+            "key": "Operator"
+        },
+        {
+            "title": "业务功能",
+            "dataIndex": "RelObjectType",
+            "key": "RelObjectType"
+        },
+        {
+            "title": "操作类型",
+            "dataIndex": "OperatorType",
+            "key": "OperatorType"
+        },
+        {
+            "title": "操作时间",
+            "dataIndex": "OperateDate",
+            "key": "OperateDate"
+        }
+    ]
 }
 
 export default function FuncLog($$state = Immutable.fromJS(funclog), action) {
     switch(action.type) {
         case FUNCLOG_SIZE_CHANGE:
-            return $$state.merge({ pageData: action.payload });
+            return $$state.mergeDeep({tableData: action.payload.data});
         case GET_FUNCLOG_DATA:
             return $$state;
         case GET_FUNCLOG_SUCCESS:
-            return $$state.merge({ dataResult: action.payload });
+            return $$state.mergeDeep({tableData: action.payload.data});
         default:
             return $$state;
     }

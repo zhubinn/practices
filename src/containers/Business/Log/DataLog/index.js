@@ -31,6 +31,7 @@ import 'antd/lib/index.css'
 //table列表数据接口
 let DataLogParams = {
     url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/logData.php',
+    //url: 'http://esn.yangtianming.com/scrmoplog/index/oplogIndex',
     data: {
         page: 1,
         pageSize: 10
@@ -90,6 +91,7 @@ class DataLog extends React.Component {
     }
     
     pageOnChange(page){
+      alert(page)
       DataLogParams.data.page = page;
       this.props.getDataLogData(DataLogParams);
     }

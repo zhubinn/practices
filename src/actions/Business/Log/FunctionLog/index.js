@@ -37,7 +37,7 @@ const getFuncLogData = (params ,val)=> {
     }
 
     return (dispatch, getState) => {
-        dispatch(fetchData(GET_FUNCLOG_DATA, {pending: true, rows: []}))
+        dispatch(fetchData(GET_FUNCLOG_DATA))
         fetch(params.url, {
             method: 'post',
             headers: {
@@ -52,7 +52,7 @@ const getFuncLogData = (params ,val)=> {
             }
             return response.json()
         }).then(function (data) {
-            dispatch(fetchData(GET_FUNCLOG_SUCCESS, {columns: data.columns, data:data.data}))
+            dispatch(fetchData(GET_FUNCLOG_SUCCESS, {data: data}))
         })
     }
 }

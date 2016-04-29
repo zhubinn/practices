@@ -30,11 +30,10 @@ import {
 //获取table列表数据接口
 let FuncLogParams = {
     url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/funcLog.php',
+    //url: 'http://esn.yangtianming.com/scrmoplog/index/opdetaillogIndex',
     data: {
         page: 1,
-        pageSize: 10,
-        keyword:'',
-        filter:[]
+        pageSize: 10
     }
 };
 
@@ -82,6 +81,7 @@ class FunctionLog extends React.Component {
     }
 
     pageOnChange(page){
+      alert(page)
       FuncLogParams.data.page = page;
       this.props.getFuncLogData(FuncLogParams);
     }
@@ -125,17 +125,21 @@ class FunctionLog extends React.Component {
     }
 
     render() {
+        //table数据配置
         const { $$funcLogState } = this.props;
-        const dataSource = $$funcLogState.get('dataResult').get('data').toJS();
-        const columns = $$funcLogState.get('dataResult').get('columns').toJS();
-        const pageSize = $$funcLogState.get('pageData').get('pageSize');
-        
+        const dataSource = $$funcLogState.get('tableData').get('data').get('Data').toJS();
+        const columns = $$funcLogState.get('tableColumns').toJS();
+
         //分页配置
+        const pageSize = $$funcLogState.get('tableData').get('data').get('PageRow');
+        const pageTotal = $$funcLogState.get('tableData').get('data').get('Total');
+        const pageCurrent = $$funcLogState.get('tableData').get('data').get('CurrentPage');
         const pagination = {
-          total: dataSource.length,
+          current: pageCurrent,
+          total: pageTotal,
+          pageSize:pageSize,
           showSizeChanger: true,
           showQuickJumper: true,
-          pageSize:pageSize,
           onShowSizeChange: this.onShowSizeChange.bind(this),
           onChange: this.pageOnChange.bind(this),
           showTotal: this.showPageTotal

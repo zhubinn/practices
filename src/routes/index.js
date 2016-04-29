@@ -52,11 +52,16 @@ export default (
             <Route path="accounts/persummary/VISITID/1" component={PerSummaryPage}/>
             <Route path="accounts/detail/VISITID/1" component={DetailPage}/>
 
-            <Route path="business/statistic/VISITID/1" component={BusinessStatistic} />
-            <Route path="business/summary/VISITID/1" component={BusinessSummary} />
-            <Route path="log/datalog/VISITID/1" component={DataLog} />
-            <Route path="log/func/VISITID/1" component={FuncLog} />
+            <Route path="business">
+                <Route path="statistic/VISITID/1" component={BusinessStatistic} />
+                <Route path="summary/VISITID/1" component={BusinessSummary} />
+            </Route>
+            <Route path="log">
+                <Route path="datalog/VISITID/1" component={DataLog} />
+                <Route path="func/VISITID/1" component={FuncLog} />
+            </Route>
         </Route>
+
         <Route path="*" component={Error_404}/>
     </Route>
 
