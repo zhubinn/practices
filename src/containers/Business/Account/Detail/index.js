@@ -1,126 +1,151 @@
 /**
- * Created by fuwenfang on 4/7/16.
+ * Created by janeluck on 4/25/16.
  */
 
-
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-//import basic from './css/basic_new_v2.css'
-//import Statistic from './css/Statistic.less'
+import { Breadcrumb, Button, Icon, Input, Row, Col } from 'antd'
+import QueryNestedTable from 'components/QueryNestedTable'
+import INPUTTYPE from 'components/QueryNestedTable/inputType'
+import {
+    initQueryNestedTable,
+    updateDataSource,
+    updateChildDataSource,
+} from 'actions/business/account/detail'
+import {
+    toggleQueryPanel,
+} from 'actions/components/QueryNestedTable'
+import 'antd/style/index.less'
 
-import DataTable from 'components/Business/DataTable'
 
-import {getAccountDetailData,changeInputVal} from 'actions/Business/Account/Detail'
 
-import { Table, Icon } from 'antd';
 
-let detailColumns = [
 
-    {title: '部门名称', dataIndex: 'deptName',key: 'deptName', width: 120,render: function(text, record, index){
+/*普通搜索*/
+
+import classNames from 'classnames';
+const InputGroup = Input.Group;
+
+const SearchInput = React.createClass({
+    getInitialState() {
+        return {
+            value: '',
+            focus: false,
+        };
+    },
+    handleInputChange(e) {
+        this.setState({
+            value: e.target.value,
+        });
+    },
+    handleFocusBlur(e) {
+        this.setState({
+            focus: e.target === document.activeElement,
+        });
+    },
+    handleSearch() {
+        console.log('search')
+        if (this.props.onSearch) {
+            this.props.onSearch();
+
+        }
+
+    },
+    // 支持enter键触发搜索
+    handleKeyup(e){
+        if (e.keyCode == 13) {
+            this.handleSearch()
+        }
+    },
+
+    // 清空
+    emptyInput(){
+        this.setState({
+            value: ''
+        });
+    },
+    render() {
+        const btnCls = classNames({
+            'ant-search-btn': true,
+            'ant-search-btn-noempty': !!this.state.value.trim(),
+        });
+        const searchCls = classNames({
+            'ant-search-input': true,
+            'ant-search-input-focus': this.state.focus,
+        });
         return (
-          <div>{text}</div>
-          );
-    }},
-    {title: '员工姓名', dataIndex: 'Name',key: 'Name', width: 120,render: function(text, record, index){
-        return (
-          <div>
-              <a href = "#" title = {text}>{text}</a>
-          </div>
-          );
-    }},
-    {title: '全部客户数量', dataIndex: 'All', key: 'All',width: 120,render: function(text, record, index){
-        return (
-          <div>{text}</div>
-          );
-    }},
-    {title: '负责的客户数量', dataIndex: 'Owner',key: 'Owner', width: 120,render: function(text, record, index){
-        return (
-          <div>{text}</div>
-          );
-    }},
-    {title: '参与的客户数量', dataIndex: 'Relation', key: 'Relation',width: 120,render: function(text, record, index){
-        return (
-          <div>{text}</div>
-          );
-    }},
-    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',render: function(text, record, index){
-        return (
-          <div>{text}</div>
-          );
-    }}
-];
+            <InputGroup className={searchCls} style={this.props.style}>
+                <Input {...this.props} value={this.state.value} onChange={this.handleInputChange}
+                                       onFocus={this.handleFocusBlur} onBlur={this.handleFocusBlur}
+                                       onKeyUp={this.handleKeyup}
 
-
-
-/*需要根据权限判断是否角色 不同角色一级穿透明细统计表不同columns
-普通员工不变，领导以及负责人与上一级不同
-*/
-//假定角色  0 领导以及部门负责人；1 普通员工 
-const role = 1
-
-
-/*统计页面的请求接口*/
-let detailParams = {
-    url: 'http://esn.fuwenfang.com/front/js/scrm/fakeData/tableData.php',
-    data: {
-        page: 1,
-        rowsPerPage: 20
-    }
-}
-
-
-class AccountDetail extends React.Component{
-  constructor(props) {
-        super(props)
-    }
-  componentDidMount() {
-      // 页面初始完,获取统计数据,触发action: GET_DATA
-      this.props.getAccountDetailData(detailParams)
-  }
-  handleOnChange(e){
-      const textValue = e.currentTarget.value;
-      const {changeInputVal} = this.props
-      changeInputVal(textValue)
-    }
-  handleClickSearch(e){
-    const textValue = this.props.$$account_statistic.toJS().value
-    //TODO 用keyword拿数据
-
-  }
-
-  render(){
-          const rowData = this.props.$$account_detail.toJS().rowData
-          return (
-            <div style={{marginLeft: '20px'}}>
-                <div className = "col_cktop">
-                  <div className="col_cktop-gongneng clearfix">
-                     <div className="col_cktop-Hightsearch">
-                         <input type="text" className="Hightsearch_input" onChange = {this.handleOnChange.bind(this)}/>
-                         <button onClick = {this.handleClickSearch.bind(this)}>搜索</button>
-                     </div>
-                     <button className="col_cktop-btnFpai">导出EXCEL</button>
-                  </div>  
+                />
+                <div className="ant-input-group-wrap">
+                    <Button className={btnCls} size={this.props.size} onClick={this.handleSearch}>
+                        <Icon type="search" />
+                    </Button>
                 </div>
-                <Table ref = "dataTable"
-                 columns={detailColumns} 
-                 dataSource={rowData} 
-                 useFixedHeader 
-                 pagination = {false}
+            </InputGroup>
+        );
+    }
+});
+
+
+
+
+
+
+
+
+class Account_Detail_Page extends React.Component {
+    constructor() {
+        super()
+    }
+
+    render() {
+        const {
+            $$QueryNestedTable,
+            initQueryNestedTable,
+            updateDataSource,
+            updateChildDataSource,
+            toggleQueryPanel,
+            } = this.props
+
+        return (
+            <div>
+
+                <Row>
+                    <Col span="8"> <SearchInput placeholder="请输入搜索内容" style={{ width: 200 }} /></Col>
+                    <Col span="8" offset="8">
+
+
+                            <Button type="primary" onClick={toggleQueryPanel}>筛选</Button>
+
+                            <Button type="ghost">变更联系人</Button>
+                            <Button type="ghost">导出</Button>
+
+                        </Col>
+                </Row>
+
+                <QueryNestedTable
+                    init={initQueryNestedTable}
+                    updateDataSource={updateDataSource}
+                    updateChildDataSource={updateChildDataSource}
                 />
             </div>
-          )
-        }
-  
+        )
+    }
 }
 
 const mapStateToProps = (state, ownProps) => {
-
     return {
-        $$account_detail: state.business.account_detail,
+        $$QueryNestedTable: state.components.QueryNestedTable,
+        $$account_detail: state.business.account_detail
     }
 }
 
 export default connect(mapStateToProps, {
-  getAccountDetailData,
-  changeInputVal,
-})(AccountDetail)
+    initQueryNestedTable,
+    updateDataSource,
+    updateChildDataSource,
+    toggleQueryPanel,
+})(Account_Detail_Page)

@@ -7,18 +7,17 @@ import {
     CK_COMPONENT_QUERYNESTEDTABLE_UPDATECHILD,
 } from 'actions/components/QueryNestedTable'
 
+import {
+   responseData
+} from './fakeData'
+import { account_summary_columns, account_summary_business_columns } from './data'
 
+const columns = account_summary_columns
 
-
-
-import { account_list_columns } from './data'
-
-const columns = account_list_columns
-
-
+const childColumns =  account_summary_business_columns
 
 const initQueryNestedTable = () => {
-    const dataSource = []
+    const dataSource = responseData.data.rowData
 
     //TODO: ajax init
     return (dispatch, getState) => dispatch({
@@ -28,14 +27,14 @@ const initQueryNestedTable = () => {
             dataSource,
             loading: false,
             childProps: {
-                columns: []
+                columns: childColumns
             }
         }
     })
 }
 
 const updateDataSource = (queryParams, pageIndex = 1) => {
-    const dataSource = []
+    const dataSource = responseData.data.rowData
     console.log(queryParams, pageIndex)
     //TODO: ajax by queryParams
     return (dispatch, getState) => dispatch({
@@ -51,7 +50,7 @@ const updateDataSource = (queryParams, pageIndex = 1) => {
 }
 
 const updateChildDataSource = (childQueryParams, rowData, index) => {
-    const dataSource = []
+    const dataSource = responseData.data.rowData
 
     console.log(childQueryParams, rowData, index)
     //TODO: ajax by rowData

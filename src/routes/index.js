@@ -11,7 +11,8 @@ import DemoTablePage from 'containers/__demo/Table'
 import DemoLoginPage from 'containers/__demo/Login'
 import DemoQueryNestedTablePage from 'containers/__demo/QueryNestedTable'
 import Account_List_Page from 'containers/Business/Account/List'
-import Account_Summary_Page from 'containers/Business/Account/Summary'
+import Account_List_Person_Page from 'containers/Business/Account/List/Person'
+import Account_Detail_Page from 'containers/Business/Account/Detail'
 import Error_404 from 'containers/Error/404'
 import DemoPagination from 'containers/__demo/DemoPagination'
 import DemoTodoList from 'containers/__demo/DemoTodoList'
@@ -45,13 +46,11 @@ export default (
             <Route path="nested_table" component={DemoQueryNestedTablePage}/>
         </Route>
         <Route path="scrmweb" component={ModulePage}>
-            <Route path="accounts/index/VISITID/1" component={AccountListPage}/>
-            <Route path="accounts/define/VISITID/1" component={CustomizablePage}/>
-            <Route path="accounts/statistic/VISITID/1" component={StatisticPage}/>
-            <Route path="accounts/deptsummary/VISITID/1" component={DeptSummaryPage}/>
-            <Route path="accounts/persummary/VISITID/1" component={PerSummaryPage}/>
-            <Route path="accounts/detail/VISITID/1" component={DetailPage}/>
-
+            <Route path="accounts">
+                <Route path="deptaccountdetail/VISITID/1" component={Account_Detail_Page}/>
+                <Route path="list/VISITID/1" component={Account_List_Person_Page}/>
+                <Route path="deptlist/VISITID/1" component={Account_List_Page}/>
+            </Route>
             <Route path="business">
                 <Route path="statistic/VISITID/1" component={BusinessStatistic} />
                 <Route path="summary/VISITID/1" component={BusinessSummary} />

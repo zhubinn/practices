@@ -8,24 +8,16 @@ import datalog from "./log/datalog"
 import FuncLog from "./log/funclog"
 
 import account_list from './account/list'
-import account_Customizable from './account/Customizable'
-import account_statistic from './account/Statistic'
-import account_deptsummary from './account/Summary/DeptSummary'
-import account_persummary from './account/Summary/PerSummary'
-import account_detail from './account/Detail'
-import account_summary from './account/summary'
+import account_list_person from './account/list/person'
+import account_detail from './account/detail'
 
 const businessReducers = combineReducers({
 	datalog,
 	FuncLog,
     statistic,
     account_list,
-    account_summary,
-    account_Customizable,
-    account_statistic,
-    account_deptsummary,
-    account_persummary,
     account_detail,
+    account_list_person
 })
 
 export default businessReducers

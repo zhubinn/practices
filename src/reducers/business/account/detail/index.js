@@ -6,7 +6,7 @@ import Immutable from 'immutable'
 
 const $$initialState = Immutable.fromJS({})
 
-export default function userLogin($$state = $$initialState, action) {
+export default function account_detail($$state = $$initialState, action) {
     switch(action.type) {
         default:
             return $$state.merge({
