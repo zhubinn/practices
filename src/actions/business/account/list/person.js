@@ -20,8 +20,11 @@ let table_params = {
     url: '',
     data: {
         page: 1,
-        rowsPerPage: 0,
-        searchData: {}
+        pageSize: 20,
+        searchData: {
+
+
+        }
     }
 }
 
@@ -58,14 +61,20 @@ const getTableData = (params)=> {
 
         dispatch(fetchData(GET_TABLE_DATA, {pending: true, rows: []}))
         // todo: 封装
+        var data = new FormData();
+        data.append( "json", 1);
+        data.append( "json2", 1);
         fetch(table_params.url = params.url || table_params.url, {
-
-            method: 'post',
+            method: 'POST',
             credentials: 'include',
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
+                'Content-Type': 'application/x-www-form-urlencoded'
+                //'Content-Type': 'application/json'
             },
-            body: 'params='+ JSON.stringify(Object.assign(table_params.data, params.data))
+            //body: JSON.stringify(Object.assign(table_params.data, params.data))
+            //body: data
+            //body: [['key', 'value'].join('='), ['key', 'value'].join('=')].join('&')
+            body: 'params=' + encodeURI(JSON.stringify(Object.assign(table_params.data, params.data)))
         }).then(function(response) {
             if (response.status >= 400) {
                 throw new Error("Bad response from server")
@@ -77,6 +86,7 @@ const getTableData = (params)=> {
                 rows: data.data.rowData,
                 current: data.data.currentPage,
                 total: data.data.total,
+                pageSize: data.data.pageSize,
                 pending: false
             }))
 

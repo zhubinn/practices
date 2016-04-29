@@ -10,7 +10,6 @@ import { getTableData } from 'actions/business/account/list/person'
 const TabPane = Tabs.TabPane;
 
 
-
 const columns = [{
     title: '客户名称',
     dataIndex: 'Name',
@@ -124,12 +123,14 @@ class Account_List_Person_Page extends React.Component {
         super()
 
     }
+
     componentDidMount() {
         this.props.getTableData({
             url: 'http://esn.jianyu.com/scrmweb/accounts/getList'
         })
-     
+
     }
+
     render() {
         const {
             $$account_list_person
@@ -137,9 +138,11 @@ class Account_List_Person_Page extends React.Component {
         const dataSource = $$account_list_person.toJS().rows
         const current = $$account_list_person.toJS().current
         const total = $$account_list_person.toJS().total
+        const pageSize = $$account_list_person.toJS().pageSize
+        // 分页
         const pagination = {
             current: current,
-            pageSize: dataSource.length,
+            pageSize: pageSize,
             total: total,
             showSizeChanger: true,
             showQuickJumper: true,
@@ -149,6 +152,13 @@ class Account_List_Person_Page extends React.Component {
                         page: pageNumber
                     }
                 })
+            },
+            onShowSizeChange: (current, pageSize) => {
+                this.props.getTableData({
+                    data: {
+                        pageSize: pageSize
+                    }
+                })
             }
         }
         return (
@@ -156,18 +166,32 @@ class Account_List_Person_Page extends React.Component {
                 <Row>
                     <Col span="8"><SearchInput /> </Col>
                     <Col span="8" offset="8">
-                        <Button type="primary" >筛选</Button>
+                        <Button type="primary">筛选</Button>
                         <Button type="ghost">变更联系人</Button>
                         <Button type="ghost">导出</Button>
                     </Col>
                 </Row>
                 <Tabs defaultActiveKey="1">
                     <TabPane tab="全部客户" key="1">
-                        <div style = {{width: '800px', height: '500px',  overflow: "auto"}}>
-                            <div style = {{width: '2000px'}}>
-                                <Table  dataSource = {dataSource}
-                                        columns = {columns}
-                                        pagination = {false}
+
+                        <div style={{width: '800px', height: '500px',  overflow: "auto"}}>
+                            <div style={{width: '2000px'}}>
+
+
+
+
+
+                                <Table dataSource={dataSource}
+                                       columns={columns}
+                                       pagination={false}
+                                       rowSelection={
+                                            {
+                                                onSelect: (record, selected, selectedRows) => {
+                                                    console.log(record)
+                                                }
+
+                                            }
+                                        }
                                 >
                                 </Table>
                             </div>
