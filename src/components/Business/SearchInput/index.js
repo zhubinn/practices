@@ -5,10 +5,9 @@ import {Button, Icon, Input } from 'antd'
 import classNames from 'classnames';
 import 'antd/style/index.less'
 
-import classNames from 'classnames';
 const InputGroup = Input.Group;
 
-  const SearchInput = React.createClass({
+const SearchInput = React.createClass({
     getInitialState() {
         return {
             value: '',
@@ -64,7 +63,7 @@ const InputGroup = Input.Group;
                 />
                 <div className="ant-input-group-wrap">
                     <Button className={btnCls} size={this.props.size} onClick={this.handleSearch}>
-                        <Icon type="search" />
+                        <Icon type="search"/>
                     </Button>
                 </div>
             </InputGroup>

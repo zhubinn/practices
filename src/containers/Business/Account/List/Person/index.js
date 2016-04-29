@@ -4,7 +4,7 @@
 import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination } from 'antd'
 import 'antd/style/index.less'
-
+import SearchInput from 'components/Business/SearchInput'
 import { getTableData } from 'actions/business/account/list/person'
 
 const TabPane = Tabs.TabPane;
@@ -154,7 +154,7 @@ class Account_List_Person_Page extends React.Component {
         return (
             <div>
                 <Row>
-                    <Col span="8"> </Col>
+                    <Col span="8"><SearchInput /> </Col>
                     <Col span="8" offset="8">
                         <Button type="primary" >筛选</Button>
                         <Button type="ghost">变更联系人</Button>
