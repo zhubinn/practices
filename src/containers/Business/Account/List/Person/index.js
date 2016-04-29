@@ -2,7 +2,7 @@
  * Created by janeluck on 4/27/16.
  */
 import { connect } from 'react-redux'
-import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination } from 'antd'
+import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Checkbox } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery } from 'actions/business/account/list/person'
@@ -119,12 +119,28 @@ const columns = [{
 
 
 // 查询表格
-// 依赖Table, Pagination
+// 依赖Table, Pagination, Form
 class QueryDataTable extends React.Component {
+
+
+
+    static propTypes = {
+        showPagination: React.PropTypes.bool,
+        checkMode: React.PropTypes.bool,
+        pagination: React.PropTypes.object,
+        queryColumns: React.PropTypes.object,
+        // 刷新数据回调函数
+        onGetTableData: React.PropTypes.function
+    }
+
+    static defaultProps = {
+        checkMode: false
+    }
+
+
+
     constructor(props) {
         super(props)
-        this.clearSelectedRows = this.clearSelectedRows.bind(this)
-        this.onSelectChange = this.onSelectChange.bind(this)
 
         this.state = {
             isSearchShow: false,
@@ -133,39 +149,47 @@ class QueryDataTable extends React.Component {
         }
     }
 
-    onSelectChange(selectedRowKeys) {
+    onSelectChange = (selectedRowKeys)=> {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
         this.setState({selectedRowKeys});
     }
 
-    clearSelectedRows() {
+    clearSelectedRows = () =>{
         this.setState({
             selectedRowKeys: []
         })
     }
+    onSelectAll = (e) =>{
+        console.log(e.target.checked)
+    }
+    handleSelectAllRow = (e) =>{
 
-    getSelection() {
+    }
+    getSelection = (e) =>{
 
 
     }
 
-    renderQueryTable() {
+    renderQueryTable = (e) => {
 
     }
 
-    renderQuery() {
+    renderQuery = (e) => {
 
     }
 
 
     render() {
-        const {dataSource, columns,  current, pageSize, total} = this.props
+        const {dataSource, columns,  current, pageSize, total, checkMode} = this.props
         const {isSearchShow, selectedRowKeys} = this.state
+        let rowSelection = null
+        if (checkMode)  {
+            rowSelection = {
+                selectedRowKeys,
+                onChange: this.onSelectChange
+            };
+        }
 
-        const rowSelection = {
-            selectedRowKeys,
-            onChange: this.onSelectChange
-        };
 
 
         // 分页
@@ -179,7 +203,7 @@ class QueryDataTable extends React.Component {
                 this.clearSelectedRows()
                 this.props.onGetTableData({
 
-                        page: pageNumber
+                    page: pageNumber
 
                 })
             },
@@ -187,7 +211,7 @@ class QueryDataTable extends React.Component {
                 this.clearSelectedRows()
                 this.props.onGetTableData({
 
-                        pageSize: pageSize
+                    pageSize: pageSize
 
                 })
             }
@@ -198,6 +222,30 @@ class QueryDataTable extends React.Component {
 
                 <div style={{width: '800px', height: '500px',  overflow: "auto"}}>
                     <div style={{width: '2000px'}}>
+                        {/*搜索部分*/}
+                        <Form className="ant-table ant-table-middle ant-table-bordered" onSubmit={this.handleSubmit}>
+                            <div className="ant-table-body">
+                                <div>
+                                    <table>
+                                        <thead className="ant-table-thead">
+                                        <tr>
+                                            {checkMode ?
+                                                (<th className="ant-table-selection-column"><Checkbox defaultChecked={this.state.selectedRowKeys.length === dataSource.length} onChange={this.onSelectAll} /></th>) : null }
+
+                                            {
+                                                columns.map(col => <th width={col.width}>{col.title}</th>)
+                                            }
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div>
+                                <Button type="primary" htmlType="submit">确定</Button>
+                                <Button type="ghost" onClick={this.handleReset}>清空</Button>
+                            </div>
+                        </Form>
 
 
                         <Table ref='dataTable'
@@ -218,13 +266,6 @@ class QueryDataTable extends React.Component {
 }
 
 
-QueryDataTable.propTypes = {
-    showPagination: React.PropTypes.bool,
-    pagination: React.PropTypes.object,
-    queryColumns: React.PropTypes.object,
-    // 刷新数据回调函数
-    onGetTableData: React.PropTypes.function
-}
 
 
 class Account_List_Person_Page extends React.Component {
@@ -270,7 +311,8 @@ class Account_List_Person_Page extends React.Component {
 
 
                         <QueryDataTable
-                            columns = {columns}
+                            columns={columns}
+                            checkMode = {true}
                             {...queryDataTable}
                             onGetTableData={
 
