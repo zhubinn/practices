@@ -49,6 +49,11 @@ const getTableData = (params)=> {
      })
      }, 1000)
      })*/
+
+
+    /*
+    *     body:  Object.assign(table_params.data, params.data)
+    *    */
     return (dispatch, getState) => {
 
         dispatch(fetchData(GET_TABLE_DATA, {pending: true, rows: []}))
@@ -58,11 +63,9 @@ const getTableData = (params)=> {
             method: 'post',
             credentials: 'include',
             headers: {
-                'API': 1,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                "Content-Type": "application/x-www-form-urlencoded"
             },
-            body:  Object.assign(table_params.data, params.data)
+            body: 'params='+ JSON.stringify(Object.assign(table_params.data, params.data))
         }).then(function(response) {
             if (response.status >= 400) {
                 throw new Error("Bad response from server")

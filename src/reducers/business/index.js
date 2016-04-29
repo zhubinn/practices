@@ -6,11 +6,11 @@ import { combineReducers } from 'redux'
 
 import account_list from './account/list'
 import account_list_person from './account/list/person'
-import account_summary from './account/summary'
+import account_detail from './account/detail'
 
 const componentReducers = combineReducers({
     account_list,
-    account_summary,
+    account_detail,
     account_list_person
 })
 

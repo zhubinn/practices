@@ -10,7 +10,7 @@ import {
     initQueryNestedTable,
     updateDataSource,
     updateChildDataSource,
-} from 'actions/business/account/summary'
+} from 'actions/business/account/detail'
 import {
     toggleQueryPanel,
 } from 'actions/components/QueryNestedTable'
@@ -96,7 +96,7 @@ const SearchInput = React.createClass({
 
 
 
-class Account_Summary_Page extends React.Component {
+class Account_Detail_Page extends React.Component {
     constructor() {
         super()
     }
@@ -139,7 +139,7 @@ class Account_Summary_Page extends React.Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         $$QueryNestedTable: state.components.QueryNestedTable,
-        $$account_summary: state.business.account_summary
+        $$account_detail: state.business.account_detail
     }
 }
 
@@ -148,4 +148,4 @@ export default connect(mapStateToProps, {
     updateDataSource,
     updateChildDataSource,
     toggleQueryPanel,
-})(Account_Summary_Page)
+})(Account_Detail_Page)

@@ -142,7 +142,14 @@ class Account_List_Person_Page extends React.Component {
             pageSize: dataSource.length,
             total: total,
             showSizeChanger: true,
-            showQuickJumper: true
+            showQuickJumper: true,
+            onChange: (pageNumber) => {
+                this.props.getTableData({
+                    data: {
+                        page: pageNumber
+                    }
+                })
+            }
         }
         return (
             <div>
@@ -166,7 +173,8 @@ class Account_List_Person_Page extends React.Component {
                             </div>
 
                         </div>
-                        <Pagination {...pagination}>
+                        <Pagination
+                            {...pagination}>
                         </Pagination>
                     </TabPane>
                     <TabPane tab="负责的客户" key="2">
