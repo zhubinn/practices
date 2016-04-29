@@ -15,7 +15,7 @@ import Error_404 from 'containers/Error/404'
 
 export default (
     <Route path="/">
-        <Route path="__demo"  component={MasterPage}>
+        <Route path="__demo" component={MasterPage}>
             <Route path="table" component={DemoTablePage}/>
             <Route path="login" component={DemoLoginPage}/>
             <Route path="nested_table" component={DemoQueryNestedTablePage}/>
@@ -23,9 +23,15 @@ export default (
 
 
         <Route path="scrmweb" component={ModulePage}>
-            <Route path="accounts/deptaccountdetail/VISITID/1" component={Account_Detail_Page}/>
-            <Route path="accounts/list/VISITID/1" component={Account_List_Person_Page}/>
-            <Route path="accounts/deptlist/VISITID/1" component={Account_List_Page}/>
+            <Route path="accounts">
+
+                <Route path="deptaccountdetail/VISITID/1" component={Account_Detail_Page}/>
+                <Route path="list/VISITID/1" component={Account_List_Person_Page}/>
+                <Route path="deptlist/VISITID/1" component={Account_List_Page}/>
+            </Route>
+
+
+
         </Route>
         <Route path="*" component={Error_404}/>
     </Route>
