@@ -126,7 +126,7 @@ class Account_List_Person_Page extends React.Component {
 
     componentDidMount() {
         this.props.getTableData({
-            url: 'http://esn.jianyu.com/scrmweb/accounts/getList'
+            url: 'http://esn.fuwenfang.com/scrmweb/accounts/getList'
         })
 
     }

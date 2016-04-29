@@ -29,4 +29,4 @@ const businessReducers = combineReducers({
 })
 
 
-export default componentReducers
+export default businessReducers

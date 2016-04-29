@@ -10,7 +10,8 @@ import Statistic from '../css/Summary.less'
 
 import {searchKeyWord,getAccountPerSummaryData} from 'actions/Business/Account/Summary/PerSummary'
 
-import { Table, Icon } from 'antd';
+import { Table, Icon ,Button,Input, Row, Col} from 'antd';
+import SearchInput from 'components/Business/SearchInput'
 
 let perSummaryColumns = [
 
@@ -70,6 +71,7 @@ let perSummaryColumns = [
 let summaryParams = {
     url: SCRM.url('/scrmweb/accounts/getPerSummary'),
     data: {
+      keyword:''
     }
 }
 
@@ -80,21 +82,18 @@ class AccountPerSummary extends React.Component{
     }
   componentDidMount() {
       // 页面初始完,获取统计数据,触发action: GET_DATA
+      const {getAccountPerSummaryData} = this.props
       this.props.getAccountPerSummaryData(summaryParams)
   }
-  exportTable(){
+  exportTable(e){
+    e.preventDefault()
     alert('导出报表接口')
 
   }
-  handleOnChange(e){
-      const textValue = e.currentTarget.value;
-      const {changeInputVal} = this.props
-      changeInputVal(textValue)
-    }
-  handleClickSearch(e){
-    const textValue = this.props.$$account_persummary.toJS().value
-    const {searchKeyWord} = this.props
-    searchKeyWord(textValue)
+  handleClickSearch(value){
+    const {getAccountPerSummaryData} = this.props
+    summaryParams['data'].keyword = value
+    getAccountPerSummaryData(summaryParams)
   }
   
   render(){
@@ -104,13 +103,14 @@ class AccountPerSummary extends React.Component{
           return (
             <div style={{marginLeft: '20px'}}>
                 <div className = "col_cktop">
-                  <div className="col_cktop-gongneng clearfix">
-                     <div className="col_cktop-Hightsearch">
-                         <input type="text" className="Hightsearch_input" onChange = {this.handleOnChange.bind(this)}/>
-                         <button onClick = {this.handleClickSearch.bind(this)}>搜索</button>
-                     </div>
-                     <button className="col_cktop-btnFpai" onClick={this.exportTable.bind(this)}>导出EXCEL</button>
-                  </div>  
+                  <div className="col_cktop-gongneng">
+                        <Row>
+                            <Col span="10"><SearchInput  onSearch = {this.handleClickSearch.bind(this)}/> </Col>
+                            <Col span="4" offset="10">
+                                <Button type="ghost" onClick = {e=>this.exportTable(this)}>导出</Button>
+                            </Col>
+                        </Row>                     
+                  </div>
                 </div>
                 <div className = "summarydataTableWrap">
                   <div className = "perSummarydataTableCon">
