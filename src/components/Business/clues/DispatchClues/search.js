@@ -14,7 +14,6 @@ export default class Search extends React.Component {
 
     componentDidMount(){
         const { dispatchCluesState ,actions } = this.props
-        const $List = $(findDOMNode(this.refs.suggestList))
 
         $.post(SCRM.url('/deptcomponent/DeptComponent/getUserListForLeadAssign'),function(data){
             if(data.rs === true){
@@ -28,6 +27,8 @@ export default class Search extends React.Component {
     searchFetchData(id){
         const { dispatchCluesState ,actions } = this.props
         const dispatchState = dispatchCluesState.toJS().dispatchState
+        const listNode = findDOMNode(this.refs.suggestListWrap)
+        count = 0;
         $.post(SCRM.url('/scrmlead/index/getAssignList'),{
             assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
             page:1,
@@ -38,8 +39,10 @@ export default class Search extends React.Component {
             if(data.rs === true){
                 const rowData = data.data.rowData;
                 actions.fetchData(true,rowData)
+                listNode.style.display = 'none'
             }else{
                 message.error('服务器错误，请联系客服！')
+                listNode.style.display = 'none'
             }
         },'json')
     }
@@ -47,12 +50,12 @@ export default class Search extends React.Component {
     clickSearchOwer(){
         const { dispatchCluesState ,actions } = this.props
         const suggestData = dispatchCluesState.toJS().suggestData
-        const $list = $(findDOMNode(this.refs.suggestListWrap))
+
         const val = findDOMNode(this.refs.searchInput).value.trim()
 
         if(!val){
             message.error('线索负责人不能为空')
-            $list.hide()
+
             return false;
         }
 

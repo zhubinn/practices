@@ -5,8 +5,10 @@
  */
 import { findDOMNode } from 'react-dom'
 import { DatePicker,message, notification  } from 'antd';
+import ChaocerWeekCalendar from 'chaocer-weekCalendar';
 const MonthPicker = DatePicker.MonthPicker;
-const RangePicker = DatePicker.RangePicker;
+// const RangePicker = DatePicker.RangePicker;
+
 
 // mock data
 import { data,data2 } from './data/response'
@@ -201,7 +203,7 @@ export default class InputDater extends React.Component {
         WEEK_DATER.setDate(WEEK_DATER.getDate() + (7 - curWeek2));
         const end = WEEK_DATER.getFullYear() + '-' + this.fillZero(WEEK_DATER.getMonth() + 1) + '-' + this.fillZero(WEEK_DATER.getDate());
 
-        console.log('1:',[start,end]);
+        //console.log('1:',[start,end]);
         return [start, end];
     }
 
@@ -237,7 +239,7 @@ export default class InputDater extends React.Component {
 
                 return (
 
-                    <RangePicker
+                    <ChaocerWeekCalendar
                         ref="rangePicker"
                         style={{"width":"250px"}}
                         value={ numberReportViewState.toJS().dater ? numberReportViewState.toJS().dater.split('~') : [this.weekDater()[0],this.weekDater()[1]]}
