@@ -12,13 +12,13 @@ import DemoLoginPage from 'containers/__demo/Login'
 
 import Error_404 from 'containers/Error/404'
 
-import AccountListPage from 'containers/Business/Account/List'
 import CustomizablePage from 'containers/Business/Account/Customizable'
-import StatisticPage from 'containers/Business/Account/Statistic'
+import DeptStatisticPage from 'containers/Business/Account/Statistic/DeptStatistic'
+import PerStatisticPage from 'containers/Business/Account/Statistic/PerStatistic'
+import DeptStatisticDetailPage from 'containers/Business/Account/Statistic/DeptStatisticDetail'
 import DeptSummaryPage from 'containers/Business/Account/Summary/DeptSummary'
 import PerSummaryPage from 'containers/Business/Account/Summary/PerSummary'
-import DetailPage from 'containers/Business/Account/Detail'
-
+import DeptSummaryDetailPage from 'containers/Business/Account/Summary/DeptSummaryDetail'
 
 
 
@@ -30,13 +30,15 @@ export default (
         </Route>
 
         <Route path="scrmweb" component={ModulePage}>
-            <Route path="accounts/index/VISITID/1" component={AccountListPage}/>
-            <Route path="accounts/define/VISITID/1" component={CustomizablePage}/>
-            <Route path="accounts/statistic/VISITID/1" component={StatisticPage}/>
-            <Route path="accounts/deptsummary/VISITID/1" component={DeptSummaryPage}/>
-            <Route path="accounts/persummary/VISITID/1" component={PerSummaryPage}/>
-            <Route path="accounts/detail/VISITID/1" component={DetailPage}/>
-
+            <Route path = "accounts">
+                <Route path="define/VISITID/1" component={CustomizablePage}/>
+                <Route path="deptstatistic/VISITID/1" component={DeptStatisticPage}/>
+                <Route path="perstatistic/VISITID/1" component={PerStatisticPage}/>
+                <Route path="deptstatisticdetail/VISITID/1" component={DeptStatisticDetailPage}/>
+                <Route path="deptsummary/VISITID/1" component={DeptSummaryPage}/>
+                <Route path="persummary/VISITID/1" component={PerSummaryPage}/>
+                <Route path="deptsummarydetail/VISITID/1" component={DeptSummaryDetailPage}/>
+            </Route>
         </Route>
         <Route path="*" component={Error_404}/>
     </Route>

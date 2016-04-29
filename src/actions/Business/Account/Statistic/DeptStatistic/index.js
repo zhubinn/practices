@@ -1,37 +1,37 @@
 import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 
-// 输入搜索关键词
-const account_Persummary_INPUTVAL = 'account_Persummary_INPUTVAL'
-const account_Persummary_SEARCH = 'account_Persummary_SEARCH'
+//关键词搜索
+const account_DeptStatistic_SEARCH = 'account_DeptStatistic_SEARCH'
+//输入框值改变
+const account_DeptStatistic_INPUTVAL = 'account_DeptStatistic_INPUTVAL'
 
-//获取报表数据
-const account_Persummary_GETDATA = 'account_Persummary_GETDATA'
-const account_Persummary_GETDATA_SUCCESS = 'account_Persummary_GETDATA_SUCCESS'
-//输入搜索关键词
+//获取列表数据
+const account_DeptStatistic_GETDATA = 'account_DeptStatistic_GETDATA'
 
-//搜索输入框改变
+const account_DeptStatistic_GETDATA_SUCCESS = 'account_DeptStatistic_GETDATA_SUCCESS'
 
+//输入框值改变
 export const changeInputVal = (value)=>{
     return {
-        type: account_Persummary_INPUTVAL,
+        type: account_DeptStatistic_INPUTVAL,
         payload:value
     }
 }
 
-
+//输入搜索关键词
 export const searchKeyWord = (value)=>{
     return {
-        type: account_Persummary_SEARCH,
+        type: account_DeptStatistic_SEARCH,
         payload:value
     }
 }
 
 //获取数据
 
-export const getAccountPerSummaryData = (params) => {
+export const getAccountDeptStatisticData = (params) => {
     console.log(params.url)
-    const _getAccountPerSummaryData = (type, data)=> {
+    const _getAccountDeptStatisticData = (type, data)=> {
         return {
             type,
             payload: data,
@@ -41,7 +41,7 @@ export const getAccountPerSummaryData = (params) => {
 
     return (dispatch, getState) => {
         const url = params.url;
-        dispatch(_getAccountPerSummaryData(account_Persummary_GETDATA,'params='));
+        dispatch(_getAccountDeptStatisticData(account_DeptStatistic_GETDATA,{}));
 
             fetch(params.url, {
                 credentials: 'include',
@@ -55,7 +55,7 @@ export const getAccountPerSummaryData = (params) => {
             }).then(function (data) {
 
                 if(data.rs){
-                    dispatch(_getAccountPerSummaryData(account_Persummary_GETDATA_SUCCESS, data.data))
+                    dispatch(_getAccountDeptStatisticData(account_DeptStatistic_GETDATA_SUCCESS, data.data))
                 }
             })
         
@@ -63,11 +63,12 @@ export const getAccountPerSummaryData = (params) => {
     }
 }
 
+
 export {
-    account_Persummary_SEARCH,
-    account_Persummary_INPUTVAL,
-    account_Persummary_GETDATA,
-    account_Persummary_GETDATA_SUCCESS,
+    account_DeptStatistic_SEARCH,
+    account_DeptStatistic_INPUTVAL,
+    account_DeptStatistic_GETDATA,
+    account_DeptStatistic_GETDATA_SUCCESS,
 
 }
 
