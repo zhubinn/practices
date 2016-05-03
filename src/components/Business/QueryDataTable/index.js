@@ -21,6 +21,7 @@ export default class QueryDataTable extends React.Component {
     static propTypes = {
         columns: React.PropTypes.array,
         showPagination: React.PropTypes.bool,
+        loading: React.PropTypes.bool,
         checkMode: React.PropTypes.bool,
         pagination: React.PropTypes.object,
         queryColumns: React.PropTypes.object,
@@ -31,7 +32,8 @@ export default class QueryDataTable extends React.Component {
     static defaultProps = {
         checkMode: false,
         columns: [],
-        queryColumns: {}
+        queryColumns: {},
+        loading: false
     }
 
 
@@ -194,7 +196,7 @@ export default class QueryDataTable extends React.Component {
 
 
     render() {
-        const {dataSource, columns, queryColumns,  current, pageSize, total, checkMode} = this.props
+        const {dataSource, columns, queryColumns,  current, pageSize, total, checkMode, loading} = this.props
         const {isSearchShow, selectedRowKeys} = this.state
         let rowSelection = null
         if (checkMode) {
@@ -281,6 +283,7 @@ export default class QueryDataTable extends React.Component {
                                rowSelection={rowSelection}
                                pagination={false}
                                showHeader={false}
+                               loading={loading}
                         >
                         </Table>
                     </div>

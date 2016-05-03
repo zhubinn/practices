@@ -155,6 +155,7 @@ class Account_List_Person_Page extends React.Component {
         queryDataTable.total = $$account_list_person.toJS().total
         queryDataTable.pageSize = $$account_list_person.toJS().pageSize
         queryDataTable.queryColumns = $$account_list_person.toJS().queryColumns
+        queryDataTable.loading = $$account_list_person.toJS().loading
         return (
             <div>
                 <Row>

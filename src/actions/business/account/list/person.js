@@ -67,7 +67,7 @@ const getTableData = (params)=> {
     *    */
     return (dispatch, getState) => {
 
-        dispatch(fetchData(GET_TABLE_DATA, {pending: true, rows: []}))
+        dispatch(fetchData(GET_TABLE_DATA, {rows: [], loading: true}))
         // todo: 封装
         var data = new FormData();
         data.append( "json", 1);
@@ -91,11 +91,12 @@ const getTableData = (params)=> {
         }).then(function (data) {
 
             dispatch(fetchData(GET_TABLE_DATA_SUCCESS, {
+
                 rows: data.data.rowData,
                 current: data.data.currentPage,
                 total: data.data.total,
                 pageSize: data.data.pageSize,
-                pending: false
+                loading: false
             }))
 
         })

@@ -16,7 +16,8 @@ const $$initialState = Immutable.fromJS({
     current: 1,
     total: 20,
     pageSize: 20,
-    queryColumns: {}
+    queryColumns: {},
+    loading: false
 
 
 })
@@ -29,14 +30,16 @@ export default function account_list_person($$state = $$initialState, action) {
                 rows: [],
                 current: 1,
                 total: 20,
-                pageSize: 20
+                pageSize: 20,
+                loading: action.payload.loading
             })
         case GET_TABLE_DATA_SUCCESS:
             return $$state.merge({
                 rows: action.payload.rows,
                 current: action.payload.current,
                 total: action.payload.total,
-                pageSize: action.payload.pageSize
+                pageSize: action.payload.pageSize,
+                loading: action.payload.loading
             })
         case GET_TABLE_DATA_FAILURE:
             return $$state
