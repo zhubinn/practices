@@ -2,11 +2,16 @@
  * Created by janeluck on 4/27/16.
  */
 import { connect } from 'react-redux'
-import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Checkbox } from 'antd'
+import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Select, Radio, Checkbox,  DatePicker, InputNumber, Cascader  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery } from 'actions/business/account/list/person'
+import { isEmpty } from 'lodash'
 
+const Option = Select.Option;
+const RadioGroup = Radio.Group;
+const createForm = Form.create;
+const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 
 
@@ -139,7 +144,7 @@ class QueryDataTable extends React.Component {
 
     constructor(props) {
         super(props)
-
+        this.queryForm = ''
         this.state = {
             isSearchShow: false,
             selectedRowKeys: []
@@ -148,7 +153,7 @@ class QueryDataTable extends React.Component {
     }
 
     onSelectChange = (selectedRowKeys)=> {
-        console.log('selectedRowKeys changed: ', selectedRowKeys);
+
         this.setState({selectedRowKeys});
     }
 
@@ -159,10 +164,17 @@ class QueryDataTable extends React.Component {
     }
 
     handleSelectAll = (e, dataSource) => {
-        console.log(e.target.checked)
+
+
         if (e.target.checked) {
             this.setState({
-                selectedRowKeys: dataSource.map((item, index) => {return index })
+                selectedRowKeys: dataSource.map((item, index) => {
+                    return index
+                })
+            })
+        } else {
+            this.setState({
+                selectedRowKeys: []
             })
         }
 
@@ -172,17 +184,107 @@ class QueryDataTable extends React.Component {
 
     }
 
-    renderQueryTable = (e) => {
+    renderQueryTable = (columns, queryColumns, checkMode) => {
+        if (isEmpty(queryColumns)) return null
+        const that = this
+
+        if (!this.queryForm) {
+            this.queryForm = React.createClass({
+                handleSubmit(e) {
+                    e.preventDefault();
+                    console.log('收到表单值：', this.props.form.getFieldsValue());
+
+                   // that.props.onSure(this.props.form.getFieldsValue())
+                    if (that.props.onGetTableData) {
+                        that.props.onGetTableData({
+                            searchData: this.props.form.getFieldsValue()
+                        })
+                    }
+                },
+                resetForm(){
+                    this.props.form.resetFields()
+                },
+
+                render() {
+                    const { getFieldProps } = this.props.form;
+
+                    return (
+                        <Form form={this.props.form} >
+                            <table>
+
+                                <tbody className="ant-table-tbody">
+
+                                <tr className="ant-table-row">
+                                    {checkMode ? (<td className="ant-table-selection-column"></td>) : null}
+
+                                    {
+                                        columns.map((col, i) => (
+                                            <td width={col.width} key={i}>
+                                                {that.renderQuery(col, queryColumns, getFieldProps)}
+                                            </td>
+                                        ))
+                                    }
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div className="formFooter">
+                                <Button type="ghost" onClick={(e) => {this.resetForm()}}>重置</Button>
+                                <Button type="primary"  onClick={(e) => {this.handleSubmit(e)}}>确定</Button>
+                            </div>
+                        </Form>
+
+
+
+
+
+
+                    );
+                }
+            });
+
+            this.queryForm = Form.create()(this.queryForm);
+        }
+        return (<this.queryForm />)
+
 
     }
 
-    renderQuery = (e) => {
+    renderQuery = (col, queryColumns, getFieldProps) => {
 
+        const queryCol = queryColumns[col['key']];
+
+        if (queryCol) {
+
+
+
+            switch (queryCol['searchType']) {
+
+                case 1:
+
+                    return (<FormItem>
+                        <Input {...getFieldProps(col['key'], {
+                            initialValue: queryCol['renderData']['defaultValue']
+                        })} />
+                    </FormItem>)
+                case 2:
+
+                    return (<FormItem>
+                        <InputNumber {...getFieldProps(col['key'], {
+                            initialValue: queryCol['renderData']['defaultValue']
+                        })} />
+                    </FormItem>)
+
+                default:
+                    return null
+            }
+        }
+
+        return null
     }
 
 
     render() {
-        const {dataSource, columns,  current, pageSize, total, checkMode} = this.props
+        const {dataSource, columns, queryColumns,  current, pageSize, total, checkMode} = this.props
         const {isSearchShow, selectedRowKeys} = this.state
         let rowSelection = null
         if (checkMode) {
@@ -204,7 +306,8 @@ class QueryDataTable extends React.Component {
                 this.clearSelectedRows()
                 this.props.onGetTableData({
 
-                    page: pageNumber
+                    page: pageNumber,
+                    pageSize: 0
 
                 })
             },
@@ -212,29 +315,37 @@ class QueryDataTable extends React.Component {
                 this.clearSelectedRows()
                 this.props.onGetTableData({
 
-                    pageSize: pageSize
+                    pageSize: pageSize,
+                    page: 1
 
                 })
             }
         }
+
+
         return (
 
             <div>
 
                 <div style={{width: '800px', height: '500px',  overflow: "auto"}}>
                     <div style={{width: '2000px'}}>
-                        {/*搜索部分*/}
-                        <Form className="ant-table ant-table-middle ant-table-bordered" onSubmit={this.handleSubmit}>
+
+
+
+                        <div className="ant-table ant-table-middle ant-table-bordered"
+                             onSubmit={this.handleSubmit }>
                             <div className="ant-table-body">
                                 <div>
                                     <table>
                                         <thead className="ant-table-thead">
                                         <tr>
                                             {checkMode ?
-                                                (<th className="ant-table-selection-column"><Checkbox
-                                                    ref="SelectAll"
-                                                    defaultChecked={false} onChange={
-                                                (e)=>{this.handleSelectAll(e, dataSource)}}/></th>) : null }
+                                                (<th className="ant-table-selection-column">
+                                                    <Checkbox
+                                                        ref="SelectAll"
+                                                        checked={ this.state.selectedRowKeys.length === dataSource.length }
+                                                        onChange={
+                                                            (e)=>{this.handleSelectAll(e, dataSource)}}/></th>) : null }
 
                                             {
                                                 columns.map(col => <th width={col.width}>{col.title}</th>)
@@ -242,14 +353,16 @@ class QueryDataTable extends React.Component {
                                         </tr>
                                         </thead>
                                     </table>
+
+                                    {/*搜索部分*/}
+                                    {this.renderQueryTable(columns, queryColumns, checkMode)}
+
+
                                 </div>
 
                             </div>
-                            <div>
-                                <Button type="primary" htmlType="submit">确定</Button>
-                                <Button type="ghost" onClick={this.handleReset}>清空</Button>
-                            </div>
-                        </Form>
+
+                        </div>
 
 
                         <Table ref='dataTable'
@@ -319,7 +432,7 @@ class Account_List_Person_Page extends React.Component {
                             onGetTableData={
 
                                 (obj)=>{
-                                    this.props.getTableData({
+                                    getTableData({
                                         data: obj
                                     })
                                 }

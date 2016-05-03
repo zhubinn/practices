@@ -29,8 +29,7 @@ export default function account_list_person($$state = $$initialState, action) {
                 rows: [],
                 current: 1,
                 total: 20,
-                pageSize: 20,
-                queryColumns: {}
+                pageSize: 20
             })
         case GET_TABLE_DATA_SUCCESS:
             return $$state.merge({
