@@ -26,8 +26,7 @@ import PerSummaryPage from 'containers/Business/Account/Summary/PerSummary'
 import DetailPage from 'containers/Business/Account/Detail'
 
 //生意
-import BusinessStatistic from 'containers/Business/Business/Statistic'
-import BusinessSummary from 'containers/Business/Business/Summary'
+import Deptstatistic from 'containers/Business/Business/Statistic/deptstatistic'
 
 //日志
 import FuncLog from 'containers/Business/Log/FuncLog'
@@ -52,8 +51,7 @@ export default (
                 <Route path="deptlist/VISITID/1" component={Account_List_Page}/>
             </Route>
             <Route path="business">
-                <Route path="statistic/VISITID/1" component={BusinessStatistic} />
-                <Route path="summary/VISITID/1" component={BusinessSummary} />
+                <Route path="deptstatistic/VISITID/1" component={Deptstatistic} />
             </Route>
             <Route path="log">
                 <Route path="datalog/VISITID/1" component={DataLog} />

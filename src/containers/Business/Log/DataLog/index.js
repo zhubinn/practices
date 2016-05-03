@@ -9,6 +9,7 @@ import classNames from 'classnames'
 import { Row, Col, Table, Radio, Button, Input, Pagination, Modal} from 'antd'
 import {handleInputChange, getDataLogData, pageSizeChange}  from 'actions/business/Log/DataLog'
 
+import SearchInput from 'components/Business/SearchInput'
 //引入选人组件
 import SearchPeople from 'components/Business/searchPeople'
 import { selectPeopelinitSource }  from 'actions/Component/searchPeople'
@@ -34,7 +35,8 @@ let DataLogParams = {
     url: 'http://esn.yangtianming.com/scrmoplog/index/opdetaillogIndex',
     data: {
         page: 1,
-        pageSize: 10
+        pageSize: 10,
+        keyword:''
     }
 }
 
@@ -77,8 +79,7 @@ class DataLog extends React.Component {
       this.props.selectPeopelinitSource(id, getPeopleParams, DataLogParams)
     }
 
-    searchInputChange() {
-      let val = this.refs.seachVal.getDOMNode().value;
+    searchInputChange(val) {
       alert(val)
       clearTimeout(this.searchTimer)
       this.searchTimer = setTimeout(() => { this.props.getDataLogData(DataLogParams) }, 300);
@@ -91,7 +92,6 @@ class DataLog extends React.Component {
     }
     
     pageOnChange(page){
-      alert(page)
       DataLogParams.data.page = page;
       this.props.getDataLogData(DataLogParams);
     }
@@ -184,16 +184,20 @@ class DataLog extends React.Component {
         return (
             <div  style = {{marginLeft: '20px'}} >
               <Row>
-                <Col span="16">
-                  <input placeholder="请输入.." className="Hightsearch_input" style={{ width: 220 }} ref = "seachVal"/>
-                  <Button type="primary" onClick = {this.searchInputChange}>搜索</Button>
+                <Col span="10">
+                  <SearchInput onSearch = {this.searchInputChange} />
                 </Col>
-                <Col span="6">
+                <Col span="14" style = {{ textAlign: 'right' }}>
                   <Button type="primary" style = {{marginRight: '10px'}}  onClick = {this.handleSelection.bind(this)}>筛选</Button>
                   <Button type="ghost" onClick = {this.exportConfirm}>导出EXCEL</Button>
                 </Col>
               </Row>
-              <Table dataSource={dataSource} columns={columns} pagination={pagination}/>
+              <div  style = {{ width: '800px', overflow: 'auto' }}>
+                <div style = {{ width: '1200px' }}>
+                  <Table dataSource={dataSource} columns={columns} pagination={pagination}/>
+                </div>
+              </div>
+
               <SearchPeople ref = "searchPeopleCom"
                 clickPeopleDate = {clickPeopleDate}
                 clickPeopleTag = {clickPeopleTag} 

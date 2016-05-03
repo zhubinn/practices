@@ -34,7 +34,8 @@ let FuncLogParams = {
     url: 'http://esn.yangtianming.com/scrmoplog/index/oplogIndex',
     data: {
         page: 1,
-        pageSize: 10
+        pageSize: 10,
+        keyword:''
     }
 };
 
@@ -69,7 +70,7 @@ class FunctionLog extends React.Component {
     }
 
     searchInputChange(val) {
-      alert(val);
+      FuncLogParams.data.keyword = val;
       clearTimeout(this.searchTimer);
       this.searchTimer = setTimeout(() => { this.props.getFuncLogData(FuncLogParams) }, 300);
     }
@@ -81,9 +82,7 @@ class FunctionLog extends React.Component {
     }
 
     pageOnChange(page){
-      alert(page)
       FuncLogParams.data.page = page;
-      debugger
       this.props.getFuncLogData(FuncLogParams);
     }
 
@@ -175,15 +174,27 @@ class FunctionLog extends React.Component {
         return (
             <div  style = {{marginLeft: '20px'}} >
               <Row>
-                <Col span="8">
+                <Col span="10">
                   <SearchInput onSearch = {this.searchInputChange} />
                 </Col>
-                <Col span="6">
+                <Col span="14"  style = {{ textAlign: 'right' }}>
                   <Button type="primary" style = {{marginRight: '10px'}}  onClick = {this.handleSelection.bind(this)}>筛选</Button>
                   <Button type="ghost" onClick = {this.exportConfirm}>导出EXCEL</Button>
                 </Col>
               </Row>
-              <Table dataSource={dataSource} columns={columns} pagination={pagination} />
+              <Table 
+                dataSource={dataSource} 
+                columns={columns} 
+                pagination={pagination} 
+                rowClassName = {
+                  function(record, index){
+                    if (index == 1) {
+                      return "ytm";
+                    }
+                    return "";
+                  }
+                } 
+              />
               <SearchPeople ref = "searchPeopleCom"
                 clickPeopleDate = {clickPeopleDate}
                 clickPeopleTag = {clickPeopleTag} 

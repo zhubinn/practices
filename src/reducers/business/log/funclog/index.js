@@ -50,7 +50,6 @@ export default function FuncLog($$state = Immutable.fromJS(funclog), action) {
         case GET_FUNCLOG_DATA:
             return $$state;
         case GET_FUNCLOG_SUCCESS:
-            debugger
             return $$state.mergeDeep({tableData: action.payload.data});
         default:
             return $$state;

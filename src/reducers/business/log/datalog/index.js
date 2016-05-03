@@ -23,17 +23,20 @@ let datalog = {
         {
             "title": "操作员",
             "dataIndex": "Operator",
-            "key": "Operator"
+            "key": "Operator",
+            "width": 100,
         },
         {
             "title": "操作类型",
             "dataIndex": "OperatorType",
-            "key": "OperatorType"
+            "key": "OperatorType",
+            "width": 100,
         },
         {
             "title": "业务功能",
             "dataIndex": "RelObjectType",
-            "key": "RelObjectType"
+            "key": "RelObjectType",
+            "width": 100,
         },
         {
             "title": "业务对象",
