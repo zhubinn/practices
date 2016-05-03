@@ -146,7 +146,7 @@ class QueryDataTable extends React.Component {
         super(props)
         this.queryForm = ''
         this.state = {
-            isSearchShow: false,
+            isSearchShow: true,
             selectedRowKeys: []
 
         }
@@ -184,7 +184,14 @@ class QueryDataTable extends React.Component {
 
     }
 
+    toggleQueryTable = (e) => {
+        this.setState({
+            isSearchShow: !this.state.isSearchShow
+        })
+    }
     renderQueryTable = (columns, queryColumns, checkMode) => {
+
+
         if (isEmpty(queryColumns)) return null
         const that = this
 
@@ -195,21 +202,31 @@ class QueryDataTable extends React.Component {
                     console.log('收到表单值：', this.props.form.getFieldsValue());
 
                    // that.props.onSure(this.props.form.getFieldsValue())
+                    that.setState({
+                        isSearchShow: false,
+                        selectedRowKeys: []
+                    })
+
+
                     if (that.props.onGetTableData) {
                         that.props.onGetTableData({
-                            searchData: this.props.form.getFieldsValue()
+                            searchData: this.props.form.getFieldsValue(),
+                            page: 1
                         })
                     }
                 },
-                resetForm(){
+                resetForm(e){
                     this.props.form.resetFields()
+
+
+                    //this.handleSubmit(e)
                 },
 
                 render() {
                     const { getFieldProps } = this.props.form;
 
                     return (
-                        <Form form={this.props.form} >
+                        <Form form={this.props.form} style={{display: that.state.isSearchShow ? 'block' : 'none'}}>
                             <table>
 
                                 <tbody className="ant-table-tbody">
@@ -228,7 +245,7 @@ class QueryDataTable extends React.Component {
                                 </tbody>
                             </table>
                             <div className="formFooter">
-                                <Button type="ghost" onClick={(e) => {this.resetForm()}}>重置</Button>
+                                <Button type="ghost" onClick={(e) => {this.resetForm(e)}}>重置</Button>
                                 <Button type="primary"  onClick={(e) => {this.handleSubmit(e)}}>确定</Button>
                             </div>
                         </Form>
@@ -416,12 +433,17 @@ class Account_List_Person_Page extends React.Component {
                 <Row>
                     <Col span="8"><SearchInput /> </Col>
                     <Col span="8" offset="8">
-                        <Button type="primary">筛选</Button>
+                        <Button type="primary" onClick = {(e)=>{
+                            this.refs.queryDataTable.toggleQueryTable(e)
+                        }}>筛选</Button>
                         <Button type="ghost">变更联系人</Button>
                         <Button type="ghost">导出</Button>
                     </Col>
                 </Row>
-                <Tabs defaultActiveKey="1">
+                <Tabs defaultActiveKey="1"
+                      onChange={function(i){
+
+                }}>
                     <TabPane tab="全部客户" key="1">
 
 
@@ -437,6 +459,7 @@ class Account_List_Person_Page extends React.Component {
                                     })
                                 }
                             }
+                            ref="queryDataTable"
                         >
                         </QueryDataTable>
 
