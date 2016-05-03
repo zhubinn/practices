@@ -39,7 +39,10 @@ export default class QueryDataTable extends React.Component {
 
     constructor(props) {
         super(props)
+        // todo: 默认的列宽度, 有bug ...
+        this.defaultColWidth = 200
         this.queryForm = ''
+
         this.state = {
             isSearchShow: false,
             selectedRowKeys: []
@@ -138,7 +141,7 @@ export default class QueryDataTable extends React.Component {
 
                                     {
                                         columns.map((col, i) => (
-                                            <td width={col.width} key={i}>
+                                            <td width={col.width || this.defaultColWidth} key={i}>
                                                 {that.renderQuery(col, queryColumns, getFieldProps)}
                                             </td>
                                         ))
@@ -201,7 +204,15 @@ export default class QueryDataTable extends React.Component {
         return null
     }
 
+    calculateWidth = ()=> {
+        let width = 0
+        this.props.checkMode  &&  (width = width + 41)
+        this.props.columns.forEach((item, i) =>{
+            width += item.width || this.defaultColWidth
+        })
 
+        return width + 'px'
+    }
     render() {
         const {dataSource, columns, queryColumns,  current, pageSize, total, checkMode, loading} = this.props
         const {isSearchShow, selectedRowKeys} = this.state
@@ -247,14 +258,14 @@ export default class QueryDataTable extends React.Component {
             <div>
 
                 <div style={{width: '800px', height: '500px',  overflow: "auto"}}>
-                    <div style={{width: '2000px'}}>
+                    <div style={{width: this.calculateWidth()}}>
 
 
 
-                        <div className="ant-table ant-table-middle ant-table-bordered"
+                        <div className="ant-table ant-table-large"
                              onSubmit={this.handleSubmit }>
                             <div className="ant-table-body">
-                                <div>
+
                                     <table>
                                         <thead className="ant-table-thead">
                                         <tr>
@@ -267,7 +278,7 @@ export default class QueryDataTable extends React.Component {
                                                             (e)=>{this.handleSelectAll(e, dataSource)}}/></th>) : null }
 
                                             {
-                                                columns.map(col => <th width={col.width}>{col.title}</th>)
+                                                columns.map(col => <th width={col.width||this.defaultColWidth}>{col.title}</th>)
                                             }
                                         </tr>
                                         </thead>
@@ -277,7 +288,7 @@ export default class QueryDataTable extends React.Component {
                                     {this.renderQueryTable(columns, queryColumns, checkMode)}
 
 
-                                </div>
+
 
                             </div>
 
@@ -286,7 +297,8 @@ export default class QueryDataTable extends React.Component {
 
                         <Table ref='dataTable'
                                dataSource={dataSource}
-                               columns={columns}
+                               columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
+                               )}
                                rowSelection={rowSelection}
                                pagination={false}
                                showHeader={false}
