@@ -2,18 +2,17 @@
  * Created by janeluck on 4/27/16.
  */
 import { connect } from 'react-redux'
-import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Select, Radio, Checkbox,  DatePicker, InputNumber, Cascader  } from 'antd'
+import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery } from 'actions/business/account/list/person'
 import { isEmpty } from 'lodash'
+import QueryDataTable from 'components/Business/QueryDataTable'
 
-const Option = Select.Option;
-const RadioGroup = Radio.Group;
-const createForm = Form.create;
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 
+// SCRM.url 由原来外层页面引入
 
 const columns = [{
     title: '客户名称',
@@ -125,279 +124,7 @@ const columns = [{
 
 // 查询表格
 // 依赖Table, Pagination, Form
-class QueryDataTable extends React.Component {
 
-
-    static propTypes = {
-        showPagination: React.PropTypes.bool,
-        checkMode: React.PropTypes.bool,
-        pagination: React.PropTypes.object,
-        queryColumns: React.PropTypes.object,
-        // 刷新数据回调函数
-        onGetTableData: React.PropTypes.function
-    }
-
-    static defaultProps = {
-        checkMode: false
-    }
-
-
-    constructor(props) {
-        super(props)
-        this.queryForm = ''
-        this.state = {
-            isSearchShow: true,
-            selectedRowKeys: []
-
-        }
-    }
-
-    onSelectChange = (selectedRowKeys)=> {
-
-        this.setState({selectedRowKeys});
-    }
-
-    clearSelectedRows = () => {
-        this.setState({
-            selectedRowKeys: []
-        })
-    }
-
-    handleSelectAll = (e, dataSource) => {
-
-
-        if (e.target.checked) {
-            this.setState({
-                selectedRowKeys: dataSource.map((item, index) => {
-                    return index
-                })
-            })
-        } else {
-            this.setState({
-                selectedRowKeys: []
-            })
-        }
-
-    }
-    getSelection = (e) => {
-
-
-    }
-
-    toggleQueryTable = (e) => {
-        this.setState({
-            isSearchShow: !this.state.isSearchShow
-        })
-    }
-    renderQueryTable = (columns, queryColumns, checkMode) => {
-
-
-        if (isEmpty(queryColumns)) return null
-        const that = this
-
-        if (!this.queryForm) {
-            this.queryForm = React.createClass({
-                handleSubmit(e) {
-                    e.preventDefault();
-                    console.log('收到表单值：', this.props.form.getFieldsValue());
-
-                   // that.props.onSure(this.props.form.getFieldsValue())
-                    that.setState({
-                        isSearchShow: false,
-                        selectedRowKeys: []
-                    })
-
-
-                    if (that.props.onGetTableData) {
-                        that.props.onGetTableData({
-                            searchData: this.props.form.getFieldsValue(),
-                            page: 1
-                        })
-                    }
-                },
-                resetForm(e){
-                    this.props.form.resetFields()
-
-
-                    //this.handleSubmit(e)
-                },
-
-                render() {
-                    const { getFieldProps } = this.props.form;
-
-                    return (
-                        <Form form={this.props.form} style={{display: that.state.isSearchShow ? 'block' : 'none'}}>
-                            <table>
-
-                                <tbody className="ant-table-tbody">
-
-                                <tr className="ant-table-row">
-                                    {checkMode ? (<td className="ant-table-selection-column"></td>) : null}
-
-                                    {
-                                        columns.map((col, i) => (
-                                            <td width={col.width} key={i}>
-                                                {that.renderQuery(col, queryColumns, getFieldProps)}
-                                            </td>
-                                        ))
-                                    }
-                                </tr>
-                                </tbody>
-                            </table>
-                            <div className="formFooter">
-                                <Button type="ghost" onClick={(e) => {this.resetForm(e)}}>重置</Button>
-                                <Button type="primary"  onClick={(e) => {this.handleSubmit(e)}}>确定</Button>
-                            </div>
-                        </Form>
-
-
-
-
-
-
-                    );
-                }
-            });
-
-            this.queryForm = Form.create()(this.queryForm);
-        }
-        return (<this.queryForm />)
-
-
-    }
-
-    renderQuery = (col, queryColumns, getFieldProps) => {
-
-        const queryCol = queryColumns[col['key']];
-
-        if (queryCol) {
-
-
-
-            switch (queryCol['searchType']) {
-
-                case 1:
-
-                    return (<FormItem>
-                        <Input {...getFieldProps(col['key'], {
-                            initialValue: queryCol['renderData']['defaultValue']
-                        })} />
-                    </FormItem>)
-                case 2:
-
-                    return (<FormItem>
-                        <InputNumber {...getFieldProps(col['key'], {
-                            initialValue: queryCol['renderData']['defaultValue']
-                        })} />
-                    </FormItem>)
-
-                default:
-                    return null
-            }
-        }
-
-        return null
-    }
-
-
-    render() {
-        const {dataSource, columns, queryColumns,  current, pageSize, total, checkMode} = this.props
-        const {isSearchShow, selectedRowKeys} = this.state
-        let rowSelection = null
-        if (checkMode) {
-            rowSelection = {
-                selectedRowKeys,
-                onChange: this.onSelectChange
-            };
-        }
-
-
-        // 分页
-        const pagination = {
-            current: current,
-            pageSize: pageSize,
-            total: total,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            onChange: (pageNumber) => {
-                this.clearSelectedRows()
-                this.props.onGetTableData({
-
-                    page: pageNumber,
-                    pageSize: 0
-
-                })
-            },
-            onShowSizeChange: (current, pageSize) => {
-                this.clearSelectedRows()
-                this.props.onGetTableData({
-
-                    pageSize: pageSize,
-                    page: 1
-
-                })
-            }
-        }
-
-
-        return (
-
-            <div>
-
-                <div style={{width: '800px', height: '500px',  overflow: "auto"}}>
-                    <div style={{width: '2000px'}}>
-
-
-
-                        <div className="ant-table ant-table-middle ant-table-bordered"
-                             onSubmit={this.handleSubmit }>
-                            <div className="ant-table-body">
-                                <div>
-                                    <table>
-                                        <thead className="ant-table-thead">
-                                        <tr>
-                                            {checkMode ?
-                                                (<th className="ant-table-selection-column">
-                                                    <Checkbox
-                                                        ref="SelectAll"
-                                                        checked={ this.state.selectedRowKeys.length === dataSource.length }
-                                                        onChange={
-                                                            (e)=>{this.handleSelectAll(e, dataSource)}}/></th>) : null }
-
-                                            {
-                                                columns.map(col => <th width={col.width}>{col.title}</th>)
-                                            }
-                                        </tr>
-                                        </thead>
-                                    </table>
-
-                                    {/*搜索部分*/}
-                                    {this.renderQueryTable(columns, queryColumns, checkMode)}
-
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <Table ref='dataTable'
-                               dataSource={dataSource}
-                               columns={columns}
-                               rowSelection={rowSelection}
-                               pagination={false}
-                        >
-                        </Table>
-                    </div>
-
-                </div>
-
-                <Pagination  {...pagination}/>
-            </div>
-        )
-    }
-}
 
 
 class Account_List_Person_Page extends React.Component {
@@ -410,9 +137,9 @@ class Account_List_Person_Page extends React.Component {
         // todo: url包装
         this.props.getTableData({
 
-            url: 'http://esn.jianyu.com/scrmweb/accounts/getList'
+            url: SCRM.url('/scrmweb/accounts/getList')
         })
-        this.props.getTableQuery('http://esn.jianyu.com/scrmweb/accounts/getAccountFilter')
+        this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
 
     render() {
