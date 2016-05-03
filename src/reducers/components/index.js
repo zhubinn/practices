@@ -3,11 +3,12 @@
  */
 import { combineReducers } from 'redux'
 import __examples from './__examples'
-import dataTable from './dataTable'
+
+import QueryNestedTable from './QueryNestedTable'
 
 const componentReducers = combineReducers({
     __examples,
-    dataTable,
+    QueryNestedTable,
 })
 
 export default componentReducers

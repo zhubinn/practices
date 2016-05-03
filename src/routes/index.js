@@ -18,8 +18,7 @@ import ModulePage from 'containers/Master/Module'
 import DemoTablePage from 'containers/__demo/Table'
 import DemoLoginPage from 'containers/__demo/Login'
 
-import DemoDataTablePage from 'containers/__demo/DataTable'
-
+import DemoQueryNestedTablePage from 'containers/__demo/QueryNestedTable'
 import Error_404 from 'containers/Error/404'
 
 import AccountListPage from 'containers/Business/Account/List'
@@ -32,6 +31,7 @@ export default (
     <Route path="__demo">
     <Route path="table" component={DemoTablePage}/>
     <Route path="login" component={DemoLoginPage}/>
+    <Route path="nested_table" component={DemoQueryNestedTablePage}/>
     <Route path="hello" component={HelloPage}/>
     <Route path="customEditFieldPage" component={CustomEditFieldPage}/>
     <Route path="dispatchCluesPage" component={DispatchCluesPage}/>
@@ -51,7 +51,5 @@ export default (
     </Route>
 
     <Route path="*" component={Error_404}/>
-
-
     </Route>
 )
