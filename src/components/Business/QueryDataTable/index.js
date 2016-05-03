@@ -74,10 +74,17 @@ export default class QueryDataTable extends React.Component {
         }
 
     }
-    getSelection = (e) => {
+    // 获取已经check的row
+    getCheckedRows = () => {
 
+        if (!this.props.checkMode) {
+            return [];
+        }
+        return this.props.dataSource.filter((item, i) => this.state.selectedRowKeys.indexOf(i) > -1)
 
     }
+
+
 
     toggleQueryTable = (e) => {
         this.setState({

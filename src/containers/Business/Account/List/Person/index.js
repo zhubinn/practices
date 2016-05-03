@@ -142,6 +142,11 @@ class Account_List_Person_Page extends React.Component {
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
 
+    changeOwner = (e) => {
+        console.log('获取已经选择的row')
+        console.log(this.refs.queryDataTable.getCheckedRows())
+
+    }
     render() {
         const {
             $$account_list_person,
@@ -164,7 +169,7 @@ class Account_List_Person_Page extends React.Component {
                         <Button type="primary" onClick = {(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
-                        <Button type="ghost">变更联系人</Button>
+                        <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更联系人</Button>
                         <Button type="ghost">导出</Button>
                     </Col>
                 </Row>
