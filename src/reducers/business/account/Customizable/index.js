@@ -52,24 +52,27 @@ const  Customizable = ($$state = $$initialState, action)=>{
                 return action.payload.IsMust
             })
         case ACCOUNT_CUSTOM_ADDITEM:
-            const $$additemCon =  Immutable.fromJS({Val:'',IsSys:0,IsStop:0})
+            const $$additemCon =  Immutable.fromJS({Val:'',IsSys:0,IsStop:0,IsDeleted:0})
             return $$state.updateIn(['localeditColumnsOptions'], localeditColumnsOptions => {
                 return localeditColumnsOptions.push($$additemCon)
             })
 
         case ACCOUNT_CUSTOM_DELETEITEM:
-            if(action.payload.index === 0 && action.payload.isLast==1){
-            const $$lastitemCon =  Immutable.fromJS([{Val:'',IsSys:1,IsStop:0}])
-                return $$state.updateIn(['localeditColumnsOptions'], localeditColumnsOptions => {
-                    
-                    return $$lastitemCon
-                })
+            let selectedIndex = action.payload.index
+            let curcolumnsOptions = $$state.get('localeditColumnsOptions')            
+            if(selectedIndex == curcolumnsOptions.toJS().length){
+                curcolumnsOptions= [{Val:'',IsSys:1,IsStop:0,IsDeleted:0}]
             }else{
-                return $$state.updateIn(['localeditColumnsOptions'], localeditColumnsOptions => {
-                    
-                    return localeditColumnsOptions.delete(action.payload.index)
-                })
+                curcolumnsOptions = curcolumnsOptions.map((r, i) => {
+                    if (i === selectedIndex) {
+                        return r.updateIn(['IsDeleted'], IsDeleted => {
+                            return 1
+                        })
+                    }
+                    return r
+                })            
             }
+            return $$state.set('localeditColumnsOptions', curcolumnsOptions)
 
         case ACCOUNT_CUSTOM_CHANGRINPUTVALUE:
 

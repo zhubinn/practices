@@ -63,17 +63,15 @@ export const dataItem = (data)=>{
     }
         return (dispatch, getState) => {
         const url = params.url;
-        dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA,{}));
+        dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA,'req='));
 
             fetch(params.url, {
                 credentials: 'include',
                 method: 'post',
                 headers: {
-                    'API': 1,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/x-www-form-urlencoded"
                 },
-                body: JSON.stringify(params.data)
+                body: 'req='+JSON.stringify(params.data)
             }).then(function(response) {
                 if (response.status >= 400) {
                     throw new Error("Bad response from server")
@@ -91,12 +89,19 @@ export const dataItem = (data)=>{
 
 
 export const selectedRowData = (selectedRow,editColumnsOptions)=>{
+    let localeditColumnsOptions = []
+    editColumnsOptions.map((r,i)=>{
+        if(r.IsDeleted == 0){
+            localeditColumnsOptions.push(r)
+        }
+    })
     if(editColumnsOptions.length == 0){
         let editColumnsOptions = [
             {
                 Val:"",//枚举值.
                 IsStop:0,//1：停用 0：启用.
                 IsSys:1,//是否是系统属性.
+                IsDeleted:0
             }
         ]
         return {
@@ -105,17 +110,25 @@ export const selectedRowData = (selectedRow,editColumnsOptions)=>{
                 'selectedRow':selectedRow,
                 'serverSelectedRow':selectedRow,
                 'servereditColumnsOptions':editColumnsOptions,
-                'localeditColumnsOptions':editColumnsOptions
+                'localeditColumnsOptions':localeditColumnsOptions.length ==0?editColumnsOptions:localeditColumnsOptions
             }
         }
     }else{
+        let defalutColumnsOptions = [
+            {
+                Val:"",//枚举值.
+                IsStop:0,//1：停用 0：启用.
+                IsSys:1,//是否是系统属性.
+                IsDeleted:0
+            }
+        ]        
         return {
             type:ACCOUNT_CUSTOM_SELECTEDROWDATA,
             payload: {
                 'selectedRow':selectedRow,
                 'serverSelectedRow':selectedRow,
                 'servereditColumnsOptions':editColumnsOptions,
-                'localeditColumnsOptions':editColumnsOptions
+                'localeditColumnsOptions':localeditColumnsOptions.length ==0?defalutColumnsOptions:localeditColumnsOptions
             }
         }
     }

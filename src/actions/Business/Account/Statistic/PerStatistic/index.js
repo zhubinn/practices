@@ -46,6 +46,9 @@ export const getAccountPerStatisticData = (params) => {
             fetch(params.url, {
                 credentials: 'include',
                 method: 'post',
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },                
                 body: 'params='+JSON.stringify(params.data)
             }).then(function(response) {
                 if (response.status >= 400) {

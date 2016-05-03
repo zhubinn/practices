@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Customizable from './CustomizablePage.less'
 
 import DivTab from './DivTab'
-import DivList from './DivList'
+
 import { selectedRowData,clickCloseBtn,selectedTabIndex,changeIsRequired,getTableData,
     addItem,deletItem,changeInputValue,ChangeStatus,clickapplyBtn,DownItem,UpItem,
     clickCancleBtn,dataItem} from 'actions/Business/Account/Customizable'
@@ -109,10 +109,21 @@ class CustomizablePage extends  React.Component{
                             <span className="settingClose" onClick = {this.handleClose.bind(this)}>关闭</span>
                             </div>
                             <div>
-                                <DivTab $$mapState={$$mapState} selectedTabIndex={selectedTabIndex} ></DivTab>
-                                <DivList $$mapState={$$mapState} changeIsRequired = {changeIsRequired} addItem={addItem} 
-                                deletItem={deletItem} changeInputValue={changeInputValue} ChangeStatus={ChangeStatus}
-                                DownItem = {DownItem} UpItem={UpItem} clickapplyBtn={clickapplyBtn} clickCancleBtn={clickCancleBtn}></DivList>
+                                <DivTab 
+                                    $$mapState={$$mapState} 
+                                    selectedTabIndex={selectedTabIndex} 
+                                    $$mapState={$$mapState} 
+                                    changeIsRequired = {changeIsRequired} 
+                                    addItem={addItem} 
+                                    deletItem={deletItem} 
+                                    changeInputValue={changeInputValue} 
+                                    ChangeStatus={ChangeStatus}
+                                    DownItem = {DownItem} 
+                                    UpItem={UpItem} 
+                                    clickapplyBtn={clickapplyBtn} 
+                                    clickCancleBtn={clickCancleBtn}
+                                    getTableData= {getTableData}                                >
+                                </DivTab>
                             </div>
                         </div>
                      </div>
