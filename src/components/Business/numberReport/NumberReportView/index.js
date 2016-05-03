@@ -44,7 +44,7 @@ export default class NumberReportView extends React.Component {
         const obj = $('#viewNumList').data()
         //TODO 异步請求
         $.post(SCRM.url('/scrmnumreport/index/listAjax'), {
-            templateID:obj.templateid || 18,
+            templateID:obj.templateid,
             date:myDate.getFullYear() +'-'+ this.fillZero(myDate.getMonth()+1) +'-'+ this.fillZero(myDate.getDate()),
             dateType:obj.nptype
         },function(data){
