@@ -1,5 +1,6 @@
 /**
- * Created by c on 16/3/11.
+ * Created by leesx on 16/4/20.
+ * 搜索组件
  */
 import { findDOMNode } from 'react-dom'
 import { Spin , message } from 'antd';
@@ -39,11 +40,11 @@ export default class Search extends React.Component {
             if(data.rs === true){
                 const rowData = data.data.rowData;
                 actions.fetchData(true,rowData)
-                listNode.style.display = 'none'
+
             }else{
                 message.error('服务器错误，请联系客服！')
-                listNode.style.display = 'none'
             }
+            listNode.style.display = 'none'
         },'json')
     }
 
@@ -76,7 +77,8 @@ export default class Search extends React.Component {
     }
 
     clickGuggest(value){
-        //alert(value)
+        findDOMNode(this.refs.searchInput).value = value
+        this.clickSearchOwer()
     }
 
     searchKeyUp(e){
@@ -114,7 +116,7 @@ export default class Search extends React.Component {
         const { dispatchCluesState ,actions } = this.props
         const suggestData = dispatchCluesState.toJS().suggestData
         const { searchVal } = this.state
-
+        console.log(searchVal)
         const fliterData = suggestData.filter(function(item){
              let reg = new RegExp(`^${searchVal}`);
              return searchVal && reg.test(item.Name)
@@ -128,6 +130,8 @@ export default class Search extends React.Component {
                 </li>
             )
         })
+
+        console.log(nodes)
 
         return (
             <div className="col-cktop-Hightsearch">

@@ -1,5 +1,5 @@
 /**
- * Created by c on 16/3/11.
+ * Created by leesx on 16/3/11.
  * 搜索组件
  */
 import { findDOMNode } from 'react-dom'

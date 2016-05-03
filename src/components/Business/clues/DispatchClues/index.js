@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch'
 import { findDOMNode } from 'react-dom'
 import { Table, Modal, Spin,  Button, Radio, message, Input } from 'antd'
 const RadioGroup = Radio.Group;
-import Search from './search'
+import SearchInput from './SearchInput'
 //less
 import './less/clues.less'
 
@@ -206,9 +206,10 @@ export default class DispatchClues extends React.Component {
 
     renderTableList(){
         const { dispatchCluesState ,actions } = this.props
-        const rowData = dispatchCluesState.toJS().rowData
-        const loading = dispatchCluesState.toJS().loading
-        const dispatchState = dispatchCluesState.toJS().dispatchState
+        // const rowData = dispatchCluesState.toJS().rowData
+        // const loading = dispatchCluesState.toJS().loading
+        // const dispatchState = dispatchCluesState.toJS().dispatchState
+        const { rowData, loading, dispatchState } = dispatchCluesState.toJS()
 
 
         //未分派0
@@ -239,6 +240,32 @@ export default class DispatchClues extends React.Component {
 
     }
 
+    clickSearch(value){
+        const val = value.trim()
+        this.searchFetchData(val)
+    }
+
+    searchFetchData(value){
+        const { dispatchCluesState ,actions } = this.props
+        const dispatchState = dispatchCluesState.toJS().dispatchState
+
+        $.post(SCRM.url('/scrmlead/index/getAssignList'),{
+            assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
+            page:1,
+            rowsPerPage:20,
+            canAssign:1,
+            keyword:value
+        },function(data){
+            if(data.rs === true){
+                const rowData = data.data.rowData;
+                actions.fetchData(true,rowData)
+
+            }else{
+                message.error('服务器错误，请联系客服！')
+            }
+        },'json')
+    }
+
     render() {
         const { dispatchCluesState ,actions } = this.props
         const dispatchState = dispatchCluesState.toJS().dispatchState
@@ -248,7 +275,7 @@ export default class DispatchClues extends React.Component {
                 <div className="col-right">
                     <div className="col-cktop">
                         <div className="col-cktop-gongneng clearfix">
-                            <Search dispatchCluesState = { dispatchCluesState } actions = { actions }  />
+                            <SearchInput placeholder="输入线索负责人" style={{ width: 200 }} onSearch = { this.clickSearch.bind(this) } {...this.props}  />
                             <button className = { dispatchState === 0 ? "col-cktop-btn " : "col-cktop-btn hidden" }  onClick = { this.showModal.bind(this) }>分派</button>
                         </div>
 
