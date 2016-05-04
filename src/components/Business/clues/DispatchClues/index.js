@@ -275,7 +275,10 @@ export default class DispatchClues extends React.Component {
                 <div className="col-right">
                     <div className="col-cktop">
                         <div className="col-cktop-gongneng clearfix">
-                            <SearchInput placeholder="输入线索负责人" style={{ width: 200 }} onSearch = { this.clickSearch.bind(this) } {...this.props}  />
+                            <div className="col-cktop-Hightsearch">
+                                <SearchInput  placeholder="输入线索负责人" style={{ width: 200 }} onSearch = { this.clickSearch.bind(this) } {...this.props}  />
+                                <button className="Hightsearch-btn">高级搜索</button>
+                            </div>
                             <button className = { dispatchState === 0 ? "col-cktop-btn " : "col-cktop-btn hidden" }  onClick = { this.showModal.bind(this) }>分派</button>
                         </div>
 
