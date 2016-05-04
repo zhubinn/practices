@@ -63,8 +63,8 @@ const getTableData = (params)=> {
 
 
     /*
-    *     body:  Object.assign(table_params.data, params.data)
-    *    */
+     *     body:  Object.assign(table_params.data, params.data)
+     *    */
     return (dispatch, getState) => {
 
         dispatch(fetchData(GET_TABLE_DATA, {rows: [], loading: true}))
@@ -115,8 +115,8 @@ const getTableQuery = (url)=> {
 
 
     /*
-    *     body:  Object.assign(table_params.data, params.data)
-    *    */
+     *     body:  Object.assign(table_params.data, params.data)
+     *    */
     return (dispatch, getState) => {
 
         dispatch(fetchData(GET_TABLE_QUERY, {queryColumns: {}}))
