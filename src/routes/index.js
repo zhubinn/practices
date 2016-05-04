@@ -12,26 +12,25 @@ import NumberReportViewPage from 'containers/Business/numberReport/NumberReportV
 import DispatchCluesPage from 'containers/Business/clues/DispatchCluesPage'
 import ManageCluesPage from 'containers/Business/clues/ManageCluesPage'
 // import DemoPagination from 'containers/__demo/Pagination'
-import DemoReportListPage from 'containers/report/DemoReportListPage'
+
 
 import IndexPage from 'containers'
-
 
 import MasterPage from 'containers/Master/Default'
 import ModulePage from 'containers/Master/Module'
 import DemoTablePage from 'containers/__demo/Table'
 import DemoLoginPage from 'containers/__demo/Login'
-
 import DemoQueryNestedTablePage from 'containers/__demo/QueryNestedTable'
-import Account_List_Page from 'containers/Business/Account/List'
-import Account_List_Person_Page from 'containers/Business/Account/List/Person'
+
+//import Account_List_Dept_Page from 'containers/Business/Account/List/Dept'
+//import Account_List_Person_Page from 'containers/Business/Account/List/Person'
 import Account_Detail_Page from 'containers/Business/Account/Detail'
+//import Account_Detail_Person_Page from 'containers/Business/Account/Detail/Person'
 import Error_404 from 'containers/Error/404'
 import DemoPagination from 'containers/__demo/DemoPagination'
 import DemoTodoList from 'containers/__demo/DemoTodoList'
 import FormControl from 'components/common/base/FormControl'
 
-import AccountListPage from 'containers/Business/Account/List'
 import CustomizablePage from 'containers/Business/Account/Customizable'
 import StatisticPage from 'containers/Business/Account/Statistic'
 import DeptSummaryPage from 'containers/Business/Account/Summary/DeptSummary'
@@ -48,7 +47,6 @@ import DataLog from 'containers/Business/Log/DataLog'
 import searchPeople from 'containers/__demo/searchPeople'
 
 export default (
-
     <Route path="/">
         <Route path="__demo" component={MasterPage}>
             <Route path="table" component={DemoTablePage}/>
@@ -60,9 +58,11 @@ export default (
         </Route>
         <Route path="scrmweb" component={ModulePage}>
             <Route path="accounts">
-                <Route path="deptaccountdetail/VISITID/1" component={Account_Detail_Page}/>
-                <Route path="list/VISITID/1" component={Account_List_Person_Page}/>
-                <Route path="deptlist/VISITID/1" component={Account_List_Page}/>
+
+                <Route path="deptaccountdetail/:role/:id" component={Account_Detail_Page}/>
+                <Route path="peraccountdetail/:role/:id" component={Account_Detail_Person_Page}/>
+                <Route path="list/:role/:id" component={Account_List_Person_Page}/>
+                <Route path="deptlist/:role/:id" component={Account_List_Dept_Page}/>
             </Route>
             <Route path="business">
                 <Route path="deptstatistic/VISITID/1" component={Deptstatistic} />
