@@ -20,7 +20,6 @@ import DemoPagination from 'containers/__demo/DemoPagination'
 import DemoTodoList from 'containers/__demo/DemoTodoList'
 import FormControl from 'components/common/base/FormControl'
 
-import AccountListPage from 'containers/Business/Account/List'
 import CustomizablePage from 'containers/Business/Account/Customizable'
 import StatisticPage from 'containers/Business/Account/Statistic'
 import DeptSummaryPage from 'containers/Business/Account/Summary/DeptSummary'

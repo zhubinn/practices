@@ -75,7 +75,7 @@ class DataLog extends React.Component {
       this.props.getDataLogData(DataLogParams);
 
       //引入选人组件
-      const  id  = this.refs.searchPeopleCom.identity
+      const  id  = this.refs.searchPeopleDatalog.identity
       this.props.selectPeopelinitSource(id, getPeopleParams, DataLogParams)
     }
 
@@ -136,6 +136,7 @@ class DataLog extends React.Component {
 
     render() {
         //table数据配置
+        debugger
         const { $$logState } = this.props;
         const dataSource = $$logState.get('tableData').get('data').get('rowData').toJS();
         const columns = $$logState.get('tableColumns').toJS();
@@ -198,7 +199,7 @@ class DataLog extends React.Component {
                 </div>
               </div>
 
-              <SearchPeople ref = "searchPeopleCom"
+              <SearchPeople ref = "searchPeopleDatalog"
                 clickPeopleDate = {clickPeopleDate}
                 clickPeopleTag = {clickPeopleTag} 
                 deletePeopleTag= {deletePeopleTag}
