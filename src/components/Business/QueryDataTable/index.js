@@ -108,6 +108,8 @@ export default class QueryDataTable extends React.Component {
                 handleSubmit(e) {
                     e.preventDefault();
                     console.log('收到表单值：', this.props.form.getFieldsValue());
+                    const queryFormData = this.props.form.getFieldsValue()
+                    ;
 
                     // that.props.onSure(this.props.form.getFieldsValue())
                     that.setState({
@@ -121,8 +123,17 @@ export default class QueryDataTable extends React.Component {
 
                     if (that.props.onGetTableData) {
                         that.props.onGetTableData({
-                            searchData: this.props.form.getFieldsValue(),
-                            page: 1
+                            searchData: Object.keys(this.props.form.getFieldsValue()).map((item)=>{
+                                return {
+                                    name: item.split('_')[1],
+                                    operator: item.split('_')[0],
+
+                                    value: queryFormData[item]
+
+                                }
+                            }),
+                            page: 1,
+                            pageSize: 0
                         })
                     }
                 },
@@ -205,6 +216,16 @@ export default class QueryDataTable extends React.Component {
                         })} />
                     </FormItem>)
 
+                case "13":
+
+                    return (<FormItem>
+                        <Select multiple {...getFieldProps('10_' + col['key'], {
+                            initialValue: queryCol['renderData']['defaultValue']
+                        })} >
+                            {queryCol['renderData']['options'].map((item, i) =>(<Option value={item.value} key = {i}>{item.text}</Option>)
+                            )}
+                        </Select>
+                    </FormItem>)
                 case "15":
                     return (<FormItem>
                         <RangePicker format="yyyy-MM-dd" {...getFieldProps('9_' + col['key'], {
