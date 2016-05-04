@@ -23,6 +23,7 @@ export default class QueryDataTable extends React.Component {
         showPagination: React.PropTypes.bool,
         loading: React.PropTypes.bool,
         checkMode: React.PropTypes.bool,
+        dataSource: React.PropTypes.object,
         pagination: React.PropTypes.object,
         queryColumns: React.PropTypes.object,
         // 刷新数据回调函数
@@ -33,6 +34,7 @@ export default class QueryDataTable extends React.Component {
         checkMode: false,
         columns: [],
         queryColumns: {},
+        dataSource: {},
         loading: false
     }
 
