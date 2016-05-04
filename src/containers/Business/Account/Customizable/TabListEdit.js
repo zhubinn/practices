@@ -2,7 +2,7 @@ import { isPlainObject, isFunction, isString } from 'lodash'
 import warning from 'fbjs/lib/warning'
 import DivEdit from './DivEdit'
 import {message } from 'antd';
-
+import { Checkbox } from 'antd';
 
 class TabListEdit extends React.Component{
 	constructor(props) {
@@ -101,8 +101,12 @@ class TabListEdit extends React.Component{
                     <ul className = "ck-customize-Txt01 clearfix">
                         <li>字段名称：{selectedRow["Label"]}</li>
                         <li>字段类型：{selectedRow["AttrType"]==13?'下拉单选':''}</li>
-                        <li>是否必填：<input type = "checkbox" ref="checkboxInput" 
-                        defaultChecked={selectedRow['IsMust']=='1'?'checked':''} onChange = {this.handleCheckbox}/>必填</li>
+                        <li>
+                            <label>是否必填：
+                                <Checkbox defaultChecked={selectedRow['IsMust']=='1'?'checked':''} onChange={this.handleCheckbox} ref="checkboxInput"/>必填
+                            </label>
+                        </li>
+
                     </ul>
                     <DivEdit 
                         addItem={addItem} 

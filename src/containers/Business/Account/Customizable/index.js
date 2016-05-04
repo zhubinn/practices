@@ -10,7 +10,7 @@ import { selectedRowData,clickCloseBtn,selectedTabIndex,changeIsRequired,getTabl
 
 import { Table, Icon,message } from 'antd';
 
-let currentText
+let currentText 
 
 
 let columns = [
@@ -22,10 +22,10 @@ let columns = [
         return (<div>{text==1?'是':'否'}</div>);
     }},
     {title: '备注说明', dataIndex: 'Content',key: 'Content', width: 170 },
-    {title: '操作', dataIndex: 'ID',key: 'ID' , width: 170, render: function(text, record, index){
-        return (
-                <button className = "ck-customize-bnt01" onClick = {e=>currentText.handleSelectSet(record)}>设置</button>
-          );
+    {title: '操作', dataIndex: 'ID',key: 'ID' , width: 170, render: function(text, record, index){ 
+        //let self = new  CustomizablePage()
+         console.log(currentText)
+        return (<button className = "ck-customize-bnt01" onClick={e=>currentText.handleSelectSet(record)}>设置</button>)
     }}
 ];
 
@@ -36,6 +36,9 @@ let params = {
     }
 }
 
+// const onOperationClick = function(record) {
+//     console.log(this)
+// }
 
 class CustomizablePage extends  React.Component{
     constructor(props) {
@@ -62,7 +65,6 @@ class CustomizablePage extends  React.Component{
 
         let editColumnsOptions = []
         editColumnsOptions = record.Enums 
-        console.log(record.Enums)
         selectedRowData(selectedRow,editColumnsOptions)
     }
 

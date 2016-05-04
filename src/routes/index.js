@@ -53,9 +53,6 @@ export default (
                 <Route path="deptlist/:role/:id" component={Account_List_Dept_Page}/>
             </Route>
 
-
-            </Route>
-
         </Route>
 
         <Route path="*" component={Error_404}/>

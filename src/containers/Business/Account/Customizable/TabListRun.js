@@ -23,7 +23,8 @@ class TabListRun extends React.Component{
                         return showColumnsOptions.push(r)
                     }
                 })
-                 if(showColumnsOptions.length == 0){
+                 if(showColumnsOptions.length == 0 ||
+                    (showColumnsOptions.length == 1 && showColumnsOptions.Val =='')){
                     showColumnsOptions = [{Val:'请选择',IsStop:0}]
                  }
              }
