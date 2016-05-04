@@ -14,7 +14,7 @@ const FormItem = Form.Item;
 const RangePicker = DatePicker.RangePicker;
 
 
-
+//todo: 清理state方法合并
 export default class QueryDataTable extends React.Component {
 
 
@@ -112,8 +112,11 @@ export default class QueryDataTable extends React.Component {
                     // that.props.onSure(this.props.form.getFieldsValue())
                     that.setState({
                         isSearchShow: false,
-                        selectedRowKeys: []
+                        selectedRowKeys: [],
+                        expandedRowKeys: []
+
                     })
+
 
 
                     if (that.props.onGetTableData) {
@@ -185,9 +188,12 @@ export default class QueryDataTable extends React.Component {
             switch (queryCol['searchType']) {
 
                 case "4":
+                case "5":
+                case "6":
+                case "9":
 
-                    return (<FormItem>
-                        <Input {...getFieldProps(col['key'], {
+                    return (<FormItem >
+                        <Input {...getFieldProps('14_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
@@ -198,10 +204,16 @@ export default class QueryDataTable extends React.Component {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
+
                 case "15":
+                    return (<FormItem>
+                        <RangePicker format="yyyy-MM-dd" {...getFieldProps('9_' + col['key'], {
+                            initialValue: queryCol['renderData']['defaultValue']
+                        })} />
+                    </FormItem>)
                 case "16":
                     return (<FormItem>
-                        <RangePicker format="yyyy-MM-dd" {...getFieldProps(col['key'], {
+                        <RangePicker showTime format="yyyy/MM/dd HH:mm:ss"  showTime  {...getFieldProps('9_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
@@ -238,6 +250,13 @@ export default class QueryDataTable extends React.Component {
             expandedRowKeys: rows,
         });
     }
+    clearExpendedRows = ()=>{
+        this.setState(
+            {
+                expandedRowKeys: []
+            }
+        )
+    }
 
     getRowKey(record) {
         return record.ID;
@@ -263,7 +282,10 @@ export default class QueryDataTable extends React.Component {
             showSizeChanger: true,
             showQuickJumper: true,
             onChange: (pageNumber) => {
+                this.clearExpendedRows()
                 this.clearSelectedRows()
+
+
                 this.props.onGetTableData({
 
                     page: pageNumber,
@@ -272,7 +294,9 @@ export default class QueryDataTable extends React.Component {
                 })
             },
             onShowSizeChange: (current, pageSize) => {
+                this.clearExpendedRows()
                 this.clearSelectedRows()
+
                 this.props.onGetTableData({
 
                     pageSize: pageSize,
