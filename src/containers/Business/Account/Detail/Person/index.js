@@ -45,9 +45,69 @@ const columns = [{
     key: 'Address',
 
 }, {
+    title: '销售地址',
+    dataIndex: 'Address2',
+    key: 'Address2',
+
+}, {
+    title: '工厂地址',
+    dataIndex: 'Address3',
+    key: 'Address3',
+
+}, {
+    title: '库房地址',
+    dataIndex: 'Address4',
+    key: 'Address4',
+
+}, {
+    title: '收货地址',
+    dataIndex: 'Address5',
+    key: 'Address5',
+
+}, {
+    title: '门店地址',
+    dataIndex: 'Address6',
+    key: 'Address6',
+
+}, {
+    title: '其他地址',
+    dataIndex: 'Address7',
+    key: 'Address7',
+
+}, {
     title: '客户公司电话',
     dataIndex: 'Phone',
     key: 'Phone',
+
+}, {
+    title: '销售电话',
+    dataIndex: 'Phone2',
+    key: 'Phone2',
+
+}, {
+    title: '工厂电话',
+    dataIndex: 'Phone3',
+    key: 'Phone3',
+
+}, {
+    title: '库房电话',
+    dataIndex: 'Phone4',
+    key: 'Phone4',
+
+}, {
+    title: '收货电话',
+    dataIndex: 'Phone5',
+    key: 'Phone5',
+
+}, {
+    title: '门店电话',
+    dataIndex: 'Phone6',
+    key: 'Phone6',
+
+}, {
+    title: '其他电话',
+    dataIndex: 'Phone7',
+    key: 'Phone7',
 
 }, {
     title: '客户简介',
@@ -169,7 +229,7 @@ class Account_Detail_Person_Page extends React.Component {
                         <Button type="primary" onClick = {(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
-                        <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更联系人</Button>
+
                         <Button type="ghost">导出</Button>
                     </Col>
                 </Row>
@@ -182,7 +242,7 @@ class Account_Detail_Person_Page extends React.Component {
 
                         <QueryDataTable
                             columns={columns}
-                            checkMode={true}
+                            expandedRowRender={true}
                             {...queryDataTable}
                             onGetTableData={
 

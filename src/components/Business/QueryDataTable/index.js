@@ -11,10 +11,10 @@ const Option = Select.Option;
 const RadioGroup = Radio.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
+const RangePicker = DatePicker.RangePicker;
 
 
-
-
+//todo: 清理state方法合并
 export default class QueryDataTable extends React.Component {
 
 
@@ -47,7 +47,9 @@ export default class QueryDataTable extends React.Component {
 
         this.state = {
             isSearchShow: false,
-            selectedRowKeys: []
+            selectedRowKeys: [],
+            expandedRowKeys: [],
+            needRenderQuery: true
 
         }
     }
@@ -63,6 +65,12 @@ export default class QueryDataTable extends React.Component {
         })
     }
 
+    // 重置筛选表单数据(供外部调用)
+    resetQueryForm = ()=>{
+        this.setState({
+            needRenderQuery: true
+        })
+    }
     handleSelectAll = (e, dataSource) => {
 
 
@@ -102,23 +110,37 @@ export default class QueryDataTable extends React.Component {
         if (isEmpty(queryColumns)) return null
         const that = this
 
-        if (!this.queryForm) {
+        if (this.state.needRenderQuery) {
             this.queryForm = React.createClass({
                 handleSubmit(e) {
                     e.preventDefault();
                     console.log('收到表单值：', this.props.form.getFieldsValue());
+                    const queryFormData = this.props.form.getFieldsValue()
+                    ;
 
                     // that.props.onSure(this.props.form.getFieldsValue())
                     that.setState({
                         isSearchShow: false,
-                        selectedRowKeys: []
+                        selectedRowKeys: [],
+                        expandedRowKeys: []
+
                     })
+
 
 
                     if (that.props.onGetTableData) {
                         that.props.onGetTableData({
-                            searchData: this.props.form.getFieldsValue(),
-                            page: 1
+                            searchData: Object.keys(this.props.form.getFieldsValue()).map((item)=>{
+                                return {
+                                    name: item.split('_')[1],
+                                    operator: item.split('_')[0],
+
+                                    value: queryFormData[item]
+
+                                }
+                            }),
+                            page: 1,
+                            pageSize: 0
                         })
                     }
                 },
@@ -167,6 +189,9 @@ export default class QueryDataTable extends React.Component {
             });
 
             this.queryForm = Form.create()(this.queryForm);
+            this.setState({
+                needRenderQuery: false
+            })
         }
         return (<this.queryForm />)
 
@@ -183,10 +208,13 @@ export default class QueryDataTable extends React.Component {
 
             switch (queryCol['searchType']) {
 
-                case 1:
+                case "4":
+                case "5":
+                case "6":
+                case "9":
 
-                    return (<FormItem>
-                        <Input {...getFieldProps(col['key'], {
+                    return (<FormItem >
+                        <Input {...getFieldProps('14_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
@@ -198,6 +226,28 @@ export default class QueryDataTable extends React.Component {
                         })} />
                     </FormItem>)
 
+                case "13":
+
+                    return (<FormItem>
+                        <Select multiple {...getFieldProps('10_' + col['key'], {
+                            initialValue: queryCol['renderData']['defaultValue']
+                        })} >
+                            {queryCol['renderData']['options'].map((item, i) =>(<Option value={item.value} key = {i}>{item.text}</Option>)
+                            )}
+                        </Select>
+                    </FormItem>)
+                case "15":
+                    return (<FormItem>
+                        <RangePicker format="yyyy-MM-dd" {...getFieldProps('9_' + col['key'], {
+                            initialValue: queryCol['renderData']['defaultValue']
+                        })} />
+                    </FormItem>)
+                case "16":
+                    return (<FormItem>
+                        <RangePicker showTime format="yyyy/MM/dd HH:mm:ss"  showTime  {...getFieldProps('9_' + col['key'], {
+                            initialValue: queryCol['renderData']['defaultValue']
+                        })} />
+                    </FormItem>)
                 default:
                     return null
             }
@@ -215,8 +265,36 @@ export default class QueryDataTable extends React.Component {
 
         return width + 'px'
     }
+
+
+
+    expandedRowRender(record) {
+        console.log(record);
+        return <p>extra: {record.ID}</p>;
+    }
+    onExpand(expanded, record) {
+        console.log('onExpand', expanded, record);
+    }
+
+    onExpandedRowsChange= (rows) => {
+        this.setState({
+            expandedRowKeys: rows,
+        });
+    }
+    clearExpendedRows = ()=>{
+        this.setState(
+            {
+                expandedRowKeys: []
+            }
+        )
+    }
+
+    getRowKey(record) {
+        return record.ID;
+    }
+
     render() {
-        const {dataSource, columns, queryColumns,  current, pageSize, total, checkMode, loading} = this.props
+        const {dataSource, columns, queryColumns,  current, pageSize, total, checkMode, loading, expandedRowRender} = this.props
         const {isSearchShow, selectedRowKeys} = this.state
         let rowSelection = null
         if (checkMode) {
@@ -235,7 +313,10 @@ export default class QueryDataTable extends React.Component {
             showSizeChanger: true,
             showQuickJumper: true,
             onChange: (pageNumber) => {
+                this.clearExpendedRows()
                 this.clearSelectedRows()
+
+
                 this.props.onGetTableData({
 
                     page: pageNumber,
@@ -244,7 +325,9 @@ export default class QueryDataTable extends React.Component {
                 })
             },
             onShowSizeChange: (current, pageSize) => {
+                this.clearExpendedRows()
                 this.clearSelectedRows()
+
                 this.props.onGetTableData({
 
                     pageSize: pageSize,
@@ -253,6 +336,40 @@ export default class QueryDataTable extends React.Component {
                 })
             }
         }
+
+        let table = (
+            <Table ref='dataTable'
+                   dataSource={dataSource}
+                   columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
+                               )}
+                   rowSelection={rowSelection}
+                   pagination={false}
+                   showHeader={false}
+                   loading={loading}
+            >
+            </Table>
+        )
+        if (this.props.expandedRowRender) {
+            table = (<Table ref='dataTable'
+                           dataSource={dataSource}
+                           columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
+                               )}
+                           rowSelection={rowSelection}
+                           pagination={false}
+                           showHeader={false}
+                           loading={loading}
+
+                           expandIconAsCell
+                           expandedRowRender={this.expandedRowRender}
+                           expandedRowKeys={this.state.expandedRowKeys}
+                           onExpandedRowsChange={this.onExpandedRowsChange}
+                           onExpand={this.onExpand}
+                           className="table"
+                           rowKey={this.getRowKey}
+            >
+            </Table>)
+        }
+
 
 
         return (
@@ -297,16 +414,7 @@ export default class QueryDataTable extends React.Component {
                         </div>
 
 
-                        <Table ref='dataTable'
-                               dataSource={dataSource}
-                               columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
-                               )}
-                               rowSelection={rowSelection}
-                               pagination={false}
-                               showHeader={false}
-                               loading={loading}
-                        >
-                        </Table>
+                        {table}
                     </div>
 
                 </div>

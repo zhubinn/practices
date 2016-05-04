@@ -178,7 +178,7 @@ class Account_List_Person_Page extends React.Component {
 
                 }}>
                     <TabPane tab="全部客户" key="1">
-
+                        <Button onClick={()=>{this.refs.queryDataTable.resetQueryForm()}}>reset</Button>
 
                         <QueryDataTable
                             columns={columns}
