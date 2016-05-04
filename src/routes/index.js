@@ -11,9 +11,11 @@ import DemoTablePage from 'containers/__demo/Table'
 import DemoLoginPage from 'containers/__demo/Login'
 
 import DemoQueryNestedTablePage from 'containers/__demo/QueryNestedTable'
-import Account_List_Page from 'containers/Business/Account/List'
+
+import Account_List_Dept_Page from 'containers/Business/Account/List/Dept'
 import Account_List_Person_Page from 'containers/Business/Account/List/Person'
 import Account_Detail_Page from 'containers/Business/Account/Detail'
+import Account_Detail_Person_Page from 'containers/Business/Account/Detail/Person'
 import Error_404 from 'containers/Error/404'
 
 import CustomizablePage from 'containers/Business/Account/Customizable'
@@ -38,16 +40,19 @@ export default (
         <Route path="scrmweb" component={ModulePage}>
             <Route path="accounts">
 
-                <Route path="deptaccountdetail/VISITID/1" component={Account_Detail_Page}/>
-                <Route path="list/VISITID/1" component={Account_List_Person_Page}/>
-                <Route path="deptlist/VISITID/1" component={Account_List_Page}/>
-                <Route path="define/VISITID/1" component={CustomizablePage}/>
-                <Route path="deptstatistic/VISITID/1" component={DeptStatisticPage}/>
-                <Route path="perstatistic/VISITID/1" component={PerStatisticPage}/>
-                <Route path="deptstatisticdetail/VISITID/1" component={DeptStatisticDetailPage}/>
-                <Route path="deptsummary/VISITID/1" component={DeptSummaryPage}/>
-                <Route path="persummary/VISITID/1" component={PerSummaryPage}/>
-                <Route path="deptsummarydetail/VISITID/1" component={DeptSummaryDetailPage}/>
+                <Route path="define/:role/:id" component={CustomizablePage}/>
+                <Route path="deptstatistic/:role/:id" component={DeptStatisticPage}/>
+                <Route path="perstatistic/:role/:id" component={PerStatisticPage}/>
+                <Route path="deptstatisticdetail/:role/:id" component={DeptStatisticDetailPage}/>
+                <Route path="deptsummary/:role/:id" component={DeptSummaryPage}/>
+                <Route path="persummary/:role/:id" component={PerSummaryPage}/>
+                <Route path="deptsummarydetail/:role/:id" component={DeptSummaryDetailPage}/>
+                <Route path="deptaccountdetail/:role/:id" component={Account_Detail_Page}/>
+                <Route path="peraccountdetail/:role/:id" component={Account_Detail_Person_Page}/>
+                <Route path="list/:role/:id" component={Account_List_Person_Page}/>
+                <Route path="deptlist/:role/:id" component={Account_List_Dept_Page}/>
+            </Route>
+
 
             </Route>
 

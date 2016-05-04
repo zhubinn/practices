@@ -9,10 +9,10 @@ import account_perstatistic from './account/Statistic/PerStatistic'
 import account_deptsummary from './account/Summary/DeptSummary'
 import account_persummary from './account/Summary/PerSummary'
 import account_deptsummarydetail from './account/Summary/DeptSummaryDetail'
-import account_list from './account/list'
-import account_list_person from './account/list/person'
-import account_detail from './account/detail'
 
+import account_list_dept from './account/list/dept'
+import account_list_person from './account/list/person'
+import account_detail_person from './account/detail/person'
 
 
 const businessReducers = combineReducers({
@@ -26,6 +26,8 @@ const businessReducers = combineReducers({
     account_list,
     account_detail,
     account_list_person,
+    account_list_dept,
+    account_detail_person,
 })
 
 

@@ -10,7 +10,7 @@ import {    GET_TABLE_DATA,
     GET_TABLE_QUERY_SUCCESS,
     GET_TABLE_QUERY_FAILURE,
 
-} from 'actions/business/account/list/person'
+} from 'actions/business/account/detail/person'
 const $$initialState = Immutable.fromJS({
     rows: [],
     current: 1,
@@ -22,7 +22,7 @@ const $$initialState = Immutable.fromJS({
 
 })
 
-export default function account_list_person($$state = $$initialState, action) {
+export default function account_detail_person($$state = $$initialState, action) {
     switch (action.type) {
 
         case GET_TABLE_DATA:
