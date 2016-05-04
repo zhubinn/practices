@@ -182,7 +182,7 @@ class Account_Detail_Person_Page extends React.Component {
 
                         <QueryDataTable
                             columns={columns}
-
+                            expandedRowRender={true}
                             {...queryDataTable}
                             onGetTableData={
 

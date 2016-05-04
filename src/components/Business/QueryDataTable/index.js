@@ -47,7 +47,8 @@ export default class QueryDataTable extends React.Component {
 
         this.state = {
             isSearchShow: false,
-            selectedRowKeys: []
+            selectedRowKeys: [],
+            expandedRowKeys: []
 
         }
     }
@@ -221,8 +222,29 @@ export default class QueryDataTable extends React.Component {
 
         return width + 'px'
     }
+
+
+
+    expandedRowRender(record) {
+        console.log(record);
+        return <p>extra: {record.ID}</p>;
+    }
+    onExpand(expanded, record) {
+        console.log('onExpand', expanded, record);
+    }
+
+    onExpandedRowsChange= (rows) => {
+        this.setState({
+            expandedRowKeys: rows,
+        });
+    }
+
+    getRowKey(record) {
+        return record.ID;
+    }
+
     render() {
-        const {dataSource, columns, queryColumns,  current, pageSize, total, checkMode, loading} = this.props
+        const {dataSource, columns, queryColumns,  current, pageSize, total, checkMode, loading, expandedRowRender} = this.props
         const {isSearchShow, selectedRowKeys} = this.state
         let rowSelection = null
         if (checkMode) {
@@ -259,6 +281,40 @@ export default class QueryDataTable extends React.Component {
                 })
             }
         }
+
+        let table = (
+            <Table ref='dataTable'
+                   dataSource={dataSource}
+                   columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
+                               )}
+                   rowSelection={rowSelection}
+                   pagination={false}
+                   showHeader={false}
+                   loading={loading}
+            >
+            </Table>
+        )
+        if (this.props.expandedRowRender) {
+            table = (<Table ref='dataTable'
+                           dataSource={dataSource}
+                           columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
+                               )}
+                           rowSelection={rowSelection}
+                           pagination={false}
+                           showHeader={false}
+                           loading={loading}
+
+                           expandIconAsCell
+                           expandedRowRender={this.expandedRowRender}
+                           expandedRowKeys={this.state.expandedRowKeys}
+                           onExpandedRowsChange={this.onExpandedRowsChange}
+                           onExpand={this.onExpand}
+                           className="table"
+                           rowKey={this.getRowKey}
+            >
+            </Table>)
+        }
+
 
 
         return (
@@ -303,16 +359,7 @@ export default class QueryDataTable extends React.Component {
                         </div>
 
 
-                        <Table ref='dataTable'
-                               dataSource={dataSource}
-                               columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
-                               )}
-                               rowSelection={rowSelection}
-                               pagination={false}
-                               showHeader={false}
-                               loading={loading}
-                        >
-                        </Table>
+                        {table}
                     </div>
 
                 </div>
