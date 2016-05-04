@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { Row, Col, Table, Radio, Button, Input, Pagination, Modal} from 'antd'
-import {handleInputChange, getFuncLogData, pageSizeChange}  from 'actions/business/Log/FunctionLog'
+import { getFuncLogData, pageSizeChange}  from 'actions/business/Log/FunctionLog'
 import 'antd/lib/index.css'
 
 import SearchInput from 'components/Business/SearchInput'
@@ -78,7 +78,8 @@ class FunctionLog extends React.Component {
     onShowSizeChange(current, pageSize) {
       FuncLogParams.data.page = current;
       FuncLogParams.data.pageSize = pageSize;
-      this.props.pageSizeChange({current, pageSize});
+      this.props.getFuncLogData(FuncLogParams);
+      //this.props.pageSizeChange({current, pageSize});
     }
 
     pageOnChange(page){
@@ -224,7 +225,6 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps, {
     getFuncLogData,
-    handleInputChange,
     pageSizeChange,
 
     selectPeopelinitSource,
