@@ -140,7 +140,8 @@ export default class QueryDataTable extends React.Component {
                                 }
                             }),
                             page: 1,
-                            pageSize: 0
+                            pageSize: 0,
+                            keyword: ''
                         })
                     }
                 },
@@ -318,7 +319,7 @@ export default class QueryDataTable extends React.Component {
 
 
                 this.props.onGetTableData({
-
+                    keyword: '',
                     page: pageNumber,
                     pageSize: 0
 
@@ -329,7 +330,7 @@ export default class QueryDataTable extends React.Component {
                 this.clearSelectedRows()
 
                 this.props.onGetTableData({
-
+                    keyword: '',
                     pageSize: pageSize,
                     page: 1
 

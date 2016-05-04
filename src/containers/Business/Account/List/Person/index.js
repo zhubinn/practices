@@ -147,6 +147,21 @@ class Account_List_Person_Page extends React.Component {
         console.log(this.refs.queryDataTable.getCheckedRows())
 
     }
+
+    // 普通搜索和筛选(高级搜索)互斥
+    normalSearch = (value) => {
+        // 重置筛选(高级搜索)
+        this.refs.queryDataTable.resetQueryForm()
+
+        this.props.getTableData({
+            data: {
+                searchData: [],
+                keyword: value,
+                page: 1,
+                pageSize: 0
+            }
+        })
+    }
     render() {
         const {
             $$account_list_person,
@@ -164,7 +179,7 @@ class Account_List_Person_Page extends React.Component {
         return (
             <div>
                 <Row>
-                    <Col span="8"><SearchInput /> </Col>
+                    <Col span="8"><SearchInput  ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/>      </Col>
                     <Col span="8" offset="8">
                         <Button type="primary" onClick = {(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
@@ -178,7 +193,7 @@ class Account_List_Person_Page extends React.Component {
 
                 }}>
                     <TabPane tab="全部客户" key="1">
-                        <Button onClick={()=>{this.refs.queryDataTable.resetQueryForm()}}>reset</Button>
+
 
                         <QueryDataTable
                             columns={columns}
@@ -187,6 +202,7 @@ class Account_List_Person_Page extends React.Component {
                             onGetTableData={
 
                                 (obj)=>{
+                                    this.refs.searchInput.emptyInput()
                                     getTableData({
                                         data: obj
                                     })
