@@ -17,7 +17,6 @@ export default function dataTable($$state = Immutable.fromJS({
         searchBarShow: false
     }
 
-
 }), action) {
     switch (action.type) {
         case 'INIT_SOURCE':
@@ -44,6 +43,7 @@ export default function dataTable($$state = Immutable.fromJS({
             })
 
         case GET_DATA_SUCCESS:
+            console.log(action.source)
             const { payload  } = action
 
             return $$state.updateIn([action.source], function (source) {
@@ -73,6 +73,7 @@ export default function dataTable($$state = Immutable.fromJS({
                     return selectedRowDetailObj.delete(index)
                 }
                 return selectedRowDetailObj.set(index, {rows: rows, columns: secondColumns})
+
             }).updateIn([action.source], function(source){
                 return source.merge({pending: false})
             })

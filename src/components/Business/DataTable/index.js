@@ -394,34 +394,22 @@ export default class DataTable extends React.Component {
                          {checkMode ? (<td>
                          <div className="small-cell"></div>
                          </td>) : null}
-
-
                          {hasDetail ? (<td>
                          <div className="small-cell"></div>
                          </td>) : null}
-
-
                          {columns.map((item, i) => (<td key={i}>
-
                          <div
                          style={{width: ''+ (item.width||150) +'px'}}>
-
-
                          {this.renderSearch(item.datafield)}
-
-
                          </div>
                          </td>))}
-
                          </tr>
                          <tr>
                          <td><Button type="ghost"  > 重置</Button></td>
                          <td><Button htmlType="submit" type="primary" onClick = {(e)=>{this.getSearchForm()}}> 确定</Button></td>
                          </tr>
                          </tbody>
-
                          </table>
-
                          </Form>*/}
 
 

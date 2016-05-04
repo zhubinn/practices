@@ -1,122 +1,164 @@
 /**
- * Created by janeluck on 4/7/16.
+ * Created by janeluck on 4/25/16.
  */
 
-
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import DataTable from 'components/Business/DataTable'
-import  { initSource,getData, showDetail, checkRow, updateRow, toggleSearch}  from 'actions/Component/DataTable'
+import { Breadcrumb, Button, Icon, Input, Row, Col, Tabs } from 'antd'
+import QueryNestedTable from 'components/QueryNestedTable'
+import INPUTTYPE from 'components/QueryNestedTable/inputType'
+import {
+    initQueryNestedTable,
+    updateDataSource,
+    updateChildDataSource,
+} from 'actions/business/account/list'
+import {
+    toggleQueryPanel,
+} from 'actions/components/QueryNestedTable'
+import 'antd/style/index.less'
 
-import {rowsData, columns, searchColumns} from 'components/Business/DataTable/fakeData'
-import { Pagination } from 'antd';
 
-function showTotal(total) {
-    return `共 ${total} 条`;
+const TabPane = Tabs.TabPane;
+
+function callback(key) {
+    console.log(key);
 }
 
 
 
-let params = {
-    url: 'http://esn.lishangxi.com/front/js/scrm/fakeData/tableData.php',
-    data: {
-        page: 1,
-        rowsPerPage: 20,
-        searchData1: {
+/*普通搜索*/
 
-        },
-        searchData2: {
+import classNames from 'classnames';
+const InputGroup = Input.Group;
+
+const SearchInput = React.createClass({
+    getInitialState() {
+        return {
+            value: '',
+            focus: false,
+        };
+    },
+    handleInputChange(e) {
+        this.setState({
+            value: e.target.value,
+        });
+    },
+    handleFocusBlur(e) {
+        this.setState({
+            focus: e.target === document.activeElement,
+        });
+    },
+    handleSearch() {
+        console.log('search')
+        if (this.props.onSearch) {
+            this.props.onSearch();
 
         }
-    }
-}
 
-const searchUrl = 'http://esn.jianyu.com/front/js/scrm/fakeData/tableData.php'
-class AccountListPage extends React.Component {
+    },
+    // 支持enter键触发搜索
+    handleKeyup(e){
+        if (e.keyCode == 13) {
+            this.handleSearch()
+        }
+    },
+
+    // 清空
+    emptyInput(){
+        this.setState({
+            value: ''
+        });
+    },
+    render() {
+        const btnCls = classNames({
+            'ant-search-btn': true,
+            'ant-search-btn-noempty': !!this.state.value.trim(),
+        });
+        const searchCls = classNames({
+            'ant-search-input': true,
+            'ant-search-input-focus': this.state.focus,
+        });
+        return (
+            <InputGroup className={searchCls} style={this.props.style}>
+                <Input {...this.props} value={this.state.value} onChange={this.handleInputChange}
+                                       onFocus={this.handleFocusBlur} onBlur={this.handleFocusBlur}
+                                       onKeyUp={this.handleKeyup}
+
+
+                />
+                <div className="ant-input-group-wrap">
+                    <Button className={btnCls} size={this.props.size} onClick={this.handleSearch}>
+                        <Icon type="search" />
+                    </Button>
+                </div>
+            </InputGroup>
+        );
+    }
+});
+
+
+
+
+
+
+
+
+
+class Account_Summary_Page extends React.Component {
     constructor() {
         super()
-
-    }
-
-    componentDidMount() {
-        const id = this.refs.dataTable.identity
-        this.props.initSource(id)
-        //// 页面初始完,获取数据,触发action: GET_DATA
-        this.props.getData(params, id)
-
-
-
     }
 
     render() {
-        const { showDetail, checkRow, updateRow, toggleSearch} = this.props
-
-        let dataSource = {}
-
-        if (this.refs.dataTable) {
-            const { $$dataTable } = this.props
-
-            const $$obj = $$dataTable.get(this.refs.dataTable.identity)
-
-            if ($$obj) {
-                dataSource = $$obj.toJS()
-            }
-        }
+        const {
+            $$QueryNestedTable,
+            initQueryNestedTable,
+            updateDataSource,
+            updateChildDataSource,
+            toggleQueryPanel,
+            } = this.props
 
         return (
+            <div>
+
+                <Row>
+                    <Col span="8"> <SearchInput placeholder="请输入搜索内容" style={{ width: 200 }} /></Col>
+                    <Col span="8" offset="8">
 
 
-            <div style={{marginLeft: '20px'}}>
+                        <Button type="primary" onClick={toggleQueryPanel}>筛选</Button>
+
+                        <Button type="ghost">变更联系人</Button>
+                        <Button type="ghost">导出</Button>
+
+                    </Col>
+                </Row>
 
 
-                <div>
-                    <button onClick={(e)=>{console.log(this.refs.dataTable.getCheckedRows())}}>获取已经选择的行</button>
-                </div>
-                <div>
-                    <button onClick={(e) => {toggleSearch(true, this.refs.dataTable.identity )}}>高级搜索</button>
+                    <Tabs defaultActiveKey="1" onChange={callback}>
+                        <TabPane tab="全部客户" key="1">
 
-                </div>
-
-
-
-
-                <div>
-                    <span>已处理客户</span>
-                    <span>已处理客户</span>
-                    <span>已处理客户</span>
-                    <span>已处理客户</span>
-                    <span>已处理客户</span>
-                    <span>已处理客户</span>
-                </div>
+                            <QueryNestedTable
+                                init={initQueryNestedTable}
+                                updateDataSource={updateDataSource}
+                                updateChildDataSource={updateChildDataSource}
+                            />
 
 
+                        </TabPane>
+                        <TabPane tab="负责的客户" key="2">
 
 
+                        </TabPane>
+                        <TabPane tab="重点客户" key="3">
 
-                <DataTable ref="dataTable"
-                           checkMode={true}
-                           onCheckRow={checkRow}
-                           hasDetail={true}
-                           checkedRows={dataSource.checkedRows}
-                           rows={dataSource.rows}
-                           selectedRowDetailObj={dataSource.selectedRowDetailObj}
-                           searchColumns={searchColumns}
-                           searchUrl = {searchUrl}
-                           columns={columns}
-                           searchBarStatus={dataSource.searchBarShow}
-                           onUpdateRow={updateRow}
-                           onShowDetail={showDetail}
-                           toggleSearch={toggleSearch}
-                           pending={dataSource.pending}
-                />
-                <ul>
-                    <li>1</li>
-                    <li onClick={(e)=>{params.data.page = 2;this.props.getData(params
 
-                        , this.refs.dataTable.identity)}}>2
-                    </li>
-                </ul>
-                <Pagination size="small" total={50}  showSizeChanger  showQuickJumper/>
+                        </TabPane>
+                        <TabPane tab="关注的客户" key="4">
+
+
+                        </TabPane>
+                    </Tabs>
+
             </div>
         )
     }
@@ -124,16 +166,14 @@ class AccountListPage extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$dataTable: state.components.dataTable,
-        account_list: state.business.account_list
+        $$QueryNestedTable: state.components.QueryNestedTable,
+        $$account_list: state.business.account_list
     }
 }
 
 export default connect(mapStateToProps, {
-    initSource,
-    getData,
-    showDetail,
-    checkRow,
-    updateRow,
-    toggleSearch
-})(AccountListPage)
+    initQueryNestedTable,
+    updateDataSource,
+    updateChildDataSource,
+    toggleQueryPanel,
+})(Account_Summary_Page)

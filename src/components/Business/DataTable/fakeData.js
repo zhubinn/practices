@@ -1172,6 +1172,7 @@ let searchColumns = {
         }
     },
     user: {
+
         searchType: 2,
         renderData: {
             defaultValue: ''
@@ -1205,7 +1206,6 @@ let searchColumns = {
             options:[
                 {
                     text: '全部',
-
                     value: -1
 
                 },
@@ -1332,6 +1332,7 @@ let columns = [
             <option>自定义</option>
         </select>)
     }},
+
     {text: '状态', datafield: 'IsStop', width: 260, cellsrenderer: function(rowData, column, value){
         return value == 0 ? '启动' : '停止'
     }},
@@ -1348,6 +1349,7 @@ let columns = [
         //return (<EditBtn    deletename = '删除' ondelete = {()=>{this.refresh(Object.assign({}, rowData, {name: 'jdkaljdksa'}));}}  editname = '编辑' onedit = {function(){console.log(rowData)}}/>)
     }
     },
+
     {text: '系统', datafield: 'IsSys', width: 250, cellsrenderer: function(rowData, column, value){
 
         return  value == '1' ? '是' : '否'

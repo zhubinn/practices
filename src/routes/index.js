@@ -4,6 +4,7 @@
 import { Route, IndexRoute } from 'react-router'
 
 
+
 //Develop Leesx
 import HelloPage from 'containers/__demo/HelloPage'
 import CustomEditFieldPage from 'containers/__demo/CustomEditFieldPage'
@@ -13,43 +14,67 @@ import ManageCluesPage from 'containers/Business/clues/ManageCluesPage'
 // import DemoPagination from 'containers/__demo/Pagination'
 import DemoReportListPage from 'containers/report/DemoReportListPage'
 
+import IndexPage from 'containers'
+
+
 import MasterPage from 'containers/Master/Default'
 import ModulePage from 'containers/Master/Module'
 import DemoTablePage from 'containers/__demo/Table'
 import DemoLoginPage from 'containers/__demo/Login'
 
 import DemoQueryNestedTablePage from 'containers/__demo/QueryNestedTable'
+import Account_List_Page from 'containers/Business/Account/List'
+import Account_List_Person_Page from 'containers/Business/Account/List/Person'
+import Account_Detail_Page from 'containers/Business/Account/Detail'
 import Error_404 from 'containers/Error/404'
+import DemoPagination from 'containers/__demo/DemoPagination'
+import DemoTodoList from 'containers/__demo/DemoTodoList'
+import FormControl from 'components/common/base/FormControl'
 
 import AccountListPage from 'containers/Business/Account/List'
+import CustomizablePage from 'containers/Business/Account/Customizable'
+import StatisticPage from 'containers/Business/Account/Statistic'
+import DeptSummaryPage from 'containers/Business/Account/Summary/DeptSummary'
+import PerSummaryPage from 'containers/Business/Account/Summary/PerSummary'
+import DetailPage from 'containers/Business/Account/Detail'
 
+//生意
+import Deptstatistic from 'containers/Business/Business/Statistic/deptstatistic'
 
+//日志
+import FuncLog from 'containers/Business/Log/FuncLog'
+import DataLog from 'containers/Business/Log/DataLog'
+
+import searchPeople from 'containers/__demo/searchPeople'
 
 export default (
 
-<Route path="/" component={MasterPage}>
-    <Route path="__demo">
-    <Route path="table" component={DemoTablePage}/>
-    <Route path="login" component={DemoLoginPage}/>
-    <Route path="nested_table" component={DemoQueryNestedTablePage}/>
-    <Route path="hello" component={HelloPage}/>
-    <Route path="customEditFieldPage" component={CustomEditFieldPage}/>
-    <Route path="dispatchCluesPage" component={DispatchCluesPage}/>
-    <Route path="manageCluesPage" component={ManageCluesPage}/>
+    <Route path="/">
+        <Route path="__demo" component={MasterPage}>
+            <Route path="table" component={DemoTablePage}/>
+            <Route path="login" component={DemoLoginPage}/>
+            <Route path="Demopagination" component={DemoPagination}/>
+            <Route path="DemoTodoList" component={DemoTodoList}/>
+            <Route path="searchPeople" component={searchPeople}/>
+            <Route path="nested_table" component={DemoQueryNestedTablePage}/>
+        </Route>
+        <Route path="scrmweb" component={ModulePage}>
+            <Route path="accounts">
+                <Route path="deptaccountdetail/VISITID/1" component={Account_Detail_Page}/>
+                <Route path="list/VISITID/1" component={Account_List_Person_Page}/>
+                <Route path="deptlist/VISITID/1" component={Account_List_Page}/>
+            </Route>
+            <Route path="business">
+                <Route path="deptstatistic/VISITID/1" component={Deptstatistic} />
+            </Route>
+            <Route path="log">
+                <Route path="datalog/VISITID/1" component={DataLog} />
+                <Route path="func/VISITID/1" component={FuncLog} />
+            </Route>
+        </Route>
 
-    </Route>
-    <Route path="numberReport">
-        <Route path="numberReportViewPage" component={NumberReportViewPage}/>
-    </Route>
-    /*报数查看路由*/
-    <Route path="scrmnumreport/index/list/:role/:id/:template/:tid" component={NumberReportViewPage}/>
-    /*线索分派路由*/
-    <Route path="scrmweb/lead/dispatch/:role/:id" component={DispatchCluesPage}/>
-    /*<Route path="scrmnumreport/index/list/VISITID/1/templateID/528" component={NumberReportViewPage}/>*/
-    <Route path="scrmweb" component={ModulePage}>
-        <Route path="accounts/index/VISITID/1" component={AccountListPage}/>
+        <Route path="*" component={Error_404}/>
     </Route>
 
-    <Route path="*" component={Error_404}/>
-    </Route>
+
 )
