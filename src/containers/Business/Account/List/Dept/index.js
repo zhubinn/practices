@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
-import { getTableData, getTableQuery } from 'actions/business/account/list/person'
+import { getTableData, getTableQuery } from 'actions/business/account/list/dept'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 
@@ -127,7 +127,7 @@ const columns = [{
 
 
 
-class Account_List_Person_Page extends React.Component {
+class Account_List_Dept_Page extends React.Component {
     constructor() {
         super()
 
@@ -137,7 +137,7 @@ class Account_List_Person_Page extends React.Component {
         // todo: url包装
         this.props.getTableData({
 
-            url: SCRM.url('/scrmweb/accounts/getList')
+            url: SCRM.url('/scrmweb/accounts/getDeptList')
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
@@ -149,18 +149,18 @@ class Account_List_Person_Page extends React.Component {
     }
     render() {
         const {
-            $$account_list_person,
+            $$account_list_dept,
             getTableData
 
             } = this.props
 
         let queryDataTable = {}
-        queryDataTable.dataSource = $$account_list_person.toJS().rows
-        queryDataTable.current = $$account_list_person.toJS().current
-        queryDataTable.total = $$account_list_person.toJS().total
-        queryDataTable.pageSize = $$account_list_person.toJS().pageSize
-        queryDataTable.queryColumns = $$account_list_person.toJS().queryColumns
-        queryDataTable.loading = $$account_list_person.toJS().loading
+        queryDataTable.dataSource = $$account_list_dept.toJS().rows
+        queryDataTable.current = $$account_list_dept.toJS().current
+        queryDataTable.total = $$account_list_dept.toJS().total
+        queryDataTable.pageSize = $$account_list_dept.toJS().pageSize
+        queryDataTable.queryColumns = $$account_list_dept.toJS().queryColumns
+        queryDataTable.loading = $$account_list_dept.toJS().loading
         return (
             <div>
                 <Row>
@@ -200,11 +200,10 @@ class Account_List_Person_Page extends React.Component {
                     </TabPane>
                     <TabPane tab="负责的客户" key="2">
                     </TabPane>
-                    <TabPane tab="参与的客户" key="3">
+
+                    <TabPane tab="重点客户" key="3">
                     </TabPane>
-                    <TabPane tab="重点客户" key="4">
-                    </TabPane>
-                    <TabPane tab="关注的客户" key="5">
+                    <TabPane tab="关注的客户" key="4">
                     </TabPane>
                 </Tabs>
 
@@ -215,11 +214,11 @@ class Account_List_Person_Page extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$account_list_person: state.business.account_list_person
+        $$account_list_dept: state.business.account_list_dept
     }
 }
 
 export default connect(mapStateToProps, {
     getTableData,
     getTableQuery
-})(Account_List_Person_Page)
+})(Account_List_Dept_Page)

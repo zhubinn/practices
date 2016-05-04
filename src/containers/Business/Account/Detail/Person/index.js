@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
-import { getTableData, getTableQuery } from 'actions/business/account/list/person'
+import { getTableData, getTableQuery } from 'actions/business/account/detail/person'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 
@@ -127,7 +127,7 @@ const columns = [{
 
 
 
-class Account_List_Person_Page extends React.Component {
+class Account_Detail_Person_Page extends React.Component {
     constructor() {
         super()
 
@@ -149,18 +149,18 @@ class Account_List_Person_Page extends React.Component {
     }
     render() {
         const {
-            $$account_list_person,
+            $$account_detail_person,
             getTableData
 
             } = this.props
 
         let queryDataTable = {}
-        queryDataTable.dataSource = $$account_list_person.toJS().rows
-        queryDataTable.current = $$account_list_person.toJS().current
-        queryDataTable.total = $$account_list_person.toJS().total
-        queryDataTable.pageSize = $$account_list_person.toJS().pageSize
-        queryDataTable.queryColumns = $$account_list_person.toJS().queryColumns
-        queryDataTable.loading = $$account_list_person.toJS().loading
+        queryDataTable.dataSource = $$account_detail_person.toJS().rows
+        queryDataTable.current = $$account_detail_person.toJS().current
+        queryDataTable.total = $$account_detail_person.toJS().total
+        queryDataTable.pageSize = $$account_detail_person.toJS().pageSize
+        queryDataTable.queryColumns = $$account_detail_person.toJS().queryColumns
+        queryDataTable.loading = $$account_detail_person.toJS().loading
         return (
             <div>
                 <Row>
@@ -169,7 +169,7 @@ class Account_List_Person_Page extends React.Component {
                         <Button type="primary" onClick = {(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
-                        <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更联系人</Button>
+
                         <Button type="ghost">导出</Button>
                     </Col>
                 </Row>
@@ -182,7 +182,7 @@ class Account_List_Person_Page extends React.Component {
 
                         <QueryDataTable
                             columns={columns}
-                            checkMode={true}
+
                             {...queryDataTable}
                             onGetTableData={
 
@@ -215,11 +215,11 @@ class Account_List_Person_Page extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$account_list_person: state.business.account_list_person
+        $$account_detail_person: state.business.account_detail_person
     }
 }
 
 export default connect(mapStateToProps, {
     getTableData,
     getTableQuery
-})(Account_List_Person_Page)
+})(Account_Detail_Person_Page)
