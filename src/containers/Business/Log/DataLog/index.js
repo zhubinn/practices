@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { Row, Col, Table, Radio, Button, Input, Pagination, Modal} from 'antd'
-import {handleInputChange, getDataLogData, pageSizeChange}  from 'actions/business/Log/DataLog'
+import {getDataLogData, pageSizeChange}  from 'actions/business/Log/DataLog'
 
 import SearchInput from 'components/Business/SearchInput'
 //引入选人组件
@@ -88,10 +88,11 @@ class DataLog extends React.Component {
     onShowSizeChange(current, pageSize) {
       DataLogParams.data.page = current;
       DataLogParams.data.pageSize = pageSize;
-      this.props.pageSizeChange({current, pageSize});
+      this.props.getDataLogData(DataLogParams);
     }
     
     pageOnChange(page){
+      debugger
       DataLogParams.data.page = page;
       this.props.getDataLogData(DataLogParams);
     }
@@ -136,7 +137,6 @@ class DataLog extends React.Component {
 
     render() {
         //table数据配置
-        debugger
         const { $$logState } = this.props;
         const dataSource = $$logState.get('tableData').get('data').get('rowData').toJS();
         const columns = $$logState.get('tableColumns').toJS();
@@ -228,7 +228,6 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps, {
     getDataLogData,
-    handleInputChange,
     pageSizeChange,
 
     selectPeopelinitSource,

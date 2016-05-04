@@ -70,11 +70,11 @@ let datalog = {
 export default function Datalog($$state = Immutable.fromJS(datalog), action) {
     switch(action.type) {
         case DATALOG_SIZE_CHANGE:
-            return $$state.mergeDeep({tableData: action.payload.data});
+            return $$state.merge({tableData: action.payload.data});
     	case GET_DATALOG_DATA:
     	    return $$state;
     	case GET_DATALOG_SUCCESS:
-    	    return $$state.mergeDeep({tableData: action.payload.data});
+    	    return $$state.merge({tableData: action.payload.data});
         default:
             return $$state;
     }
