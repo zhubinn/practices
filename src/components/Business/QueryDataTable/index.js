@@ -48,7 +48,8 @@ export default class QueryDataTable extends React.Component {
         this.state = {
             isSearchShow: false,
             selectedRowKeys: [],
-            expandedRowKeys: []
+            expandedRowKeys: [],
+            needRenderQuery: true
 
         }
     }
@@ -64,6 +65,12 @@ export default class QueryDataTable extends React.Component {
         })
     }
 
+    // 重置筛选表单数据(供外部调用)
+    resetQueryForm = ()=>{
+        this.setState({
+            needRenderQuery: true
+        })
+    }
     handleSelectAll = (e, dataSource) => {
 
 
@@ -103,7 +110,7 @@ export default class QueryDataTable extends React.Component {
         if (isEmpty(queryColumns)) return null
         const that = this
 
-        if (!this.queryForm) {
+        if (this.state.needRenderQuery) {
             this.queryForm = React.createClass({
                 handleSubmit(e) {
                     e.preventDefault();
@@ -182,6 +189,9 @@ export default class QueryDataTable extends React.Component {
             });
 
             this.queryForm = Form.create()(this.queryForm);
+            this.setState({
+                needRenderQuery: false
+            })
         }
         return (<this.queryForm />)
 
