@@ -15,16 +15,25 @@ class TabListEdit extends React.Component{
         selectedRow['IsMust']=='1'?changeIsRequired({'IsMust':'0'}):changeIsRequired({'IsMust':'1'})
     }
     handleApply(){
-        const localeditColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions
+        let localeditColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions
         const selectedRow = this.props.$$mapState.toJS().selectedRow
-        
+        const deletedColumnsOptions = this.props.$$mapState.toJS().deletedItem
         //数据可能需要过滤 如果没有任何选项就应用  则提示要先选择应用
         const {clickapplyBtn} = this.props
-        if(localeditColumnsOptions.length ==1 && 
-            localeditColumnsOptions[0].Val == '' &&
-            localeditColumnsOptions[0].IsDeleted == 0
-            ){
-            message.warn('请填写选项信息');
+        let num = 0
+        localeditColumnsOptions.map((r,i)=>{
+            r.Val==''?num++:0
+        })
+
+
+        /*点击应用  只有一条且内容为空 可以提交; 
+            若多条且内容为空 或者多条中有空内容，则警告提示*/
+        if(num>0 && localeditColumnsOptions.length>1){
+            
+                message.config({
+                  top: 250
+                });
+                message.warn('请填写选项信息');
         }else{
             let applyParamData = {}
             applyParamData.Name = selectedRow.Name
@@ -32,7 +41,9 @@ class TabListEdit extends React.Component{
             applyParamData.Label = selectedRow.Label
             applyParamData.AttrType = selectedRow.AttrType
             applyParamData.IsMust = selectedRow.IsMust
-            let orderedOptions = []
+            let paramAllOptions = []
+
+            localeditColumnsOptions=localeditColumnsOptions.concat(deletedColumnsOptions)
 
             localeditColumnsOptions.map((r,i)=>{
                 let row = {}
@@ -41,10 +52,9 @@ class TabListEdit extends React.Component{
                 row.Val = r.Val
                 row.IsStop = r.IsStop
                 row.IsDeleted = r.IsDeleted
-                return orderedOptions.push(row)
+                return paramAllOptions.push(row)
             })
-
-            applyParamData.Enums = orderedOptions
+            applyParamData.Enums = paramAllOptions
             let applyParam = {
                 url:SCRM.url('/scrmdefined/account/saveEnumAttr'),
                 data:applyParamData
@@ -82,7 +92,8 @@ class TabListEdit extends React.Component{
                     UpItem,
                     clickapplyBtn,
                     clickCloseBtn,
-                    getTableData
+                    getTableData,
+                    collectDeletedItem
                 } = this.props;
         return (
             <div className = "ck-customize-CntMian">
@@ -100,7 +111,9 @@ class TabListEdit extends React.Component{
                         changeInputValue={changeInputValue} 
                         ChangeStatus={ChangeStatus}
                         DownItem = {DownItem} 
-                        UpItem={UpItem}>
+                        UpItem={UpItem}
+                        collectDeletedItem={collectDeletedItem}
+                        >
                     </DivEdit>
                     <div className = "ck-customizeConfirm">
                         <p className="ck-customize-gongn01Txt01">

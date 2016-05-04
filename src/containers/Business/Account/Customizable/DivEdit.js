@@ -19,12 +19,17 @@ class DivEdit extends React.Component{
 	}
 	handleDeletItem(i){
 		const {deletItem} = this.props;
-        const ColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions;
+        let ColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions;
         let IsLast 
         if(ColumnsOptions.length ==1){
         	IsLast =1
         }
 		deletItem(i,IsLast);
+		let  deletedItem  = this.props.$$mapState.toJS().deletedItem;
+		ColumnsOptions[i].IsDeleted = 1
+		deletedItem.push(ColumnsOptions[i])
+		const {collectDeletedItem} = this.props
+		collectDeletedItem(deletedItem)
 	}
 	handleChangeInput(i,e){
 		let value = e.currentTarget.value;
@@ -38,6 +43,7 @@ class DivEdit extends React.Component{
 		
 	}
 	handleItemUp(i){
+		alert(i)
 		const {UpItem} = this.props;
 		if(i > 0){
 			UpItem(i)
@@ -54,15 +60,8 @@ class DivEdit extends React.Component{
 		let localeditColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions
 
 		const lastLen = localeditColumnsOptions.length-1
-		let num = 0
-		localeditColumnsOptions.map((opt,i)=>{
-			if(opt.IsDeleted == 1){
-				num ++
-			}
-		})
-		if(num == localeditColumnsOptions.length){
-			localeditColumnsOptions = [{Val:'',IsSys:1,IsStop:0,IsDeleted:0}]
-		}
+
+
 		return (
 			<div className = "ck-customize-gongn01">
 				<ul className = "ck-customize-gongnTit clearfix">
@@ -84,7 +83,7 @@ class DivEdit extends React.Component{
 							                          <div className={i==lastLen?'Sequence-none02':'Sequence-bottom'} onClick = {this.handleItemDown.bind(this,i)}></div>
 						                         </div>
 												<div className = "ck-gongncnt-first">
-													<input type = 'text' value = {opt.Val} placeholder = "输入文字"  onChange = {this.handleChangeInput.bind(this,i)} />
+													<input type = 'text' value = {opt.Val} placeholder = "最多输入10个汉字"  onChange = {this.handleChangeInput.bind(this,i)} maxLength = "10"/>
 												</div>
 												<div className = "ck-gongncnt-second clearfix">
 													<button className={i==19?'disableadd':'add'} onClick = {this.handleAddItem.bind(this,i)}>+</button>

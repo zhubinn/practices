@@ -23,6 +23,7 @@ const $$initialState = Immutable.fromJS({
     selectedRow:{}, 
     IsShow:false, 
     currentTabIndex:0,
+    deletedItem:[]
 })
 
 const  Customizable = ($$state = $$initialState, action)=>{
@@ -58,21 +59,23 @@ const  Customizable = ($$state = $$initialState, action)=>{
             })
 
         case ACCOUNT_CUSTOM_DELETEITEM:
-            let selectedIndex = action.payload.index
-            let curcolumnsOptions = $$state.get('localeditColumnsOptions')            
-            if(selectedIndex == curcolumnsOptions.toJS().length){
-                curcolumnsOptions= [{Val:'',IsSys:1,IsStop:0,IsDeleted:0}]
+            if(action.payload.index === 0 && action.payload.isLast==1){
+                const $$lastitemCon =  Immutable.fromJS([{Val:'',IsSys:1,IsStop:0,IsDeleted:0}])
+                return $$state.updateIn(['localeditColumnsOptions'], localeditColumnsOptions => {
+                    
+                    return $$lastitemCon
+                })
             }else{
-                curcolumnsOptions = curcolumnsOptions.map((r, i) => {
-                    if (i === selectedIndex) {
-                        return r.updateIn(['IsDeleted'], IsDeleted => {
-                            return 1
-                        })
-                    }
-                    return r
-                })            
+                return $$state.updateIn(['localeditColumnsOptions'], localeditColumnsOptions => {
+                    
+                    return localeditColumnsOptions.delete(action.payload.index)
+                })
             }
-            return $$state.set('localeditColumnsOptions', curcolumnsOptions)
+
+        case 'ACCOUNT_CUSTOM_COLLECTDELETEITEM':
+
+            return $$state.merge({deletedItem:action.payload})
+
 
         case ACCOUNT_CUSTOM_CHANGRINPUTVALUE:
 
@@ -121,7 +124,8 @@ const  Customizable = ($$state = $$initialState, action)=>{
                     Label:action.payload.Label,
                     AttrType:action.payload.AttrType,
                     IsMust:action.payload.IsMust
-                }
+                },
+                'deletedItem':[]
             })
 
         case ACCOUNT_CUSTOM_DOWNITEM:

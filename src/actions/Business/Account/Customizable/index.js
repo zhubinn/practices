@@ -237,6 +237,15 @@ export const deletItem = (i,IsLast)=>{
     }
 }
 
+export const collectDeletedItem = (deletedItem)=>{
+    return {
+        type:'ACCOUNT_CUSTOM_COLLECTDELETEITEM',
+        payload:deletedItem
+    }
+}
+
+
+
 // 改变输入框的值
 export const changeInputValue = (i,textValue)=>{
     return {

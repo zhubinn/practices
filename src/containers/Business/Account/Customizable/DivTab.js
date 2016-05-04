@@ -32,6 +32,7 @@ class DivTab extends React.Component{
                             clickapplyBtn={this.props.clickapplyBtn} 
                             clickCancleBtn={this.props.clickCancleBtn}
                             getTableData= {this.props.getTableData}
+                            collectDeletedItem={this.props.collectDeletedItem}
                         />
                     </TabPane>
                     <TabPane tab="运行中" key="2">

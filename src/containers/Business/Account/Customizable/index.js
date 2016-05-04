@@ -6,7 +6,7 @@ import DivTab from './DivTab'
 
 import { selectedRowData,clickCloseBtn,selectedTabIndex,changeIsRequired,getTableData,
     addItem,deletItem,changeInputValue,ChangeStatus,clickapplyBtn,DownItem,UpItem,
-    clickCancleBtn,dataItem} from 'actions/Business/Account/Customizable'
+    clickCancleBtn,dataItem,collectDeletedItem} from 'actions/Business/Account/Customizable'
 
 import { Table, Icon,message } from 'antd';
 
@@ -62,6 +62,7 @@ class CustomizablePage extends  React.Component{
 
         let editColumnsOptions = []
         editColumnsOptions = record.Enums 
+        console.log(record.Enums)
         selectedRowData(selectedRow,editColumnsOptions)
     }
 
@@ -87,7 +88,7 @@ class CustomizablePage extends  React.Component{
             )
         }else{
         const {$$mapState,selectedTabIndex,changeIsRequired,getTableData,addItem,deletItem,
-            changeInputValue,ChangeStatus,DownItem,UpItem ,clickapplyBtn,clickCancleBtn} = this.props;
+            changeInputValue,ChangeStatus,DownItem,UpItem ,clickapplyBtn,clickCancleBtn,collectDeletedItem} = this.props;
         const col_name = $$mapState.toJS().selectedRow["col_name"];
         const applyTankuangShow = $$mapState.toJS().applyTankuangShow
             return (
@@ -122,7 +123,8 @@ class CustomizablePage extends  React.Component{
                                     UpItem={UpItem} 
                                     clickapplyBtn={clickapplyBtn} 
                                     clickCancleBtn={clickCancleBtn}
-                                    getTableData= {getTableData}                                >
+                                    getTableData= {getTableData}  
+                                    collectDeletedItem={collectDeletedItem}                              >
                                 </DivTab>
                             </div>
                         </div>
@@ -154,5 +156,6 @@ export default connect(mapStateToProps, {
     DownItem,
     UpItem,
     clickCancleBtn,
+    collectDeletedItem,
 
 })(CustomizablePage)
