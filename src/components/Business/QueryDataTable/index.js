@@ -11,7 +11,7 @@ const Option = Select.Option;
 const RadioGroup = Radio.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
-
+const RangePicker = DatePicker.RangePicker;
 
 
 
@@ -183,7 +183,7 @@ export default class QueryDataTable extends React.Component {
 
             switch (queryCol['searchType']) {
 
-                case 1:
+                case "4":
 
                     return (<FormItem>
                         <Input {...getFieldProps(col['key'], {
@@ -197,7 +197,13 @@ export default class QueryDataTable extends React.Component {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
-
+                case "15":
+                case "16":
+                    return (<FormItem>
+                        <RangePicker format="yyyy-MM-dd" {...getFieldProps(col['key'], {
+                            initialValue: queryCol['renderData']['defaultValue']
+                        })} />
+                    </FormItem>)
                 default:
                     return null
             }
