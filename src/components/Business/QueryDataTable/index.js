@@ -59,7 +59,8 @@ export default class QueryDataTable extends React.Component {
         setTimeout(()=>{
             this.setState({
                 selectedRowKeys: [],
-                expandedRowKeys: []
+                expandedRowKeys: [],
+                isSearchShow: false
             })
         }, 0)
 
@@ -126,14 +127,7 @@ export default class QueryDataTable extends React.Component {
                     ;
 
                     // that.props.onSure(this.props.form.getFieldsValue())
-                    that.setState({
-                        isSearchShow: false,
-                        selectedRowKeys: [],
-                        expandedRowKeys: []
-
-                    })
-
-
+                    that.clearCheckedAndExpanded()
 
                     if (that.props.onGetTableData) {
                         that.props.onGetTableData({
