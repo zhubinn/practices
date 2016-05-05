@@ -311,7 +311,7 @@ class Account_Detail_Dept_Page extends React.Component {
     }
 
     componentDidMount() {
-        // todo: url包装
+
         this.props.getTableData({
 
             url: SCRM.url('/scrmweb/accounts/getList')
@@ -360,7 +360,7 @@ class Account_Detail_Dept_Page extends React.Component {
     expandedRowRender = (row) => {
 
         return (
-            <div style={{width: 450}}>
+            <div style={{width: 1950}}>
                 <Table
                     columns={business_columns}
                     dataSource={row.businessData || business_dataSource}
