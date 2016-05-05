@@ -274,6 +274,22 @@ class Account_Detail_Person_Page extends React.Component {
 
 
     }
+    changeType = (type) => {
+        // 重置筛选(高级搜索)
+        this.refs.searchInput.emptyInput()
+        this.refs.queryDataTable.resetQueryForm()
+        this.refs.queryDataTable.clearCheckedAndExpanded()
+        this.props.getTableData({
+            data: {
+                searchData: [],
+                keyword: '',
+                page: 1,
+                pageSize: 0,
+                type
+            }
+        })
+
+    }
     changeOwner = (e) => {
         console.log('获取已经选择的row')
         console.log(this.refs.queryDataTable.getCheckedRows())
@@ -318,18 +334,25 @@ class Account_Detail_Person_Page extends React.Component {
                         <Button type="ghost">导出</Button>
                     </Col>
                 </Row>
-                <Tabs defaultActiveKey="1"
-                      onChange={function(i){
-
-                }}>
-                    <TabPane tab="全部客户" key="1">
-
-
-                        <QueryDataTable
-                            columns={columns}
-                            expandedRowRender={this.expandedRowRender}
-                            {...queryDataTable}
-                            onGetTableData={
+                <Tabs defaultActiveKey="all"
+                      type="card"
+                      onChange={i => {this.changeType(i)}}>
+                    <TabPane tab="全部客户" key="all">
+                    </TabPane>
+                    <TabPane tab="负责的客户" key="owner">
+                    </TabPane>
+                    <TabPane tab="参与的客户" key="relation">
+                    </TabPane>
+                    <TabPane tab="重点客户" key="important">
+                    </TabPane>
+                    <TabPane tab="关注的客户" key="follow">
+                    </TabPane>
+                </Tabs>
+                <QueryDataTable
+                    columns={columns}
+                    expandedRowRender={this.expandedRowRender}
+                    {...queryDataTable}
+                    onGetTableData={
                                 (obj)=>{
                                     this.refs.searchInput.emptyInput()
                                     getTableData({
@@ -337,22 +360,9 @@ class Account_Detail_Person_Page extends React.Component {
                                     })
                                 }
                             }
-                            ref="queryDataTable"
-                        >
-                        </QueryDataTable>
-
-
-                    </TabPane>
-                    <TabPane tab="负责的客户" key="2">
-                    </TabPane>
-                    <TabPane tab="参与的客户" key="3">
-                    </TabPane>
-                    <TabPane tab="重点客户" key="4">
-                    </TabPane>
-                    <TabPane tab="关注的客户" key="5">
-                    </TabPane>
-                </Tabs>
-
+                    ref="queryDataTable"
+                >
+                </QueryDataTable>
             </div>
         )
     }
