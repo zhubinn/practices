@@ -45,9 +45,69 @@ const columns = [{
     key: 'Address',
 
 }, {
+    title: '销售地址',
+    dataIndex: 'Address2',
+    key: 'Address2',
+
+}, {
+    title: '工厂地址',
+    dataIndex: 'Address3',
+    key: 'Address3',
+
+}, {
+    title: '库房地址',
+    dataIndex: 'Address4',
+    key: 'Address4',
+
+}, {
+    title: '收货地址',
+    dataIndex: 'Address5',
+    key: 'Address5',
+
+}, {
+    title: '门店地址',
+    dataIndex: 'Address6',
+    key: 'Address6',
+
+}, {
+    title: '其他地址',
+    dataIndex: 'Address7',
+    key: 'Address7',
+
+}, {
     title: '客户公司电话',
     dataIndex: 'Phone',
     key: 'Phone',
+
+}, {
+    title: '销售电话',
+    dataIndex: 'Phone2',
+    key: 'Phone2',
+
+}, {
+    title: '工厂电话',
+    dataIndex: 'Phone3',
+    key: 'Phone3',
+
+}, {
+    title: '库房电话',
+    dataIndex: 'Phone4',
+    key: 'Phone4',
+
+}, {
+    title: '收货电话',
+    dataIndex: 'Phone5',
+    key: 'Phone5',
+
+}, {
+    title: '门店电话',
+    dataIndex: 'Phone6',
+    key: 'Phone6',
+
+}, {
+    title: '其他电话',
+    dataIndex: 'Phone7',
+    key: 'Phone7',
 
 }, {
     title: '客户简介',
@@ -126,7 +186,6 @@ const columns = [{
 // 依赖Table, Pagination, Form
 
 
-
 class Account_List_Person_Page extends React.Component {
     constructor() {
         super()
@@ -142,11 +201,45 @@ class Account_List_Person_Page extends React.Component {
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
 
+    // 普通搜索和筛选(高级搜索)互斥
+    normalSearch = (value) => {
+        // 重置筛选(高级搜索)
+        this.refs.queryDataTable.resetQueryForm()
+
+        this.refs.queryDataTable.clearCheckedAndExpanded()
+        this.props.getTableData({
+            data: {
+                searchData: [],
+                keyword: value,
+                page: 1,
+                pageSize: 0
+            }
+        })
+
+
+    }
+    changeType = (type) => {
+        // 重置筛选(高级搜索)
+        this.refs.searchInput.emptyInput()
+        this.refs.queryDataTable.resetQueryForm()
+        this.refs.queryDataTable.clearCheckedAndExpanded()
+        this.props.getTableData({
+            data: {
+                searchData: [],
+                keyword: '',
+                page: 1,
+                pageSize: 0,
+                type
+            }
+        })
+
+    }
     changeOwner = (e) => {
         console.log('获取已经选择的row')
         console.log(this.refs.queryDataTable.getCheckedRows())
 
     }
+
     render() {
         const {
             $$account_list_person,
@@ -164,49 +257,49 @@ class Account_List_Person_Page extends React.Component {
         return (
             <div>
                 <Row>
-                    <Col span="8"><SearchInput /> </Col>
+                    <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
                     <Col span="8" offset="8">
-                        <Button type="primary" onClick = {(e)=>{
+                        <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
                         <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更联系人</Button>
                         <Button type="ghost">导出</Button>
                     </Col>
                 </Row>
-                <Tabs defaultActiveKey="1"
-                      onChange={function(i){
 
-                }}>
-                    <TabPane tab="全部客户" key="1">
-                        <Button onClick={()=>{this.refs.queryDataTable.resetQueryForm()}}>reset</Button>
+                <Tabs defaultActiveKey="all"
+                      type="card"
+                      onChange={i => {this.changeType(i)}}>
+                    <TabPane tab="全部客户" key="all">
+                    </TabPane>
+                    <TabPane tab="负责的客户" key="owner">
+                    </TabPane>
+                    <TabPane tab="参与的客户" key="relation">
+                    </TabPane>
+                    <TabPane tab="重点客户" key="important">
+                    </TabPane>
+                    <TabPane tab="关注的客户" key="follow">
+                    </TabPane>
+                </Tabs>
 
-                        <QueryDataTable
-                            columns={columns}
-                            checkMode={true}
-                            {...queryDataTable}
-                            onGetTableData={
+
+                <QueryDataTable
+                    columns={columns}
+                    checkMode={true}
+                    {...queryDataTable}
+                    onGetTableData={
 
                                 (obj)=>{
+                                    this.refs.searchInput.emptyInput()
                                     getTableData({
                                         data: obj
                                     })
                                 }
                             }
-                            ref="queryDataTable"
-                        >
-                        </QueryDataTable>
+                    ref="queryDataTable"
+                >
+                </QueryDataTable>
 
-
-                    </TabPane>
-                    <TabPane tab="负责的客户" key="2">
-                    </TabPane>
-                    <TabPane tab="参与的客户" key="3">
-                    </TabPane>
-                    <TabPane tab="重点客户" key="4">
-                    </TabPane>
-                    <TabPane tab="关注的客户" key="5">
-                    </TabPane>
-                </Tabs>
 
             </div>
         )

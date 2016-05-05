@@ -12,7 +12,7 @@ const RadioGroup = Radio.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
 const RangePicker = DatePicker.RangePicker;
-
+const InputGroup = Input.Group;
 
 //todo: 清理state方法合并
 export default class QueryDataTable extends React.Component {
@@ -54,16 +54,24 @@ export default class QueryDataTable extends React.Component {
         }
     }
 
+    clearCheckedAndExpanded = () =>{
+        // todo: ???
+        setTimeout(()=>{
+            this.setState({
+                selectedRowKeys: [],
+                expandedRowKeys: [],
+                isSearchShow: false
+            })
+        }, 0)
+
+    }
+
     onSelectChange = (selectedRowKeys)=> {
 
         this.setState({selectedRowKeys});
     }
 
-    clearSelectedRows = () => {
-        this.setState({
-            selectedRowKeys: []
-        })
-    }
+  
 
     // 重置筛选表单数据(供外部调用)
     resetQueryForm = ()=>{
@@ -119,14 +127,7 @@ export default class QueryDataTable extends React.Component {
                     ;
 
                     // that.props.onSure(this.props.form.getFieldsValue())
-                    that.setState({
-                        isSearchShow: false,
-                        selectedRowKeys: [],
-                        expandedRowKeys: []
-
-                    })
-
-
+                    that.clearCheckedAndExpanded()
 
                     if (that.props.onGetTableData) {
                         that.props.onGetTableData({
@@ -140,7 +141,8 @@ export default class QueryDataTable extends React.Component {
                                 }
                             }),
                             page: 1,
-                            pageSize: 0
+                            pageSize: 0,
+                            keyword: ''
                         })
                     }
                 },
@@ -207,7 +209,22 @@ export default class QueryDataTable extends React.Component {
 
 
             switch (queryCol['searchType']) {
-
+             /*   case "3":
+                    return (<FormItem >
+                        <InputGroup {...getFieldProps('-1_' + col['key'], {
+                            initialValue: queryCol['renderData']['defaultValue']
+                        })}>
+                            <Input  />
+                            <div className="ant-input-group-wrap">
+                                <Select defaultValue=".com" style={{ width: 70 }}>
+                                    <Option value=".com">.com</Option>
+                                    <Option value=".jp">.jp</Option>
+                                    <Option value=".cn">.cn</Option>
+                                    <Option value=".org">.org</Option>
+                                </Select>
+                            </div>
+                        </InputGroup>
+                    </FormItem>)*/
                 case "4":
                 case "5":
                 case "6":
@@ -268,10 +285,7 @@ export default class QueryDataTable extends React.Component {
 
 
 
-    expandedRowRender(record) {
-        console.log(record);
-        return <p>extra: {record.ID}</p>;
-    }
+
     onExpand(expanded, record) {
         console.log('onExpand', expanded, record);
     }
@@ -281,13 +295,7 @@ export default class QueryDataTable extends React.Component {
             expandedRowKeys: rows,
         });
     }
-    clearExpendedRows = ()=>{
-        this.setState(
-            {
-                expandedRowKeys: []
-            }
-        )
-    }
+
 
     getRowKey(record) {
         return record.ID;
@@ -304,7 +312,6 @@ export default class QueryDataTable extends React.Component {
             };
         }
 
-
         // 分页
         const pagination = {
             current: current,
@@ -313,23 +320,18 @@ export default class QueryDataTable extends React.Component {
             showSizeChanger: true,
             showQuickJumper: true,
             onChange: (pageNumber) => {
-                this.clearExpendedRows()
-                this.clearSelectedRows()
-
-
+                this.clearCheckedAndExpanded()
                 this.props.onGetTableData({
-
+                    keyword: '',
                     page: pageNumber,
                     pageSize: 0
 
                 })
             },
             onShowSizeChange: (current, pageSize) => {
-                this.clearExpendedRows()
-                this.clearSelectedRows()
-
+                this.clearCheckedAndExpanded()
                 this.props.onGetTableData({
-
+                    keyword: '',
                     pageSize: pageSize,
                     page: 1
 
@@ -360,7 +362,7 @@ export default class QueryDataTable extends React.Component {
                            loading={loading}
 
                            expandIconAsCell
-                           expandedRowRender={this.expandedRowRender}
+                           expandedRowRender={this.props.expandedRowRender}
                            expandedRowKeys={this.state.expandedRowKeys}
                            onExpandedRowsChange={this.onExpandedRowsChange}
                            onExpand={this.onExpand}
