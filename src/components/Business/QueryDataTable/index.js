@@ -312,10 +312,9 @@ export default class QueryDataTable extends React.Component {
             };
         }
 
-
         // 分页
         const pagination = {
-            defaultCurrent: current,
+            current: current,
             pageSize: pageSize,
             total: total,
             showSizeChanger: true,

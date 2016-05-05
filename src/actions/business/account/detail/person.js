@@ -91,7 +91,7 @@ const getTableData = (params)=> {
             dispatch(fetchData(GET_TABLE_DATA_SUCCESS, {
 
                 rows: data.data.rowData,
-                current: data.data.currentPage,
+                current: data.data.current,
                 total: data.data.total,
                 pageSize: data.data.pageSize,
                 loading: false
