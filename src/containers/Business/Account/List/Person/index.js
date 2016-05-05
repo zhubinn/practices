@@ -2,7 +2,7 @@
  * Created by janeluck on 4/27/16.
  */
 import { connect } from 'react-redux'
-import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form  } from 'antd'
+import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination,Modal, Form  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery } from 'actions/business/account/list/person'
@@ -190,7 +190,9 @@ const columns = [{
 class Account_List_Person_Page extends React.Component {
     constructor() {
         super()
-
+        this.state = {
+            visible: false
+        }
     }
 
     componentDidMount() {
@@ -243,7 +245,24 @@ class Account_List_Person_Page extends React.Component {
     handleImport = () => {
 
     }
+    showImportModal = ()=>{
+        this.setState({
+            visible: true
+        });
+    }
 
+    handleOk= () => {
+        console.log('点击了确定');
+        this.setState({
+            visible: false
+        });
+    }
+    handleCancel=(e) => {
+        console.log(e);
+        this.setState({
+            visible: false
+        });
+    }
     render() {
         const {
             $$account_list_person,
@@ -267,7 +286,13 @@ class Account_List_Person_Page extends React.Component {
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
                         <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更联系人</Button>
-                        <Button type="primary" onClick={(e)=>{this.handleImport()}}>导入</Button>
+                        <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
+                        <Modal title="客户导入" visible={this.state.visible}
+                               onOk={this.handleOk} onCancel={this.handleCancel}>
+                            <p>对话框的内容</p>
+                            <p>对话框的内容</p>
+                            <p>对话框的内容</p>
+                        </Modal>
                         <Button type="ghost">导出</Button>
                     </Col>
                 </Row>
