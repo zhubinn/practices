@@ -23,6 +23,7 @@ module.exports = {
             moment: path.join(__dirname, 'node_modules/moment/min/moment-with-locales.min'),
             react: path.join(__dirname, 'node_modules/react/dist/react-with-addons.min'),
             redux: path.join(__dirname, 'node_modules/redux/dist/redux.min'),
+            'react-slick': path.join(__dirname, 'node_modules/react-slick/dist/react-slick.min'),
             'react-dom': path.join(__dirname, 'node_modules/react-dom/dist/react-dom.min'),
             'react-proxy': path.join(__dirname, 'node_modules/react-proxy/dist/ReactProxy'),
             'react-redux': path.join(__dirname, 'node_modules/react-redux/dist/react-redux.min'),

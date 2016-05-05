@@ -8,6 +8,7 @@ import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery } from 'actions/business/account/list/person'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
+import Script from 'components/common/Script'
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
@@ -242,6 +243,7 @@ class Account_List_Person_Page extends React.Component {
     handleImport = () => {
 
     }
+
     render() {
         const {
             $$account_list_person,
@@ -303,7 +305,7 @@ class Account_List_Person_Page extends React.Component {
                 >
                 </QueryDataTable>
 
-
+                <Script src="http://api.map.baidu.com/api?v=2.0&ak=ToMnU3lyxBGcBoE84ED0meEr"></Script>
             </div>
         )
     }
