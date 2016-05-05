@@ -276,7 +276,7 @@ export default class QueryDataTable extends React.Component {
     calculateWidth = ()=> {
         let width = 0
         this.props.checkMode  &&  (width = width + 41)
-        this.props.expandedRowRender  &&  (width = width + 16)
+        this.props.expandedRowRender  &&  (width = width + 34)
         this.props.columns.forEach((item, i) =>{
             width += item.width || this.defaultColWidth
         })
@@ -397,7 +397,7 @@ export default class QueryDataTable extends React.Component {
                                                         checked={ this.state.selectedRowKeys.length === dataSource.length }
                                                         onChange={
                                                             (e)=>{this.handleSelectAll(e, dataSource)}}/></th>) : null }
-                                            {this.props.expandedRowRender ? (<th className='ant-table-expand-icon-th'></th>): null}
+                                            {this.props.expandedRowRender ? (<th style={{width: 34}}></th>): null}
                                             {
                                                 columns.map(col => <th width={col.width||this.defaultColWidth}>{col.title}</th>)
                                             }
