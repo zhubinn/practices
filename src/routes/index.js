@@ -47,7 +47,6 @@ export default (
         </Route>
         <Route path="scrmweb" component={ModulePage}>
             <Route path="accounts">
-
                 <Route path="deptaccountdetail/:role/:id" component={Account_Detail_Dept_Page}/>
                 <Route path="peraccountdetail/:role/:id" component={Account_Detail_Person_Page}/>
                 <Route path="list/:role/:id" component={Account_List_Person_Page}/>

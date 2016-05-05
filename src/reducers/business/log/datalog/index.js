@@ -7,9 +7,14 @@ import {
     GET_DATALOG_DATA,
     GET_DATALOG_SUCCESS,
     GET_DATALOG_FAILURE,
+    EXPORT_DATALOG_SHOW,
+    EXPORT_DATALOG_HIDE,
 } from 'actions/business/Log/DataLog'
 
 let datalog = {
+    "export":{
+        "visible": false
+    },
     "tableData":{
         "rs": true,
         "data": {
@@ -64,7 +69,6 @@ let datalog = {
             "key": "OperateDate"
         }
     ]
-
 }
 
 export default function Datalog($$state = Immutable.fromJS(datalog), action) {
@@ -75,6 +79,10 @@ export default function Datalog($$state = Immutable.fromJS(datalog), action) {
     	    return $$state;
     	case GET_DATALOG_SUCCESS:
     	    return $$state.merge({tableData: action.payload.data});
+        case EXPORT_DATALOG_SHOW:
+            return $$state.merge({export: {"visible": true}});
+        case EXPORT_DATALOG_HIDE:
+            return $$state.merge({export: {"visible": false}});
         default:
             return $$state;
     }

@@ -16,6 +16,10 @@ const GET_DATALOG_SUCCESS = 'GET_DATALOG_SUCCESS'
 // 获取数据日志报表失败
 const GET_DATALOG_FAILURE = 'GET_DATALOG_FAILURE'
 
+// 导出弹框
+const EXPORT_DATALOG_SHOW = 'EXPORT_DATALOG_SHOW'
+const EXPORT_DATALOG_HIDE = 'EXPORT_DATALOG_HIDE'
+
 
 const pageSizeChange = (val) => {
     const fetchData = (type, payload)=> {
@@ -26,6 +30,28 @@ const pageSizeChange = (val) => {
     }
     return (dispatch, getState) => {
         dispatch(fetchData(DATALOG_SIZE_CHANGE, data))
+    }
+}
+
+const exportShow = () => {
+    const fetchData = (type)=> {
+        return {
+            type
+        }
+    }
+    return (dispatch, getState) => {
+        dispatch(fetchData(EXPORT_DATALOG_SHOW))
+    }
+}
+
+const exportHide = () => {
+    const fetchData = (type)=> {
+        return {
+            type
+        }
+    }
+    return (dispatch, getState) => {
+        dispatch(fetchData(EXPORT_DATALOG_HIDE))
     }
 }
 
@@ -75,6 +101,10 @@ export {
     GET_DATALOG_DATA,
     GET_DATALOG_SUCCESS,
     GET_DATALOG_FAILURE,
+    EXPORT_DATALOG_SHOW,
+    EXPORT_DATALOG_HIDE,
     getDataLogData,
     pageSizeChange,
+    exportShow,
+    exportHide,
 }
