@@ -239,7 +239,9 @@ class Account_List_Person_Page extends React.Component {
         console.log(this.refs.queryDataTable.getCheckedRows())
 
     }
+    handleImport = () => {
 
+    }
     render() {
         const {
             $$account_list_person,
@@ -263,6 +265,7 @@ class Account_List_Person_Page extends React.Component {
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
                         <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更联系人</Button>
+                        <Button type="primary" onClick={(e)=>{this.handleImport()}}>导入</Button>
                         <Button type="ghost">导出</Button>
                     </Col>
                 </Row>

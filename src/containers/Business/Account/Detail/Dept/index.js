@@ -314,7 +314,7 @@ class Account_Detail_Dept_Page extends React.Component {
 
         this.props.getTableData({
 
-            url: SCRM.url('/scrmweb/accounts/getList')
+            url: SCRM.url('/scrmweb/accounts/getListDetail')
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
@@ -363,7 +363,7 @@ class Account_Detail_Dept_Page extends React.Component {
             <div style={{width: 1950}}>
                 <Table
                     columns={business_columns}
-                    dataSource={row.businessData || business_dataSource}
+                    dataSource={row.Opportunity}
                     pagination={false}>
 
                 </Table>
@@ -392,6 +392,7 @@ class Account_Detail_Dept_Page extends React.Component {
                         <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
+
 
                         <Button type="ghost">导出</Button>
                     </Col>

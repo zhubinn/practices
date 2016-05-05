@@ -312,7 +312,7 @@ class Account_Detail_Person_Page extends React.Component {
         // todo: url包装
         this.props.getTableData({
 
-            url: SCRM.url('/scrmweb/accounts/getList')
+            url: SCRM.url('/scrmweb/accounts/getListDetail')
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
@@ -362,7 +362,7 @@ class Account_Detail_Person_Page extends React.Component {
 
                 <Table
                     columns={business_columns}
-                    dataSource={row.businessData || business_dataSource}
+                    dataSource={row.Opportunity}
                     pagination={false}>
 
                 </Table>
