@@ -181,10 +181,8 @@ const columns = [{
 
 }];
 
-
 // 查询表格
 // 依赖Table, Pagination, Form
-
 
 
 class Account_List_Dept_Page extends React.Component {
@@ -197,16 +195,50 @@ class Account_List_Dept_Page extends React.Component {
         // todo: url包装
         this.props.getTableData({
 
-            url: SCRM.url('/scrmweb/accounts/getDeptList')
+            url: SCRM.url('/scrmweb/accounts/getList')
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
 
+    // 普通搜索和筛选(高级搜索)互斥
+    normalSearch = (value) => {
+        // 重置筛选(高级搜索)
+        this.refs.queryDataTable.resetQueryForm()
+
+        this.refs.queryDataTable.clearCheckedAndExpanded()
+        this.props.getTableData({
+            data: {
+                searchData: [],
+                keyword: value,
+                page: 1,
+                pageSize: 0
+            }
+        })
+
+
+    }
+    changeType = (type) => {
+        // 重置筛选(高级搜索)
+        this.refs.searchInput.emptyInput()
+        this.refs.queryDataTable.resetQueryForm()
+        this.refs.queryDataTable.clearCheckedAndExpanded()
+        this.props.getTableData({
+            data: {
+                searchData: [],
+                keyword: '',
+                page: 1,
+                pageSize: 0,
+                type
+            }
+        })
+
+    }
     changeOwner = (e) => {
         console.log('获取已经选择的row')
         console.log(this.refs.queryDataTable.getCheckedRows())
 
     }
+
     render() {
         const {
             $$account_list_dept,
@@ -224,27 +256,36 @@ class Account_List_Dept_Page extends React.Component {
         return (
             <div>
                 <Row>
-                    <Col span="8"><SearchInput /> </Col>
+                    <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
+
                     <Col span="8" offset="8">
-                        <Button type="primary" onClick = {(e)=>{
+                        <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
                         <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更联系人</Button>
                         <Button type="ghost">导出</Button>
                     </Col>
                 </Row>
-                <Tabs defaultActiveKey="1"
-                      onChange={function(i){
 
-                }}>
-                    <TabPane tab="全部客户" key="1">
+                <Tabs defaultActiveKey="all"
+                      type="card"
+                      onChange={i => {this.changeType(i)}}>
+                    <TabPane tab="全部客户" key="all">
+                    </TabPane>
+                    <TabPane tab="负责的客户" key="owner">
+                    </TabPane>
+                    <TabPane tab="重点客户" key="important">
+                    </TabPane>
+                    <TabPane tab="关注的客户" key="follow">
+                    </TabPane>
+                </Tabs>
 
 
-                        <QueryDataTable
-                            columns={columns}
-                            checkMode={true}
-                            {...queryDataTable}
-                            onGetTableData={
+                <QueryDataTable
+                    columns={columns}
+                    checkMode={true}
+                    {...queryDataTable}
+                    onGetTableData={
 
                                 (obj)=>{
                                     getTableData({
@@ -252,20 +293,10 @@ class Account_List_Dept_Page extends React.Component {
                                     })
                                 }
                             }
-                            ref="queryDataTable"
-                        >
-                        </QueryDataTable>
+                    ref="queryDataTable"
+                >
+                </QueryDataTable>
 
-
-                    </TabPane>
-                    <TabPane tab="负责的客户" key="2">
-                    </TabPane>
-
-                    <TabPane tab="重点客户" key="3">
-                    </TabPane>
-                    <TabPane tab="关注的客户" key="4">
-                    </TabPane>
-                </Tabs>
 
             </div>
         )
