@@ -2,8 +2,10 @@
 /**
  * Created by ytm on 4/17/16
  */
+
 import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
+import {Modal} from 'antd'
 
 // 数据日志页码长度改变
 const DATALOG_SIZE_CHANGE = 'DATALOG_SIZE_CHANGE'
@@ -50,11 +52,20 @@ const getDataLogData = (params ,val) => {
             }
             return response.json()
         }).then(function (data) {
-            data.data.rowData = data.data.rowData || []
-            data.data.total = data.data.total || 0;
-            data.data.current = data.data.current || 0;
-            data.data.pageSize = data.data.pageSize || 10;
-            dispatch( fetchData(GET_DATALOG_SUCCESS, {data: data}) )
+            if(data.rs){
+                data.data.rowData = data.data.rowData || []
+                data.data.total = data.data.total || 0;
+                data.data.current = data.data.current || 0;
+                data.data.pageSize = data.data.pageSize || 10;
+                dispatch( fetchData(GET_DATALOG_SUCCESS, {data: data}) )
+            }else{
+                Modal.info({
+                    title: '错误信息',
+                    content: data.error,
+                    onOk() {
+                    }
+                });
+            }
         })
     }
 }

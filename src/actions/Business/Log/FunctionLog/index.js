@@ -52,11 +52,21 @@ const getFuncLogData = (params ,val)=> {
             }
             return response.json()
         }).then(function (data) {
-            data.data.rowData = data.data.rowData || []
-            data.data.total = data.data.total || 0;
-            data.data.current = data.data.current || 0;
-            data.data.pageSize = data.data.pageSize || 10;
-            dispatch(fetchData(GET_FUNCLOG_SUCCESS, {data: data}))
+            
+            if(data.rs){
+                data.data.rowData = data.data.rowData || []
+                data.data.total = data.data.total || 0;
+                data.data.current = data.data.current || 0;
+                data.data.pageSize = data.data.pageSize || 10;
+                dispatch(fetchData(GET_FUNCLOG_SUCCESS, {data: data}))
+            }else{
+                Modal.info({
+                    title: '错误信息',
+                    content: data.error,
+                    onOk() {
+                    }
+                });
+            }
         })
     }
 }
