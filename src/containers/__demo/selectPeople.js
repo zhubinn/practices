@@ -47,9 +47,27 @@ class selectPeoplePage extends React.Component{
     getPeopleData(getPeopleParams)  
   }
 
+  //改变模态层显示状态
   handleChangeStatus(){
     const {changeIsShowStatus} = this.props
     changeIsShowStatus()
+  }
+
+  //再次请求数据(下一页、搜索)
+  requestPDList(page,value){
+
+    const paramData = {
+      page:page,
+      rowsPerPage:20,
+      keyword:value
+    }
+
+    Object.assign(getPeopleParams.data, paramData);
+
+    console.log(getPeopleParams)
+    getPeopleData(getPeopleParams)  
+
+
   }
   render(){
       const {$$mapState} = this.props
@@ -63,8 +81,11 @@ class selectPeoplePage extends React.Component{
         <Button type="ghost"  onClick = {this.handleSelection.bind(this)}>筛选</Button>
         <Button type="ghost" onClick = {this.handleChangeOwner.bind(this)}>变更</Button>                   
       
-        <SelectPeople {...peoplePropsData} handleClickCancle = {this.handleChangeStatus.bind(this)}>
-        </SelectPeople>
+        <SelectPeople 
+            {...peoplePropsData} 
+            handleClickCancle = {this.handleChangeStatus.bind(this)}
+            requestPoepleData = {this.requestPDList.bind(this)}
+        />
       </div>
     )
   }

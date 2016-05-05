@@ -3,6 +3,8 @@
  */
 // 选人组件内部
 
+import React ,{findDOMNode} from 'react'
+
 import {Button} from 'antd'
 import { isEmpty } from 'lodash'
 import './search.less'
@@ -29,10 +31,12 @@ export default class SelectPeople extends React.Component {
         this.state={
             'itemdata':[],
             'areapadding':0,
-            'textValue':''
+            'textValue':'',
+            'currentPage':1
         }
     }
     componentDidMount(){
+
     }
 
     //搜索框部分
@@ -78,19 +82,62 @@ export default class SelectPeople extends React.Component {
                     },0)
 
                 }
-                if(ItemData.length == 0 && e.keyCode == 8){
-                    //TODO 
-                    console.log("当删除最后一个tag时重新拿到全部数据")
+                // if(ItemData.length == 0 && e.keyCode == 8){
+                //     //TODO 
+                //     let page = 1
+                //     console.log("当删除最后一个tag时重新拿到全部数据")
 
-                }
+                //     this.props.requestData(page,'')
+                // }
             },
+
+            //keyUp 搜索
+            handleKeyUp(e){
+                const textValue = e.currentTarget.value;
+                const nameItemData = that.state.itemdata;
+
+                let self = e.target;
+                clearTimeout(self.timer);
+
+                self.timer = setTimeout(
+                    function()
+                    {
+                        delete self.timer;
+                            //当textValue为关键词进行搜索请求数据
+                            let page = 1
+                            if(textValue == ''){
+                                if(nameItemData.length==0){
+                                    console.log('按关键词进行搜索')
+                                    this.props.requestData(page,textValue)
+                                }
+
+                            }else{
+                                console.log('按关键词进行搜索')
+                                this.props.requestData(page,textValue)                           
+                            }
+
+
+                    }.bind(this),
+                    500
+                );
+                    
+            },
+
+            componentDidMount(){
+                React.findDOMNode(this.refs.textarea).focus()
+            },
+
+
             render(){
+
+
                 return (
                     <div className="mbox784_textwrap">
                       <textarea id="textarea" rows="1" className="M01text"
                       ref = "textarea"
                       style={{paddingLeft: (10+arreapadding) + 'px'}} 
                       onKeyDown = {this.handleKeyDown.bind(this)}
+                       onKeyUp = {this.handleKeyUp.bind(this)}
                       ></textarea>
                       <p className = "dev-tags">
                            {
@@ -107,7 +154,7 @@ export default class SelectPeople extends React.Component {
                 )
             }
         })
-        return <SearchTextArea    />
+        return <SearchTextArea   requestData =  {this.props.requestPoepleData}/>
 
     }
 
@@ -128,7 +175,7 @@ export default class SelectPeople extends React.Component {
                   if(clickData.Name.charCodeAt(j) > 255){
                     itemWidth += 12;
                   }else{
-                    itemWidth += 6;
+                    itemWidth += 7;
                   }
                 };
                 let namearr = [];
@@ -161,10 +208,34 @@ export default class SelectPeople extends React.Component {
                     })
                 },0)
             },
+
+            //滚动底部加载下一页
+
+            handleScroll(){
+
+              const scroll_height = ReactDOM.findDOMNode(this.refs.BombBoxList).scrollHeight;
+              const  win_height = ReactDOM.findDOMNode(this.refs.BombBoxList).clientHeight;
+              const scroll_top = ReactDOM.findDOMNode(this.refs.BombBoxList).scrollTop;
+
+              if ((scroll_height - win_height - scroll_top) == 0&&scroll_top>0 ) {
+                let currentpage = that.state.currentPage
+                currentpage++
+                setTimeout(()=>{
+                    that.setState({
+                        "currentPage":currentpage,
+                    })
+                },0)
+
+
+                this.props.requestNextData(currentpage,'')                           
+
+            }
+        },
+
             render (){
                 return (
-                    <div className="mbox_BombBoxList01"  ref = "BombBoxList" >
-                        <div className = "mbox_boxList02" ref = "mbox_boxList" onScroll ={this.handleScroll}>
+                    <div className="mbox_BombBoxList01"  ref = "BombBoxList" onScroll ={this.handleScroll}>
+                        <div className = "mbox_boxList02" ref = "mbox_boxList" >
                           <ul className="clearfix m_list02" ref = "mListUl">
                             {
                                 peopleListData.map((item, i) => {
@@ -184,7 +255,7 @@ export default class SelectPeople extends React.Component {
             }
        })
 
-        return <PeopleList   ></PeopleList>
+        return <PeopleList   requestNextData =  {this.props.requestPoepleData}></PeopleList>
 
     }
 
@@ -212,7 +283,8 @@ export default class SelectPeople extends React.Component {
 
     render (){
         const selectPeopleModal = this.props.selectPeopleModal 
-        console.log(this.state)          
+        console.log(this.state) 
+
             if(selectPeopleModal){
                 return (
                     <div className = "mbox_BombBoxBg">
