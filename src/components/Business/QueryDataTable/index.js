@@ -315,7 +315,7 @@ export default class QueryDataTable extends React.Component {
 
         // 分页
         const pagination = {
-            current: current,
+            defaultCurrent: current,
             pageSize: pageSize,
             total: total,
             showSizeChanger: true,
