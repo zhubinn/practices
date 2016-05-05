@@ -9,7 +9,7 @@ import FuncLog from "./log/funclog"
 
 import deptstatistic from "./business/deptstatistic"
 
-import account_list from './account/list'
+
 
 import numberReportViewState from './numberReport/numberReportView'
 import dispatchCluesState from './dispatchClues/dispatchClues'
@@ -24,10 +24,9 @@ const businessReducers = combineReducers({
 	deptstatistic,
 	datalog,
 	FuncLog,
-    account_list,
     numberReportViewState,
     dispatchCluesState,
-    account_detail,
+
     account_list_person,
     account_detail_person,
     account_list_dept,

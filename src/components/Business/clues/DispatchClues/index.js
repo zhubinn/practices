@@ -1,8 +1,9 @@
 import fetch from 'isomorphic-fetch'
 import { findDOMNode } from 'react-dom'
-import { Table, Modal, Spin,  Button, Radio, message, Input } from 'antd'
+import { Table,Row , Col, Modal, Spin,  Button, Radio, message, Input } from 'antd'
 const RadioGroup = Radio.Group;
 import SearchInput from './SearchInput'
+import QueryDataTable from 'components/Business/QueryDataTable'
 //less
 import './less/clues.less'
 
@@ -144,6 +145,7 @@ export default class DispatchClues extends React.Component {
         const isShowModal = dispatchCluesState.toJS().showModal
         const { selectedRadioID, selectData} = dispatchCluesState.toJS()
         const selectIDs = selectData.map((item) => item.ID)
+        console.log(this.refs.q)
         $.post(SCRM.url('/scrmlead/index/changeOwner'),{
             ownerID:selectedRadioID,
             selectIDs:selectIDs
@@ -151,7 +153,7 @@ export default class DispatchClues extends React.Component {
             if(data.rs === true){
                 actions.showDispatchModal(!isShowModal)
                 message.success('分派成功！');
-                location.reload()
+                setTimeout(() => location.reload(),500)
             }else{
                 message.error('分派失败！');
             }
@@ -225,18 +227,20 @@ export default class DispatchClues extends React.Component {
                 loading  ? <Table  columns={columns} dataSource={rowData} /> : <Spin  />
             )
         }
-        // switch (dispatchState) {
-        //     case 0:
-        //
-        //         break;
-        //     case 1:
-        //     return (
-        //         <Table rowSelection={rowSelection} columns={columns} dataSource={rowData} />
-        //     )
-        //         break;
-        //     default:
-        //
-        // }
+
+        /*if(dispatchState === 0){
+            const rowSelection = {
+                onChange: this.onSelectChange.bind(this)
+            };
+            return (
+                loading  ? <QueryDataTable checkMode={true}  ref='queryDataTable'  rowSelection={rowSelection} columns={columns} dataSource={rowData} /> : <Spin  />
+            )
+        }else if(dispatchState === 1){
+            return (
+                loading  ? <QueryDataTable  columns={columns} dataSource={rowData} /> : <Spin  />
+            )
+        }*/
+
 
     }
 
@@ -273,16 +277,18 @@ export default class DispatchClues extends React.Component {
         return (
             <div>
                 <div className="col-right">
-                    <div className="col-cktop">
-                        <div className="col-cktop-gongneng clearfix">
-                            <div className="col-cktop-Hightsearch">
-                                <SearchInput  placeholder="输入线索负责人" style={{ width: 200 }} onSearch = { this.clickSearch.bind(this) } {...this.props}  />
-                                <button className="Hightsearch-btn">高级搜索</button>
-                            </div>
-                            <button className = { dispatchState === 0 ? "col-cktop-btn " : "col-cktop-btn hidden" }  onClick = { this.showModal.bind(this) }>分派</button>
-                        </div>
 
-                    </div>
+                    <Row>
+                        <Col span="8">
+                            <SearchInput  placeholder="输入线索负责人" style={{ width: 200 }} onSearch = { this.clickSearch.bind(this) } {...this.props}  />
+                        </Col>
+                        <Col span="8">
+                            <button className="Hightsearch-btn">高级搜索</button>
+                        </Col>
+                        <Col span="8">
+                            <button className = { dispatchState === 0 ? "col-cktop-btn " : "col-cktop-btn hidden" }  onClick = { this.showModal.bind(this) }>分派</button>
+                        </Col>
+                    </Row>
                     <div className="ck-tab-hd">
                         <ul className="clearfix">
                             <li className = { dispatchState === 0 ? "active" : null } onClick = { this.handClickTab.bind(this,0) }><a>未分派</a></li>

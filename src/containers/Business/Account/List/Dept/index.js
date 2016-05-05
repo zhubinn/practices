@@ -15,7 +15,7 @@ const TabPane = Tabs.TabPane;
 // SCRM.url 由原来外层页面引入
 
 const columns = [{
-    title: '客户名称',
+    title: '客户名称22',
     dataIndex: 'Name',
     key: 'Name',
 

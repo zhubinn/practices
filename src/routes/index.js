@@ -74,6 +74,11 @@ export default (
                 <Route path="func/VISITID/1" component={FuncLog} />
             </Route>
         </Route>
+        /*报数查看路由*/
+        <Route path="scrmnumreport/index/list/:role/:id/:template/:tid" component={NumberReportViewPage}/>
+        /*线索分派路由*/
+        <Route path="scrmweb/lead/dispatch/:role/:id" component={DispatchCluesPage}/>
+        /*<Route path="scrmnumreport/index/list/VISITID/1/templateID/528" component={NumberReportViewPage}/>*/
 
         <Route path="*" component={Error_404}/>
     </Route>
