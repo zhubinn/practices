@@ -335,7 +335,7 @@ class Account_Detail_Person_Page extends React.Component {
 
     }
     changeType = (type) => {
-        // 重置筛选(高级搜索)
+        // 重置普通搜索和筛选(高级搜索)
         this.refs.searchInput.emptyInput()
         this.refs.queryDataTable.resetQueryForm()
         this.refs.queryDataTable.clearCheckedAndExpanded()
@@ -359,12 +359,14 @@ class Account_Detail_Person_Page extends React.Component {
 
         return (
             <div style={{width: 1950}}>
+
                 <Table
                     columns={business_columns}
                     dataSource={row.businessData || business_dataSource}
                     pagination={false}>
 
                 </Table>
+
             </div>)
     }
 
