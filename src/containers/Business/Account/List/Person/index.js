@@ -133,6 +133,7 @@ class Account_List_Person_Page extends React.Component {
 
     }
 
+
     componentDidMount() {
         // todo: url包装
         this.props.getTableData({
@@ -152,7 +153,7 @@ class Account_List_Person_Page extends React.Component {
     normalSearch = (value) => {
         // 重置筛选(高级搜索)
         this.refs.queryDataTable.resetQueryForm()
-
+        this.refs.queryDataTable.clearCheckedAndExpanded()
         this.props.getTableData({
             data: {
                 searchData: [],

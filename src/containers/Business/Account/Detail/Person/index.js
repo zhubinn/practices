@@ -185,8 +185,31 @@ const columns = [{
 // 查询表格
 // 依赖Table, Pagination, Form
 
+// 嵌套表格生意列表
+const business_columns =  [
+    {
+        title: '生意名称',
+        dataIndex: 'Name',
+        key: 'Name',
+        width: 150
 
+    },{
+        title: '生意阶段',
+        dataIndex: 'Stage',
+        key: 'Stage',
+        width: 150
 
+    }, {
+        title: '负责人',
+        dataIndex: 'OwnerID',
+        key: 'OwnerID',
+        width: 150
+
+    }
+]
+
+// fakeData
+const business_dataSource = [{"ID":"372","AccountID":"\u9152\u6c34\u5ba2\u6237","Name":"\u535a\u767d\u751f\u610f","Stage":"","OwnerID":"\u5575\u5575\u2026\u2026\uff01\uff1f\u3002\u3002","CreatedTime":"2016.05.04 10:35","DiscoverDate":"2016-05-04","ExpectedCloseDate":"2016-05-04","AmountPlan":"200.00","PaymentTime":"2016-05-04","PaymentAmount":"10.00","WFFlag":"1","EndDate":"","Amount":"","Account":"40498"},{"ID":"344","AccountID":"\u9152\u6c34\u5ba2\u6237","Name":"\u9152\u6c34\u751f\u610f","Stage":"","OwnerID":"\u6ce2\u6ce2\u83dc\u83dc","CreatedTime":"2016.04.29 16:04","DiscoverDate":"2016-04-29","ExpectedCloseDate":"2016-04-29","AmountPlan":"5000.00","PaymentTime":"2016-04-29","PaymentAmount":"10.00","WFFlag":"1","EndDate":"","Amount":"","Account":"40498"}]
 class Account_Detail_Person_Page extends React.Component {
     constructor() {
         super()
@@ -201,11 +224,41 @@ class Account_Detail_Person_Page extends React.Component {
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
+    // 普通搜索和筛选(高级搜索)互斥
+    normalSearch = (value) => {
+        // 重置筛选(高级搜索)
+        this.refs.queryDataTable.resetQueryForm()
 
+        this.refs.queryDataTable.clearCheckedAndExpanded()
+       this.props.getTableData({
+            data: {
+                searchData: [],
+                keyword: value,
+                page: 1,
+                pageSize: 0
+            }
+        })
+
+
+
+
+    }
     changeOwner = (e) => {
         console.log('获取已经选择的row')
         console.log(this.refs.queryDataTable.getCheckedRows())
 
+    }
+    expandedRowRender = (row) => {
+
+        return (
+            <div style = {{width: 450}}>
+                <Table
+            columns = {business_columns}
+            dataSource = {row.businessData || business_dataSource}
+            pagination={false}>
+
+                </Table>
+            </div>)
     }
     render() {
         const {
@@ -224,7 +277,7 @@ class Account_Detail_Person_Page extends React.Component {
         return (
             <div>
                 <Row>
-                    <Col span="8"><SearchInput /> </Col>
+                    <Col span="8"><SearchInput  ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/>     </Col>
                     <Col span="8" offset="8">
                         <Button type="primary" onClick = {(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
@@ -242,11 +295,14 @@ class Account_Detail_Person_Page extends React.Component {
 
                         <QueryDataTable
                             columns={columns}
-                            expandedRowRender={true}
+                            expandedRowRender={this.expandedRowRender}
                             {...queryDataTable}
                             onGetTableData={
 
                                 (obj)=>{
+
+
+
                                     getTableData({
                                         data: obj
                                     })
