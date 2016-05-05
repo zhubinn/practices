@@ -7,6 +7,7 @@ import MasterPage from 'containers/Master/Default'
 import DemoTablePage from 'containers/__demo/Table'
 import DemoLoginPage from 'containers/__demo/Login'
 import DemoQueryNestedTablePage from 'containers/__demo/QueryNestedTable'
+import selectPeoplePage from 'containers/__demo/selectPeople'
 import Error_404 from 'containers/Error/404'
 
 export default (
@@ -15,6 +16,7 @@ export default (
             <Route path="table" component={DemoTablePage}/>
             <Route path="login" component={DemoLoginPage}/>
             <Route path="nested_table" component={DemoQueryNestedTablePage}/>
+            <Route path="selectPeople" component={selectPeoplePage}/>
         </Route>
         <Route path="*" component={Error_404}/>
     </Route>

@@ -5,10 +5,14 @@ import { combineReducers } from 'redux'
 
 import report from './report'
 import user from './user'
+import selectPeople from './selectPeople'
+
+
 
 const __demoReducers = combineReducers({
     report,
     user,
+    selectPeople,
 })
 
 export default __demoReducers
