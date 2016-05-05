@@ -47,9 +47,8 @@ module.exports = {
             loaders: ['style', 'css'],
         }]
     },
-    //devtool: 'source-map',
+    devtool: 'source-map',
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': '"production"'
