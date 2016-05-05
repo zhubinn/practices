@@ -29,7 +29,7 @@ let table_params = {
         page: 1,
         pageSize: 20,
         searchData: [],
-        keyword: ''
+        type: 'all'
     }
 }
 
@@ -61,8 +61,8 @@ const getTableData = (params)=> {
 
 
     /*
-    *     body:  Object.assign(table_params.data, params.data)
-    *    */
+     *     body:  Object.assign(table_params.data, params.data)
+     *    */
     return (dispatch, getState) => {
 
         dispatch(fetchData(GET_TABLE_DATA, {rows: [], loading: true}))
@@ -91,7 +91,7 @@ const getTableData = (params)=> {
             dispatch(fetchData(GET_TABLE_DATA_SUCCESS, {
 
                 rows: data.data.rowData,
-                current: data.data.currentPage,
+                current: data.data.current,
                 total: data.data.total,
                 pageSize: data.data.pageSize,
                 loading: false
@@ -113,8 +113,8 @@ const getTableQuery = (url)=> {
 
 
     /*
-    *     body:  Object.assign(table_params.data, params.data)
-    *    */
+     *     body:  Object.assign(table_params.data, params.data)
+     *    */
     return (dispatch, getState) => {
 
         dispatch(fetchData(GET_TABLE_QUERY, {queryColumns: {}}))
