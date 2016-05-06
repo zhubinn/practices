@@ -6,12 +6,14 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { Row, Col, Table, Radio, Button, Input, Pagination, Modal, DatePicker} from 'antd'
+import { Row, Col, Table, Radio, Button, Input, Pagination, Modal, DatePicker, Form } from 'antd'
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
-import {getDataLogData, pageSizeChange, exportShow, exportHide}  from 'actions/business/Log/DataLog'
+import { isEmpty } from 'lodash'
+import {getDataLogData, getDataLogQuery, pageSizeChange, exportShow, exportHide}  from 'actions/business/Log/DataLog'
 import 'antd/lib/index.css'
 const RangePicker = DatePicker.RangePicker;
+const FormItem = Form.Item;
 //table列表数据接口
 let DataLogParams = {
     //url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/logData.php',
@@ -34,7 +36,9 @@ class DataLog extends React.Component {
     }
 
     componentDidMount() {
+      debugger
       this.props.getDataLogData(DataLogParams);
+      //this.props.getDataLogQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
 
     // 普通搜索和筛选(高级搜索)互斥
@@ -69,6 +73,8 @@ class DataLog extends React.Component {
     }
 
     exportTimeChange(value){
+      // exportParams.DateStart = value[0].getFullYear();
+      // exportParams.DateEnd = value[1].getFullYear();
       exportParams.DateStart = value[0];
       exportParams.DateEnd = value[1];
       //this.props.exportHide()
@@ -76,42 +82,31 @@ class DataLog extends React.Component {
 
     render() {
         //table数据配置
-        const { $$logState } = this.props;
+        const { $$logState, getDataLogData} = this.props;
         // const dataSource = $$logState.get('tableData').get('data').get('rowData').toJS();
         const columns = $$logState.get('tableColumns').toJS();
         
         const expotModal = $$logState.get('export').get('visible');
-        //分页配置
-        // const pageSize = $$logState.get('tableData').get('data').get('pageSize');
-        // const pageTotal = $$logState.get('tableData').get('data').get('total');
-        // const pageCurrent = $$logState.get('tableData').get('data').get('current');
-        // const pagination = {
-        //   current: pageCurrent,
-        //   total: pageTotal,
-        //   pageSize:pageSize,
-        //   showSizeChanger: true,
-        //   showQuickJumper: true,
-        //   onShowSizeChange: this.onShowSizeChange.bind(this),
-        //   onChange: this.pageOnChange.bind(this),
-        //   showTotal: this.showPageTotal
-        // };
 
         let queryDataTable = {}
-        queryDataTable.dataSource = $$logState.get('tableData').get('data').get('rowData').toJS();
-        queryDataTable.current = $$logState.get('tableData').get('data').get('current');
-        queryDataTable.total = $$logState.get('tableData').get('data').get('total');
-        queryDataTable.pageSize = $$logState.get('tableData').get('data').get('pageSize');
-        //queryDataTable.queryColumns = $$account_list_person.toJS().queryColumns
+        let tablePageData = $$logState.get('tableData').get('data');
+        queryDataTable.dataSource = tablePageData.get('rowData').toJS();
+        queryDataTable.current = tablePageData.get('current');
+        queryDataTable.total = tablePageData.get('total');
+        queryDataTable.pageSize = tablePageData.get('pageSize');
+        queryDataTable.queryColumns = $$logState.get('queryColumns').toJS()
         //queryDataTable.loading = $$account_list_person.toJS().loading
 
         return (
-            <div  style = {{marginLeft: '20px'}} >
+            <div style = {{marginLeft: '20px'}} >
               <Row>
                 <Col span="10">
                   <SearchInput ref="searchInput" onSearch = {this.normalSearch} />
                 </Col>
                 <Col span="14" style = {{ textAlign: 'right' }}>
-                  <Button type="primary" style = {{marginRight: '10px'}}>筛选</Button>
+                  <Button type="primary" onClick={(e)=>{
+                            this.refs.queryDataTable.toggleQueryTable(e)
+                        }}>筛选</Button>
                   <Button type="ghost" onClick = { this.showModal.bind(this) }>导出EXCEL</Button>
                 </Col>
               </Row>
@@ -120,9 +115,7 @@ class DataLog extends React.Component {
                     checkMode={false}
                     {...queryDataTable}
                     onGetTableData={
-
                                 (obj)=>{
-                                    debugger
                                     this.refs.searchInput.emptyInput()
                                     getDataLogData({
                                         data: obj
@@ -134,7 +127,7 @@ class DataLog extends React.Component {
                 </QueryDataTable>
                 <Modal title="导出日志" visible={expotModal}
                 onOk={this.handleOk.bind(this)} onCancel={this.handleCancel.bind(this)}>
-                  <RangePicker showTime format="yyyy/MM/dd HH:mm:ss" onChange={this.exportTimeChange.bind(this)} />
+                  <RangePicker showTime format="yyyy-MM-dd HH:mm:ss" onChange={this.exportTimeChange.bind(this)} />
                 </Modal>
             </div>
         )
@@ -149,6 +142,7 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps, {
     getDataLogData,
+    getDataLogQuery,
     pageSizeChange,
     exportShow,
     exportHide,
