@@ -1,7 +1,7 @@
 /**
  * Created by c on 4/22/16.
  */
-import keyMirror from 'keyMirror'
+import keyMirror from 'keymirror'
 
 export default keyMirror({
     DECIMAL: null,
