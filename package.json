@@ -46,8 +46,8 @@
     "webpack-hot-middleware": "^2.10.0"
   },
   "dependencies": {
-    "chaocer-weekCalendar": "^1.0.0",
     "antd": "^0.12.14",
+    "chaocer-weekCalendar": "^1.0.0",
     "immutable": "^3.7.6",
     "isomorphic-fetch": "^2.2.1",
     "keymirror": "^0.1.1",
@@ -61,6 +61,7 @@
     "react-router-redux": "^4.0.0",
     "redux": "^3.3.1",
     "redux-logger": "^2.6.1",
-    "redux-thunk": "^2.0.1"
+    "redux-thunk": "^2.0.1",
+    "reqwest": "^2.0.5"
   }
 }

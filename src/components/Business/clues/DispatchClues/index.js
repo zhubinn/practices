@@ -1,12 +1,13 @@
 import fetch from 'isomorphic-fetch'
 import { findDOMNode } from 'react-dom'
+import reqwest from 'reqwest'
 import { Table,Row , Col, Modal, Spin,  Button, Radio, message, Input } from 'antd'
 const RadioGroup = Radio.Group;
 import SearchInput from './SearchInput'
 //less
 import './less/clues.less'
 
-
+console.log(reqwest)
 
 const columns = [{
     title: '姓名',
@@ -70,51 +71,63 @@ export default class DispatchClues extends React.Component {
 
         this.state = {
             pagination: {},
+            loading: false,
         }
     }
 
 
 
     componentDidMount(){
-        this.fetchTableData()
-    }
-
-    fetchTableData(params = {}){
         const { dispatchCluesState,actions } = this.props
         const dispatchState = dispatchCluesState.toJS().dispatchState
-        const _this = this
-        $.post(SCRM.url('/scrmlead/index/getAssignList'),{
+
+        this.fetchTableData({
             assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
-            page:1,
-            rowsPerPage:20,
-            canAssign:1
-        },function(data){
-            if(data.rs === true){
-                const rowData = data.data.rowData;
+        })
+    }
 
-                const pagination = _this.state.pagination;
-                pagination.total = data.data.total;
-                _this.setState({
-                    loading: false,
+    fetchTableData(params = {canAssign:1}){
+        const { dispatchCluesState,actions } = this.props
+
+
+        console.log('请求参数：', params);
+        reqwest({
+            url:SCRM.url('/scrmlead/index/getAssignList'),
+            method:'post',
+            data:params,
+            type:'json',
+            success:(result) => {
+
+                const pagination = this.state.pagination;
+                const rowData = result.data.rowData;
+                pagination.total = result.data.total;
+                this.setState({
+                    loading:false,
                     pagination,
-                });
-
+                })
                 actions.fetchData(true,rowData)
-            }else{
-                message.error('服务器错误，请联系客服！')
             }
-        },'json')
+        })
+
+
     }
 
     handleTableChange(pagination) {
+        const { dispatchCluesState,actions } = this.props
+        const dispatchState = dispatchCluesState.toJS().dispatchState
         const pager = this.state.pagination;
+        const keyword = this.state.keyword;
+
         pager.current = pagination.current;
+
         this.setState({
             pagination: pager,
         });
         this.fetchTableData({
-            pageSize: pagination.pageSize,
-            currentPage: pagination.current
+            rowsPerPage : pagination.pageSize,
+            page : pagination.current,
+            assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
+            keyword,
         });
     }
 
@@ -129,11 +142,11 @@ export default class DispatchClues extends React.Component {
                 onChange: this.onSelectChange.bind(this)
             };
             return (
-                loading  ? <Table onChange={this.handleTableChange} pagination={this.state.pagination}  rowSelection={rowSelection} columns={columns} dataSource={rowData} /> : <Spin  />
+                loading  ? <Table onChange={this.handleTableChange.bind(this)} pagination={this.state.pagination}  rowSelection={rowSelection} columns={columns} dataSource={rowData} /> : <Spin  />
             )
         }else if(dispatchState === 1){
             return (
-                loading  ? <Table pagination={this.state.pagination}  columns={columns} dataSource={rowData} /> : <Spin  />
+                loading  ? <Table onChange={this.handleTableChange.bind(this)} pagination={this.state.pagination} columns={columns} dataSource={rowData} /> : <Spin  />
             )
         }
 
@@ -142,20 +155,14 @@ export default class DispatchClues extends React.Component {
     handClickTab(state){
         const { dispatchCluesState,actions } = this.props
         const dispatchState = dispatchCluesState.toJS().dispatchState
+
+        this.setState({pagination: {}})
         actions.clickTab(state,false)
-        $.post(SCRM.url('/scrmlead/index/getAssignList'),{
+
+        this.fetchTableData({
             assigned:state,//0未分派,1已分派未处理 不传默认0
-            page:1,
-            rowsPerPage:20,
-            canAssign:1
-        },function(data){
-            if(data.rs === true){
-                const rowData = data.data.rowData;
-                actions.fetchData(true,rowData)
-            }else{
-                message.error('服务器错误，请联系客服！')
-            }
-        },'json')
+        })
+
     }
 
     showModal(){
@@ -172,11 +179,15 @@ export default class DispatchClues extends React.Component {
         actions.showDispatchModal(!isShowModal)
 
         if(!isShowModal){
-            $.post(SCRM.url('/deptcomponent/DeptComponent/getUserListForLeadAssign'),function(data){
-                if(data.rs === true){
-                    actions.fetchDeptData(true,data.data)
+
+            reqwest({
+                url:SCRM.url('/deptcomponent/DeptComponent/getUserListForLeadAssign'),
+                method:'get',
+                type:'json',
+                success:(result) => {
+                    actions.fetchDeptData(true,result.data)
                 }
-            },'json')
+            })
         }
 
     }
@@ -198,18 +209,22 @@ export default class DispatchClues extends React.Component {
             return false;
         }
 
-        $.post(SCRM.url('/scrmlead/index/changeOwner'),{
-            ownerID:selectedRadioID,
-            selectIDs:selectIDs
-        },function(data){
-            if(data.rs === true){
+        reqwest({
+            url:SCRM.url('/scrmlead/index/changeOwner'),
+            method:'post',
+            data:{
+                ownerID:selectedRadioID,
+                selectIDs:selectIDs
+            },
+            type:'json',
+            success:(result) => {
+
                 actions.showDispatchModal(!isShowModal)
                 message.success('分派成功！');
                 setTimeout(() => location.reload(),500)
-            }else{
-                message.error('分派失败！');
             }
-        },'json')
+        })
+
     }
 
     renderModalBox(){
@@ -230,7 +245,6 @@ export default class DispatchClues extends React.Component {
                 </Button>]}>
                     {
                         <div>
-                            /*<div className="selectedOwer">已经选择了：</div>*/
                             <div className="ds-dept-list">
                                 <Spin spining = { !deptData.length  } />
 
@@ -266,6 +280,9 @@ export default class DispatchClues extends React.Component {
 
     clickSearch(value){
         const val = value.trim()
+        this.setState({
+            keyword:val
+        })
         this.searchFetchData(val)
     }
 
@@ -273,7 +290,14 @@ export default class DispatchClues extends React.Component {
         const { dispatchCluesState ,actions } = this.props
         const dispatchState = dispatchCluesState.toJS().dispatchState
 
-        $.post(SCRM.url('/scrmlead/index/getAssignList'),{
+        this.setState({pagination: {}})
+
+        this.fetchTableData({
+            assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
+            keyword:value
+        })
+
+        /*$.post(SCRM.url('/scrmlead/index/getAssignList'),{
             assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
             page:1,
             rowsPerPage:20,
@@ -287,7 +311,7 @@ export default class DispatchClues extends React.Component {
             }else{
                 message.error('服务器错误，请联系客服！')
             }
-        },'json')
+        },'json')*/
     }
 
     render() {
