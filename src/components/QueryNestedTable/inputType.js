@@ -4,6 +4,7 @@
 import keyMirror from 'keymirror'
 
 export default keyMirror({
+    DECIMAL: null,
     NUMBER: null,
     STRING: null,
     DATE: null,
