@@ -5,9 +5,12 @@
 
 import React ,{findDOMNode} from 'react'
 
-import {Button} from 'antd'
+import { Modal,message, Button } from 'antd';
+
 import { isEmpty } from 'lodash'
 import './search.less'
+
+import {domAlign} from 'dom-align';
 
 export default class SelectPeople extends React.Component {
 
@@ -31,7 +34,7 @@ export default class SelectPeople extends React.Component {
         this.state={
             'itemdata':[],
             'areapadding':0,
-            'textValue':'',
+            'value':'',
             'currentPage':1
         }
     }
@@ -39,34 +42,32 @@ export default class SelectPeople extends React.Component {
 
     }
 
-    //搜索框部分
-    searchTextarea=()=>{
-        const nameItemData = this.state.itemdata;
-        const arreapadding = this.state.areapadding;
-        const value = this.state.textValue;
-        const that = this
-        const SearchTextArea = React.createClass({
-            //点击tag标签删除
+        /*搜索框部分方法开始*/
+
+
+            //点击tag标签删除nameTag
+
             clickNameTag(i){
 
-                let ItemData = that.state.itemdata;
-                let newareapadding = that.state.areapadding;
+                let ItemData = this.state.itemdata;
+                let newareapadding = this.state.areapadding;
                 
                 newareapadding = newareapadding -ItemData[i].itemWidth;
                 ItemData.splice(i,1);
 
                 setTimeout(()=>{
-                    that.setState({
+                    this.setState({
                         "itemdata":ItemData,
                         "areapadding":newareapadding
                     })
                 },0)
 
-            },
+            }
+
             //按下退格删除键删除
             handleKeyDown(e){
-                let ItemData = that.state.itemdata;
-                let newareapadding = that.state.areapadding;
+                let ItemData = this.state.itemdata;
+                let newareapadding = this.state.areapadding;
                 const textValue = e.currentTarget.value;
 
                 if(e.keyCode == 8&&textValue.length == 0){
@@ -75,7 +76,7 @@ export default class SelectPeople extends React.Component {
                     ItemData.splice(ItemData.length-1,1);
                     
                     setTimeout(()=>{
-                        that.setState({
+                        this.setState({
                             "itemdata":ItemData,
                             "areapadding":newareapadding
                         })
@@ -89,12 +90,12 @@ export default class SelectPeople extends React.Component {
 
                 //     this.props.requestData(page,'')
                 // }
-            },
+            }
 
             //keyUp 搜索
             handleKeyUp(e){
                 const textValue = e.currentTarget.value;
-                const nameItemData = that.state.itemdata;
+                const nameItemData = this.state.itemdata;
 
                 let self = e.target;
                 clearTimeout(self.timer);
@@ -105,14 +106,22 @@ export default class SelectPeople extends React.Component {
                         delete self.timer;
                             //当textValue为关键词进行搜索请求数据
                             let page = 1
+
+                            setTimeout(()=>{
+                                this.setState({
+                                    "currentPage":page,
+                                })
+                            },0)
+
                             if(textValue == ''){
                                 if(nameItemData.length==0){
-                                    console.log('按关键词进行搜索')
+                                    console.log('按kong关键词进行搜索')
                                     this.props.requestData(page,textValue)
                                 }
 
                             }else{
                                 console.log('按关键词进行搜索')
+                                //debugger
                                 this.props.requestData(page,textValue)                           
                             }
 
@@ -121,23 +130,32 @@ export default class SelectPeople extends React.Component {
                     500
                 );
                     
-            },
+            }
 
-            componentDidMount(){
-                React.findDOMNode(this.refs.textarea).focus()
-            },
+            //改变输入框关键词
+            changeInput(e){
+                const value = e.target.value
+                this.setState({
+                    'value':value
+                })
+            }
+/*搜索框部分方法结束*/
 
 
-            render(){
-
-
+    //搜索框部分
+    searchTextarea=()=>{
+        const nameItemData = this.state.itemdata;
+        const arreapadding = this.state.areapadding;
+        
                 return (
                     <div className="mbox784_textwrap">
                       <textarea id="textarea" rows="1" className="M01text"
                       ref = "textarea"
                       style={{paddingLeft: (10+arreapadding) + 'px'}} 
                       onKeyDown = {this.handleKeyDown.bind(this)}
-                       onKeyUp = {this.handleKeyUp.bind(this)}
+                      onKeyUp = {this.handleKeyUp.bind(this)}
+                      value = {this.state.value}
+                      onChange = {this.changeInput.bind(this)}
                       ></textarea>
                       <p className = "dev-tags">
                            {
@@ -152,9 +170,6 @@ export default class SelectPeople extends React.Component {
                       </p>
                     </div>
                 )
-            }
-        })
-        return <SearchTextArea   requestData =  {this.props.requestPoepleData}/>
 
     }
 
@@ -204,7 +219,8 @@ export default class SelectPeople extends React.Component {
                 setTimeout(()=>{
                     that.setState({
                         "itemdata":itemdata,
-                        "areapadding":InittextareaPadding
+                        "areapadding":InittextareaPadding,
+                        "value":''
                     })
                 },0)
             },
@@ -255,56 +271,76 @@ export default class SelectPeople extends React.Component {
             }
        })
 
-        return <PeopleList   requestNextData =  {this.props.requestPoepleData}></PeopleList>
+        return <PeopleList   requestNextData =  {this.props.requestNextPoepleData}></PeopleList>
 
     }
 
 
     // 确认 取消
     confirmBtn=()=>{
-      const  ConfirmForm = React.createClass({
+       const that = this
+       const choseData = this.state.itemdata;
+       const  ConfirmForm = React.createClass({
             clickCancleBtn(){
                 //回调父组件的方法，改变容器的state          
-                this.props.handleClick()
+                this.props.clickCancle()
+            },
+            clickConfirmBtn(){
+                //回调父组件的方法，改变容器的state 
+                let choseNameData = [];
+                for(let i = 0; i<choseData.length;i++){
+                    choseNameData.push({
+                        'name':choseData[i].itemName,
+                        'ownerId':choseData[i].ownerId
+                    });
+                }
+                if(choseNameData.length == 0){
+                    message.config({
+                      top: 250
+                    });            
+                    message.warn('请您先选择人员');
+                }else{
+                    this.props.clickOK(choseNameData)            
+                }
+
+
             },
             render (){
                 return (
                     <div className = "m_btn01 clearfix">
-                        <Button className="m_btn01L" type = 'ghost'>确认</Button>
-                        <Button className="m_btn01R" type = 'ghost' onClick = {this.clickCancleBtn.bind(this)}>取消</Button>
+                        <Button  type = 'primary' onClick = {this.clickConfirmBtn.bind(this)}>确认</Button>
+                        <Button   onClick = {this.clickCancleBtn.bind(this)}>取消</Button>
                     </div>
                 )        
             }
         })
 
-        return (<ConfirmForm  handleClick = {this.props.handleClickCancle} />)
+        return (<ConfirmForm  
+                    clickCancle = {this.props.handleClickCancle} 
+                    clickOK = {this.props.handleClickConfirm}
+                />)
 
     }
 
     render (){
         const selectPeopleModal = this.props.selectPeopleModal 
-        console.log(this.state) 
-
-            if(selectPeopleModal){
                 return (
-                    <div className = "mbox_BombBoxBg">
-                              <div className="mbox_BombBox">
-                                 <div className = "mbox784" >
-                                   <div className="mbox_filter clearfix">
-                                      <h6>按负责人筛选</h6>
-                                      <div className="mbox_filter_close01"></div>
-                                    </div> 
-                                    {this.searchTextarea()}
-                                    {this.peopleList()}
-                                    {this.confirmBtn()}
-                                  </div>
-                              </div>
+                    <div className = "peopelModalWrap"> 
+
+                        <Modal ref="modal"
+                          className="vertical-center-modal"
+                          visible={selectPeopleModal}
+                          title="按负责人筛选" 
+                          width = '840'
+                          onCancel = {this.props.handleClickCancle}                   
+                          footer={this.confirmBtn()}
+                          >
+                          <div>{this.searchTextarea()}</div>
+                          <div>{this.peopleList()}</div>
+                        </Modal>
+
                     </div>
                 )
-            }else{
-                return <div></div>
-            }
-
     }
 
 

@@ -6,6 +6,8 @@ import {
     COMPONENT_CHANGE_ISSHOWMODAL,
     COMPONENT_GETPEOPLEDATA,
     COMPONENT_GETPEOPLEDATA_SUCCESS,
+    COMPONENT_GETNEXTPEOPLEDATA,
+    COMPONENT_GETNEXTPEOPLEDATA_SUCCESS,
 
 } from 'actions/__demo/selectPeople'
 
@@ -32,7 +34,16 @@ const selectPeople = ($$state = $$initialState, action) => {
         case COMPONENT_GETPEOPLEDATA_SUCCESS:
             return $$state.merge({
                 data:action.payload
-            })
+            })  
+
+        case COMPONENT_GETNEXTPEOPLEDATA :
+            return $$state
+        case COMPONENT_GETNEXTPEOPLEDATA_SUCCESS:
+
+            const currentData = $$state.toJS().data
+            const totalData = currentData.concat(action.payload)
+                return $$state.merge({data:totalData})
+
         default:
             return $$state
     }
