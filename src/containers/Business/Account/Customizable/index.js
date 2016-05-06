@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Customizable from './CustomizablePage.less'
+import './CustomizablePage.less'
 
 import DivTab from './DivTab'
 
@@ -8,7 +8,7 @@ import { selectedRowData,clickCloseBtn,selectedTabIndex,changeIsRequired,getTabl
     addItem,deletItem,changeInputValue,ChangeStatus,clickapplyBtn,DownItem,UpItem,
     clickCancleBtn,dataItem,collectDeletedItem} from 'actions/Business/Account/Customizable'
 
-import { Table, Icon,message } from 'antd';
+import { Table, Icon,message ,Modal,Button,Row,Col} from 'antd';
 
 let currentText 
 
@@ -68,31 +68,102 @@ class CustomizablePage extends  React.Component{
         selectedRowData(selectedRow,editColumnsOptions)
     }
 
-	render(){
-        const {selectedRowData,$$mapState, getTableData,dataItem} = this.props;
-        const IsShow = $$mapState.toJS().IsShow;
-        const rows = $$mapState.toJS().rows;
-        const data = $$mapState.toJS().data;
-        if(!IsShow){
-             return (
-                <div className = "col_right" >
-                    <div style={{marginLeft: '20px'}} className="customTableWrap">
-                        <Table ref = "dataTable"
-                         columns={columns} 
-                         dataSource={rows} 
-                         useFixedHeader 
-                         pagination = {false}
-                         selectedRowData = {selectedRowData}
-                         getTableData = {getTableData}
-                        />
-                    </div>
-                </div>
-            )
+
+    //点击取消按钮
+
+    handleCancle(){
+        const {clickCancleBtn} = this.props;
+        clickCancleBtn();
+    }
+
+
+    //点击确定按钮
+
+        handleApply(){
+        let localeditColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions
+        const selectedRow = this.props.$$mapState.toJS().selectedRow
+        const deletedColumnsOptions = this.props.$$mapState.toJS().deletedItem
+        //数据可能需要过滤 如果没有任何选项就应用  则提示要先选择应用
+        const {clickapplyBtn} = this.props
+        let num = 0
+        localeditColumnsOptions.map((r,i)=>{
+            r.Val==''?num++:0
+        })
+
+
+        /*点击应用  只有一条且内容为空 可以提交; 
+            若多条且内容为空 或者多条中有空内容，则警告提示*/
+        if(num>0 && localeditColumnsOptions.length>1){
+            
+                message.config({
+                  top: 250
+                });
+                message.warn('请填写选项信息');
         }else{
+            let applyParamData = {}
+            applyParamData.Name = selectedRow.Name
+            applyParamData.ID = selectedRow.ID
+            applyParamData.Label = selectedRow.Label
+            applyParamData.AttrType = selectedRow.AttrType
+            applyParamData.IsMust = selectedRow.IsMust
+            let paramAllOptions = []
+
+            localeditColumnsOptions=localeditColumnsOptions.concat(deletedColumnsOptions)
+
+            localeditColumnsOptions.map((r,i)=>{
+                let row = {}
+                row.DispOrder = i
+                row.Key = r.Key
+                row.Val = r.Val
+                row.IsStop = r.IsStop
+                row.IsDeleted = r.IsDeleted
+                return paramAllOptions.push(row)
+            })
+            applyParamData.Enums = paramAllOptions
+            let applyParam = {
+                url:SCRM.url('/scrmdefined/account/saveEnumAttr'),
+                data:applyParamData
+            }
+
+
+            clickapplyBtn(applyParam)
+            //点击应用完毕自带更新table数据
+            let params = {
+                url:SCRM.url('/scrmdefined/account/getAccountEnumAttrList'),
+                data:{
+                    
+                }
+            }
+
+            this.props.getTableData(params)
+        }
+        
+    }
+
+	render(){
         const {$$mapState,selectedTabIndex,changeIsRequired,getTableData,addItem,deletItem,
             changeInputValue,ChangeStatus,DownItem,UpItem ,clickapplyBtn,clickCancleBtn,collectDeletedItem} = this.props;
         const col_name = $$mapState.toJS().selectedRow["col_name"];
         const applyTankuangShow = $$mapState.toJS().applyTankuangShow
+        const {selectedRowData, dataItem} = this.props;
+        const IsShow = $$mapState.toJS().IsShow;
+        const rows = $$mapState.toJS().rows;
+        const data = $$mapState.toJS().data;
+        const currentTabIndex = $$mapState.toJS().currentTabIndex
+
+        const Footer = (
+                <div className = "ck-customizeBtn clearfix" style={{display:currentTabIndex=='2'?'none':'block'}}>
+                    <Row justify="center" align="middle">
+                        <Col span="10" >
+                            <Button className = "ck-customizeBtnL" type = 'primary' onClick = {this.handleApply.bind(this)}>应用</Button>
+                        </Col>
+                        <Col span="10" >
+                            <Button className = "ck-customizeBtnR" onClick = {this.handleCancle.bind(this)}>取消</Button>
+                        </Col>
+                    </Row>
+                </div>          
+            )
+
             return (
                 <div className = "col_right" >
                     <div style={{marginLeft: '20px'}}>
@@ -106,12 +177,18 @@ class CustomizablePage extends  React.Component{
                         />
 
                     </div>
-                     <div className = "CustomizableSettingBg">
-                        <div className = "ck-customize-popBox">
-                            <div className = "CustomizableSettingHead">{col_name}
-                            <span className="settingClose" onClick = {this.handleClose.bind(this)}>关闭</span>
-                            </div>
-                            <div>
+
+                    <div className="customizableSettingWrap">
+
+                        <Modal ref="modal"
+                              className="vertical-center-modal"
+                              visible={IsShow}
+                              title="自定义" 
+                              width = '620'
+                              footer = {Footer}
+                              onCancel = {this.handleClose.bind(this)}                   
+                              >
+                              <div>
                                 <DivTab 
                                     $$mapState={$$mapState} 
                                     selectedTabIndex={selectedTabIndex} 
@@ -126,14 +203,18 @@ class CustomizablePage extends  React.Component{
                                     clickapplyBtn={clickapplyBtn} 
                                     clickCancleBtn={clickCancleBtn}
                                     getTableData= {getTableData}  
-                                    collectDeletedItem={collectDeletedItem}                              >
+                                    collectDeletedItem={collectDeletedItem}                              
+                                    >
                                 </DivTab>
-                            </div>
-                        </div>
-                     </div>
+                             </div>
+                        </Modal>
+                    </div>
+
+
+
+
                 </div>
                 )
-        }
 	}
 }
 

@@ -127,10 +127,7 @@ class TabListEdit extends React.Component{
                             <span className = "xinghua">*</span>取消后新增的内容不再保存
                         </p> 
 
-                        <div className = "ck-customizeBtn clearfix">
-                            <button className = "ck-customizeBtnL" onClick = {this.handleApply.bind(this)}>应用</button>
-                            <button className = "ck-customizeBtnR" onClick = {this.handleCancle.bind(this)}>取消</button>
-                        </div>
+
                     </div>
                 </div>
             </div>

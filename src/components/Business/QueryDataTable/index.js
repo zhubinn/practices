@@ -222,7 +222,8 @@ export default class QueryDataTable extends React.Component {
         return width + 'px'
     }
     render() {
-        const {dataSource, columns, queryColumns,  current, pageSize, total, checkMode, loading} = this.props
+        const {dataSource, columns, queryColumns,  
+            current, pageSize, total, checkMode, loading} = this.props
         const {isSearchShow, selectedRowKeys} = this.state
         let rowSelection = null
         if (checkMode) {

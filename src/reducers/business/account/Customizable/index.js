@@ -22,7 +22,7 @@ const $$initialState = Immutable.fromJS({
     rows:[], 
     selectedRow:{}, 
     IsShow:false, 
-    currentTabIndex:0,
+    currentTabIndex:'1',
     deletedItem:[]
 })
 
@@ -46,7 +46,7 @@ const  Customizable = ($$state = $$initialState, action)=>{
             return $$state.merge({'IsShow':false})
 
         case ACCOUNT_CUSTOM_CHANGETAB:
-        	return $$state.merge(action.payload)
+        	return $$state.merge({currentTabIndex:action.payload})
 
         case ACCOUNT_CUSTOM_CHANGEISREQUIRED:
             return $$state.updateIn(['selectedRow', 'IsMust'], IsMust => {

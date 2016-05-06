@@ -201,10 +201,10 @@ export const clickapplyBtn = (applyParam)=> {
 
 
 //切换tab
-export const selectedTabIndex = ({'currentTabIndex':i})=>{
+export const selectedTabIndex = (key)=>{
     return {
         type: ACCOUNT_CUSTOM_CHANGETAB,
-        payload: {'currentTabIndex':i}
+        payload: key
     }
 }
 

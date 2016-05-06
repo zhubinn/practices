@@ -43,7 +43,6 @@ class DivEdit extends React.Component{
 		
 	}
 	handleItemUp(i){
-		alert(i)
 		const {UpItem} = this.props;
 		if(i > 0){
 			UpItem(i)

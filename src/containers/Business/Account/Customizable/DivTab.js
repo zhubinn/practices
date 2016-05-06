@@ -13,7 +13,10 @@ class DivTab extends React.Component{
 
     }
     handleTabClick(key){
-         //console.log(key)
+         console.log(key)
+         const {selectedTabIndex} = this.props
+         selectedTabIndex(key)
+
     }
 	render(){
 		return (
