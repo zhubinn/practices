@@ -3,7 +3,6 @@ node_modules
 npm-debug.log
 
 # Exclude compiled files
-lib
 build
 
 # Exclude IDE project folders
