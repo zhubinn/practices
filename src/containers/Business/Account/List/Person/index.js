@@ -2,7 +2,7 @@
  * Created by janeluck on 4/27/16.
  */
 import { connect } from 'react-redux'
-import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination,Modal, Form  } from 'antd'
+import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination,Modal, Form, Upload, message  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery } from 'actions/business/account/list/person'
@@ -201,7 +201,7 @@ class Account_List_Person_Page extends React.Component {
 
             url: SCRM.url('/scrmweb/accounts/getList')
         })
-        this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
+       this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
 
     // 普通搜索和筛选(高级搜索)互斥
@@ -245,24 +245,29 @@ class Account_List_Person_Page extends React.Component {
     handleImport = () => {
 
     }
-    showImportModal = ()=>{
+    showImportModal = ()=> {
         this.setState({
-            visible: true
+            importModalVisible: true
         });
     }
 
-    handleOk= () => {
+    handleOk = () => {
         console.log('点击了确定');
         this.setState({
-            visible: false
+            importModalVisible: false
         });
     }
-    handleCancel=(e) => {
+    handleCancel = (e) => {
         console.log(e);
         this.setState({
-            visible: false
+            importModalVisible: false
         });
     }
+
+    handleUpload = (e) => {
+
+    }
+
     render() {
         const {
             $$account_list_person,
@@ -277,6 +282,30 @@ class Account_List_Person_Page extends React.Component {
         queryDataTable.pageSize = $$account_list_person.toJS().pageSize
         queryDataTable.queryColumns = $$account_list_person.toJS().queryColumns
         queryDataTable.loading = $$account_list_person.toJS().loading
+
+
+
+        const uploadProps = {
+            name: 'file',
+            action: '/upload.do',
+            headers: {
+                authorization: 'authorization-text',
+            },
+            onChange(info) {
+                if (info.file.status !== 'uploading') {
+                    console.log(info.file, info.fileList);
+                }
+                if (info.file.status === 'done') {
+                    message.success(`${info.file.name} 上传成功。`);
+                } else if (info.file.status === 'error') {
+                    message.error(`${info.file.name} 上传失败。`);
+                }
+            }
+        };
+        const importFooter = (<Row> <Col span="12" offset="3"><Button type="primary" >
+            <Icon type="poweroff" />开始导入
+        </Button></Col></Row>)
+
         return (
             <div>
                 <Row>
@@ -285,13 +314,40 @@ class Account_List_Person_Page extends React.Component {
                         <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
-                        <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更联系人</Button>
+                        <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
                         <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
-                        <Modal title="客户导入" visible={this.state.visible}
-                               onOk={this.handleOk} onCancel={this.handleCancel}>
-                            <p>对话框的内容</p>
-                            <p>对话框的内容</p>
-                            <p>对话框的内容</p>
+                        <Modal title="客户导入" visible={false}
+                               footer={importFooter}
+                              >
+                            <div>
+                                <h4>一、<a href="javascript:;">下载【客户导入模板】</a></h4>
+                                <div>
+                                    <p>请按照数据模板的格式准备要导入的数据。</p>
+                                </div>
+                                <p>注意事项:</p>
+                                <div>
+                                    <p>1、模板中的表头不可更改，不可删除；</p>
+                                    <p>2、其中客户名称为必填项，其他均为选填项；</p>
+                                    <p>3、填写客户地址时，特别行政区名称需填写在模板中的省份字段下，由省/自治区直辖的县级行政区划，需将其名称直接填写在模板中的市字段下。</p>
+                                </div>
+                            </div>
+                            <div>
+                                <h4>二、选择需要导入的CSV文件</h4>
+                                <div>
+                                    <Upload {...uploadProps}>
+                                        <Button type="ghost">
+                                            <Icon type="upload" /> 点击上传
+                                        </Button>
+                                    </Upload>
+                                </div>
+                                <div>
+                                    <p>1、只支持CSV格式，文件大小不能超过1M；</p>
+                                    <p>2、为保证较好性能，请将导入条数控制在2000条以内；</p>
+                                    <p>3、请不要在同一时间导入多个文件。</p>
+                                </div>
+                            </div>
+
+
                         </Modal>
                         <Button type="ghost">导出</Button>
                     </Col>
