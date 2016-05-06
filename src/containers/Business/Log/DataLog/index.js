@@ -15,14 +15,13 @@ const RangePicker = DatePicker.RangePicker;
 //table列表数据接口
 let DataLogParams = {
     //url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/logData.php',
-    url: 'http://esn.yangtianming.com/scrmoplog/index/opdetaillogIndex',
-    data: {
-        page: 1,
-        pageSize: 10,
-        keyword:''
-    }
+    url: 'http://esn.yangtianming.com/scrmoplog/index/opdetaillogIndex'
 }
 
+let exportParams = {
+    DateStart:'',
+    DateEnd:''
+}
 
 class DataLog extends React.Component {
     constructor(props) {
@@ -38,43 +37,21 @@ class DataLog extends React.Component {
       this.props.getDataLogData(DataLogParams);
     }
 
-    // searchInputChange(val) {
-    //   clearTimeout(this.searchTimer)
-    //   this.searchTimer = setTimeout(() => { this.props.getDataLogData(DataLogParams) }, 300);
-    // }
-
     // 普通搜索和筛选(高级搜索)互斥
     normalSearch = (value) => {
         // 重置筛选(高级搜索)
         this.refs.queryDataTable.resetQueryForm()
 
         this.refs.queryDataTable.clearCheckedAndExpanded()
-        this.props.getTableData({
+        this.props.getDataLogData({
             data: {
                 searchData: [],
                 keyword: value,
                 page: 1,
-                pageSize: 0
+                pageSize: 10
             }
         })
 
-
-    }
-
-    changeType = (type) => {
-        // 重置筛选(高级搜索)
-        this.refs.searchInput.emptyInput()
-        this.refs.queryDataTable.resetQueryForm()
-        this.refs.queryDataTable.clearCheckedAndExpanded()
-        this.props.getDataLogData({
-            data: {
-                searchData: [],
-                keyword: '',
-                page: 1,
-                pageSize: 0,
-                type
-            }
-        })
 
     }
 
@@ -84,6 +61,7 @@ class DataLog extends React.Component {
 
     handleOk() {
       this.props.exportHide()
+      console.log(exportParams);
     }
 
     handleCancel(e) {
@@ -91,8 +69,9 @@ class DataLog extends React.Component {
     }
 
     exportTimeChange(value){
-      console.log('From: ', value[0], ', to: ', value[1]);
-      this.props.exportHide()
+      exportParams.DateStart = value[0];
+      exportParams.DateEnd = value[1];
+      //this.props.exportHide()
     }
 
     render() {
@@ -129,7 +108,7 @@ class DataLog extends React.Component {
             <div  style = {{marginLeft: '20px'}} >
               <Row>
                 <Col span="10">
-                  <SearchInput ref="searchInput" onSearch = {this.searchInputChange} />
+                  <SearchInput ref="searchInput" onSearch = {this.normalSearch} />
                 </Col>
                 <Col span="14" style = {{ textAlign: 'right' }}>
                   <Button type="primary" style = {{marginRight: '10px'}}>筛选</Button>
@@ -143,6 +122,7 @@ class DataLog extends React.Component {
                     onGetTableData={
 
                                 (obj)=>{
+                                    debugger
                                     this.refs.searchInput.emptyInput()
                                     getDataLogData({
                                         data: obj

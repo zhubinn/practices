@@ -20,6 +20,15 @@ const GET_DATALOG_FAILURE = 'GET_DATALOG_FAILURE'
 const EXPORT_DATALOG_SHOW = 'EXPORT_DATALOG_SHOW'
 const EXPORT_DATALOG_HIDE = 'EXPORT_DATALOG_HIDE'
 
+let table_params = {
+    url: '',
+    data: {
+        page: 1,
+        pageSize: 10,
+        searchData: [],
+        type: 'all'
+    }
+}
 
 const pageSizeChange = (val) => {
     const fetchData = (type, payload)=> {
@@ -55,7 +64,8 @@ const exportHide = () => {
     }
 }
 
-const getDataLogData = (params ,val) => {
+const getDataLogData = (params) => {
+
     const fetchData = (type, payload) => {
         return {
             type,
@@ -64,20 +74,22 @@ const getDataLogData = (params ,val) => {
     }
 
     return (dispatch, getState) => {
+     
         dispatch(fetchData(GET_DATALOG_DATA))
-        fetch(params.url, {
+        fetch(table_params.url = params.url || table_params.url, {
             credentials: 'include',
             method: 'post',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: 'params=' + JSON.stringify(params.data)
+            body: 'params=' +JSON.stringify(Object.assign(table_params.data, params.data))
         }).then(function(response) {
             if (response.status >= 400) {
                 throw new Error("Bad response from server")
             }
             return response.json()
         }).then(function (data) {
+         
             if(data.rs){
                 data.data.rowData = data.data.rowData || []
                 data.data.total = data.data.total || 0;
