@@ -17,6 +17,7 @@ import dispatchCluesState from './dispatchClues/dispatchClues'
 import account_list_dept from './account/list/dept'
 import account_list_person from './account/list/person'
 import account_detail_person from './account/detail/person'
+import account_detail_dept from './account/detail/dept'
 
 
 
@@ -26,8 +27,6 @@ const businessReducers = combineReducers({
 	FuncLog,
     numberReportViewState,
     dispatchCluesState,
-
-    account_list_person,
     account_detail_person,
     account_list_dept,
 

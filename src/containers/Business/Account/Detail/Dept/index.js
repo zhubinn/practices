@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
-import { getTableData, getTableQuery } from 'actions/business/account/detail/person'
+import { getTableData, getTableQuery } from 'actions/business/account/detail/dept'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 
@@ -242,7 +242,7 @@ const business_dataSource = [{
     "Amount": "",
     "Account": "40498"
 }]
-class Account_Detail_Person_Page extends React.Component {
+class Account_Detail_Dept_Page extends React.Component {
     constructor() {
         super()
 
@@ -310,18 +310,18 @@ class Account_Detail_Person_Page extends React.Component {
 
     render() {
         const {
-            $$account_detail_person,
+            $$account_detail_dept,
             getTableData
 
             } = this.props
 
         let queryDataTable = {}
-        queryDataTable.dataSource = $$account_detail_person.toJS().rows
-        queryDataTable.current = $$account_detail_person.toJS().current
-        queryDataTable.total = $$account_detail_person.toJS().total
-        queryDataTable.pageSize = $$account_detail_person.toJS().pageSize
-        queryDataTable.queryColumns = $$account_detail_person.toJS().queryColumns
-        queryDataTable.loading = $$account_detail_person.toJS().loading
+        queryDataTable.dataSource = $$account_detail_dept.toJS().rows
+        queryDataTable.current = $$account_detail_dept.toJS().current
+        queryDataTable.total = $$account_detail_dept.toJS().total
+        queryDataTable.pageSize = $$account_detail_dept.toJS().pageSize
+        queryDataTable.queryColumns = $$account_detail_dept.toJS().queryColumns
+        queryDataTable.loading = $$account_detail_dept.toJS().loading
         return (
             <div>
                 <Row>
@@ -340,8 +340,6 @@ class Account_Detail_Person_Page extends React.Component {
                     <TabPane tab="全部客户" key="all">
                     </TabPane>
                     <TabPane tab="负责的客户" key="owner">
-                    </TabPane>
-                    <TabPane tab="参与的客户" key="relation">
                     </TabPane>
                     <TabPane tab="重点客户" key="important">
                     </TabPane>
@@ -370,11 +368,11 @@ class Account_Detail_Person_Page extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$account_detail_person: state.business.account_detail_person
+        $$account_detail_dept: state.business.account_detail_dept
     }
 }
 
 export default connect(mapStateToProps, {
     getTableData,
     getTableQuery
-})(Account_Detail_Person_Page)
+})(Account_Detail_Dept_Page)

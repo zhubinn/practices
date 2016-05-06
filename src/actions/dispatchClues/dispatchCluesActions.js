@@ -31,3 +31,5 @@ export function fetchSuggestData(data){
 export function changeSearchSuggest(value){
     return { type:CHANGE_SEARCH_SUGGEST ,value }
 }
+
+
