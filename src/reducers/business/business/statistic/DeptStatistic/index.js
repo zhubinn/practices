@@ -11,19 +11,23 @@ import {
 let deptStatistic = {
     "tableData":{
         "rs": true,
-        "data": {
-            "total": 128,
-            "current": 10,
-            "pageSize": 10,
-            "rowData":[]
-        }
+        "data": []
     },
     "tableColumns":[
         {
             "title": "部门名称",
             width: 150,
             "dataIndex": "deptName",
-            "key": "deptName"
+            "key": "deptName",
+            render(text, record, index) {
+                const  peneUrl = SCRM.url('/scrmweb/accounts/deptsummarydetail?id=' + record.OperatorType);
+                if(record.classname){
+                    //return {text};
+                    return <span>{text}</span>;
+                }else{
+                    return <a href={peneUrl}>{text}</a>;
+                }
+            }
         },
         {
             "title": "全部生意",

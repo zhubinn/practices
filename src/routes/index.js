@@ -7,9 +7,9 @@ import IndexPage from 'containers'
 
 import MasterPage from 'containers/Master/Default'
 import ModulePage from 'containers/Master/Module'
-import DemoTablePage from 'containers/__demo/Table'
-import DemoLoginPage from 'containers/__demo/Login'
-import DemoQueryNestedTablePage from 'containers/__demo/QueryNestedTable'
+// import DemoTablePage from 'containers/__demo/Table'
+// import DemoLoginPage from 'containers/__demo/Login'
+// import DemoQueryNestedTablePage from 'containers/__demo/QueryNestedTable'
 
 import Account_List_Dept_Page from 'containers/Business/Account/List/Dept'
 import Account_List_Person_Page from 'containers/Business/Account/List/Person'
@@ -27,7 +27,11 @@ import PerSummaryPage from 'containers/Business/Account/Summary/PerSummary'
 import DetailPage from 'containers/Business/Account/Detail'
 
 //生意
-import Deptstatistic from 'containers/Business/Business/Statistic/DeptStatistic'
+import DeptStatistic from 'containers/Business/Business/Statistic/DeptStatistic'
+import PerStatistic from 'containers/Business/Business/Statistic/PerStatistic'
+
+import DeptSummary from 'containers/Business/Business/Summary/DeptSummary'
+import PerSummary from 'containers/Business/Business/Summary/DeptSummary'
 
 //日志
 import FuncLog from 'containers/Business/Log/FuncLog'
@@ -37,14 +41,6 @@ import searchPeople from 'containers/__demo/searchPeople'
 
 export default (
     <Route path="/">
-        <Route path="__demo" component={MasterPage}>
-            <Route path="table" component={DemoTablePage}/>
-            <Route path="login" component={DemoLoginPage}/>
-            <Route path="Demopagination" component={DemoPagination}/>
-            <Route path="DemoTodoList" component={DemoTodoList}/>
-            <Route path="searchPeople" component={searchPeople}/>
-            <Route path="nested_table" component={DemoQueryNestedTablePage}/>
-        </Route>
         <Route path="scrmweb" component={ModulePage}>
             <Route path="accounts">
                 <Route path="deptaccountdetail/:role/:id" component={Account_Detail_Dept_Page}/>
@@ -53,7 +49,10 @@ export default (
                 <Route path="deptlist/:role/:id" component={Account_List_Dept_Page}/>
             </Route>
             <Route path="business">
-                <Route path="deptstatistic/VISITID/1" component={Deptstatistic} />
+                <Route path="deptstatistic/VISITID/1" component={DeptStatistic} />
+                <Route path="perstatistic/VISITID/1" component={PerStatistic} />
+                <Route path="deptsummary/VISITID/1" component={DeptSummary} />
+                <Route path="persummary/VISITID/1" component={PerSummary} />
             </Route>
             <Route path="log">
                 <Route path="datalog/VISITID/1" component={DataLog} />
