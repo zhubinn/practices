@@ -1,6 +1,9 @@
 import { isPlainObject, isFunction, isString } from 'lodash'
 import warning from 'fbjs/lib/warning'
-import {message } from 'antd';
+import {message,Select } from 'antd';
+
+const Option = Select.Option;
+
 
 class DivEdit extends React.Component{
 	constructor(props) {
@@ -60,6 +63,7 @@ class DivEdit extends React.Component{
 
 		const lastLen = localeditColumnsOptions.length-1
 
+		console.log(222222)
 
 		return (
 			<div className = "ck-customize-gongn01">
@@ -89,10 +93,10 @@ class DivEdit extends React.Component{
 													<button className={opt.IsSys=='1'?'disableCut':'cut'} disabled = {opt.IsSys=='1'?'disabled':''} onClick = {this.handleDeletItem.bind(this,i)}>-</button>
 												</div>
 												<div className = "ck-gongncnt-third">
-													<select name = "statusSelect" value = {opt.IsStop} onChange={this.handleChangeselect.bind(this,i)}>
-														<option value = "1" >未启用</option>
-														<option value = "0" >启用</option>
-													</select>
+													 <Select  value = {opt.IsStop==0?'启用':'未启用'} style={{ width: 90 }} onChange={this.handleChangeselect.bind(this,i)}>
+													      <Option value = "1" >未启用</Option>
+													      <Option value = "0" >启用</Option>
+													  </Select>
 												</div>
 											</li>
 										)

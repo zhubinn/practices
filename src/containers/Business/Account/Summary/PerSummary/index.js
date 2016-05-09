@@ -107,6 +107,11 @@ class AccountPerSummary extends React.Component{
   render(){
           const rowData = this.props.$$account_persummary.toJS().rowData
           const loading = this.props.$$account_persummary.toJS().loading
+          let dataSource = []
+          rowData.map((r,i)=>{
+             r["key"] = i;
+             dataSource.push(r)
+          })          
           return (
             <div style={{marginLeft: '20px'}}>
                 <div className = "col_cktop">
@@ -123,10 +128,10 @@ class AccountPerSummary extends React.Component{
                   <div className = "perSummarydataTableCon">
                       <Table ref = "dataTable"
                        columns={perSummaryColumns} 
-                       dataSource={rowData} 
+                       dataSource={dataSource} 
                        useFixedHeader 
                        pagination = {false}
-                      loading={loading}
+                       loading={loading}
                       />
                   </div>
                 </div>

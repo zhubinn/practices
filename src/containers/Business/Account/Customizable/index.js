@@ -36,10 +36,6 @@ let params = {
     }
 }
 
-// const onOperationClick = function(record) {
-//     console.log(this)
-// }
-
 class CustomizablePage extends  React.Component{
     constructor(props) {
         super(props)
@@ -151,6 +147,13 @@ class CustomizablePage extends  React.Component{
         const data = $$mapState.toJS().data;
         const currentTabIndex = $$mapState.toJS().currentTabIndex
 
+          let dataSource = []
+          rows.map((r,i)=>{
+             r["key"] = i;
+             dataSource.push(r)
+          }) 
+
+
         const Footer = (
                 <div className = "ck-customizeBtn clearfix" style={{display:currentTabIndex=='2'?'none':'block'}}>
                     <Row justify="center" align="middle">
@@ -158,7 +161,7 @@ class CustomizablePage extends  React.Component{
                             <Button className = "ck-customizeBtnL" type = 'primary' onClick = {this.handleApply.bind(this)}>应用</Button>
                         </Col>
                         <Col span="10" >
-                            <Button className = "ck-customizeBtnR" onClick = {this.handleCancle.bind(this)}>取消</Button>
+                            <Button className = "ck-customizeBtnR" type = 'primary' onClick = {this.handleCancle.bind(this)}>取消</Button>
                         </Col>
                     </Row>
                 </div>          
@@ -166,10 +169,10 @@ class CustomizablePage extends  React.Component{
 
             return (
                 <div className = "col_right" >
-                    <div style={{marginLeft: '20px'}}>
+                    <div >
                         <Table ref = "dataTable"
                          columns={columns} 
-                         dataSource={rows} 
+                         dataSource={dataSource} 
                          useFixedHeader 
                          pagination = {false}
                          selectedRowData = {selectedRowData}

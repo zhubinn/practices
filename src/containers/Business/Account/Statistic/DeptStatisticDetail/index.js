@@ -96,6 +96,11 @@ class AccountStatisticDetail extends React.Component{
   render(){
           const rowData = this.props.$$account_deptstatisticdetail.toJS().rowData
           const loading = this.props.$$account_deptstatisticdetail.toJS().loading
+          let dataSource = []
+          rowData.map((r,i)=>{
+             r["key"] = i;
+             dataSource.push(r)
+          }) 
           return (
             <div style={{marginLeft: '20px'}}>
                 <div className = "col_cktop">
@@ -113,7 +118,7 @@ class AccountStatisticDetail extends React.Component{
                     <div className = "statisticDetaidataTableCon">
                       <Table ref = "dataTable"
                        columns={statisticDetailColumns} 
-                       dataSource={rowData} 
+                       dataSource={dataSource} 
                        useFixedHeader 
                        pagination = {false}
                        loading={loading}
