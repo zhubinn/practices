@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import { findDOMNode } from 'react-dom'
+import reqwest from 'reqwest'
 
 import { message, notification } from 'antd'
 
@@ -43,7 +44,25 @@ export default class NumberReportView extends React.Component {
 
         const obj = $('#viewNumList').data()
         //TODO 异步請求
-        $.post(SCRM.url('/scrmnumreport/index/listAjax'), {
+
+        reqwest({
+            url: SCRM.url('/scrmnumreport/index/listAjax'),
+            method: 'post',
+            data:{
+                templateID:obj.templateid,
+                date:myDate.getFullYear() +'-'+ this.fillZero(myDate.getMonth()+1) +'-'+ this.fillZero(myDate.getDate()),
+                dateType:obj.nptype
+            },
+            type: 'json',
+            success: (result) => {
+                if (result.rs === true) {
+                    actions.fetchData(true, result.data)
+                } else {
+                    message.error('服务器错误，请联系客服')
+                }
+            }
+        })
+        /*$.post(SCRM.url('/scrmnumreport/index/listAjax'), {
             templateID:obj.templateid,
             date:myDate.getFullYear() +'-'+ this.fillZero(myDate.getMonth()+1) +'-'+ this.fillZero(myDate.getDate()),
             dateType:obj.nptype
@@ -53,19 +72,7 @@ export default class NumberReportView extends React.Component {
             }else{
                 openNotification()
             }
-        },'json');
-
-        /*fetch(SCRM.url('/scrmnumreport/index/listAjax'), {
-            method: 'post',
-            headers: {
-                'API': 1,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: pram
-        }).then(function(json) {
-            console.log(json)
-        })*/
+        },'json');*/
 
 
 
@@ -100,7 +107,7 @@ export default class NumberReportView extends React.Component {
 
         const parmStr = JSON.stringify(parm)
 
-        window.open(SCRM.url('/common/scrmExport/export')+'?param='+parmStr)
+        //window.open(SCRM.url('/common/scrmExport/export')+'?param='+parmStr)
     }
 
     render() {
@@ -113,7 +120,7 @@ export default class NumberReportView extends React.Component {
 
                     <div className="ck-numberReport">
                         <div className="ck-numberReport-top">
-                            <InfoPath />
+                            
                             <div className="ck-numberReport-Function clearfix">
                                 <button className="ck-Function-btnreturn" onClick = { () => { history.back(-1) } }>返回</button>
                                 <InputDater

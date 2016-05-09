@@ -4,6 +4,7 @@
  * 日历输入
  */
 import { findDOMNode } from 'react-dom'
+import reqwest from 'reqwest'
 import { DatePicker,message, notification  } from 'antd';
 import ChaocerWeekCalendar from 'chaocer-weekCalendar';
 const MonthPicker = DatePicker.MonthPicker;
@@ -102,7 +103,13 @@ export default class InputDater extends React.Component {
 
 
         //TODO 异步請求
-        $.post(SCRM.url('/scrmnumreport/index/listAjax'),{
+        this.fetchData({
+            templateID: TEMP_DATA.templateid,
+            date: TEMP_DATA.nptype !== 'week' ? dater : dater[0],
+            dateType: TEMP_DATA.nptype
+        })
+
+        /*$.post(SCRM.url('/scrmnumreport/index/listAjax'),{
             templateID: TEMP_DATA.templateid,
             date: TEMP_DATA.nptype !== 'week' ? dater : dater[0],
             dateType: TEMP_DATA.nptype
@@ -112,8 +119,26 @@ export default class InputDater extends React.Component {
             } else {
                 message.error('服务器错误，请联系客服')
             }
-        }, 'json');
+        }, 'json');*/
 
+    }
+
+    fetchData(param = {}){
+        const { actions } = this.props
+
+        reqwest({
+            url:SCRM.url('/scrmnumreport/index/listAjax'),
+            method:'post',
+            data:param,
+            type:'json',
+            success:(result) => {
+                if (result.rs === true) {
+                    actions.fetchData(true, result.data)
+                } else {
+                    message.error('服务器错误，请联系客服')
+                }
+            }
+        })
     }
 
     handleChange(value) {
@@ -145,8 +170,14 @@ export default class InputDater extends React.Component {
         //初始化COUNT为0
         COUNT = 0;
         //TODO 异步請求
-        $.post(SCRM.url('/scrmnumreport/index/listAjax'), {
-            templateID: TEMP_DATA.templateid || 18,//TODO 18为测试数据
+
+        this.fetchData({
+            templateID: TEMP_DATA.templateid,//TODO 18为测试数据
+            date: TEMP_DATA.nptype === 'week'? daterValue.split('~')[0] : daterValue,
+            dateType: TEMP_DATA.nptype
+        })
+        /*$.post(SCRM.url('/scrmnumreport/index/listAjax'), {
+            templateID: TEMP_DATA.templateid,//TODO 18为测试数据
             date: TEMP_DATA.nptype === 'week'? daterValue.split('~')[0] : daterValue,
             dateType: TEMP_DATA.nptype
         }, function (data) {
@@ -155,7 +186,7 @@ export default class InputDater extends React.Component {
             } else {
                 message.error('服务器错误，请联系客服')
             }
-        }, 'json');
+        }, 'json');*/
 
     }
 

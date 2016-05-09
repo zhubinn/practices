@@ -7,7 +7,6 @@ import SearchInput from './SearchInput'
 //less
 import './less/clues.less'
 
-console.log(reqwest)
 
 const columns = [{
     title: '姓名',
@@ -72,6 +71,7 @@ export default class DispatchClues extends React.Component {
         this.state = {
             pagination: {},
             loading: false,
+            selectedRowKeys:[]
         }
     }
 
@@ -81,16 +81,23 @@ export default class DispatchClues extends React.Component {
         const { dispatchCluesState,actions } = this.props
         const dispatchState = dispatchCluesState.toJS().dispatchState
 
+
+
         this.fetchTableData({
             assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
+            rowsPerPage: 10
         })
+
+
+
     }
 
     fetchTableData(params = {canAssign:1}){
         const { dispatchCluesState,actions } = this.props
 
 
-        console.log('请求参数：', params);
+        //console.log('请求参数：', params);
+        this.setState({ loading: true });
         reqwest({
             url:SCRM.url('/scrmlead/index/getAssignList'),
             method:'post',
@@ -101,6 +108,7 @@ export default class DispatchClues extends React.Component {
                 const pagination = this.state.pagination;
                 const rowData = result.data.rowData;
                 pagination.total = result.data.total;
+
                 this.setState({
                     loading:false,
                     pagination,
@@ -117,12 +125,20 @@ export default class DispatchClues extends React.Component {
         const dispatchState = dispatchCluesState.toJS().dispatchState
         const pager = this.state.pagination;
         const keyword = this.state.keyword;
+        //  清空select状态
+        if(this.refs.tableList){
+            this.refs.tableList.setState({
+                selectedRowKeys:[]
+            })
+        }
+
 
         pager.current = pagination.current;
 
         this.setState({
-            pagination: pager,
+            pagination: pager
         });
+
         this.fetchTableData({
             rowsPerPage : pagination.pageSize,
             page : pagination.current,
@@ -136,17 +152,19 @@ export default class DispatchClues extends React.Component {
         const { rowData, loading, dispatchState } = dispatchCluesState.toJS()
 
 
+
+
         //未分派0
         if(dispatchState === 0){
             const rowSelection = {
                 onChange: this.onSelectChange.bind(this)
             };
             return (
-                loading  ? <Table onChange={this.handleTableChange.bind(this)} pagination={this.state.pagination}  rowSelection={rowSelection} columns={columns} dataSource={rowData} /> : <Spin  />
+                loading  ? <Table ref="tableList" onChange={this.handleTableChange.bind(this)} loading={this.state.loading} pagination={this.state.pagination}  rowSelection={rowSelection} columns={columns} dataSource={rowData} /> : <Spin  />
             )
         }else if(dispatchState === 1){
             return (
-                loading  ? <Table onChange={this.handleTableChange.bind(this)} pagination={this.state.pagination} columns={columns} dataSource={rowData} /> : <Spin  />
+                loading  ? <Table ref="tableList" onChange={this.handleTableChange.bind(this)} loading={this.state.loading} pagination={this.state.pagination} columns={columns} dataSource={rowData} /> : <Spin  />
             )
         }
 
@@ -156,11 +174,40 @@ export default class DispatchClues extends React.Component {
         const { dispatchCluesState,actions } = this.props
         const dispatchState = dispatchCluesState.toJS().dispatchState
 
-        this.setState({pagination: {}})
+        this.setState({
+            pagination: {}
+        })
         actions.clickTab(state,false)
 
         this.fetchTableData({
             assigned:state,//0未分派,1已分派未处理 不传默认0
+        })
+
+
+
+    }
+
+    clickSearch(value){
+        const val = value.trim()
+
+        this.setState({
+            keyword:val,
+            pagination:{
+                current:1
+            }
+        })
+
+        this.searchFetchData(val)
+    }
+
+    searchFetchData(value){
+        const { dispatchCluesState ,actions } = this.props
+        const dispatchState = dispatchCluesState.toJS().dispatchState
+
+
+        this.fetchTableData({
+            assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
+            keyword:value
         })
 
     }
@@ -204,6 +251,8 @@ export default class DispatchClues extends React.Component {
         const { selectedRadioID, selectData} = dispatchCluesState.toJS()
         const selectIDs = selectData.map((item) => item.ID)
 
+
+
         if(!selectedRadioID){
             message.warn('请选择要分派的人员')
             return false;
@@ -218,10 +267,17 @@ export default class DispatchClues extends React.Component {
             },
             type:'json',
             success:(result) => {
+                //  清空select状态
+                if(this.refs.tableList){
+                    this.refs.tableList.setState({
+                        selectedRowKeys:[]
+                    })
+                }
 
+                actions.updateTableData(selectIDs);
                 actions.showDispatchModal(!isShowModal)
                 message.success('分派成功！');
-                setTimeout(() => location.reload(),500)
+                //setTimeout(() => location.reload(),500)
             }
         })
 
@@ -276,43 +332,6 @@ export default class DispatchClues extends React.Component {
         actions.selectChange(selectedRowKeys, selectedRows)
     }
 
-
-
-    clickSearch(value){
-        const val = value.trim()
-        this.setState({
-            keyword:val
-        })
-        this.searchFetchData(val)
-    }
-
-    searchFetchData(value){
-        const { dispatchCluesState ,actions } = this.props
-        const dispatchState = dispatchCluesState.toJS().dispatchState
-
-        this.setState({pagination: {}})
-
-        this.fetchTableData({
-            assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
-            keyword:value
-        })
-
-        /*$.post(SCRM.url('/scrmlead/index/getAssignList'),{
-            assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
-            page:1,
-            rowsPerPage:20,
-            canAssign:1,
-            keyword:value
-        },function(data){
-            if(data.rs === true){
-                const rowData = data.data.rowData;
-                actions.fetchData(true,rowData)
-
-            }else{
-                message.error('服务器错误，请联系客服！')
-            }
-        },'json')*/
-    }
 
     render() {
         const { dispatchCluesState ,actions } = this.props

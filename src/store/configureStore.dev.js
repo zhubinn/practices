@@ -22,7 +22,7 @@ const stateTransformer = states => {
             finalStates[key] = key === 'routing' ? states : stateTransformer(state)
         }
     }
-    return JSON.stringify(finalStates)
+    return finalStates
 }
 
 export default function configureStore(initialState) {
