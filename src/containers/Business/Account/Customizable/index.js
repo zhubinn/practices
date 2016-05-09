@@ -178,13 +178,12 @@ class CustomizablePage extends  React.Component{
 
                     </div>
 
-                    <div className="customizableSettingWrap">
 
                         <Modal ref="modal"
-                              className="vertical-center-modal"
+                              className="customizableSettingModal"
                               visible={IsShow}
                               title="自定义" 
-                              width = '620'
+                              width = '600'
                               footer = {Footer}
                               onCancel = {this.handleClose.bind(this)}                   
                               >
@@ -208,7 +207,6 @@ class CustomizablePage extends  React.Component{
                                 </DivTab>
                              </div>
                         </Modal>
-                    </div>
 
 
 

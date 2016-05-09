@@ -14,19 +14,19 @@ class TabListRun extends React.Component{
             const serverSelectedRow = this.props.$$mapState.toJS().serverSelectedRow
             /*只展示从后台拿到的启用状态的选项*/
              let showColumnsOptions = []
-             if(servereditColumnsOptions.length ==1 && servereditColumnsOptions[0].Val == ''){
-                showColumnsOptions = [{Val:'请选择',IsStop:0}]
 
-             }else {
-                 servereditColumnsOptions.map((r, i) => {
+             //先把符合条件的选项信息筛选出来（启用与未被删除）
+             servereditColumnsOptions.map((r, i) => {
                     if (r.IsStop ==0 && r.IsDeleted == 0) {
                         return showColumnsOptions.push(r)
                     }
-                })
-                 if(showColumnsOptions.length == 0 ||
-                    (showColumnsOptions.length == 1 && showColumnsOptions.Val =='')){
-                    showColumnsOptions = [{Val:'请选择',IsStop:0}]
-                 }
+            })
+             console.log(showColumnsOptions)
+             //如果
+
+             if(showColumnsOptions.length ==0 ||
+                (showColumnsOptions.length ==1 && showColumnsOptions[0].Val == '')){
+                showColumnsOptions = [{Val:'请选择',IsStop:0}]
              }
 
         return (
