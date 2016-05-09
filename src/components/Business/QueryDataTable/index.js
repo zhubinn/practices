@@ -394,7 +394,7 @@ export default class QueryDataTable extends React.Component {
                                                 (<th className="ant-table-selection-column">
                                                     <Checkbox
                                                         ref="SelectAll"
-                                                        checked={ this.state.selectedRowKeys.length === dataSource.length }
+                                                        checked={ !!dataSource.length && this.state.selectedRowKeys.length === dataSource.length }
                                                         onChange={
                                                             (e)=>{this.handleSelectAll(e, dataSource)}}/></th>) : null }
                                             {this.props.expandedRowRender ? (<th style={{width: 34}}></th>): null}
