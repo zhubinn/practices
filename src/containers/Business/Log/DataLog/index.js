@@ -17,7 +17,8 @@ const FormItem = Form.Item;
 //table列表数据接口
 let DataLogParams = {
     //url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/logData.php',
-    url: 'http://esn.yangtianming.com/scrmoplog/index/opdetaillogIndex'
+    url: SCRM.url('/scrmoplog/index/opdetaillogIndex')
+    //'http://esn.yangtianming.com/scrmoplog/index/opdetaillogIndex'
 }
 
 let exportParams = {
