@@ -150,11 +150,6 @@ const columns = [{
     key: 'AccountLevel',
 
 }, {
-    title: '业务类型',
-    dataIndex: 'AccountIndustry',
-    key: 'AccountIndustry',
-
-}, {
     title: '所属区域',
     dataIndex: 'Area',
     key: 'Area',
