@@ -134,7 +134,7 @@ let datalog = {
             }
         },
         "RelObjectName": {
-            "searchType": 5,
+            "searchType": "5",
             "renderData": {
                 "defaultValue": ""
             }
