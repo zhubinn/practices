@@ -25,6 +25,7 @@ const businessReducers = combineReducers({
     account_persummary,
     account_deptsummarydetail,
     account_list_person,
+    account_list_dept,
     account_detail_dept,
     account_detail_person,
 })
