@@ -1,76 +1,68 @@
+import fetch from 'isomorphic-fetch'
+import { routerMiddleware, push } from 'react-router-redux'
+
+const ACCOUNT_DETAIL_INPUTVAL = 'ACCOUNT_DETAIL_INPUTVAL'
+
+//获取列表数据
+const ACCOUNT_DETAIL_GETDATA = 'ACCOUNT_DETAIL_GETDATA'
+
+const ACCOUNT_DETAIL_GETDATA_SUCCESS = 'ACCOUNT_DETAIL_GETDATA_SUCCESS'
+
+//输入搜索关键词
+export const changeInputVal = (value)=>{
+    return {
+        type: ACCOUNT_DETAIL_INPUTVAL,
+        payload:value
+    }
+}
+
+//获取页面加载数据
 /**
- * Created by c on 4/21/16.
+ * 获取列表数据
+ * @param  
+ * @param 
+ * @returns {Function}
  */
-import {
-    CK_COMPONENT_QUERYNESTEDTABLE_INIT,
-    CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
-    CK_COMPONENT_QUERYNESTEDTABLE_UPDATECHILD,
-} from 'actions/components/QueryNestedTable'
-
-import {
-   responseData
-} from './fakeData'
-import { account_summary_columns, account_summary_business_columns } from './data'
-
-const columns = account_summary_columns
-
-const childColumns =  account_summary_business_columns
-
-const initQueryNestedTable = () => {
-    const dataSource = responseData.data.rowData
-
-    //TODO: ajax init
-    return (dispatch, getState) => dispatch({
-        type: CK_COMPONENT_QUERYNESTEDTABLE_INIT,
-        payload: {
-            columns,
-            dataSource,
-            loading: false,
-            childProps: {
-                columns: childColumns
-            }
+export const getAccountDetailData = (params) => {
+    const _getAccountDetailData = (type, data)=> {
+        return {
+            type,
+            payload: data,
         }
-    })
-}
+    }
 
-const updateDataSource = (queryParams, pageIndex = 1) => {
-    const dataSource = responseData.data.rowData
-    console.log(queryParams, pageIndex)
-    //TODO: ajax by queryParams
-    return (dispatch, getState) => dispatch({
-        type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATE,
-        payload: {
-            dataSource,
-            pagination: {
-                total: 300,
-                current: 3,
-            }
-        }
-    })
-}
 
-const updateChildDataSource = (childQueryParams, rowData, index) => {
-    const dataSource = responseData.data.rowData
+    return (dispatch, getState) => {
+        const url = params.url;
+        dispatch(_getAccountDetailData(ACCOUNT_DETAIL_GETDATA,{}));
 
-    console.log(childQueryParams, rowData, index)
-    //TODO: ajax by rowData
-    return (dispatch, getState) => dispatch({
-        type: CK_COMPONENT_QUERYNESTEDTABLE_UPDATECHILD,
-        payload: {
-            childProps: {
-                dataSource: {
-                    [index]: dataSource
+            fetch(params.url, {
+                credentials: 'include',
+                method: 'post',
+                headers: {
+                    'API': 1,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                loading: {
-                    [index]: false
-                },
-            }
-        }
-    })
+                body: JSON.stringify(params.data)
+            }).then(function(response) {
+                if (response.status >= 400) {
+                    throw new Error("Bad response from server")
+                }
+                return response.json()
+            }).then(function (data) {
+
+                dispatch(_getAccountDetailData(ACCOUNT_DETAIL_GETDATA_SUCCESS, data.rowsData))
+
+            })
+        
+    
+    }
 }
 
 export {
-    initQueryNestedTable,
-    updateDataSource,
-    updateChildDataSource,
+    ACCOUNT_DETAIL_INPUTVAL,
+    ACCOUNT_DETAIL_GETDATA,
+    ACCOUNT_DETAIL_GETDATA_SUCCESS
 }
+

@@ -12,12 +12,10 @@ import DemoLoginPage from 'containers/__demo/Login'
 
 import DemoQueryNestedTablePage from 'containers/__demo/QueryNestedTable'
 
-import Account_List_Dept_Page from 'containers/Business/Account/List/Dept'
-import Account_List_Person_Page from 'containers/Business/Account/List/Person'
-import Account_Detail_Person_Page from 'containers/Business/Account/Detail/Person'
-import Account_Detail_Dept_Page from 'containers/Business/Account/Detail/Dept'
 import Error_404 from 'containers/Error/404'
 
+
+//客户
 import CustomizablePage from 'containers/Business/Account/Customizable'
 import DeptStatisticPage from 'containers/Business/Account/Statistic/DeptStatistic'
 import PerStatisticPage from 'containers/Business/Account/Statistic/PerStatistic'
@@ -26,7 +24,18 @@ import DeptSummaryPage from 'containers/Business/Account/Summary/DeptSummary'
 import PerSummaryPage from 'containers/Business/Account/Summary/PerSummary'
 import DeptSummaryDetailPage from 'containers/Business/Account/Summary/DeptSummaryDetail'
 
+import Account_List_Dept_Page from 'containers/Business/Account/List/Dept'
+import Account_List_Person_Page from 'containers/Business/Account/List/Person'
+import Account_Detail_Person_Page from 'containers/Business/Account/Detail/Person'
+import Account_Detail_Dept_Page from 'containers/Business/Account/Detail/Dept'
 
+
+//生意
+import Deptstatistic from 'containers/Business/Business/Statistic/DeptStatistic'
+
+//日志
+import FuncLog from 'containers/Business/Log/FuncLog'
+import DataLog from 'containers/Business/Log/DataLog'
 
 export default (
     <Route path="/">
@@ -52,7 +61,13 @@ export default (
                 <Route path="list/:role/:id" component={Account_List_Person_Page}/>
                 <Route path="deptlist/:role/:id" component={Account_List_Dept_Page}/>
             </Route>
-
+            <Route path="business">
+                <Route path="deptstatistic/:role/:id" component={Deptstatistic} />
+            </Route>
+            <Route path="log">
+                <Route path="datalog/:role/:id" component={DataLog} />
+                <Route path="func/:role/:id" component={FuncLog} />
+            </Route>
         </Route>
 
         <Route path="*" component={Error_404}/>

@@ -10,7 +10,6 @@ import user from './__demo/user'
 
 import components from './components'
 import __demo from './__demo'
-import business from './business'
 
 const rootReducer = combineReducers({
     components,
@@ -18,5 +17,4 @@ const rootReducer = combineReducers({
     __demo,
     routing,
 })
-
 export default rootReducer

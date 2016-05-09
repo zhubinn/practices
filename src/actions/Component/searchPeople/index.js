@@ -35,7 +35,6 @@ const COMPONENT_CHANGEINPUT = 'COMPONENT_CHANGEINPUT'
 const COMPONENT_CHANGE_PAGE = 'COMPONENT_CHANGE_PAGE'
 
 
-
 export const changePageNum =(page,source)=>{
     return {
         type: COMPONENT_CHANGE_PAGE,
@@ -79,6 +78,7 @@ export const getPeopleData = (params, source) => {
 
     return (dispatch, getState) => {
         const url = params.url;
+
         dispatch(_getPeopleData(COMPONENT_GETPEOPLEDATA,{},source));
 
             fetch(params.url, {

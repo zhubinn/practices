@@ -56,10 +56,11 @@ const $$initialstate = Immutable.fromJS({
                 return source.merge({page:action.payload})
             })
         case 'COMPONENT_CHANGE_ISMUTISELECT':
+            debugger
             return $$state.updateIn([action.source], function (source) {
                 return source.merge({IsMultiselect:action.payload})
             })
-        case COMPONENT_GETPEOPLEDATA:
+        case COMPONENT_SEARCH_GETDATA:
             return $$state.updateIn([action.source], function (source) {
                 return source.merge({IsShow:true})
             })

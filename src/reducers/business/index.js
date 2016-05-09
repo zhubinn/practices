@@ -1,7 +1,8 @@
 /**
- * Created by fuwenfang on 16-4-13.
+ * Created by chenhf on 16-4-13.
  */
 import { combineReducers } from 'redux'
+
 import account_Customizable from './account/Customizable'
 import account_deptstatistic from './account/Statistic/DeptStatistic'
 import account_deptstatisticdetail from './account/Statistic/DeptStatisticDetail'
@@ -16,6 +17,11 @@ import account_detail_person from './account/detail/person'
 import account_detail_dept from './account/detail/dept'
 
 
+import datalog from "./log/datalog"
+import FuncLog from "./log/funclog"
+import deptstatistic from "./business/deptstatistic"
+
+
 const businessReducers = combineReducers({
     account_Customizable,
     account_deptstatistic,
@@ -24,11 +30,17 @@ const businessReducers = combineReducers({
     account_deptsummary,
     account_persummary,
     account_deptsummarydetail,
+
     account_list_person,
     account_list_dept,
     account_detail_dept,
     account_detail_person,
+
+    deptstatistic,
+    datalog,
+    FuncLog,
 })
 
 
 export default businessReducers
+
