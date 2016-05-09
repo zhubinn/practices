@@ -186,8 +186,16 @@ const columns = [{
 // 依赖Table, Pagination, Form
 
 // 嵌套表格生意列表
+
+// 嵌套表格生意列表
 const business_columns = [
     {
+        title: '客户名称',
+        dataIndex: 'AccountID',
+        key: 'AccountID',
+        width: 150
+
+    }, {
         title: '生意名称',
         dataIndex: 'Name',
         key: 'Name',
@@ -203,6 +211,60 @@ const business_columns = [
         title: '负责人',
         dataIndex: 'OwnerID',
         key: 'OwnerID',
+        width: 150
+
+    }, {
+        title: '发现日期',
+        dataIndex: 'DiscoverDate',
+        key: 'DiscoverDate',
+        width: 150
+
+    }, {
+        title: '预计销售金额',
+        dataIndex: 'AmountPlan',
+        key: 'AmountPlan',
+        width: 150
+
+    }, {
+        title: '预计成交日期',
+        dataIndex: 'ExpectedCloseDate',
+        key: 'ExpectedCloseDate',
+        width: 150
+
+    }, {
+        title: '成交日期',
+        dataIndex: 'EndDate',
+        key: 'EndDate',
+        width: 150
+
+    }, {
+        title: '成交金额',
+        dataIndex: 'Amount',
+        key: 'Amount',
+        width: 150
+
+    }, {
+        title: '回款日期',
+        dataIndex: 'PaymentTime',
+        key: 'PaymentTime',
+        width: 150
+
+    }, {
+        title: '回款金额',
+        dataIndex: 'PaymentAmount',
+        key: 'PaymentAmount',
+        width: 150
+
+    }, {
+        title: '输单日期',
+        dataIndex: 'LoseDate',
+        key: 'LoseDate',
+        width: 150
+
+    }, {
+        title: '输单金额',
+        dataIndex: 'LoseAmount',
+        key: 'LoseAmount',
         width: 150
 
     }
@@ -249,10 +311,10 @@ class Account_Detail_Dept_Page extends React.Component {
     }
 
     componentDidMount() {
-        // todo: url包装
+
         this.props.getTableData({
 
-            url: SCRM.url('/scrmweb/accounts/getList')
+            url: SCRM.url('/scrmweb/accounts/getListDetail')
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
@@ -298,10 +360,10 @@ class Account_Detail_Dept_Page extends React.Component {
     expandedRowRender = (row) => {
 
         return (
-            <div style={{width: 450}}>
+            <div style={{width: 1950}}>
                 <Table
                     columns={business_columns}
-                    dataSource={row.businessData || business_dataSource}
+                    dataSource={row.Opportunity}
                     pagination={false}>
 
                 </Table>
@@ -330,6 +392,7 @@ class Account_Detail_Dept_Page extends React.Component {
                         <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
+
 
                         <Button type="ghost">导出</Button>
                     </Col>

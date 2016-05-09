@@ -156,3 +156,10 @@ export {
     GET_TABLE_QUERY_SUCCESS,
     GET_TABLE_QUERY_FAILURE,
 }
+
+
+{
+    page: 1
+    pageSize:1
+
+}
