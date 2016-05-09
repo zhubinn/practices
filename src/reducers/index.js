@@ -9,6 +9,7 @@ import user from './__demo/user'
 
 
 import components from './components'
+import business from './business'
 import __demo from './__demo'
 
 const rootReducer = combineReducers({
