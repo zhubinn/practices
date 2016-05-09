@@ -152,4 +152,5 @@ export {
     GET_TABLE_QUERY,
     GET_TABLE_QUERY_SUCCESS,
     GET_TABLE_QUERY_FAILURE,
+    table_params
 }

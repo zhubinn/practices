@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Modal  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
-import { getTableData, getTableQuery } from 'actions/business/account/list/dept'
+import { getTableData, getTableQuery, table_params } from 'actions/business/account/list/dept'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import MapModal from 'containers/Business/Account/MapModal'
@@ -246,7 +246,19 @@ class Account_List_Dept_Page extends React.Component {
         console.log(this.refs.queryDataTable.getCheckedRows())
 
     }
+    handleExport = (e)=> {
+        e.preventDefault();
 
+        const exportParam = {
+            objName: 'accountListDetail',
+            ...(table_params.data)
+        }
+
+        const exportUrl = SCRM.url('/common/scrmExport/export') + 'param=' + JSON.stringify(exportParam);
+        console.log(exportUrl);
+        window.open(exportUrl);
+
+    }
     render() {
         const {
             $$account_list_dept,
@@ -271,7 +283,7 @@ class Account_List_Dept_Page extends React.Component {
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
                         <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更联系人</Button>
-                        <Button type="ghost">导出</Button>
+                        <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
                     </Col>
                 </Row>
 
