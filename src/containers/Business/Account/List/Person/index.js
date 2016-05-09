@@ -8,28 +8,27 @@ import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery } from 'actions/business/account/list/person'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
-import Script from 'components/common/Script'
+
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 
-
-
-const showMap = function(lng, lat){
+/*地图弹出层*/
+const showMap = function (lng, lat) {
 
     Modal.info({
         content: (
-            <div style={{height: 500, width: 800}}>
-                <div id="bdMap">
-                </div>
+            <div id="bdMap" style={{width: 800, height: 500, marginLeft: -34, marginTop: 20}}>
             </div>
-
         ),
-        onOk() {},
+        width: 884,
+        okText: '关闭',
+        title: '客户地理坐标'
     });
 
 
     // 百度地图API功能
+    var msg = '';
     var map = new BMap.Map("bdMap");
     var point = new BMap.Point(lng, lat);
     var marker = new BMap.Marker(point); // 创建标注
@@ -46,19 +45,18 @@ const showMap = function(lng, lat){
     };
 
     // 逆地址解析
-    geoc.getLocation(point, function(result){
-        if (result){
+    geoc.getLocation(point, function (result) {
+        if (result) {
             //alert(result.address);
-            var infoWindow = new BMap.InfoWindow("地址："+result.address, opts);  // 创建信息窗口对象
-            map.openInfoWindow(infoWindow,point); //开启信息窗口
+            var infoWindow = new BMap.InfoWindow("地址：" + result.address, opts);  // 创建信息窗口对象
+            map.openInfoWindow(infoWindow, point); //开启信息窗口
         }
     });
 
 
-
-    marker.addEventListener("click", function(e) {
+    marker.addEventListener("click", function (e) {
         var pt = e.point;
-        geoc.getLocation(pt, function(rs) {
+        geoc.getLocation(pt, function (rs) {
             // console.log(rs);
             var addComp = rs.addressComponents;
             msg = addComp.province + addComp.city + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
@@ -70,8 +68,6 @@ const showMap = function(lng, lat){
     });
 
 
-
-
     var bottom_right_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT});// 添加比例尺
     var bottom_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT});  // 添加默认缩放平移控件
     /*缩放控件type有四种类型:
@@ -81,10 +77,9 @@ const showMap = function(lng, lat){
 
     map.addControl(bottom_right_control);
     map.addControl(bottom_right_navigation);
+
+
 };
-
-
-
 // SCRM.url 由原来外层页面引入
 
 const columns = [{
@@ -147,14 +142,24 @@ const columns = [{
     dataIndex: 'Address7',
     key: 'Address7',
 
-},  {
+}, {
     title: '客户地理坐标',
     dataIndex: 'ID',
     key: 'ID',
-    render: function(text, record, index){
+    render: function (text, record, index) {
         let cell = (<p>未设置</p>)
-        if ( !!record.Lat ) {
-            cell = (<a href="javascript:;" onClick={()=>{showMap(record.Lng, record.Lat)}}>已设置</a>)
+        if (!!record.Lat) {
+            cell = (<a href="javascript:;" onClick={()=>{
+            try{
+            showMap(record.Lng, record.Lat)
+            }catch(e){
+            console.log(e)
+            }
+
+
+
+
+            }}>已设置</a>)
         }
         return cell
     }
@@ -266,7 +271,6 @@ const columns = [{
 
 }];
 
-
 // 查询表格
 // 依赖Table, Pagination, Form
 
@@ -285,7 +289,7 @@ class Account_List_Person_Page extends React.Component {
 
             url: SCRM.url('/scrmweb/accounts/getList')
         })
-       this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
+        this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
 
     // 普通搜索和筛选(高级搜索)互斥
@@ -329,9 +333,10 @@ class Account_List_Person_Page extends React.Component {
         if (checkedRows.length == 0) {
             Modal.info({
                 title: '请先选择客户',
-                onOk() {},
+                onOk() {
+                },
             });
-        }else {
+        } else {
 
         }
 
@@ -378,7 +383,6 @@ class Account_List_Person_Page extends React.Component {
         queryDataTable.loading = $$account_list_person.toJS().loading
 
 
-
         const uploadProps = {
             name: 'file',
             action: '/upload.do',
@@ -396,8 +400,8 @@ class Account_List_Person_Page extends React.Component {
                 }
             }
         };
-        const importFooter = (<Row> <Col span="12" offset="3"><Button type="primary" >
-            <Icon type="poweroff" />开始导入
+        const importFooter = (<Row> <Col span="12" offset="3"><Button type="primary">
+            <Icon type="poweroff"/>开始导入
         </Button></Col></Row>)
 
         return (
@@ -412,7 +416,7 @@ class Account_List_Person_Page extends React.Component {
                         <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
                         <Modal title="客户导入" visible={false}
                                footer={importFooter}
-                              >
+                        >
                             <div>
                                 <h4>一、<a href="javascript:;">下载【客户导入模板】</a></h4>
                                 <div>
@@ -430,7 +434,7 @@ class Account_List_Person_Page extends React.Component {
                                 <div>
                                     <Upload {...uploadProps}>
                                         <Button type="ghost">
-                                            <Icon type="upload" /> 点击上传
+                                            <Icon type="upload"/> 点击上传
                                         </Button>
                                     </Upload>
                                 </div>
@@ -479,13 +483,6 @@ class Account_List_Person_Page extends React.Component {
                     ref="queryDataTable"
                 >
                 </QueryDataTable>
-
-                <div>
-                    <a href="javascript:;" ><Icon type="cross" /></a>
-                    <div id="bdMap">
-                    </div>
-                </div>
-
 
             </div>
         )
