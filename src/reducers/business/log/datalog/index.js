@@ -86,7 +86,7 @@ let datalog = {
             }
         },
         "RelObjectType": {
-            "searchType": 12,
+            "searchType": "12",
             "renderData": {
                 "defaultValue": "",
                 "options": [
@@ -140,13 +140,13 @@ let datalog = {
             }
         },
         "AttributeName": {
-            "searchType": 5,
+            "searchType": "5",
             "renderData": {
                 "defaultValue": ""
             }
         },
         "OperateDate": {
-            "searchType": 16,
+            "searchType": "16",
             "renderData": {
                 "defaultValue": [
                     "",
