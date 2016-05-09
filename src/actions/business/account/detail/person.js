@@ -27,11 +27,9 @@ let table_params = {
     url: '',
     data: {
         page: 1,
-        pageSize: 20,
-        searchData: {
-
-
-        }
+        pageSize: 0,
+        searchData: [],
+        type: 'all'
     }
 }
 
@@ -93,7 +91,7 @@ const getTableData = (params)=> {
             dispatch(fetchData(GET_TABLE_DATA_SUCCESS, {
 
                 rows: data.data.rowData,
-                current: data.data.currentPage,
+                current: data.data.current,
                 total: data.data.total,
                 pageSize: data.data.pageSize,
                 loading: false
@@ -157,4 +155,11 @@ export {
     GET_TABLE_QUERY,
     GET_TABLE_QUERY_SUCCESS,
     GET_TABLE_QUERY_FAILURE,
+}
+
+
+{
+    page: 1
+    pageSize:1
+
 }

@@ -2,15 +2,88 @@
  * Created by janeluck on 4/27/16.
  */
 import { connect } from 'react-redux'
-import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form  } from 'antd'
+import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination,Modal, Form, Upload, message  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery } from 'actions/business/account/list/person'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
+import Script from 'components/common/Script'
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
+
+
+
+const showMap = function(lng, lat){
+
+    Modal.info({
+        content: (
+            <div style={{height: 500, width: 800}}>
+                <div id="bdMap">
+                </div>
+            </div>
+
+        ),
+        onOk() {},
+    });
+
+
+    // 百度地图API功能
+    var map = new BMap.Map("bdMap");
+    var point = new BMap.Point(lng, lat);
+    var marker = new BMap.Marker(point); // 创建标注
+    map.addOverlay(marker); // 将标注添加到地图中
+    map.centerAndZoom(point, 12);
+    var geoc = new BMap.Geocoder();
+    var opts = {
+        width: 200, // 信息窗口宽度
+        height: 60, // 信息窗口高度
+
+        title: "", // 信息窗口标题
+        enableMessage: true, //设置允许信息窗发送短息
+        message: ''
+    };
+
+    // 逆地址解析
+    geoc.getLocation(point, function(result){
+        if (result){
+            //alert(result.address);
+            var infoWindow = new BMap.InfoWindow("地址："+result.address, opts);  // 创建信息窗口对象
+            map.openInfoWindow(infoWindow,point); //开启信息窗口
+        }
+    });
+
+
+
+    marker.addEventListener("click", function(e) {
+        var pt = e.point;
+        geoc.getLocation(pt, function(rs) {
+            // console.log(rs);
+            var addComp = rs.addressComponents;
+            msg = addComp.province + addComp.city + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
+            var infoWindow = new BMap.InfoWindow(msg, opts); // 创建信息窗口对象
+            map.openInfoWindow(infoWindow, point); //开启信息窗口
+
+        });
+
+    });
+
+
+
+
+    var bottom_right_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT});// 添加比例尺
+    var bottom_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT});  // 添加默认缩放平移控件
+    /*缩放控件type有四种类型:
+     BMAP_NAVIGATION_CONTROL_SMALL：仅包含平移和缩放按钮；BMAP_NAVIGATION_CONTROL_PAN:仅包含平移按钮；BMAP_NAVIGATION_CONTROL_ZOOM：仅包含缩放按钮*/
+
+    //添加控件和比例尺
+
+    map.addControl(bottom_right_control);
+    map.addControl(bottom_right_navigation);
+};
+
+
 
 // SCRM.url 由原来外层页面引入
 
@@ -45,9 +118,81 @@ const columns = [{
     key: 'Address',
 
 }, {
+    title: '销售地址',
+    dataIndex: 'Address2',
+    key: 'Address2',
+
+}, {
+    title: '工厂地址',
+    dataIndex: 'Address3',
+    key: 'Address3',
+
+}, {
+    title: '库房地址',
+    dataIndex: 'Address4',
+    key: 'Address4',
+
+}, {
+    title: '收货地址',
+    dataIndex: 'Address5',
+    key: 'Address5',
+
+}, {
+    title: '门店地址',
+    dataIndex: 'Address6',
+    key: 'Address6',
+
+}, {
+    title: '其他地址',
+    dataIndex: 'Address7',
+    key: 'Address7',
+
+},  {
+    title: '客户地理坐标',
+    dataIndex: 'ID',
+    key: 'ID',
+    render: function(text, record, index){
+        let cell = (<p>未设置</p>)
+        if ( !!record.Lat ) {
+            cell = (<a href="javascript:;" onClick={()=>{showMap(record.Lng, record.Lat)}}>已设置</a>)
+        }
+        return cell
+    }
+
+}, {
     title: '客户公司电话',
     dataIndex: 'Phone',
     key: 'Phone',
+
+}, {
+    title: '销售电话',
+    dataIndex: 'Phone2',
+    key: 'Phone2',
+
+}, {
+    title: '工厂电话',
+    dataIndex: 'Phone3',
+    key: 'Phone3',
+
+}, {
+    title: '库房电话',
+    dataIndex: 'Phone4',
+    key: 'Phone4',
+
+}, {
+    title: '收货电话',
+    dataIndex: 'Phone5',
+    key: 'Phone5',
+
+}, {
+    title: '门店电话',
+    dataIndex: 'Phone6',
+    key: 'Phone6',
+
+}, {
+    title: '其他电话',
+    dataIndex: 'Phone7',
+    key: 'Phone7',
 
 }, {
     title: '客户简介',
@@ -126,11 +271,12 @@ const columns = [{
 // 依赖Table, Pagination, Form
 
 
-
 class Account_List_Person_Page extends React.Component {
     constructor() {
         super()
-
+        this.state = {
+            visible: false
+        }
     }
 
     componentDidMount() {
@@ -139,14 +285,83 @@ class Account_List_Person_Page extends React.Component {
 
             url: SCRM.url('/scrmweb/accounts/getList')
         })
-        this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
+       this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
+    }
+
+    // 普通搜索和筛选(高级搜索)互斥
+    normalSearch = (value) => {
+        // 重置筛选(高级搜索)
+        this.refs.queryDataTable.resetQueryForm()
+
+        this.refs.queryDataTable.clearCheckedAndExpanded()
+        this.props.getTableData({
+            data: {
+                searchData: [],
+                keyword: value,
+                page: 1,
+                pageSize: 0
+            }
+        })
+
+
+    }
+    changeType = (type) => {
+        // 重置筛选(高级搜索)
+        this.refs.searchInput.emptyInput()
+        this.refs.queryDataTable.resetQueryForm()
+        this.refs.queryDataTable.clearCheckedAndExpanded()
+        this.props.getTableData({
+            data: {
+                searchData: [],
+                keyword: '',
+                page: 1,
+                pageSize: 0,
+                type
+            }
+        })
+
     }
 
     changeOwner = (e) => {
         console.log('获取已经选择的row')
         console.log(this.refs.queryDataTable.getCheckedRows())
+        const checkedRows = this.refs.queryDataTable.getCheckedRows()
+        if (checkedRows.length == 0) {
+            Modal.info({
+                title: '请先选择客户',
+                onOk() {},
+            });
+        }else {
+
+        }
 
     }
+    handleImport = () => {
+
+    }
+    showImportModal = ()=> {
+        this.setState({
+            importModalVisible: true
+        });
+    }
+
+    handleOk = () => {
+        console.log('点击了确定');
+        this.setState({
+            importModalVisible: false
+        });
+    }
+    handleCancel = (e) => {
+        console.log(e);
+        this.setState({
+            importModalVisible: false
+        });
+    }
+
+    handleUpload = (e) => {
+
+    }
+
     render() {
         const {
             $$account_list_person,
@@ -161,52 +376,116 @@ class Account_List_Person_Page extends React.Component {
         queryDataTable.pageSize = $$account_list_person.toJS().pageSize
         queryDataTable.queryColumns = $$account_list_person.toJS().queryColumns
         queryDataTable.loading = $$account_list_person.toJS().loading
+
+
+
+        const uploadProps = {
+            name: 'file',
+            action: '/upload.do',
+            headers: {
+                authorization: 'authorization-text',
+            },
+            onChange(info) {
+                if (info.file.status !== 'uploading') {
+                    console.log(info.file, info.fileList);
+                }
+                if (info.file.status === 'done') {
+                    message.success(`${info.file.name} 上传成功。`);
+                } else if (info.file.status === 'error') {
+                    message.error(`${info.file.name} 上传失败。`);
+                }
+            }
+        };
+        const importFooter = (<Row> <Col span="12" offset="3"><Button type="primary" >
+            <Icon type="poweroff" />开始导入
+        </Button></Col></Row>)
+
         return (
             <div>
                 <Row>
-                    <Col span="8"><SearchInput /> </Col>
+                    <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
                     <Col span="8" offset="8">
-                        <Button type="primary" onClick = {(e)=>{
+                        <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
-                        <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更联系人</Button>
+                        <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
+                        <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
+                        <Modal title="客户导入" visible={false}
+                               footer={importFooter}
+                              >
+                            <div>
+                                <h4>一、<a href="javascript:;">下载【客户导入模板】</a></h4>
+                                <div>
+                                    <p>请按照数据模板的格式准备要导入的数据。</p>
+                                </div>
+                                <p>注意事项:</p>
+                                <div>
+                                    <p>1、模板中的表头不可更改，不可删除；</p>
+                                    <p>2、其中客户名称为必填项，其他均为选填项；</p>
+                                    <p>3、填写客户地址时，特别行政区名称需填写在模板中的省份字段下，由省/自治区直辖的县级行政区划，需将其名称直接填写在模板中的市字段下。</p>
+                                </div>
+                            </div>
+                            <div>
+                                <h4>二、选择需要导入的CSV文件</h4>
+                                <div>
+                                    <Upload {...uploadProps}>
+                                        <Button type="ghost">
+                                            <Icon type="upload" /> 点击上传
+                                        </Button>
+                                    </Upload>
+                                </div>
+                                <div>
+                                    <p>1、只支持CSV格式，文件大小不能超过1M；</p>
+                                    <p>2、为保证较好性能，请将导入条数控制在2000条以内；</p>
+                                    <p>3、请不要在同一时间导入多个文件。</p>
+                                </div>
+                            </div>
+
+
+                        </Modal>
                         <Button type="ghost">导出</Button>
                     </Col>
                 </Row>
-                <Tabs defaultActiveKey="1"
-                      onChange={function(i){
 
-                }}>
-                    <TabPane tab="全部客户" key="1">
+                <Tabs defaultActiveKey="all"
+                      type="card"
+                      onChange={i => {this.changeType(i)}}>
+                    <TabPane tab="全部客户" key="all">
+                    </TabPane>
+                    <TabPane tab="负责的客户" key="owner">
+                    </TabPane>
+                    <TabPane tab="参与的客户" key="relation">
+                    </TabPane>
+                    <TabPane tab="重点客户" key="important">
+                    </TabPane>
+                    <TabPane tab="关注的客户" key="follow">
+                    </TabPane>
+                </Tabs>
 
 
-                        <QueryDataTable
-                            columns={columns}
-                            checkMode={true}
-                            {...queryDataTable}
-                            onGetTableData={
+                <QueryDataTable
+                    columns={columns}
+                    checkMode={true}
+                    {...queryDataTable}
+                    onGetTableData={
 
                                 (obj)=>{
+                                    this.refs.searchInput.emptyInput()
                                     getTableData({
                                         data: obj
                                     })
                                 }
                             }
-                            ref="queryDataTable"
-                        >
-                        </QueryDataTable>
+                    ref="queryDataTable"
+                >
+                </QueryDataTable>
 
+                <div>
+                    <a href="javascript:;" ><Icon type="cross" /></a>
+                    <div id="bdMap">
+                    </div>
+                </div>
 
-                    </TabPane>
-                    <TabPane tab="负责的客户" key="2">
-                    </TabPane>
-                    <TabPane tab="参与的客户" key="3">
-                    </TabPane>
-                    <TabPane tab="重点客户" key="4">
-                    </TabPane>
-                    <TabPane tab="关注的客户" key="5">
-                    </TabPane>
-                </Tabs>
 
             </div>
         )

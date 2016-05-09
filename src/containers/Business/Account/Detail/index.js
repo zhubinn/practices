@@ -130,6 +130,7 @@ class Account_Detail_Page extends React.Component {
                     init={initQueryNestedTable}
                     updateDataSource={updateDataSource}
                     updateChildDataSource={updateChildDataSource}
+
                 />
             </div>
         )

@@ -45,9 +45,69 @@ const columns = [{
     key: 'Address',
 
 }, {
+    title: '销售地址',
+    dataIndex: 'Address2',
+    key: 'Address2',
+
+}, {
+    title: '工厂地址',
+    dataIndex: 'Address3',
+    key: 'Address3',
+
+}, {
+    title: '库房地址',
+    dataIndex: 'Address4',
+    key: 'Address4',
+
+}, {
+    title: '收货地址',
+    dataIndex: 'Address5',
+    key: 'Address5',
+
+}, {
+    title: '门店地址',
+    dataIndex: 'Address6',
+    key: 'Address6',
+
+}, {
+    title: '其他地址',
+    dataIndex: 'Address7',
+    key: 'Address7',
+
+}, {
     title: '客户公司电话',
     dataIndex: 'Phone',
     key: 'Phone',
+
+}, {
+    title: '销售电话',
+    dataIndex: 'Phone2',
+    key: 'Phone2',
+
+}, {
+    title: '工厂电话',
+    dataIndex: 'Phone3',
+    key: 'Phone3',
+
+}, {
+    title: '库房电话',
+    dataIndex: 'Phone4',
+    key: 'Phone4',
+
+}, {
+    title: '收货电话',
+    dataIndex: 'Phone5',
+    key: 'Phone5',
+
+}, {
+    title: '门店电话',
+    dataIndex: 'Phone6',
+    key: 'Phone6',
+
+}, {
+    title: '其他电话',
+    dataIndex: 'Phone7',
+    key: 'Phone7',
 
 }, {
     title: '客户简介',
@@ -125,8 +185,123 @@ const columns = [{
 // 查询表格
 // 依赖Table, Pagination, Form
 
+// 嵌套表格生意列表
+const business_columns = [
+    {
+        title: '客户名称',
+        dataIndex: 'AccountID',
+        key: 'AccountID',
+        width: 150
 
+    }, {
+        title: '生意名称',
+        dataIndex: 'Name',
+        key: 'Name',
+        width: 150
 
+    }, {
+        title: '生意阶段',
+        dataIndex: 'Stage',
+        key: 'Stage',
+        width: 150
+
+    }, {
+        title: '负责人',
+        dataIndex: 'OwnerID',
+        key: 'OwnerID',
+        width: 150
+
+    }, {
+        title: '发现日期',
+        dataIndex: 'DiscoverDate',
+        key: 'DiscoverDate',
+        width: 150
+
+    }, {
+        title: '预计销售金额',
+        dataIndex: 'AmountPlan',
+        key: 'AmountPlan',
+        width: 150
+
+    }, {
+        title: '预计成交日期',
+        dataIndex: 'ExpectedCloseDate',
+        key: 'ExpectedCloseDate',
+        width: 150
+
+    }, {
+        title: '成交日期',
+        dataIndex: 'EndDate',
+        key: 'EndDate',
+        width: 150
+
+    }, {
+        title: '成交金额',
+        dataIndex: 'Amount',
+        key: 'Amount',
+        width: 150
+
+    }, {
+        title: '回款日期',
+        dataIndex: 'PaymentTime',
+        key: 'PaymentTime',
+        width: 150
+
+    }, {
+        title: '回款金额',
+        dataIndex: 'PaymentAmount',
+        key: 'PaymentAmount',
+        width: 150
+
+    }, {
+        title: '输单日期',
+        dataIndex: 'LoseDate',
+        key: 'LoseDate',
+        width: 150
+
+    }, {
+        title: '输单金额',
+        dataIndex: 'LoseAmount',
+        key: 'LoseAmount',
+        width: 150
+
+    }
+]
+
+// fakeData
+const business_dataSource = [{
+    "ID": "372",
+    "AccountID": "\u9152\u6c34\u5ba2\u6237",
+    "Name": "\u535a\u767d\u751f\u610f",
+    "Stage": "",
+    "OwnerID": "\u5575\u5575\u2026\u2026\uff01\uff1f\u3002\u3002",
+    "CreatedTime": "2016.05.04 10:35",
+    "DiscoverDate": "2016-05-04",
+    "ExpectedCloseDate": "2016-05-04",
+    "AmountPlan": "200.00",
+    "PaymentTime": "2016-05-04",
+    "PaymentAmount": "10.00",
+    "WFFlag": "1",
+    "EndDate": "",
+    "Amount": "",
+    "Account": "40498"
+}, {
+    "ID": "344",
+    "AccountID": "\u9152\u6c34\u5ba2\u6237",
+    "Name": "\u9152\u6c34\u751f\u610f",
+    "Stage": "",
+    "OwnerID": "\u6ce2\u6ce2\u83dc\u83dc",
+    "CreatedTime": "2016.04.29 16:04",
+    "DiscoverDate": "2016-04-29",
+    "ExpectedCloseDate": "2016-04-29",
+    "AmountPlan": "5000.00",
+    "PaymentTime": "2016-04-29",
+    "PaymentAmount": "10.00",
+    "WFFlag": "1",
+    "EndDate": "",
+    "Amount": "",
+    "Account": "40498"
+}]
 class Account_Detail_Person_Page extends React.Component {
     constructor() {
         super()
@@ -137,16 +312,64 @@ class Account_Detail_Person_Page extends React.Component {
         // todo: url包装
         this.props.getTableData({
 
-            url: SCRM.url('/scrmweb/accounts/getList')
+            url: SCRM.url('/scrmweb/accounts/getListDetail')
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
 
+    // 普通搜索和筛选(高级搜索)互斥
+    normalSearch = (value) => {
+        // 重置筛选(高级搜索)
+        this.refs.queryDataTable.resetQueryForm()
+
+        this.refs.queryDataTable.clearCheckedAndExpanded()
+        this.props.getTableData({
+            data: {
+                searchData: [],
+                keyword: value,
+                page: 1,
+                pageSize: 0
+            }
+        })
+
+
+    }
+    changeType = (type) => {
+        // 重置普通搜索和筛选(高级搜索)
+        this.refs.searchInput.emptyInput()
+        this.refs.queryDataTable.resetQueryForm()
+        this.refs.queryDataTable.clearCheckedAndExpanded()
+        this.props.getTableData({
+            data: {
+                searchData: [],
+                keyword: '',
+                page: 1,
+                pageSize: 0,
+                type
+            }
+        })
+
+    }
     changeOwner = (e) => {
         console.log('获取已经选择的row')
         console.log(this.refs.queryDataTable.getCheckedRows())
 
     }
+    expandedRowRender = (row) => {
+
+        return (
+            <div style={{width: 1950}}>
+
+                <Table
+                    columns={business_columns}
+                    dataSource={row.Opportunity}
+                    pagination={false}>
+
+                </Table>
+
+            </div>)
+    }
+
     render() {
         const {
             $$account_detail_person,
@@ -164,50 +387,44 @@ class Account_Detail_Person_Page extends React.Component {
         return (
             <div>
                 <Row>
-                    <Col span="8"><SearchInput /> </Col>
+                    <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
                     <Col span="8" offset="8">
-                        <Button type="primary" onClick = {(e)=>{
+                        <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
 
                         <Button type="ghost">导出</Button>
                     </Col>
                 </Row>
-                <Tabs defaultActiveKey="1"
-                      onChange={function(i){
-
-                }}>
-                    <TabPane tab="全部客户" key="1">
-
-
-                        <QueryDataTable
-                            columns={columns}
-
-                            {...queryDataTable}
-                            onGetTableData={
-
+                <Tabs defaultActiveKey="all"
+                      type="card"
+                      onChange={i => {this.changeType(i)}}>
+                    <TabPane tab="全部客户" key="all">
+                    </TabPane>
+                    <TabPane tab="负责的客户" key="owner">
+                    </TabPane>
+                    <TabPane tab="参与的客户" key="relation">
+                    </TabPane>
+                    <TabPane tab="重点客户" key="important">
+                    </TabPane>
+                    <TabPane tab="关注的客户" key="follow">
+                    </TabPane>
+                </Tabs>
+                <QueryDataTable
+                    columns={columns}
+                    expandedRowRender={this.expandedRowRender}
+                    {...queryDataTable}
+                    onGetTableData={
                                 (obj)=>{
+                                    this.refs.searchInput.emptyInput()
                                     getTableData({
                                         data: obj
                                     })
                                 }
                             }
-                            ref="queryDataTable"
-                        >
-                        </QueryDataTable>
-
-
-                    </TabPane>
-                    <TabPane tab="负责的客户" key="2">
-                    </TabPane>
-                    <TabPane tab="参与的客户" key="3">
-                    </TabPane>
-                    <TabPane tab="重点客户" key="4">
-                    </TabPane>
-                    <TabPane tab="关注的客户" key="5">
-                    </TabPane>
-                </Tabs>
-
+                    ref="queryDataTable"
+                >
+                </QueryDataTable>
             </div>
         )
     }

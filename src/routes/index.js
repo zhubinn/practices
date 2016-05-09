@@ -14,8 +14,8 @@ import DemoQueryNestedTablePage from 'containers/__demo/QueryNestedTable'
 
 import Account_List_Dept_Page from 'containers/Business/Account/List/Dept'
 import Account_List_Person_Page from 'containers/Business/Account/List/Person'
-import Account_Detail_Page from 'containers/Business/Account/Detail'
 import Account_Detail_Person_Page from 'containers/Business/Account/Detail/Person'
+import Account_Detail_Dept_Page from 'containers/Business/Account/Detail/Dept'
 import Error_404 from 'containers/Error/404'
 
 import CustomizablePage from 'containers/Business/Account/Customizable'
@@ -47,7 +47,7 @@ export default (
                 <Route path="deptsummary/:role/:id" component={DeptSummaryPage}/>
                 <Route path="persummary/:role/:id" component={PerSummaryPage}/>
                 <Route path="deptsummarydetail/:role/:id" component={DeptSummaryDetailPage}/>
-                <Route path="deptaccountdetail/:role/:id" component={Account_Detail_Page}/>
+                <Route path="deptaccountdetail/:role/:id" component={Account_Detail_Dept_Page}/>
                 <Route path="peraccountdetail/:role/:id" component={Account_Detail_Person_Page}/>
                 <Route path="list/:role/:id" component={Account_List_Person_Page}/>
                 <Route path="deptlist/:role/:id" component={Account_List_Dept_Page}/>
