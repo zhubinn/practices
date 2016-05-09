@@ -4,14 +4,6 @@
 import { combineReducers } from 'redux'
 
 
-
-import datalog from "./log/datalog"
-import FuncLog from "./log/funclog"
-
-import deptstatistic from "./business/deptstatistic"
-
-
-
 import numberReportViewState from './numberReport/numberReportView'
 import dispatchCluesState from './dispatchClues/dispatchClues'
 
@@ -41,7 +33,7 @@ const businessReducers = combineReducers({
 
     numberReportViewState,
     dispatchCluesState,
-    
+
     account_Customizable,
     account_deptstatistic,
     account_perstatistic,
