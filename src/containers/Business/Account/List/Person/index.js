@@ -2,15 +2,18 @@
  * Created by janeluck on 4/27/16.
  */
 import { connect } from 'react-redux'
-import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form  } from 'antd'
+import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination,Modal, Form, Upload, message  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery } from 'actions/business/account/list/person'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
+import MapModal from 'containers/Business/Account/MapModal'
+
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
+
 
 // SCRM.url 由原来外层页面引入
 
@@ -75,6 +78,18 @@ const columns = [{
     key: 'Address7',
 
 }, {
+    title: '客户地理坐标',
+    dataIndex: 'ID',
+    key: 'ID',
+    render: function (text, record, index) {
+        let cell = (<p>未设置</p>)
+        if (!!record.Lat) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng, record.Lat, '客户地理坐标')}}>已设置</a>)
+        }
+        return cell
+    }
+
+}, {
     title: '客户公司电话',
     dataIndex: 'Phone',
     key: 'Phone',
@@ -135,11 +150,6 @@ const columns = [{
     key: 'AccountLevel',
 
 }, {
-    title: '业务类型',
-    dataIndex: 'AccountIndustry',
-    key: 'AccountIndustry',
-
-}, {
     title: '所属区域',
     dataIndex: 'Area',
     key: 'Area',
@@ -181,7 +191,6 @@ const columns = [{
 
 }];
 
-
 // 查询表格
 // 依赖Table, Pagination, Form
 
@@ -189,7 +198,9 @@ const columns = [{
 class Account_List_Person_Page extends React.Component {
     constructor() {
         super()
-
+        this.state = {
+            visible: false
+        }
     }
 
     componentDidMount() {
@@ -234,9 +245,45 @@ class Account_List_Person_Page extends React.Component {
         })
 
     }
+
     changeOwner = (e) => {
         console.log('获取已经选择的row')
         console.log(this.refs.queryDataTable.getCheckedRows())
+        const checkedRows = this.refs.queryDataTable.getCheckedRows()
+        if (checkedRows.length == 0) {
+            Modal.info({
+                title: '请先选择客户',
+                onOk() {
+                },
+            });
+        } else {
+
+        }
+
+    }
+    handleImport = () => {
+
+    }
+    showImportModal = ()=> {
+        this.setState({
+            importModalVisible: true
+        });
+    }
+
+    handleOk = () => {
+        console.log('点击了确定');
+        this.setState({
+            importModalVisible: false
+        });
+    }
+    handleCancel = (e) => {
+        console.log(e);
+        this.setState({
+            importModalVisible: false
+        });
+    }
+
+    handleUpload = (e) => {
 
     }
 
@@ -254,6 +301,29 @@ class Account_List_Person_Page extends React.Component {
         queryDataTable.pageSize = $$account_list_person.toJS().pageSize
         queryDataTable.queryColumns = $$account_list_person.toJS().queryColumns
         queryDataTable.loading = $$account_list_person.toJS().loading
+
+
+        const uploadProps = {
+            name: 'file',
+            action: '/upload.do',
+            headers: {
+                authorization: 'authorization-text',
+            },
+            onChange(info) {
+                if (info.file.status !== 'uploading') {
+                    console.log(info.file, info.fileList);
+                }
+                if (info.file.status === 'done') {
+                    message.success(`${info.file.name} 上传成功。`);
+                } else if (info.file.status === 'error') {
+                    message.error(`${info.file.name} 上传失败。`);
+                }
+            }
+        };
+        const importFooter = (<Row> <Col span="12" offset="3"><Button type="primary">
+            <Icon type="poweroff"/>开始导入
+        </Button></Col></Row>)
+
         return (
             <div>
                 <Row>
@@ -262,7 +332,41 @@ class Account_List_Person_Page extends React.Component {
                         <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
-                        <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更联系人</Button>
+                        <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
+                        <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
+                        <Modal title="客户导入" visible={false}
+                               footer={importFooter}
+                        >
+                            <div>
+                                <h4>一、<a href="javascript:;">下载【客户导入模板】</a></h4>
+                                <div>
+                                    <p>请按照数据模板的格式准备要导入的数据。</p>
+                                </div>
+                                <p>注意事项:</p>
+                                <div>
+                                    <p>1、模板中的表头不可更改，不可删除；</p>
+                                    <p>2、其中客户名称为必填项，其他均为选填项；</p>
+                                    <p>3、填写客户地址时，特别行政区名称需填写在模板中的省份字段下，由省/自治区直辖的县级行政区划，需将其名称直接填写在模板中的市字段下。</p>
+                                </div>
+                            </div>
+                            <div>
+                                <h4>二、选择需要导入的CSV文件</h4>
+                                <div>
+                                    <Upload {...uploadProps}>
+                                        <Button type="ghost">
+                                            <Icon type="upload"/> 点击上传
+                                        </Button>
+                                    </Upload>
+                                </div>
+                                <div>
+                                    <p>1、只支持CSV格式，文件大小不能超过1M；</p>
+                                    <p>2、为保证较好性能，请将导入条数控制在2000条以内；</p>
+                                    <p>3、请不要在同一时间导入多个文件。</p>
+                                </div>
+                            </div>
+
+
+                        </Modal>
                         <Button type="ghost">导出</Button>
                     </Col>
                 </Row>
@@ -299,7 +403,6 @@ class Account_List_Person_Page extends React.Component {
                     ref="queryDataTable"
                 >
                 </QueryDataTable>
-
 
             </div>
         )

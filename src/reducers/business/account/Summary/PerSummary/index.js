@@ -1,29 +1,32 @@
 import Immutable from 'immutable'
 import {
-	ACCOUNT_PERSUMMARY_SEARCH,
-	ACCOUNT_PERSUMMARY_CHANGEPENE,
-    ACCOUNT_PERSUMMARY_INPUTVAL
-} 
-from 'actions/Business/Account/Summary/PerSummary'
+    account_Persummary_SEARCH,
+    account_Persummary_INPUTVAL,
+    account_Persummary_GETDATA,
+    account_Persummary_GETDATA_SUCCESS,
+
+} from 'actions/Business/Account/Summary/PerSummary'
 
 
 const $$initialState = Immutable.fromJS({
-	value:'',
-	pene:false
+    value:'',
+    loading:true,
+    rowData:[]
 })
 
-const  PerSummary = ($$state = $$initialState, action)=>{
+const  perSummary = ($$state = $$initialState, action)=>{
     switch(action.type) {
-        case ACCOUNT_PERSUMMARY_INPUTVAL:
+        case account_Persummary_GETDATA:
+            return $$state
+        case account_Persummary_GETDATA_SUCCESS:
+            return $$state.merge({rowData:action.payload,loading:false})
+        case account_Persummary_INPUTVAL:
             return $$state.merge({value:action.payload})
-    	case ACCOUNT_PERSUMMARY_SEARCH:
-                    alert(action.payload)
-    		return $$state
-    	case ACCOUNT_PERSUMMARY_CHANGEPENE:
-    		return $$state.merge({pene:true})
+        case account_Persummary_SEARCH:
+            return $$state
         default:
             return $$state
     }
 }
 
-export default PerSummary
+export default perSummary

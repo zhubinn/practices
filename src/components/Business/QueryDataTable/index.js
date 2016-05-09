@@ -35,7 +35,8 @@ export default class QueryDataTable extends React.Component {
         columns: [],
         queryColumns: {},
         dataSource: [],
-        loading: false
+        loading: false,
+        onGetTableData: function(){}
     }
 
 
@@ -75,9 +76,10 @@ export default class QueryDataTable extends React.Component {
 
     // 重置筛选表单数据(供外部调用)
     resetQueryForm = ()=>{
-        this.setState({
+        /*this.setState({
             needRenderQuery: true
-        })
+        })*/
+        this.queryForm = ''
     }
     handleSelectAll = (e, dataSource) => {
 
@@ -118,7 +120,7 @@ export default class QueryDataTable extends React.Component {
         if (isEmpty(queryColumns)) return null
         const that = this
 
-        if (this.state.needRenderQuery) {
+        if (!this.queryForm) {
             this.queryForm = React.createClass({
                 handleSubmit(e) {
                     e.preventDefault();
@@ -191,9 +193,7 @@ export default class QueryDataTable extends React.Component {
             });
 
             this.queryForm = Form.create()(this.queryForm);
-            this.setState({
-                needRenderQuery: false
-            })
+
         }
         return (<this.queryForm />)
 
@@ -209,7 +209,7 @@ export default class QueryDataTable extends React.Component {
 
 
             switch (queryCol['searchType']) {
-             /*   case "3":
+             /*   case 3:
                     return (<FormItem >
                         <InputGroup {...getFieldProps('-1_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
@@ -225,13 +225,13 @@ export default class QueryDataTable extends React.Component {
                             </div>
                         </InputGroup>
                     </FormItem>)*/
-                case "4":
-                case "5":
-                case "6":
-                case "9":
+                case 4:
+                case 5:
+                case 6:
+                case 9:
 
                     return (<FormItem >
-                        <Input {...getFieldProps('14_' + col['key'], {
+                        <Input {...getFieldProps('19_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
@@ -243,25 +243,25 @@ export default class QueryDataTable extends React.Component {
                         })} />
                     </FormItem>)
 
-                case "13":
+                case 13:
 
                     return (<FormItem>
-                        <Select multiple {...getFieldProps('10_' + col['key'], {
+                        <Select multiple {...getFieldProps('9_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} >
                             {queryCol['renderData']['options'].map((item, i) =>(<Option value={item.value} key = {i}>{item.text}</Option>)
                             )}
                         </Select>
                     </FormItem>)
-                case "15":
+                case 15:
                     return (<FormItem>
-                        <RangePicker format="yyyy-MM-dd" {...getFieldProps('9_' + col['key'], {
+                        <RangePicker format="yyyy-MM-dd" {...getFieldProps('11_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
-                case "16":
+                case 16:
                     return (<FormItem>
-                        <RangePicker showTime format="yyyy/MM/dd HH:mm:ss"  showTime  {...getFieldProps('9_' + col['key'], {
+                        <RangePicker showTime format="yyyy/MM/dd HH:mm:ss"  showTime  {...getFieldProps('11_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
@@ -276,6 +276,7 @@ export default class QueryDataTable extends React.Component {
     calculateWidth = ()=> {
         let width = 0
         this.props.checkMode  &&  (width = width + 41)
+        this.props.expandedRowRender  &&  (width = width + 34)
         this.props.columns.forEach((item, i) =>{
             width += item.width || this.defaultColWidth
         })
@@ -366,7 +367,6 @@ export default class QueryDataTable extends React.Component {
                            expandedRowKeys={this.state.expandedRowKeys}
                            onExpandedRowsChange={this.onExpandedRowsChange}
                            onExpand={this.onExpand}
-                           className="table"
                            rowKey={this.getRowKey}
             >
             </Table>)
@@ -394,12 +394,12 @@ export default class QueryDataTable extends React.Component {
                                                 (<th className="ant-table-selection-column">
                                                     <Checkbox
                                                         ref="SelectAll"
-                                                        checked={ this.state.selectedRowKeys.length === dataSource.length }
+                                                        checked={ !!dataSource.length && this.state.selectedRowKeys.length === dataSource.length }
                                                         onChange={
                                                             (e)=>{this.handleSelectAll(e, dataSource)}}/></th>) : null }
-
+                                            {this.props.expandedRowRender ? (<th style={{width: 34}}></th>): null}
                                             {
-                                                columns.map(col => <th width={col.width||this.defaultColWidth}>{col.title}</th>)
+                                                columns.map((col, i) => <th key={i} width={col.width||this.defaultColWidth}>{col.title}</th>)
                                             }
                                         </tr>
                                         </thead>

@@ -27,7 +27,7 @@ let table_params = {
     url: '',
     data: {
         page: 1,
-        pageSize: 20,
+        pageSize: 0,
         searchData: [],
         type: 'all'
     }
@@ -66,10 +66,7 @@ const getTableData = (params)=> {
     return (dispatch, getState) => {
 
         dispatch(fetchData(GET_TABLE_DATA, {rows: [], loading: true}))
-        // todo: 封装
-        var data = new FormData();
-        data.append( "json", 1);
-        data.append( "json2", 1);
+
         fetch(table_params.url = params.url || table_params.url, {
             method: 'POST',
             credentials: 'include',

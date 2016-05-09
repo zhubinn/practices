@@ -120,7 +120,7 @@ export default class NumberReportView extends React.Component {
 
                     <div className="ck-numberReport">
                         <div className="ck-numberReport-top">
-                            
+
                             <div className="ck-numberReport-Function clearfix">
                                 <button className="ck-Function-btnreturn" onClick = { () => { history.back(-1) } }>返回</button>
                                 <InputDater

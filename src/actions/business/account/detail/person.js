@@ -27,7 +27,7 @@ let table_params = {
     url: '',
     data: {
         page: 1,
-        pageSize: 20,
+        pageSize: 0,
         searchData: [],
         type: 'all'
     }
@@ -155,4 +155,11 @@ export {
     GET_TABLE_QUERY,
     GET_TABLE_QUERY_SUCCESS,
     GET_TABLE_QUERY_FAILURE,
+}
+
+
+{
+    page: 1
+    pageSize:1
+
 }

@@ -6,213 +6,143 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { Row, Col, Table, Radio, Button, Input, Pagination, Modal} from 'antd'
-import {handleInputChange, getDataLogData, pageSizeChange}  from 'actions/business/Log/DataLog'
-
+import { Row, Col, Table, Radio, Button, Input, Pagination, Modal, DatePicker, Form } from 'antd'
 import SearchInput from 'components/Business/SearchInput'
-//引入选人组件
-import SearchPeople from 'components/Business/searchPeople'
-import { selectPeopelinitSource }  from 'actions/Component/searchPeople'
-import {
-  changeIsMultiselect, 
-  getPeopleData,
-  clickPeopleDate,
-  clickPeopleTag ,
-  deletePeopleTag,
-  searchPeopleData,
-  submitData,
-  handleCancle,
-  loadNextPage,
-  handleChangeInput,
-  changePageNum
-} from 'actions/Component/searchPeople'
-
+import QueryDataTable from 'components/Business/QueryDataTable'
+import { isEmpty } from 'lodash'
+import {getDataLogData, getDataLogQuery, pageSizeChange, exportShow, exportHide}  from 'actions/business/Log/DataLog'
 import 'antd/lib/index.css'
-
+const RangePicker = DatePicker.RangePicker;
+const FormItem = Form.Item;
 //table列表数据接口
 let DataLogParams = {
     //url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/logData.php',
-    url: 'http://esn.yangtianming.com/scrmoplog/index/opdetaillogIndex',
-    data: {
-        page: 1,
-        pageSize: 10,
-        keyword:''
-    }
+    url: SCRM.url('/scrmoplog/index/opdetaillogIndex')
+    //'http://esn.yangtianming.com/scrmoplog/index/opdetaillogIndex'
 }
 
-//引入选人组件接口
-let getPeopleParams = {
-    url: 'http://esn.yangtianming.com/setting/scrm/getSelectList/VISITID/1',
-    data:{
-      page:1,
-      rowsPerPage:20,
-      keyword:''
-    }
+let exportParams = {
+    objName: "OperationLog",
+    begin:'',
+    end:''
 }
-
-/*给筛选变更设定一个flag*/
-let flag = false;
-// let confirmOkParams = {
-//     url: '',//根据需求确认接口地址
-//     data:{
-//       filter:[],
-//       page:1,
-//       rowsPerPage:20,
-//       keyword:''
-//     }
-// }
 
 class DataLog extends React.Component {
     constructor(props) {
       super(props)
-      this.searchInputChange = this.searchInputChange.bind(this)
-      this.exportConfirm = this.exportConfirm.bind(this)
-      this.exportHandleOkClick = this.exportHandleOkClick.bind(this)
-      this.searchTimer;
+      // this.searchInputChange = this.searchInputChange.bind(this)
+      // this.searchTimer;
+      // this.state = {
+      //   visible: false
+      // }
     }
 
     componentDidMount() {
       this.props.getDataLogData(DataLogParams);
-
-      //引入选人组件
-      const  id  = this.refs.searchPeopleCom.identity
-      this.props.selectPeopelinitSource(id, getPeopleParams, DataLogParams)
+      //this.props.getDataLogQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
 
-    searchInputChange(val) {
-      alert(val)
-      clearTimeout(this.searchTimer)
-      this.searchTimer = setTimeout(() => { this.props.getDataLogData(DataLogParams) }, 300);
+    // 普通搜索和筛选(高级搜索)互斥
+    normalSearch = (value) => {
+        // 重置筛选(高级搜索)
+        this.refs.queryDataTable.resetQueryForm()
+
+        this.refs.queryDataTable.clearCheckedAndExpanded()
+        this.props.getDataLogData({
+            data: {
+                searchData: [],
+                keyword: value,
+                page: 1,
+                pageSize: 10
+            }
+        })
     }
 
-    onShowSizeChange(current, pageSize) {
-      DataLogParams.data.page = current;
-      DataLogParams.data.pageSize = pageSize;
-      this.props.pageSizeChange({current, pageSize});
-    }
-    
-    pageOnChange(page){
-      DataLogParams.data.page = page;
-      this.props.getDataLogData(DataLogParams);
+    showModal = () => {
+      this.props.exportShow()
+      //this.setState({visible: true})
     }
 
-    showPageTotal(total){
-      return `共 ${total} 条`;
+    handleOk() {
+      this.props.exportHide()
+      //console.log(exportParams);
+      let objData = JSON.stringify(exportParams);
+      window.open(SCRM.url("/common/ScrmExportOptimization/export")+ '?param=' + objData);
     }
 
-    exportConfirm() {
-      Modal.confirm({
-        title: '您是否确认导出？',
-        content: '导出Excel表。',
-        onOk() {
-          alert('确定');
-        },
-        onCancel() {}
-      });
+    handleCancel(e) {
+      this.props.exportHide()
     }
 
-    //引入选人组件方法
-    handleSelection(){
-      flag = true
-      const IsMultiselect = 1;
-      const source = this.props.$$searchPeople.toJS().source
-      this.props.changeIsMultiselect(IsMultiselect,source)
-      this.props.getPeopleData(getPeopleParams, source)
-    }
+    exportTimeChange(value){
 
-    handleChange(){
-      flag = true
-      const IsMultiselect = 0;
-      const source = this.props.$$searchPeople.toJS().source
-      this.props.changeIsMultiselect(IsMultiselect,source)
-      this.props.getPeopleData(getPeopleParams, source)
-    }
-
-    exportHandleOkClick(filter){
-      console.log(filter)
-      DataLogParams.data.filter = filter;
-      this.props.getDataLogData(DataLogParams);
+      function formatDate(date, format){
+        switch(format){
+          case "yyyy-MM-dd HH:mm:ss":
+          return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+          case "yyyy-MM-dd":
+          return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+          default:
+          return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+        }
+      }
+      
+      exportParams.begin = formatDate(value[0], "yyyy-MM-dd HH:mm:ss");
+      exportParams.end = formatDate(value[1], "yyyy-MM-dd HH:mm:ss");
+      // exportParams.begin = value[0];
+      // exportParams.end = value[1];
+      //this.props.exportHide()
     }
 
     render() {
         //table数据配置
-        const { $$logState } = this.props;
-        const dataSource = $$logState.get('tableData').get('data').get('rowData').toJS();
+        const { $$logState, getDataLogData} = this.props;
+        // const dataSource = $$logState.get('tableData').get('data').get('rowData').toJS();
         const columns = $$logState.get('tableColumns').toJS();
+        
+        const expotModal = $$logState.get('export').get('visible');
 
-        //分页配置
-        const pageSize = $$logState.get('tableData').get('data').get('pageSize');
-        const pageTotal = $$logState.get('tableData').get('data').get('total');
-        const pageCurrent = $$logState.get('tableData').get('data').get('current');
-        const pagination = {
-          current: pageCurrent,
-          total: pageTotal,
-          pageSize:pageSize,
-          showSizeChanger: true,
-          showQuickJumper: true,
-          onShowSizeChange: this.onShowSizeChange.bind(this),
-          onChange: this.pageOnChange.bind(this),
-          showTotal: this.showPageTotal
-        };
-
-        //选人组件配置
-          let IsModalShow = false
-          let IsMultiselect = 1
-          const source = this.props.$$searchPeople.toJS().source
-          if(!flag){
-             IsModalShow = this.props.$$searchPeople.get('default').toJS().IsShow
-             IsMultiselect = this.props.$$searchPeople.get('default').toJS().IsMultiselect
-
-          }else{
-             IsModalShow = this.props.$$searchPeople.get(source).toJS().IsShow
-             IsMultiselect = this.props.$$searchPeople.get(source).toJS().IsMultiselect
-          }
-          const {$$searchPeople} =  this.props; 
-          const { 
-            getPeopleData,
-            clickPeopleDate,
-            clickPeopleTag ,
-            deletePeopleTag,
-            searchPeopleData,
-            submitData,
-            handleCancle,
-            loadNextPage,
-            handleChangeInput,
-            changePageNum
-          }  = this.props;
+        let queryDataTable = {}
+        let tablePageData = $$logState.get('tableData').get('data');
+        queryDataTable.dataSource = tablePageData.get('rowData').toJS();
+        queryDataTable.current = tablePageData.get('current');
+        queryDataTable.total = tablePageData.get('total');
+        queryDataTable.pageSize = tablePageData.get('pageSize');
+        queryDataTable.queryColumns = $$logState.get('queryColumns').toJS()
+        //queryDataTable.loading = $$account_list_person.toJS().loading
 
         return (
-            <div  style = {{marginLeft: '20px'}} >
+            <div style = {{marginLeft: '20px'}} >
               <Row>
                 <Col span="10">
-                  <SearchInput onSearch = {this.searchInputChange} />
+                  <SearchInput ref="searchInput" onSearch = {this.normalSearch} />
                 </Col>
                 <Col span="14" style = {{ textAlign: 'right' }}>
-                  <Button type="primary" style = {{marginRight: '10px'}}  onClick = {this.handleSelection.bind(this)}>筛选</Button>
-                  <Button type="ghost" onClick = {this.exportConfirm}>导出EXCEL</Button>
+                  <Button type="primary" onClick={(e)=>{
+                            this.refs.queryDataTable.toggleQueryTable(e)
+                        }}>筛选</Button>
+                  <Button type="ghost" onClick = { this.showModal.bind(this) }>导出EXCEL</Button>
                 </Col>
               </Row>
-              <div  style = {{ width: '800px', overflow: 'auto' }}>
-                <div style = {{ width: '1200px' }}>
-                  <Table dataSource={dataSource} columns={columns} pagination={pagination}/>
-                </div>
-              </div>
-
-              <SearchPeople ref = "searchPeopleCom"
-                clickPeopleDate = {clickPeopleDate}
-                clickPeopleTag = {clickPeopleTag} 
-                deletePeopleTag= {deletePeopleTag}
-                searchPeopleData ={searchPeopleData}
-                submitData= {submitData}
-                handleCancle= {handleCancle}
-                loadNextPage= {loadNextPage}
-                changePageNum={changePageNum}
-                handleChangeInput= {handleChangeInput}
-                IsModalShow= {IsModalShow}
-                IsMultiselect = {IsMultiselect}
-                $$searchPeople = {$$searchPeople}
-                parentHandleClick = {this.exportHandleOkClick}
-              />
+              <QueryDataTable
+                    columns={columns}
+                    checkMode={false}
+                    {...queryDataTable}
+                    onGetTableData={
+                                (obj)=>{
+                                    this.refs.searchInput.emptyInput()
+                                    getDataLogData({
+                                        data: obj
+                                    })
+                                }
+                            }
+                    ref="queryDataTable"
+                >
+                </QueryDataTable>
+                <Modal title="导出日志" visible={expotModal}
+                onOk={this.handleOk.bind(this)} onCancel={this.handleCancel.bind(this)}>
+                  <RangePicker showTime format="yyyy-MM-dd HH:mm:ss" onChange={this.exportTimeChange.bind(this)} />
+                </Modal>
             </div>
         )
     }
@@ -220,27 +150,14 @@ class DataLog extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-      $$searchPeople: state.components.searchPeople,
       $$logState: state.business.datalog
     }
 }
 
 export default connect(mapStateToProps, {
     getDataLogData,
-    handleInputChange,
+    getDataLogQuery,
     pageSizeChange,
-
-    selectPeopelinitSource,
-    changeIsMultiselect,
-    getPeopleData,
-    getPeopleData,
-    clickPeopleDate,
-    clickPeopleTag ,
-    deletePeopleTag,
-    searchPeopleData,
-    submitData,
-    handleCancle,
-    loadNextPage,
-    handleChangeInput,
-    changePageNum
+    exportShow,
+    exportHide,
 })(DataLog)

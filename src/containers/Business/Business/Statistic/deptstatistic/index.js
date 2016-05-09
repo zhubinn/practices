@@ -18,8 +18,6 @@ import './index.css'
 let DeptstatisticParams = {
     url: 'http://esn.lishangxi.com/front/js/scrm/fakeData/deptStatistic.php',
     data: {
-        page: 1,
-        pageSize: 10,
         keyword:''
     }
 };
@@ -39,14 +37,6 @@ class Deptstatistic extends React.Component {
     }
 
     exportConfirm() {
-      Modal.confirm({
-        title: '您是否确认导出？',
-        content: '导出Excel表。',
-        onOk() {
-          console.log('确定');
-        },
-        onCancel() {}
-      });
     }
 
     render() {
@@ -63,7 +53,6 @@ class Deptstatistic extends React.Component {
                   <SearchInput onSearch = {this.searchInputChange.bind(this)} />
                 </Col>
                 <Col span="14" style = {{textAlign: 'right'}} >
-                  <Button type="primary" style = {{marginRight: '10px'}} >筛选</Button>
                   <Button type="ghost" onClick = {this.exportConfirm} >导出EXCEL</Button>
                 </Col>
               </Row>

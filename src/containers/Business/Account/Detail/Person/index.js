@@ -8,6 +8,8 @@ import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery } from 'actions/business/account/detail/person'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
+import MapModal from 'containers/Business/Account/MapModal'
+
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
@@ -75,6 +77,18 @@ const columns = [{
     key: 'Address7',
 
 }, {
+    title: '客户地理坐标',
+    dataIndex: 'ID',
+    key: 'ID',
+    render: function (text, record, index) {
+        let cell = (<p>未设置</p>)
+        if (!!record.Lat) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng, record.Lat, '客户地理坐标')}}>已设置</a>)
+        }
+        return cell
+    }
+
+}, {
     title: '客户公司电话',
     dataIndex: 'Phone',
     key: 'Phone',
@@ -113,11 +127,6 @@ const columns = [{
     title: '客户简介',
     dataIndex: 'Descriptions',
     key: 'Descriptions',
-
-}, {
-    title: '业务类型',
-    dataIndex: 'AccountIndustry',
-    key: 'AccountIndustry',
 
 }, {
     title: '主营产品',
@@ -188,6 +197,12 @@ const columns = [{
 // 嵌套表格生意列表
 const business_columns = [
     {
+        title: '客户名称',
+        dataIndex: 'AccountID',
+        key: 'AccountID',
+        width: 150
+
+    }, {
         title: '生意名称',
         dataIndex: 'Name',
         key: 'Name',
@@ -203,6 +218,60 @@ const business_columns = [
         title: '负责人',
         dataIndex: 'OwnerID',
         key: 'OwnerID',
+        width: 150
+
+    }, {
+        title: '发现日期',
+        dataIndex: 'DiscoverDate',
+        key: 'DiscoverDate',
+        width: 150
+
+    }, {
+        title: '预计销售金额',
+        dataIndex: 'AmountPlan',
+        key: 'AmountPlan',
+        width: 150
+
+    }, {
+        title: '预计成交日期',
+        dataIndex: 'ExpectedCloseDate',
+        key: 'ExpectedCloseDate',
+        width: 150
+
+    }, {
+        title: '成交日期',
+        dataIndex: 'EndDate',
+        key: 'EndDate',
+        width: 150
+
+    }, {
+        title: '成交金额',
+        dataIndex: 'Amount',
+        key: 'Amount',
+        width: 150
+
+    }, {
+        title: '回款日期',
+        dataIndex: 'PaymentTime',
+        key: 'PaymentTime',
+        width: 150
+
+    }, {
+        title: '回款金额',
+        dataIndex: 'PaymentAmount',
+        key: 'PaymentAmount',
+        width: 150
+
+    }, {
+        title: '输单日期',
+        dataIndex: 'LoseDate',
+        key: 'LoseDate',
+        width: 150
+
+    }, {
+        title: '输单金额',
+        dataIndex: 'LoseAmount',
+        key: 'LoseAmount',
         width: 150
 
     }
@@ -252,7 +321,7 @@ class Account_Detail_Person_Page extends React.Component {
         // todo: url包装
         this.props.getTableData({
 
-            url: SCRM.url('/scrmweb/accounts/getList')
+            url: SCRM.url('/scrmweb/accounts/getListDetail')
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
@@ -275,7 +344,7 @@ class Account_Detail_Person_Page extends React.Component {
 
     }
     changeType = (type) => {
-        // 重置筛选(高级搜索)
+        // 重置普通搜索和筛选(高级搜索)
         this.refs.searchInput.emptyInput()
         this.refs.queryDataTable.resetQueryForm()
         this.refs.queryDataTable.clearCheckedAndExpanded()
@@ -298,13 +367,15 @@ class Account_Detail_Person_Page extends React.Component {
     expandedRowRender = (row) => {
 
         return (
-            <div style={{width: 450}}>
+            <div style={{width: 1950}}>
+
                 <Table
                     columns={business_columns}
-                    dataSource={row.businessData || business_dataSource}
+                    dataSource={row.Opportunity}
                     pagination={false}>
 
                 </Table>
+
             </div>)
     }
 

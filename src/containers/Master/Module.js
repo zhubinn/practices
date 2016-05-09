@@ -5,6 +5,7 @@
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
+
 class ModulePage extends React.Component {
     render() {
         return (
@@ -14,6 +15,5 @@ class ModulePage extends React.Component {
         )
     }
 }
-
 
 export default connect()(ModulePage)

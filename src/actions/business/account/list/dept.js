@@ -27,7 +27,7 @@ let table_params = {
     url: '',
     data: {
         page: 1,
-        pageSize: 20,
+        pageSize: 0,
         searchData: [],
         type: 'all'
     }

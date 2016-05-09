@@ -31,7 +31,8 @@ import {
 //获取table列表数据接口
 let FuncLogParams = {
     //url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/funcLog.php',
-    url: 'http://esn.yangtianming.com/scrmoplog/index/oplogIndex',
+    url: SCRM.url('/scrmoplog/index/oplogIndex'),
+    //url: 'http://esn.yangtianming.com/scrmoplog/index/oplogIndex',
     data: {
         page: 1,
         pageSize: 10,
@@ -179,7 +180,7 @@ class FunctionLog extends React.Component {
                   <SearchInput onSearch = {this.searchInputChange} />
                 </Col>
                 <Col span="14"  style = {{ textAlign: 'right' }}>
-                  <Button type="primary" style = {{marginRight: '10px'}}  onClick = {this.handleSelection.bind(this)}>筛选</Button>
+                  <Button type="primary" style = {{marginRight: '10px'}} >筛选</Button>
                   <Button type="ghost" onClick = {this.exportConfirm}>导出EXCEL</Button>
                 </Col>
               </Row>

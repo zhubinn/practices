@@ -2,41 +2,75 @@ import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 
 // 输入搜索关键词
-const ACCOUNT_DEPTSUMMARY_INPUTVAL = 'ACCOUNT_DEPTSUMMARY_INPUTVAL'
-const ACCOUNT_DEPTSUMMARY_SEARCH = 'ACCOUNT_DEPTSUMMARY_SEARCH'
+const account_DeptSummary_INPUTVAL = 'account_DeptSummary_INPUTVAL'
+const account_DeptSummary_SEARCH = 'account_DeptSummary_SEARCH'
 
-const ACCOUNT_DEPTSUMMARY_CHANGEPENE = 'ACCOUNT_DEPTSUMMARY_CHANGEPENE'
-
+//获取报表数据
+const account_DeptSummary_GETDATA = 'account_DeptSummary_GETDATA'
+const account_DeptSummary_GETDATA_SUCCESS = 'account_DeptSummary_GETDATA_SUCCESS'
 //输入搜索关键词
 
 //搜索输入框改变
 
 export const changeInputVal = (value)=>{
     return {
-        type: ACCOUNT_DEPTSUMMARY_INPUTVAL,
+        type: account_DeptSummary_INPUTVAL,
         payload:value
     }
 }
-
 
 
 export const searchKeyWord = (value)=>{
     return {
-        type: ACCOUNT_DEPTSUMMARY_SEARCH,
+        type: account_DeptSummary_SEARCH,
         payload:value
     }
 }
 
+//获取数据
 
-export const changeDeptPene = ()=>{
-    return {
-        type: ACCOUNT_DEPTSUMMARY_CHANGEPENE,
-        payload:''
+export const getAccountDeptSummaryData = (params) => {
+    console.log(params.url)
+    const _getAccountDeptSummaryData = (type, data)=> {
+        return {
+            type,
+            payload: data,
+        }
+    }
+
+
+    return (dispatch, getState) => {
+        const url = params.url;
+        dispatch(_getAccountDeptSummaryData(account_DeptSummary_GETDATA,'params='));
+
+            fetch(params.url, {
+                credentials: 'include',
+                method: 'post',
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: 'params='+JSON.stringify(params.data)
+            }).then(function(response) {
+                if (response.status >= 400) {
+                    throw new Error("Bad response from server")
+                }
+                return response.json()
+            }).then(function (data) {
+
+                if(data.rs){
+                    dispatch(_getAccountDeptSummaryData(account_DeptSummary_GETDATA_SUCCESS, data.data))
+                }
+            })
+        
+    
     }
 }
+
 export {
-    ACCOUNT_DEPTSUMMARY_SEARCH,
-    ACCOUNT_DEPTSUMMARY_INPUTVAL,
-    ACCOUNT_DEPTSUMMARY_CHANGEPENE
+    account_DeptSummary_SEARCH,
+    account_DeptSummary_INPUTVAL,
+    account_DeptSummary_GETDATA,
+    account_DeptSummary_GETDATA_SUCCESS,
+
 }
 

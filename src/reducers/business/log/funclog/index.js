@@ -46,11 +46,11 @@ let funclog = {
 export default function FuncLog($$state = Immutable.fromJS(funclog), action) {
     switch(action.type) {
         case FUNCLOG_SIZE_CHANGE:
-            return $$state.mergeDeep({tableData: action.payload.data});
+            return $$state.merge({tableData: action.payload.data});
         case GET_FUNCLOG_DATA:
             return $$state;
         case GET_FUNCLOG_SUCCESS:
-            return $$state.mergeDeep({tableData: action.payload.data});
+            return $$state.merge({tableData: action.payload.data});
         default:
             return $$state;
     }
