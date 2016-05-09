@@ -35,7 +35,8 @@ export default class QueryDataTable extends React.Component {
         columns: [],
         queryColumns: {},
         dataSource: [],
-        loading: false
+        loading: false,
+        onGetTableData: function(){}
     }
 
 
@@ -399,7 +400,7 @@ export default class QueryDataTable extends React.Component {
                                                             (e)=>{this.handleSelectAll(e, dataSource)}}/></th>) : null }
                                             {this.props.expandedRowRender ? (<th style={{width: 34}}></th>): null}
                                             {
-                                                columns.map(col => <th width={col.width||this.defaultColWidth}>{col.title}</th>)
+                                                columns.map((col, i) => <th key={i} width={col.width||this.defaultColWidth}>{col.title}</th>)
                                             }
                                         </tr>
                                         </thead>

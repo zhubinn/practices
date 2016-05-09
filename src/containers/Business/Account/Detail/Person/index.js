@@ -129,11 +129,6 @@ const columns = [{
     key: 'Descriptions',
 
 }, {
-    title: '业务类型',
-    dataIndex: 'AccountIndustry',
-    key: 'AccountIndustry',
-
-}, {
     title: '主营产品',
     dataIndex: 'MainProduct',
     key: 'MainProduct',
