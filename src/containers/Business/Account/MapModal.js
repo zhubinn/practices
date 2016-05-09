@@ -21,7 +21,6 @@ const MapModal = function(lng, lat, title)
         title: title
     });
 
-    console.log(BMap)
     // 百度地图API功能
     var msg = '';
     var map = new BMap.Map("bdMap");
