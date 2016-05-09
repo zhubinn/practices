@@ -27,7 +27,7 @@ import PerSummaryPage from 'containers/Business/Account/Summary/PerSummary'
 import DetailPage from 'containers/Business/Account/Detail'
 
 //生意
-import Deptstatistic from 'containers/Business/Business/Statistic/deptstatistic'
+import Deptstatistic from 'containers/Business/Business/Statistic/DeptStatistic'
 
 //日志
 import FuncLog from 'containers/Business/Log/FuncLog'

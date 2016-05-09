@@ -21,8 +21,9 @@ let DataLogParams = {
 }
 
 let exportParams = {
-    DateStart:'',
-    DateEnd:''
+    objName: "OperationLog",
+    begin:'',
+    end:''
 }
 
 class DataLog extends React.Component {
@@ -30,13 +31,12 @@ class DataLog extends React.Component {
       super(props)
       // this.searchInputChange = this.searchInputChange.bind(this)
       // this.searchTimer;
-      this.state = {
-        visible: false 
-      };
+      // this.state = {
+      //   visible: false
+      // }
     }
 
     componentDidMount() {
-      debugger
       this.props.getDataLogData(DataLogParams);
       //this.props.getDataLogQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
@@ -55,17 +55,18 @@ class DataLog extends React.Component {
                 pageSize: 10
             }
         })
-
-
     }
 
-    showModal() {
+    showModal = () => {
       this.props.exportShow()
+      //this.setState({visible: true})
     }
 
     handleOk() {
       this.props.exportHide()
-      console.log(exportParams);
+      //console.log(exportParams);
+      let objData = JSON.stringify(exportParams);
+      window.open(SCRM.url("/common/ScrmExportOptimization/export")+ '?param=' + objData);
     }
 
     handleCancel(e) {
@@ -73,10 +74,22 @@ class DataLog extends React.Component {
     }
 
     exportTimeChange(value){
-      // exportParams.DateStart = value[0].getFullYear();
-      // exportParams.DateEnd = value[1].getFullYear();
-      exportParams.DateStart = value[0];
-      exportParams.DateEnd = value[1];
+
+      function formatDate(date, format){
+        switch(format){
+          case "yyyy-MM-dd HH:mm:ss":
+          return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+          case "yyyy-MM-dd":
+          return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+          default:
+          return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+        }
+      }
+      
+      exportParams.begin = formatDate(value[0], "yyyy-MM-dd HH:mm:ss");
+      exportParams.end = formatDate(value[1], "yyyy-MM-dd HH:mm:ss");
+      // exportParams.begin = value[0];
+      // exportParams.end = value[1];
       //this.props.exportHide()
     }
 

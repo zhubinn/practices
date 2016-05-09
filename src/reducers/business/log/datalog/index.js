@@ -134,7 +134,7 @@ let datalog = {
             }
         },
         "RelObjectName": {
-            "searchType": "5",
+            "searchType": 5,
             "renderData": {
                 "defaultValue": ""
             }
@@ -215,7 +215,6 @@ let datalog = {
 }
 
 export default function Datalog($$state = Immutable.fromJS(datalog), action) {
-    debugger
     switch(action.type) {
         case DATALOG_SIZE_CHANGE:
             return $$state.merge({tableData: action.payload.data});

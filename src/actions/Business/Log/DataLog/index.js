@@ -125,10 +125,9 @@ const getDataLogQuery = (url)=> {
 
 
 
-    /*
-     *     body:  Object.assign(table_params.data, params.data)
-     *    */
-    debugger
+    /**
+     *  body:  Object.assign(table_params.data, params.data)
+    **/
     return (dispatch, getState) => {
 
         dispatch(fetchData(GET_DATALOG_QUERY, {queryColumns: {}}))
