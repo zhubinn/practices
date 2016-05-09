@@ -76,9 +76,10 @@ export default class QueryDataTable extends React.Component {
 
     // 重置筛选表单数据(供外部调用)
     resetQueryForm = ()=>{
-        this.setState({
+        /*this.setState({
             needRenderQuery: true
-        })
+        })*/
+        this.queryForm = ''
     }
     handleSelectAll = (e, dataSource) => {
 
@@ -119,7 +120,7 @@ export default class QueryDataTable extends React.Component {
         if (isEmpty(queryColumns)) return null
         const that = this
 
-        if (this.state.needRenderQuery) {
+        if (!this.queryForm) {
             this.queryForm = React.createClass({
                 handleSubmit(e) {
                     e.preventDefault();
@@ -192,9 +193,7 @@ export default class QueryDataTable extends React.Component {
             });
 
             this.queryForm = Form.create()(this.queryForm);
-            this.setState({
-                needRenderQuery: false
-            })
+
         }
         return (<this.queryForm />)
 
