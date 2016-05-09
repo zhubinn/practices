@@ -13,6 +13,78 @@ import Script from 'components/common/Script'
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 
+
+
+const showMap = function(lng, lat){
+
+    Modal.info({
+        content: (
+            <div style={{height: 500, width: 800}}>
+                <div id="bdMap">
+                </div>
+            </div>
+
+        ),
+        onOk() {},
+    });
+
+
+    // 百度地图API功能
+    var map = new BMap.Map("bdMap");
+    var point = new BMap.Point(lng, lat);
+    var marker = new BMap.Marker(point); // 创建标注
+    map.addOverlay(marker); // 将标注添加到地图中
+    map.centerAndZoom(point, 12);
+    var geoc = new BMap.Geocoder();
+    var opts = {
+        width: 200, // 信息窗口宽度
+        height: 60, // 信息窗口高度
+
+        title: "", // 信息窗口标题
+        enableMessage: true, //设置允许信息窗发送短息
+        message: ''
+    };
+
+    // 逆地址解析
+    geoc.getLocation(point, function(result){
+        if (result){
+            //alert(result.address);
+            var infoWindow = new BMap.InfoWindow("地址："+result.address, opts);  // 创建信息窗口对象
+            map.openInfoWindow(infoWindow,point); //开启信息窗口
+        }
+    });
+
+
+
+    marker.addEventListener("click", function(e) {
+        var pt = e.point;
+        geoc.getLocation(pt, function(rs) {
+            // console.log(rs);
+            var addComp = rs.addressComponents;
+            msg = addComp.province + addComp.city + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
+            var infoWindow = new BMap.InfoWindow(msg, opts); // 创建信息窗口对象
+            map.openInfoWindow(infoWindow, point); //开启信息窗口
+
+        });
+
+    });
+
+
+
+
+    var bottom_right_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT});// 添加比例尺
+    var bottom_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT});  // 添加默认缩放平移控件
+    /*缩放控件type有四种类型:
+     BMAP_NAVIGATION_CONTROL_SMALL：仅包含平移和缩放按钮；BMAP_NAVIGATION_CONTROL_PAN:仅包含平移按钮；BMAP_NAVIGATION_CONTROL_ZOOM：仅包含缩放按钮*/
+
+    //添加控件和比例尺
+
+    map.addControl(bottom_right_control);
+    map.addControl(bottom_right_navigation);
+};
+
+
+
 // SCRM.url 由原来外层页面引入
 
 const columns = [{
@@ -74,6 +146,18 @@ const columns = [{
     title: '其他地址',
     dataIndex: 'Address7',
     key: 'Address7',
+
+},  {
+    title: '客户地理坐标',
+    dataIndex: 'ID',
+    key: 'ID',
+    render: function(text, record, index){
+        let cell = (<p>未设置</p>)
+        if ( !!record.Lat ) {
+            cell = (<a href="javascript:;" onClick={()=>{showMap(record.Lng, record.Lat)}}>已设置</a>)
+        }
+        return cell
+    }
 
 }, {
     title: '客户公司电话',
@@ -237,9 +321,19 @@ class Account_List_Person_Page extends React.Component {
         })
 
     }
+
     changeOwner = (e) => {
         console.log('获取已经选择的row')
         console.log(this.refs.queryDataTable.getCheckedRows())
+        const checkedRows = this.refs.queryDataTable.getCheckedRows()
+        if (checkedRows.length == 0) {
+            Modal.info({
+                title: '请先选择客户',
+                onOk() {},
+            });
+        }else {
+
+        }
 
     }
     handleImport = () => {
@@ -386,7 +480,13 @@ class Account_List_Person_Page extends React.Component {
                 >
                 </QueryDataTable>
 
-                <Script src="http://api.map.baidu.com/api?v=2.0&ak=ToMnU3lyxBGcBoE84ED0meEr"></Script>
+                <div>
+                    <a href="javascript:;" ><Icon type="cross" /></a>
+                    <div id="bdMap">
+                    </div>
+                </div>
+
+
             </div>
         )
     }

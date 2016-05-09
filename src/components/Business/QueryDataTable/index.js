@@ -209,7 +209,7 @@ export default class QueryDataTable extends React.Component {
 
 
             switch (queryCol['searchType']) {
-             /*   case "3":
+             /*   case 3:
                     return (<FormItem >
                         <InputGroup {...getFieldProps('-1_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
@@ -225,10 +225,10 @@ export default class QueryDataTable extends React.Component {
                             </div>
                         </InputGroup>
                     </FormItem>)*/
-                case "4":
-                case "5":
-                case "6":
-                case "9":
+                case 4:
+                case 5:
+                case 6:
+                case 9:
 
                     return (<FormItem >
                         <Input {...getFieldProps('19_' + col['key'], {
@@ -243,7 +243,7 @@ export default class QueryDataTable extends React.Component {
                         })} />
                     </FormItem>)
 
-                case "13":
+                case 13:
 
                     return (<FormItem>
                         <Select multiple {...getFieldProps('9_' + col['key'], {
@@ -253,13 +253,13 @@ export default class QueryDataTable extends React.Component {
                             )}
                         </Select>
                     </FormItem>)
-                case "15":
+                case 15:
                     return (<FormItem>
                         <RangePicker format="yyyy-MM-dd" {...getFieldProps('11_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
-                case "16":
+                case 16:
                     return (<FormItem>
                         <RangePicker showTime format="yyyy/MM/dd HH:mm:ss"  showTime  {...getFieldProps('11_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
