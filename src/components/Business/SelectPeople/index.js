@@ -5,7 +5,7 @@
 
 import React ,{findDOMNode} from 'react'
 
-import { Modal,message, Button } from 'antd';
+import { Modal,message, Button,Row } from 'antd';
 
 import { isEmpty } from 'lodash'
 import './search.less'
@@ -308,8 +308,10 @@ export default class SelectPeople extends React.Component {
             render (){
                 return (
                     <div className = "m_btn01 clearfix">
-                        <Button  type = 'primary' onClick = {this.clickConfirmBtn.bind(this)}>确认</Button>
-                        <Button   onClick = {this.clickCancleBtn.bind(this)}>取消</Button>
+                        <Row>
+                            <Button type = 'primary' onClick = {this.clickConfirmBtn.bind(this)}>确定</Button>
+                            <Button onClick = {this.clickCancleBtn.bind(this)}>取消</Button>
+                        </Row>
                     </div>
                 )        
             }
@@ -325,10 +327,9 @@ export default class SelectPeople extends React.Component {
     render (){
         const selectPeopleModal = this.props.selectPeopleModal 
                 return (
-                    <div className = "peopelModalWrap"> 
 
                         <Modal ref="modal"
-                          className="vertical-center-modal"
+                          className="peopelModalWrap"
                           visible={selectPeopleModal}
                           title="按负责人筛选" 
                           width = '840'
@@ -339,7 +340,6 @@ export default class SelectPeople extends React.Component {
                           <div>{this.peopleList()}</div>
                         </Modal>
 
-                    </div>
                 )
     }
 

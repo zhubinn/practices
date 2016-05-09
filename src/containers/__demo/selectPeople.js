@@ -119,7 +119,6 @@ class selectPeoplePage extends React.Component{
       <div >
         <Button type="ghost"  onClick = {this.handleSelection.bind(this)}>筛选</Button>
         <Button type="ghost" onClick = {this.handleChangeOwner.bind(this)}>变更</Button>                   
-      
             <SelectPeople 
                 {...peoplePropsData} 
                 handleClickConfirm={this.getFilterData.bind(this)} 
@@ -127,7 +126,6 @@ class selectPeoplePage extends React.Component{
                 requestData = {this.requestPDList.bind(this)}
                 requestNextPoepleData = {this.requestNextPoepleData.bind(this)}
             />
-
       </div>
     )
   }
