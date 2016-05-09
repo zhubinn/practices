@@ -31,7 +31,8 @@ import {
 //获取table列表数据接口
 let FuncLogParams = {
     //url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/funcLog.php',
-    url: 'http://esn.yangtianming.com/scrmoplog/index/oplogIndex',
+    url: SCRM.url('/scrmoplog/index/oplogIndex'),
+    //url: 'http://esn.yangtianming.com/scrmoplog/index/oplogIndex',
     data: {
         page: 1,
         pageSize: 10,
