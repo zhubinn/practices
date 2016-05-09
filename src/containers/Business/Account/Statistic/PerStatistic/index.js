@@ -68,9 +68,17 @@ class AccountPerStatistic extends React.Component{
       const {getAccountPerStatisticData} = this.props
       this.props.getAccountPerStatisticData(statisticParams)
   }
-  exportTable(e){
-    //alert('导出报表接口')
-
+  //导出报表
+  exportTable(){
+    let exportParam = {
+      objName:'accountPerStatistic',
+      keyword:statisticParams['data'].keyword
+    }
+    let exportParamStr = JSON.stringify(exportParam);
+    let p = 'param='+exportParamStr;
+    const exportUrl = SCRM.url('/common/scrmExport/export')+'?'+p;
+    console.log(exportUrl);
+    window.open(exportUrl);
   }
   handleClickSearch(value){
     const {getAccountPerStatisticData} = this.props
@@ -88,7 +96,7 @@ class AccountPerStatistic extends React.Component{
                         <Row>
                             <Col span="10"><SearchInput  onSearch = {this.handleClickSearch.bind(this)}/> </Col>
                             <Col span="4" offset="10">
-                                <Button type="ghost" onClick = {e=>this.exportTable(this)}>导出</Button>
+                                <Button type="ghost" onClick = {this.exportTable.bind(this)}>导出</Button>
                             </Col>
                         </Row>                     
                   </div>  

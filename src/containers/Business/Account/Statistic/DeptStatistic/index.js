@@ -71,10 +71,17 @@ class AccountDeptStatistic extends React.Component{
     const {getAccountDeptStatisticData} = this.props
     getAccountDeptStatisticData(statisticParams)
   }
-  exportTable(e){
-    e.preventDefault()
-    alert('导出报表接口')
-
+  //导出报表
+  exportTable(){
+    let exportParam = {
+      objName:'accountDeptStatistic',
+      keyword:statisticParams['data'].keyword
+    }
+    let exportParamStr = JSON.stringify(exportParam);
+    let p = 'param='+exportParamStr;
+    const exportUrl = SCRM.url('/common/scrmExport/export')+'?'+p;
+    console.log(exportUrl);
+    window.open(exportUrl);
   }
   handleClickSearch(value){
     const {getAccountDeptStatisticData} = this.props

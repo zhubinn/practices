@@ -81,10 +81,21 @@ class AccountSummaryDetail extends React.Component{
     const {getAccountSummaryDetailData} = this.props
       this.props.getAccountSummaryDetailData(summaryDetailParams)
   }
-  exportTable(e){
-    //alert('导出报表接口')
-
+  //导出报表
+  exportTable(){
+    let exportParam = {
+      objName:'accountSummaryDetail',
+      keyword:summaryDetailParams['data'].keyword,
+      deptID:typeof id === 'undefined' ? -1 :id,
+      deptName:typeof name === 'undefined' ? '':name
+    }
+    let exportParamStr = JSON.stringify(exportParam);
+    let p = 'param='+exportParamStr;
+    const exportUrl = SCRM.url('/common/scrmExport/export')+'?'+p;
+    console.log(exportUrl);
+    window.open(exportUrl);
   }
+  //搜索
   handleClickSearch(value){
     const {getAccountSummaryDetailData} = this.props
     summaryDetailParams['data'].keyword = value
