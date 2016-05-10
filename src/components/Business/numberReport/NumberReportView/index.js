@@ -107,7 +107,7 @@ export default class NumberReportView extends React.Component {
 
         const parmStr = JSON.stringify(parm)
 
-        //window.open(SCRM.url('/common/scrmExport/export')+'?param='+parmStr)
+        window.open(SCRM.url('/common/scrmExport/export')+'?param='+parmStr)
     }
 
     render() {

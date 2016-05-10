@@ -68,7 +68,6 @@ export default class InputDater extends React.Component {
         //console.log($(findDOMNode(this.refs.rangePicker)))
         $(function () {
             if (TEMP_DATA.nptype == 'week') {
-                console.log('00')
                 $('.ck-Calendar-date').width('256px')
                 $('.ck-Calendar').width('316px')
             }
