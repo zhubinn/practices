@@ -3,12 +3,12 @@
  */
 import Immutable from 'immutable'
 import { 
-    GET_DEPTSTATISTIC_DATA,
-    GET_DEPTSTATISTIC_SUCCESS,
-    GET_DEPTSTATISTIC_FAILURE,
-} from 'actions/business/business/statistic/deptstatistic'
+    GET_PERSUMMARY_DATA,
+    GET_PERSUMMARY_SUCCESS,
+    GET_PERSUMMARY_FAILURE,
+} from 'actions/business/business/summary/PerSummary'
 
-let deptStatistic = {
+let perSummary = {
     "tableData":{
         "rs": true,
         "data": []
@@ -75,11 +75,11 @@ let deptStatistic = {
 
 }
 
-export default function deptstatistic($$state = Immutable.fromJS(deptStatistic), action) {
+export default function deptstatistic($$state = Immutable.fromJS(perSummary), action) {
     switch(action.type) {
-        case GET_DEPTSTATISTIC_DATA:
+        case GET_PERSUMMARY_DATA:
             return $$state;
-        case GET_DEPTSTATISTIC_SUCCESS:
+        case GET_PERSUMMARY_SUCCESS:
             return $$state.mergeDeep({tableData: action.payload.data});
         default:
             return $$state;

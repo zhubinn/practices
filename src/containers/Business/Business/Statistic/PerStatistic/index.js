@@ -62,7 +62,7 @@ class PerStatistic extends React.Component {
                 columns={columns} 
                 rowClassName = {
                   function(record, index){
-                    if (dataSource[index].classname == "total") {
+                    if (record.deptName == "小计" || record.deptName == "总计") {
                       return "busi-total-item";
                     }
                     return "";

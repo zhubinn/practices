@@ -43,9 +43,9 @@ class DeptSummary extends React.Component {
     render() {
 
         //table数据配置
-        const { $$deptStatistic } = this.props;
-        const dataSource = $$deptStatistic.get('tableData').get('data').toJS();
-        const columns = $$deptStatistic.get('tableColumns').toJS();
+        const { $$deptSummary } = this.props;
+        const dataSource = $$deptSummary.get('tableData').get('data').toJS();
+        const columns = $$deptSummary.get('tableColumns').toJS();
 
         return (
             <div  style = {{marginLeft: '20px'}} >
@@ -78,7 +78,7 @@ class DeptSummary extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$deptStatistic: state.business.deptstatistic
+        $$deptSummary: state.business.deptsummary
     }
 }
 

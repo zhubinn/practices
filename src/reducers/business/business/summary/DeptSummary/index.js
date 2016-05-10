@@ -75,7 +75,7 @@ let deptSummary = {
 
 }
 
-export default function deptstatistic($$state = Immutable.fromJS(deptSummary), action) {
+export default function deptsummary($$state = Immutable.fromJS(deptSummary), action) {
     switch(action.type) {
         case GET_DEPTSUMMARY_DATA:
             return $$state;
