@@ -6,14 +6,14 @@ import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 
 // 获取生意部门统计数据
-const GET_DEPTSTATISTIC_DATA = 'GET_DEPTSTATISTIC_DATA'
+const GET_DEPTSUMMARY_DATA = 'GET_DEPTSTATISTIC_DATA'
 // 获取生意部门统计成功
-const GET_DEPTSTATISTIC_SUCCESS = 'GET_DEPTSTATISTIC_SUCCESS'
+const GET_DEPTSUMMARY_SUCCESS = 'GET_DEPTSTATISTIC_SUCCESS'
 // 获取生意部门统计失败
-const GET_DEPTSTATISTIC_FAILURE = 'GET_DEPTSTATISTIC_FAILURE'
+const GET_DEPTSUMMARY_FAILURE = 'GET_DEPTSTATISTIC_FAILURE'
 
 
-const getDeptstatisticData = (params ,val) => {
+const getDeptSummaryData = (params ,val) => {
     const fetchData = (type, payload) => {
         return {
             type,
@@ -22,7 +22,7 @@ const getDeptstatisticData = (params ,val) => {
     }
 
     return (dispatch, getState) => {
-        dispatch(fetchData(GET_DEPTSTATISTIC_DATA))
+        dispatch(fetchData(GET_DEPTSUMMARY_DATA))
         fetch(params.url, {
             credentials: 'include',
             method: 'post',
@@ -36,14 +36,14 @@ const getDeptstatisticData = (params ,val) => {
             }
             return response.json()
         }).then(function (data) {
-            dispatch( fetchData(GET_DEPTSTATISTIC_SUCCESS, {data: data}) )
+            dispatch( fetchData(GET_DEPTSUMMARY_SUCCESS, {data: data}) )
         })
     }
 }
 
 export {
-    GET_DEPTSTATISTIC_DATA,
-    GET_DEPTSTATISTIC_SUCCESS,
-    GET_DEPTSTATISTIC_FAILURE,
-    getDeptstatisticData,
+    GET_DEPTSUMMARY_DATA,
+    GET_DEPTSUMMARY_SUCCESS,
+    GET_DEPTSUMMARY_FAILURE,
+    getDeptSummaryData,
 }

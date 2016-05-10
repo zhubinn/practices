@@ -8,6 +8,8 @@ import FuncLog from "./log/funclog"
 
 import deptstatistic from "./business/statistic/deptstatistic"
 import perstatistic from "./business/statistic/perstatistic"
+import deptsummary from "./business/summary/deptstatistic"
+import persummary from "./business/summary/perstatistic"
 
 import account_list_dept from './account/list/dept'
 import account_list_person from './account/list/person'
