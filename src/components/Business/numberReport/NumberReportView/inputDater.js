@@ -20,12 +20,7 @@ let WEEK_END_DATER
 let WEEK_DATER
 const TEMP_DATA = $('#viewNumList').data() || {}
 
-$(function () {
-    if (TEMP_DATA.nptype == 'week') {
-        $('.ck-Calendar-date').width('256px')
-        $('.ck-Calendar').width('316px')
-    }
-})
+
 
 const openNotification = function () {
     const args = {
@@ -71,6 +66,13 @@ export default class InputDater extends React.Component {
 
     componentDidMount() {
         //console.log($(findDOMNode(this.refs.rangePicker)))
+        $(function () {
+            if (TEMP_DATA.nptype == 'week') {
+                console.log('00')
+                $('.ck-Calendar-date').width('256px')
+                $('.ck-Calendar').width('316px')
+            }
+        })
     }
 
     handlePrevNextBtn(dir) {
