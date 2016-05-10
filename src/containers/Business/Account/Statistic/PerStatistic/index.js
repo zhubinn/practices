@@ -55,6 +55,7 @@ let statisticColumns = [
 let statisticParams = {
     url: SCRM.url('/scrmweb/accounts/getPerStatistic'),
     data: {
+      keyword:''
     }
 }
 
