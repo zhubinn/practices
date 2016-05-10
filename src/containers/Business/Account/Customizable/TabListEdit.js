@@ -93,7 +93,9 @@ class TabListEdit extends React.Component{
                     clickapplyBtn,
                     clickCloseBtn,
                     getTableData,
-                    collectDeletedItem
+                    collectDeletedItem,
+                    HasRepeatData
+
                 } = this.props;
         return (
             <div className = "ck-customize-CntMian">
@@ -103,7 +105,7 @@ class TabListEdit extends React.Component{
                         <li>字段类型：{selectedRow["AttrType"]==13?'下拉单选':''}</li>
                         <li>
                             <label>是否必填：
-                                <Checkbox defaultChecked={selectedRow['IsMust']=='1'?'checked':''} onChange={this.handleCheckbox} ref="checkboxInput"/>必填
+                                <Checkbox checked={selectedRow['IsMust']=='1'?true:false} onChange={this.handleCheckbox} ref="checkboxInput"/>必填
                             </label>
                         </li>
 
@@ -117,6 +119,7 @@ class TabListEdit extends React.Component{
                         DownItem = {DownItem} 
                         UpItem={UpItem}
                         collectDeletedItem={collectDeletedItem}
+                        HasRepeatData={HasRepeatData}
                         >
                     </DivEdit>
                     <div className = "ck-customizeConfirm">

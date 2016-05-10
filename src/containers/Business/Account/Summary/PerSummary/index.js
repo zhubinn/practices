@@ -85,11 +85,19 @@ class AccountPerSummary extends React.Component{
       const {getAccountPerSummaryData} = this.props
       this.props.getAccountPerSummaryData(summaryParams)
   }
-  exportTable(e){
-    e.preventDefault()
-    alert('导出报表接口')
-
+  //导出报表
+  exportTable(){
+    let exportParam = {
+      objName:'accountPerSummary',
+      keyword:summaryParams['data'].keyword
+    }
+    let exportParamStr = JSON.stringify(exportParam);
+    let p = 'param='+exportParamStr;
+    const exportUrl = SCRM.url('/common/scrmExport/export')+'?'+p;
+    console.log(exportUrl);
+    window.open(exportUrl);
   }
+  //搜索
   handleClickSearch(value){
     const {getAccountPerSummaryData} = this.props
     summaryParams['data'].keyword = value
@@ -99,6 +107,11 @@ class AccountPerSummary extends React.Component{
   render(){
           const rowData = this.props.$$account_persummary.toJS().rowData
           const loading = this.props.$$account_persummary.toJS().loading
+          let dataSource = []
+          rowData.map((r,i)=>{
+             r["key"] = i;
+             dataSource.push(r)
+          })          
           return (
             <div style={{marginLeft: '20px'}}>
                 <div className = "col_cktop">
@@ -106,7 +119,7 @@ class AccountPerSummary extends React.Component{
                         <Row>
                             <Col span="10"><SearchInput  onSearch = {this.handleClickSearch.bind(this)}/> </Col>
                             <Col span="4" offset="10">
-                                <Button type="ghost" onClick = {e=>this.exportTable(this)}>导出</Button>
+                                <Button type="ghost" onClick = {this.exportTable.bind(this)}>导出</Button>
                             </Col>
                         </Row>                     
                   </div>
@@ -115,10 +128,10 @@ class AccountPerSummary extends React.Component{
                   <div className = "perSummarydataTableCon">
                       <Table ref = "dataTable"
                        columns={perSummaryColumns} 
-                       dataSource={rowData} 
+                       dataSource={dataSource} 
                        useFixedHeader 
                        pagination = {false}
-                      loading={loading}
+                       loading={loading}
                       />
                   </div>
                 </div>
