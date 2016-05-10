@@ -3,19 +3,33 @@
  */
 import { Route, IndexRoute } from 'react-router'
 
+
+
+//Develop Leesx
+import HelloPage from 'containers/__demo/HelloPage'
+import CustomEditFieldPage from 'containers/__demo/CustomEditFieldPage'
+import NumberReportViewPage from 'containers/Business/numberReport/NumberReportViewPage'
+import DispatchCluesPage from 'containers/Business/clues/DispatchCluesPage'
+import ManageCluesPage from 'containers/Business/clues/ManageCluesPage'
+// import DemoPagination from 'containers/__demo/Pagination'
+
+
 import IndexPage from 'containers'
 
 import MasterPage from 'containers/Master/Default'
 import ModulePage from 'containers/Master/Module'
 import DemoTablePage from 'containers/__demo/Table'
 import DemoLoginPage from 'containers/__demo/Login'
+import selectPeoplePage from 'containers/__demo/selectPeople'
 
 import DemoQueryNestedTablePage from 'containers/__demo/QueryNestedTable'
 
 import Error_404 from 'containers/Error/404'
 
 
+
 //客户
+
 import CustomizablePage from 'containers/Business/Account/Customizable'
 import DeptStatisticPage from 'containers/Business/Account/Statistic/DeptStatistic'
 import PerStatisticPage from 'containers/Business/Account/Statistic/PerStatistic'
@@ -31,7 +45,11 @@ import Account_Detail_Dept_Page from 'containers/Business/Account/Detail/Dept'
 
 
 //生意
-import Deptstatistic from 'containers/Business/Business/Statistic/DeptStatistic'
+import DeptStatistic from 'containers/Business/Business/Statistic/DeptStatistic'
+import PerStatistic from 'containers/Business/Business/Statistic/PerStatistic'
+
+import DeptSummary from 'containers/Business/Business/Summary/DeptSummary'
+import PerSummary from 'containers/Business/Business/Summary/DeptSummary'
 
 //日志
 import FuncLog from 'containers/Business/Log/FuncLog'
@@ -43,6 +61,8 @@ export default (
             <Route path="table" component={DemoTablePage}/>
             <Route path="login" component={DemoLoginPage}/>
             <Route path="nested_table" component={DemoQueryNestedTablePage}/>
+            <Route path="selectPeople" component={selectPeoplePage}/>
+
         </Route>
 
 
@@ -62,12 +82,24 @@ export default (
                 <Route path="deptlist/:role/:id" component={Account_List_Dept_Page}/>
             </Route>
             <Route path="business">
-                <Route path="deptstatistic/:role/:id" component={Deptstatistic} />
+                <Route path="deptstatistic/:role/:id" component={DeptStatistic} />
+                <Route path="perstatistic/:role/:id" component={PerStatistic} />
+                <Route path="deptsummary/:role/:id" component={DeptSummary} />
+                <Route path="persummary/:role/:id" component={PerSummary} />
             </Route>
             <Route path="log">
                 <Route path="datalog/:role/:id" component={DataLog} />
                 <Route path="func/:role/:id" component={FuncLog} />
             </Route>
+
+            <Route path="numreport">
+                <Route path="list/:role/:id/:template/:tid" component={NumberReportViewPage} />
+            </Route>
+
+            <Route path="lead">
+                <Route path="dispatch/:role/:id" component={DispatchCluesPage} />
+            </Route>
+
         </Route>
 
         <Route path="*" component={Error_404}/>

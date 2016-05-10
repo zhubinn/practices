@@ -16,11 +16,12 @@ import './index.css'
 
 //获取table列表数据接口
 let DeptstatisticParams = {
-    url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/deptStatistic.php',
+    url: SCRM.url('/front/js/scrm/fakeData/deptStatistic.php'),
     data: {
         keyword:''
     }
 };
+
 class Deptstatistic extends React.Component {
     constructor(props) {
       super(props)
@@ -43,7 +44,7 @@ class Deptstatistic extends React.Component {
 
         //table数据配置
         const { $$deptStatistic } = this.props;
-        const dataSource = $$deptStatistic.get('tableData').get('data').get('rowData').toJS();
+        const dataSource = $$deptStatistic.get('tableData').get('data').toJS();
         const columns = $$deptStatistic.get('tableColumns').toJS();
 
         return (
@@ -61,7 +62,7 @@ class Deptstatistic extends React.Component {
                 columns={columns} 
                 rowClassName = {
                   function(record, index){
-                    if (dataSource[index].classname == "total") {
+                    if (record.deptName == "小计" || record.deptName == "总计") {
                       return "busi-total-item";
                     }
                     return "";

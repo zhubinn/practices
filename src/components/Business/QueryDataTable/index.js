@@ -14,7 +14,11 @@ const FormItem = Form.Item;
 const RangePicker = DatePicker.RangePicker;
 const InputGroup = Input.Group;
 
-//todo: 清理state方法合并
+
+function noop() {}
+
+
+
 export default class QueryDataTable extends React.Component {
 
 
@@ -36,7 +40,7 @@ export default class QueryDataTable extends React.Component {
         queryColumns: {},
         dataSource: [],
         loading: false,
-        onGetTableData: function(){}
+        onGetTableData: noop
     }
 
 

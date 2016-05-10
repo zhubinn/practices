@@ -2,19 +2,34 @@
  * Created by janeluck on 4/27/16.
  */
 import { connect } from 'react-redux'
-import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination,Modal, Form, Upload, message  } from 'antd'
+import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination,Modal, Form, Upload, message, Progress  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery, table_params } from 'actions/business/account/list/person'
+import {
+    changeIsMultiselect,
+    getPeopleData,
+    changeIsShowStatus,
+    getNextPagePeopleData
+} from 'actions/__demo/selectPeople'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import MapModal from 'containers/Business/Account/MapModal'
+import SelectPeople from 'components/Business/SelectPeople'
 
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
+const ProgressLine = Progress.Line;
 
-
+let getPeopleParams = {
+    url: SCRM.url('/setting/scrm/getSelectList'),
+    data:{
+        page:1,
+        rowsPerPage:20,
+        keyword:''
+    }
+}
 // SCRM.url 由原来外层页面引入
 
 const columns = [{
@@ -200,7 +215,9 @@ class Account_List_Person_Page extends React.Component {
         super()
         this.state = {
             importModalVisible: false,
-            fileList: []
+            inImport: false,
+
+            importProgress: 0
         }
     }
 
@@ -247,6 +264,12 @@ class Account_List_Person_Page extends React.Component {
 
     }
 
+
+
+
+
+
+   //变更负责人选人
     changeOwner = (e) => {
         console.log('获取已经选择的row')
         console.log(this.refs.queryDataTable.getCheckedRows())
@@ -258,10 +281,95 @@ class Account_List_Person_Page extends React.Component {
                 },
             });
         } else {
+            const IsMultiselect = 0;//0 单选  1 多选
+            const {changeIsMultiselect} = this.props
+            changeIsMultiselect(IsMultiselect)
+            const {getPeopleData} = this.props
+            getPeopleData(getPeopleParams)
+
 
         }
 
     }
+
+
+
+
+    //筛选选人
+    handleSelection(){
+        const IsMultiselect = 1;//0 单选  1 多选
+        const {changeIsMultiselect} = this.props
+        changeIsMultiselect(IsMultiselect)
+        const {getPeopleData} = this.props
+        getPeopleData(getPeopleParams)
+    }
+
+
+
+
+    //点击取消按钮改变模态层显示状态
+    handleChangeStatus(){
+        const {changeIsShowStatus} = this.props
+        changeIsShowStatus()
+    }
+
+
+    //点击确定按钮获取所选人员信息
+    getFilterData(PeopleInfor){
+        console.log('所选人员信息')
+        console.log(PeopleInfor)
+        const {changeIsShowStatus} = this.props
+        changeIsShowStatus()
+
+
+
+    }
+
+    //再次请求数据(按关键词搜索)
+    requestPDList(page,value){
+
+        const paramData = {
+            page:page,
+            rowsPerPage:20,
+            keyword:value
+        }
+
+        Object.assign(getPeopleParams.data, paramData);
+
+        console.log('搜索关键词请求')
+        const {getPeopleData} = this.props
+        getPeopleData(getPeopleParams)
+
+
+    }
+
+
+    //请求人员组件的下一页数据
+    requestNextPoepleData(page,value){
+
+
+        const paramData = {
+            page:page,
+            rowsPerPage:20,
+            keyword:value
+        }
+
+        Object.assign(getPeopleParams.data, paramData);
+
+        console.log('请求下一页数据')
+        const {getNextPagePeopleData} = this.props
+        getNextPagePeopleData(getPeopleParams)
+
+
+    }
+
+
+
+
+
+
+
+
 
     showImportModal = ()=> {
         this.setState({
@@ -286,11 +394,9 @@ class Account_List_Person_Page extends React.Component {
 
     }
 
-    handleImport = (e) => {
-        console.log(this.state.fileList)
-    }
 
-    handleExport = (e)=> {
+
+    handleExport = (e) => {
         e.preventDefault();
 
         const exportParam = {
@@ -303,6 +409,30 @@ class Account_List_Person_Page extends React.Component {
         window.open(exportUrl);
 
     }
+
+    onProgress = (progress) => {
+
+        this.setState({
+            importProgress: progress
+        })
+        if (progress == 100) {
+            clearInterval(this.progressTimer)
+            message.success(`导入成功!`);
+            this.setState({
+                inImport: false
+            })
+        }
+
+
+    }
+    queryProcess = () => {
+        var that = this
+        this.progressTimer = setInterval(function () {
+            var progress = that.state.importProgress + 10
+
+            that.onProgress(progress);
+        }, 200);
+    }
     render() {
         const {
             $$account_list_person,
@@ -311,6 +441,7 @@ class Account_List_Person_Page extends React.Component {
             } = this.props
 
         let queryDataTable = {}
+        let peoplePropsData = {}
         queryDataTable.dataSource = $$account_list_person.toJS().rows
         queryDataTable.current = $$account_list_person.toJS().current
         queryDataTable.total = $$account_list_person.toJS().total
@@ -318,9 +449,14 @@ class Account_List_Person_Page extends React.Component {
         queryDataTable.queryColumns = $$account_list_person.toJS().queryColumns
         queryDataTable.loading = $$account_list_person.toJS().loading
 
+
+        peoplePropsData.IsMultiselect = $$account_list_person.toJS().IsMultiselect
+        peoplePropsData.data = $$account_list_person.toJS().data
+        peoplePropsData.selectPeopleModal = $$account_list_person.toJS().selectPeopleModal
+
         const that = this
         const uploadProps = {
-            //showUploadList: false,
+            showUploadList: false,
             name: 'file',
             action: SCRM.url('/common/scrmImportOptimization/import/objName/Account'),
             headers: {
@@ -333,39 +469,47 @@ class Account_List_Person_Page extends React.Component {
                     console.log(info.file, info.fileList);
                 }
                 if (info.file.status === 'done') {
-                    message.success(`${info.file.name} 上传成功。`);
+                    message.success(`${info.file.name} 上传成功, 正在导入...`);
+                    that.setState({
+                        inImport: true,
+                        importProgress: 0
+                    })
+                    that.queryProcess()
+
+
                 } else if (info.file.status === 'error') {
                     message.error(`${info.file.name} 上传失败。`);
                 }
-                let fileList = info.fileList;
-                that.setState({ fileList });
+
             }
         };
-        const importFooter = (<Row> <Col span="12" offset="3"><Button type="primary" onclick={(e)=>{this.handleImport(e)}}>
-            <Icon type="poweroff"/>开始导入
-        </Button></Col></Row>)
+        const importFooter = (<Row> <Col span="12" offset="3">
+            {this.state.inImport ? (<Button type="ghost" disabled><Icon type="poweroff"/>导入中...</Button>) : (<Upload {...uploadProps} >
+                <Button type="primary" loading={this.state.inImport}>
+                    <Icon type="upload"/>导入上传
+                </Button>
+            </Upload>) }
+
+
+
+       </Col></Row>)
 
         return (
-            <div style={{marginLeft: '20px'}}>
-                <div style={{marginTop: '14px',marginBottom: '14px'}}>
+            <div>
                 <Row>
                     <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
-
-                    <Col span="8" offset="8" style={{width: '305px',float: 'right',marginLeft: '0px'}} >
-                        <div className = "cklist-Persontfilter">
+                    <Col span="8" offset="8">
                         <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
-                            </div>
-                        <div className = "cklist-PersonChange">
                         <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
-                            </div>
-                        <div className = "cklist-Persondaoru">
                         <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
-                            </div>
                         <Modal title="客户导入" visible={this.state.importModalVisible}
                                footer={importFooter}
-                               onCancel={(e) => {this.handleCancel(e)}}>
+                               onCancel={(e) => {this.handleCancel(e)}}
+                               maskClosable={false}
+                               accept='.jpg'
+                        >
                             <div>
                                 <h4>一、<a href="javascript:;">下载【客户导入模板】</a></h4>
                                 <div>
@@ -381,11 +525,7 @@ class Account_List_Person_Page extends React.Component {
                             <div>
                                 <h4>二、选择需要导入的CSV文件</h4>
                                 <div>
-                                    <Upload {...uploadProps} fileList={this.state.fileList}>
-                                        <Button type="ghost">
-                                            <Icon type="upload"/> 点击上传
-                                        </Button>
-                                    </Upload>
+
                                 </div>
                                 <div>
                                     <p>1、只支持CSV格式，文件大小不能超过1M；</p>
@@ -393,14 +533,17 @@ class Account_List_Person_Page extends React.Component {
                                     <p>3、请不要在同一时间导入多个文件。</p>
                                 </div>
                             </div>
+                            {this.state.inImport ? (<div>
+                                <h4>导入进度: </h4>
+                                <ProgressLine percent={this.state.importProgress} />*
+
+                            </div>) : null}
 
 
                         </Modal>
                         <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
                     </Col>
-
                 </Row>
-                    </div>
 
                 <Tabs defaultActiveKey="all"
                       type="card"
@@ -434,7 +577,13 @@ class Account_List_Person_Page extends React.Component {
                     ref="queryDataTable"
                 >
                 </QueryDataTable>
-
+                <SelectPeople
+                    {...peoplePropsData}
+                    handleClickConfirm={this.getFilterData.bind(this)}
+                    handleClickCancle={this.handleChangeStatus.bind(this)}
+                    requestData = {this.requestPDList.bind(this)}
+                    requestNextPoepleData = {this.requestNextPoepleData.bind(this)}
+                />
             </div>
         )
     }
@@ -448,5 +597,9 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps, {
     getTableData,
-    getTableQuery
+    getTableQuery,
+    changeIsMultiselect,
+    getPeopleData,
+    changeIsShowStatus,
+    getNextPagePeopleData
 })(Account_List_Person_Page)

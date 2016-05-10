@@ -72,9 +72,19 @@ class AccountStatisticDetail extends React.Component{
 
       this.props.getAccountStatisticDetailData(statisticDetailParams)
   }
-  exportTable(e){
-    //alert('导出报表接口')
-
+  //导出报表
+  exportTable(){
+    let exportParam = {
+      objName:'accountStatisticDetail',
+      keyword:statisticDetailParams['data'].keyword,
+      deptID:typeof id === 'undefined' ? -1 :id,
+      deptName:typeof name === 'undefined' ? '':name
+    }
+    let exportParamStr = JSON.stringify(exportParam);
+    let p = 'param='+exportParamStr;
+    const exportUrl = SCRM.url('/common/scrmExport/export')+'?'+p;
+    console.log(exportUrl);
+    window.open(exportUrl);
   }
   handleClickSearch(value){
     const {getAccountStatisticDetailData} = this.props
@@ -86,6 +96,11 @@ class AccountStatisticDetail extends React.Component{
   render(){
           const rowData = this.props.$$account_deptstatisticdetail.toJS().rowData
           const loading = this.props.$$account_deptstatisticdetail.toJS().loading
+          let dataSource = []
+          rowData.map((r,i)=>{
+             r["key"] = i;
+             dataSource.push(r)
+          }) 
           return (
             <div style={{marginLeft: '20px'}}>
                 <div className = "col_cktop">
@@ -93,7 +108,7 @@ class AccountStatisticDetail extends React.Component{
                         <Row>
                             <Col span="10"><SearchInput  onSearch = {this.handleClickSearch.bind(this)}/> </Col>
                             <Col span="4" offset="10">
-                                <Button type="ghost" onClick = {e=>this.exportTable(this)}>导出</Button>
+                                <Button type="ghost" onClick = {this.exportTable.bind(this)}>导出</Button>
                             </Col>
                         </Row>                     
                   </div>  
@@ -103,7 +118,7 @@ class AccountStatisticDetail extends React.Component{
                     <div className = "statisticDetaidataTableCon">
                       <Table ref = "dataTable"
                        columns={statisticDetailColumns} 
-                       dataSource={rowData} 
+                       dataSource={dataSource} 
                        useFixedHeader 
                        pagination = {false}
                        loading={loading}

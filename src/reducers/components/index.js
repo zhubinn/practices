@@ -3,8 +3,10 @@
  */
 import { combineReducers } from 'redux'
 import __examples from './__examples'
+
 import dataTable from './dataTable'
 import searchPeople from './searchPeople'
+
 import QueryNestedTable from './QueryNestedTable'
 
 

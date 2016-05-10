@@ -39,13 +39,21 @@ const ACCOUNT_CUSTOM_SETTINGCANCLE = 'ACCOUNT_CUSTOM_SETTINGCANCLE'
 const ACCOUNT_CUSTOM_UPITEM = 'ACCOUNT_CUSTOM_UPITEM'
 const ACCOUNT_CUSTOM_DOWNITEM = 'ACCOUNT_CUSTOM_DOWNITEM'
 
+const ACCOUNT_CUSTOM_ISREPEAT = 'ACCOUNT_CUSTOM_ISREPEAT'
 
-const DATAITEM = 'DATAITEM'
+const ACCOUNT_CUSTOM_DATAITEM = 'ACCOUNT_CUSTOM_DATAITEM'
 
 export const dataItem = (data)=>{
     return {
-        type: DATAITEM,
+        type: ACCOUNT_CUSTOM_DATAITEM,
         payload: data
+    }
+}
+
+export const HasRepeatData = (status)=>{
+    return {
+        type: ACCOUNT_CUSTOM_ISREPEAT,
+        payload: status
     }
 }
 /**
@@ -292,6 +300,7 @@ export {
     ACCOUNT_CUSTOM_UPITEM,
     ACCOUNT_CUSTOM_SETTINGCANCLE,
     ACCOUNT_CUSTOM_APPLY_BTN,
-    DATAITEM
+    ACCOUNT_CUSTOM_DATAITEM,
+    ACCOUNT_CUSTOM_ISREPEAT
 }
 

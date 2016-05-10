@@ -6,7 +6,7 @@ import DivTab from './DivTab'
 
 import { selectedRowData,clickCloseBtn,selectedTabIndex,changeIsRequired,getTableData,
     addItem,deletItem,changeInputValue,ChangeStatus,clickapplyBtn,DownItem,UpItem,
-    clickCancleBtn,dataItem,collectDeletedItem} from 'actions/Business/Account/Customizable'
+    clickCancleBtn,dataItem,collectDeletedItem,HasRepeatData} from 'actions/Business/Account/Customizable'
 
 import { Table, Icon,message ,Modal,Button,Row,Col} from 'antd';
 
@@ -14,8 +14,8 @@ let currentText
 
 
 let columns = [
-    {title: '客户名称', dataIndex: 'Label',key: 'Label', width: 170},
-    {title: '客户类型', dataIndex: 'AttrType',key: 'AttrType', width: 160,render: function(text, record, index){
+    {title: '字段名称', dataIndex: 'Label',key: 'Label', width: 170},
+    {title: '字段类型', dataIndex: 'AttrType',key: 'AttrType', width: 160,render: function(text, record, index){
         return (<div>{text==13?'下拉单选':''}</div>);
     }},
     {title: '是否必填', dataIndex: 'IsMust',key: 'IsMust', width: 130,render: function(text, record, index){
@@ -35,10 +35,6 @@ let params = {
         
     }
 }
-
-// const onOperationClick = function(record) {
-//     console.log(this)
-// }
 
 class CustomizablePage extends  React.Component{
     constructor(props) {
@@ -83,6 +79,8 @@ class CustomizablePage extends  React.Component{
         let localeditColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions
         const selectedRow = this.props.$$mapState.toJS().selectedRow
         const deletedColumnsOptions = this.props.$$mapState.toJS().deletedItem
+        const isRepeat = this.props.$$mapState.toJS().isRepeat
+
         //数据可能需要过滤 如果没有任何选项就应用  则提示要先选择应用
         const {clickapplyBtn} = this.props
         let num = 0
@@ -90,15 +88,23 @@ class CustomizablePage extends  React.Component{
             r.Val==''?num++:0
         })
 
-
-        /*点击应用  只有一条且内容为空 可以提交; 
+        message.config({
+          top: 250
+        });        
+            /*点击应用  只有一条且内容为空 可以提交; 
             若多条且内容为空 或者多条中有空内容，则警告提示*/
         if(num>0 && localeditColumnsOptions.length>1){
             
-                message.config({
-                  top: 250
-                });
                 message.warn('请填写选项信息');
+        }else if(localeditColumnsOptions.length == 1 
+                 && localeditColumnsOptions[0].Val == ''
+                 && selectedRow.IsMust == '1'){
+
+                message.warn('请将是否必填设置为否');
+
+        }else if(isRepeat){
+
+                message.warn('字段名称不允许重复');        
         }else{
             let applyParamData = {}
             applyParamData.Name = selectedRow.Name
@@ -142,7 +148,8 @@ class CustomizablePage extends  React.Component{
 
 	render(){
         const {$$mapState,selectedTabIndex,changeIsRequired,getTableData,addItem,deletItem,
-            changeInputValue,ChangeStatus,DownItem,UpItem ,clickapplyBtn,clickCancleBtn,collectDeletedItem} = this.props;
+            changeInputValue,ChangeStatus,DownItem,UpItem ,clickapplyBtn,clickCancleBtn,
+            collectDeletedItem,HasRepeatData} = this.props;
         const col_name = $$mapState.toJS().selectedRow["col_name"];
         const applyTankuangShow = $$mapState.toJS().applyTankuangShow
         const {selectedRowData, dataItem} = this.props;
@@ -151,6 +158,14 @@ class CustomizablePage extends  React.Component{
         const data = $$mapState.toJS().data;
         const currentTabIndex = $$mapState.toJS().currentTabIndex
 
+        const label = $$mapState.toJS().selectedRow["Label"];
+          let dataSource = []
+          rows.map((r,i)=>{
+             r["key"] = i;
+             dataSource.push(r)
+          }) 
+
+
         const Footer = (
                 <div className = "ck-customizeBtn clearfix" style={{display:currentTabIndex=='2'?'none':'block'}}>
                     <Row justify="center" align="middle">
@@ -158,7 +173,7 @@ class CustomizablePage extends  React.Component{
                             <Button className = "ck-customizeBtnL" type = 'primary' onClick = {this.handleApply.bind(this)}>应用</Button>
                         </Col>
                         <Col span="10" >
-                            <Button className = "ck-customizeBtnR" onClick = {this.handleCancle.bind(this)}>取消</Button>
+                            <Button className = "ck-customizeBtnR" type = 'primary' onClick = {this.handleCancle.bind(this)}>取消</Button>
                         </Col>
                     </Row>
                 </div>          
@@ -166,10 +181,10 @@ class CustomizablePage extends  React.Component{
 
             return (
                 <div className = "col_right" >
-                    <div style={{marginLeft: '20px'}}>
+                    <div >
                         <Table ref = "dataTable"
                          columns={columns} 
-                         dataSource={rows} 
+                         dataSource={dataSource} 
                          useFixedHeader 
                          pagination = {false}
                          selectedRowData = {selectedRowData}
@@ -182,7 +197,7 @@ class CustomizablePage extends  React.Component{
                         <Modal ref="modal"
                               className="customizableSettingModal"
                               visible={IsShow}
-                              title="自定义" 
+                              title={label+'设置'} 
                               width = '600'
                               footer = {Footer}
                               onCancel = {this.handleClose.bind(this)}                   
@@ -203,6 +218,7 @@ class CustomizablePage extends  React.Component{
                                     clickCancleBtn={clickCancleBtn}
                                     getTableData= {getTableData}  
                                     collectDeletedItem={collectDeletedItem}                              
+                                    HasRepeatData = {HasRepeatData}
                                     >
                                 </DivTab>
                              </div>
@@ -238,5 +254,5 @@ export default connect(mapStateToProps, {
     UpItem,
     clickCancleBtn,
     collectDeletedItem,
-
+    HasRepeatData,
 })(CustomizablePage)
