@@ -201,7 +201,7 @@ class Account_List_Person_Page extends React.Component {
         this.state = {
             importModalVisible: false,
             inImport: false,
-            fileList: [],
+
             importProgress: 0
         }
     }
@@ -288,9 +288,7 @@ class Account_List_Person_Page extends React.Component {
 
     }
 
-    handleImport = (e) => {
-        console.log(this.state.fileList)
-    }
+
 
     handleExport = (e) => {
         e.preventDefault();
@@ -370,8 +368,7 @@ class Account_List_Person_Page extends React.Component {
                 } else if (info.file.status === 'error') {
                     message.error(`${info.file.name} 上传失败。`);
                 }
-                let fileList = info.fileList;
-                that.setState({ fileList });
+
             }
         };
         const importFooter = (<Row> <Col span="12" offset="3">
@@ -398,6 +395,8 @@ class Account_List_Person_Page extends React.Component {
                         <Modal title="客户导入" visible={this.state.importModalVisible}
                                footer={importFooter}
                                onCancel={(e) => {this.handleCancel(e)}}
+                               maskClosable={false}
+                               accept='.jpg'
                         >
                             <div>
                                 <h4>一、<a href="javascript:;">下载【客户导入模板】</a></h4>
