@@ -1,4 +1,4 @@
-import { INPUT_CHANGE_FIELD, ADD_FIELD, DELETE_FIELD, APPLY_FIELD, SET_STATUS_FIELD } from '../../constants/customFieldTypes'
+import { INPUT_CHANGE_FIELD, ADD_FIELD, DELETE_FIELD, APPLY_FIELD, SET_STATUS_FIELD } from '../../constants/__demo/customFieldTypes'
 
 
 export function inputChange(text,id) {
