@@ -7,11 +7,13 @@ import dataTable from './dataTable'
 import searchPeople from './searchPeople'
 import QueryNestedTable from './QueryNestedTable'
 
+
 const componentReducers = combineReducers({
     __examples,
     dataTable,
     searchPeople,
     QueryNestedTable,
+
 })
 
 export default componentReducers

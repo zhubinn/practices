@@ -1,16 +1,29 @@
 import Immutable from 'immutable'
-import {ACCOUNT_CUSTOM_TABLE_GETDATA, ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS,ACCOUNT_CUSTOM_SELECTEDROWDATA,
-    ACCOUNT_CUSTOM_SETTINGCLOSE,ACCOUNT_CUSTOM_CHANGETAB,ACCOUNT_CUSTOM_CHANGEISREQUIRED,ACCOUNT_CUSTOM_ADDITEM,ACCOUNT_CUSTOM_DELETEITEM,
-    ACCOUNT_CUSTOM_CHANGRINPUTVALUE,ACCOUNT_CUSTOM_CHANGEISWORK,ACCOUNT_CUSTOM_APPLY_BTN,ACCOUNT_CUSTOM_DOWNITEM,ACCOUNT_CUSTOM_UPITEM,
-    ACCOUNT_CUSTOM_SETTINGCANCLE,DATAITEM} from 'actions/Business/Account/Customizable'
+import {
+    ACCOUNT_CUSTOM_TABLE_GETDATA, 
+    ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS,
+    ACCOUNT_CUSTOM_SELECTEDROWDATA,
+    ACCOUNT_CUSTOM_SETTINGCLOSE,
+    ACCOUNT_CUSTOM_CHANGETAB,
+    ACCOUNT_CUSTOM_CHANGEISREQUIRED,
+    ACCOUNT_CUSTOM_ADDITEM,
+    ACCOUNT_CUSTOM_DELETEITEM,
+    ACCOUNT_CUSTOM_CHANGRINPUTVALUE,
+    ACCOUNT_CUSTOM_CHANGEISWORK,
+    ACCOUNT_CUSTOM_APPLY_BTN,
+    ACCOUNT_CUSTOM_DOWNITEM,
+    ACCOUNT_CUSTOM_UPITEM,
+    ACCOUNT_CUSTOM_SETTINGCANCLE,
+    DATAITEM
+} from 'actions/Business/Account/Customizable'
 
 
 const $$initialState = Immutable.fromJS({
     rows:[], 
     selectedRow:{}, 
     IsShow:false, 
-    currentTabIndex:0,
-    data:[]
+    currentTabIndex:'1',
+    deletedItem:[]
 })
 
 const  Customizable = ($$state = $$initialState, action)=>{
@@ -19,29 +32,35 @@ const  Customizable = ($$state = $$initialState, action)=>{
             return $$state.merge({data:action.payload})
     	case ACCOUNT_CUSTOM_TABLE_GETDATA:
     		return $$state
+
     	case ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS:
             return $$state.merge({rows:action.payload})
+
         case ACCOUNT_CUSTOM_SELECTEDROWDATA:
-            console.log(action.payload)
             return $$state.merge(action.payload,{'IsShow':true})
+
         case ACCOUNT_CUSTOM_SETTINGCLOSE:
             return $$state.merge({'IsShow':false})
+
         case ACCOUNT_CUSTOM_SETTINGCANCLE:
             return $$state.merge({'IsShow':false})
+
         case ACCOUNT_CUSTOM_CHANGETAB:
-        	return $$state.merge(action.payload)
+        	return $$state.merge({currentTabIndex:action.payload})
+
         case ACCOUNT_CUSTOM_CHANGEISREQUIRED:
             return $$state.updateIn(['selectedRow', 'IsMust'], IsMust => {
-                return action.payload.changedSatus
+                return action.payload.IsMust
             })
         case ACCOUNT_CUSTOM_ADDITEM:
-            const $$additemCon =  Immutable.fromJS({Val:'',IsSys:0,IsStop:0})
+            const $$additemCon =  Immutable.fromJS({Val:'',IsSys:0,IsStop:0,IsDeleted:0})
             return $$state.updateIn(['localeditColumnsOptions'], localeditColumnsOptions => {
                 return localeditColumnsOptions.push($$additemCon)
             })
+
         case ACCOUNT_CUSTOM_DELETEITEM:
             if(action.payload.index === 0 && action.payload.isLast==1){
-            const $$lastitemCon =  Immutable.fromJS([{Val:'',IsSys:1,IsStop:0}])
+                const $$lastitemCon =  Immutable.fromJS([{Val:'',IsSys:1,IsStop:0,IsDeleted:0}])
                 return $$state.updateIn(['localeditColumnsOptions'], localeditColumnsOptions => {
                     
                     return $$lastitemCon
@@ -52,6 +71,12 @@ const  Customizable = ($$state = $$initialState, action)=>{
                     return localeditColumnsOptions.delete(action.payload.index)
                 })
             }
+
+        case 'ACCOUNT_CUSTOM_COLLECTDELETEITEM':
+
+            return $$state.merge({deletedItem:action.payload})
+
+
         case ACCOUNT_CUSTOM_CHANGRINPUTVALUE:
 
             let index = action.payload.index
@@ -75,6 +100,7 @@ const  Customizable = ($$state = $$initialState, action)=>{
                 return r
             })
             return $$state.set('localeditColumnsOptions', localeditColumnsOptions)
+
         case ACCOUNT_CUSTOM_CHANGEISWORK:
             let changeIndex = action.payload.index
             let Newostatus = action.payload.IsStop
@@ -88,8 +114,20 @@ const  Customizable = ($$state = $$initialState, action)=>{
                 return r
             })
             return $$state.set('localeditColumnsOptions', columnsOptions)
+
         case ACCOUNT_CUSTOM_APPLY_BTN:
-            return $$state.merge({'submit':true})
+            return $$state.merge({
+                'servereditColumnsOptions':action.payload.Enums,
+                'serverSelectedRow':{
+                    Name:action.payload.Name,
+                    ID:action.payload.ID,
+                    Label:action.payload.Label,
+                    AttrType:action.payload.AttrType,
+                    IsMust:action.payload.IsMust
+                },
+                'deletedItem':[]
+            })
+
         case ACCOUNT_CUSTOM_DOWNITEM:
             const DownIndex = action.payload
             let curOptions = $$state.get('localeditColumnsOptions')
@@ -116,6 +154,7 @@ const  Customizable = ($$state = $$initialState, action)=>{
                 return r
             })
             return $$state.set('localeditColumnsOptions', curOptions)
+
         case ACCOUNT_CUSTOM_UPITEM:
             const UpIndex = action.payload
             let Options = $$state.get('localeditColumnsOptions')
@@ -142,6 +181,7 @@ const  Customizable = ($$state = $$initialState, action)=>{
                 return r
             })
             return $$state.set('localeditColumnsOptions', Options)
+
         default:
             return $$state
     }

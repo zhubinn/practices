@@ -34,10 +34,12 @@ body {
 		    width: 798px;
 		}
 	}
+	.customTableWrap{
+		width:800px;
+	}
 	.ant-table-header {
 	    font-family: Microsoft YaHei;
 	    font-size: 14px;
-	    width: 800px;
 	    border-collapse: collapse;
 	    thead tr th {
 		    background: #f6fcfc;
@@ -80,78 +82,54 @@ body {
 		}
 
 	}
-	.CustomizableSettingBg{
-		position:absolute;
-		background:rgba(0,0,0,0.5);
-		top:0px;
-		left:0;
-		width:100%;
-		height:100%;
 
-	.ck-customize-popBox{
-		width: 596px;
-	    height: 612px;
-	    background: #fff;
-	    border: 1px solid #ebeaec;
-		position:fixed;
-		top:50%;
-		left:50%;
-		margin-left:-298px;
-		margin-top:-306px;
-		.CustomizableSettingHead{
-			position:relative;
-			width:596px;
-			text-align:center;
-			height:62px;
-			line-height:62px;
-		    color: #595959;
-		    font-family: Microsoft YaHei;
-		    font-size: 18px;
-		    span{
-		    	width:100px;
-		    	height:62px;
-		    	line-height:62px;
-		    	display:inline-block;
-		    	margin:0 auto;
-		    }
-    		.settingClose{
-				position:absolute;
-				right:0;
-				top:0;
-			}
 
+
+}
+
+.ck-customize-bannerTit {
+    border-bottom: 1px solid #ebeaea;
+    height: 36px;
+    .ant-tabs{
+		height:560px
+	}
+	.ant-tabs-bar{
+		    width: 200px;
+			margin: 0 auto;
+			border:none
+	}
+	.ant-tabs-content{
+		height:510px;
+	}
+	.ck-customize-banner {
+	    height: 33px;
+	    width: 245px;
+	    margin: 0 auto;
+	    color: #595959;
+	    font-family: Microsoft YaHei;
+	    font-size: 18px;
+	    border-left: 1px solid #ebeaea;
+	    border-right: 1px solid #ebeaea;
+	    border-top: 1px solid #ebeaea;
+	    border-radius: 5px 5px 0px 0px;
+		li {
+		    float: left;
+		    width: 121px;
+		    height: 32px;
+		    line-height: 32px;
+		    text-align: center;
 		}
-		.ck-customize-bannerTit {
-		    border-bottom: 1px solid #ebeaea;
-		    height: 33px;
-			.ck-customize-banner {
-			    height: 33px;
-			    width: 245px;
-			    margin: 0 auto;
-			    color: #595959;
-			    font-family: Microsoft YaHei;
-			    font-size: 18px;
-			    border-left: 1px solid #ebeaea;
-			    border-right: 1px solid #ebeaea;
-			    border-top: 1px solid #ebeaea;
-			    border-radius: 5px 5px 0px 0px;
-				li {
-				    float: left;
-				    width: 121px;
-				    height: 32px;
-				    line-height: 32px;
-				    text-align: center;
-				}
-				.current{
-					width:122px;
-					color: #1eb8bb;
-					background: #fff;
-					height: 32px;
-				    border-left: 1px solid #ebeaea;
-				    border-right: 1px solid #ebeaea;
-    			}
-			}
+		.current{
+			width:122px;
+			color: #1eb8bb;
+			background: #fff;
+			height: 32px;
+		    border-left: 1px solid #ebeaea;
+		    border-right: 1px solid #ebeaea;
 		}
+	}
+}
+
 		.ck-customize-Txt01{
 			height: 74px;
 		    line-height: 74px;
@@ -164,13 +142,18 @@ body {
 		    li{
 		        float: left;
 				padding: 0 17px;
+				label{
+					color: #595959;
+				    font-family: Microsoft YaHei;
+				    font-size: 18px;
+				}
 		    }
 		}
 		.ck-customize-gongn01{
 		    margin-top: 15px;
 		    border-bottom: 1px solid #ebeaea;
 			.ck-customize-gongnTit {
-			    width: 532px;
+			    width: 590px;
 			    padding: 0 40px;
 			    color: #595959;
 			    font-family: Microsoft YaHei;
@@ -190,6 +173,7 @@ body {
 				    float: left;
 				    width: 67px;
 				    text-align: center;
+				    margin-left:20px;
 				}
 				.ck-customizeZt {
 				    float: left;
@@ -258,7 +242,7 @@ body {
 						}
 						.ck-gongncnt-second {
 						    width: 67px;
-						    margin-left: 8px;
+						    margin-left: 23px;
 						    float: left;
 							.add {
 							    float: left;
@@ -345,34 +329,7 @@ body {
 	    			color: #ba2b36;
 	    		}
 			}
-			.ck-customizeBtn {
-			    width: 221px;
-			    height: 32px;
-			    margin: 0 auto;
-				.ck-customizeBtnL {
-				    float: left;
-				    width: 80px;
-				    height: 32px;
-				    border-radius: 7px;
-				    border: none;
-				    background: #1eb8bb;
-				    color: #fff;
-				    font-family: Microsoft YaHei;
-				    font-size: 14px;
-				}
-				.ck-customizeBtnR {
-				    float: left;
-				    width: 80px;
-				    height: 32px;
-				    border-radius: 7px;
-				    border: none;
-				    background: #1eb8bb;
-				    color: #fff;
-				    font-family: Microsoft YaHei;
-				    font-size: 14px;
-				    margin-left: 61px;
-				}
-	    	}
+
 
 		}
 
@@ -430,14 +387,53 @@ body {
 			}
 		}
 
-	}
-}
-}
-
-
-
+			.ck-customizeBtn {
+			    width: 221px;
+			    height: 32px;
+			    margin: 0 auto;
+				.ck-customizeBtnL {
+				    float: left;
+				    width: 80px;
+				    height: 32px;
+				    border-radius: 7px;
+				    border: none;
+				    background: #1eb8bb;
+				    color: #fff;
+				    font-family: Microsoft YaHei;
+				    font-size: 14px;
+				}
+				.ck-customizeBtnR {
+				    float: left;
+				    width: 80px;
+				    height: 32px;
+				    border-radius: 7px;
+				    border: none;
+				    background: #1eb8bb;
+				    color: #fff;
+				    font-family: Microsoft YaHei;
+				    font-size: 14px;
+				    margin-left: 61px;
+				}
+	    	}
 
 .shangxia{
 	float:left;
 	width:24px;
+}
+
+.ant-modal-wrap{
+	.customizableSettingModal{
+		  margin-top:-305px;
+          top:50% !important;
+          .ant-modal-content{
+          	height:610px;
+          }
+          .ant-modal-body{
+          	height:500px;
+          	padding:16px 0;
+          }
+          .ant-modal-footer{
+          		border-top:none
+          }
+    }
 }

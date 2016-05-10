@@ -35,7 +35,8 @@ export default class QueryDataTable extends React.Component {
         columns: [],
         queryColumns: {},
         dataSource: [],
-        loading: false
+        loading: false,
+        onGetTableData: function(){}
     }
 
 
@@ -75,9 +76,10 @@ export default class QueryDataTable extends React.Component {
 
     // 重置筛选表单数据(供外部调用)
     resetQueryForm = ()=>{
-        this.setState({
+        /*this.setState({
             needRenderQuery: true
-        })
+        })*/
+        this.queryForm = ''
     }
     handleSelectAll = (e, dataSource) => {
 
@@ -118,7 +120,7 @@ export default class QueryDataTable extends React.Component {
         if (isEmpty(queryColumns)) return null
         const that = this
 
-        if (this.state.needRenderQuery) {
+        if (!this.queryForm) {
             this.queryForm = React.createClass({
                 handleSubmit(e) {
                     e.preventDefault();
@@ -191,9 +193,7 @@ export default class QueryDataTable extends React.Component {
             });
 
             this.queryForm = Form.create()(this.queryForm);
-            this.setState({
-                needRenderQuery: false
-            })
+
         }
         return (<this.queryForm />)
 
@@ -394,12 +394,12 @@ export default class QueryDataTable extends React.Component {
                                                 (<th className="ant-table-selection-column">
                                                     <Checkbox
                                                         ref="SelectAll"
-                                                        checked={ this.state.selectedRowKeys.length === dataSource.length }
+                                                        checked={ !!dataSource.length && this.state.selectedRowKeys.length === dataSource.length }
                                                         onChange={
                                                             (e)=>{this.handleSelectAll(e, dataSource)}}/></th>) : null }
                                             {this.props.expandedRowRender ? (<th style={{width: 34}}></th>): null}
                                             {
-                                                columns.map(col => <th width={col.width||this.defaultColWidth}>{col.title}</th>)
+                                                columns.map((col, i) => <th key={i} width={col.width||this.defaultColWidth}>{col.title}</th>)
                                             }
                                         </tr>
                                         </thead>

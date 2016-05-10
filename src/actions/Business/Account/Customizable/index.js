@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
-
+import { message, Button } from 'antd';
+import {FormData} from 'form-data'
 // 选择某一个字段编辑
 const ACCOUNT_CUSTOM_SELECTEDROWDATA = 'ACCOUNT_CUSTOM_SELECTEDROWDATA'
 
@@ -30,7 +31,7 @@ const ACCOUNT_CUSTOM_CHANGRINPUTVALUE = 'ACCOUNT_CUSTOM_CHANGRINPUTVALUE'
 const ACCOUNT_CUSTOM_CHANGEISWORK = 'ACCOUNT_CUSTOM_CHANGEISWORK'
 
 //点击应用
-const ACCOUNT_CUSTOM_SETTINGAPPLY = 'ACCOUNT_CUSTOM_SETTINGAPPLY'
+const ACCOUNT_CUSTOM_APPLY_BTN = 'ACCOUNT_CUSTOM_APPLY_BTN'
 
 const ACCOUNT_CUSTOM_SETTINGCANCLE = 'ACCOUNT_CUSTOM_SETTINGCANCLE'
 
@@ -62,26 +63,24 @@ export const dataItem = (data)=>{
     }
         return (dispatch, getState) => {
         const url = params.url;
-        dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA,{}));
+        dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA,'req='));
 
             fetch(params.url, {
                 credentials: 'include',
                 method: 'post',
                 headers: {
-                    'API': 1,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/x-www-form-urlencoded"
                 },
-                body: JSON.stringify(params.data)
+                body: 'req='+JSON.stringify(params.data)
             }).then(function(response) {
                 if (response.status >= 400) {
                     throw new Error("Bad response from server")
                 }
                 return response.json()
             }).then(function (data) {
-                console.log(data.data)
-                dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data))
-
+                if(data.rs){
+                    dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data))
+                }
             })
         
     
@@ -90,29 +89,46 @@ export const dataItem = (data)=>{
 
 
 export const selectedRowData = (selectedRow,editColumnsOptions)=>{
+    let localeditColumnsOptions = []
+    editColumnsOptions.map((r,i)=>{
+        if(r.IsDeleted == 0){
+            localeditColumnsOptions.push(r)
+        }
+    })
     if(editColumnsOptions.length == 0){
         let editColumnsOptions = [
             {
                 Val:"",//枚举值.
                 IsStop:0,//1：停用 0：启用.
                 IsSys:1,//是否是系统属性.
+                IsDeleted:0
             }
         ]
         return {
             type:ACCOUNT_CUSTOM_SELECTEDROWDATA,
             payload: {
                 'selectedRow':selectedRow,
+                'serverSelectedRow':selectedRow,
                 'servereditColumnsOptions':editColumnsOptions,
-                'localeditColumnsOptions':editColumnsOptions
+                'localeditColumnsOptions':localeditColumnsOptions.length ==0?editColumnsOptions:localeditColumnsOptions
             }
         }
     }else{
+        let defalutColumnsOptions = [
+            {
+                Val:"",//枚举值.
+                IsStop:0,//1：停用 0：启用.
+                IsSys:1,//是否是系统属性.
+                IsDeleted:0
+            }
+        ]        
         return {
             type:ACCOUNT_CUSTOM_SELECTEDROWDATA,
             payload: {
                 'selectedRow':selectedRow,
+                'serverSelectedRow':selectedRow,
                 'servereditColumnsOptions':editColumnsOptions,
-                'localeditColumnsOptions':editColumnsOptions
+                'localeditColumnsOptions':localeditColumnsOptions.length ==0?defalutColumnsOptions:localeditColumnsOptions
             }
         }
     }
@@ -139,33 +155,40 @@ export const clickCancleBtn = ()=>{
 //点击应用按钮
 
 
-export const clickapplyBtn = (editColumnsOptions)=> {
-    const login = (type, data)=> {
+
+
+export const clickapplyBtn = (applyParam)=> {
+    const applyBtn = (type, data)=> {
         return {
             type,
             payload: data
         }
     }
-    //模拟请求
+
+
 
     return (dispatch, getState) => {
-        fetch('/actions/_demo/list.json', {
-            method: 'post',
+
+        fetch(applyParam.url, {
+            method: 'POST',
+            credentials: 'include', 
             headers: {
-                'API': 1,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: JSON.stringify({
-                editColumnsOptions,
-            })
+            body:'req='+JSON.stringify(applyParam.data) 
         }).then(function(response) {
             if (response.status >= 400) {
                 throw new Error("Bad response from server")
             }
             return response.json()
         }).then(function(json) {
-            dispatch(login(ACCOUNT_CUSTOM_APPLY_BTN))
+            if(json.rs){
+                dispatch(applyBtn(ACCOUNT_CUSTOM_APPLY_BTN,applyParam.data))
+                message.config({
+                  top: 250
+                });             
+                message.success('应用成功');
+            }
         })
 
     }
@@ -178,10 +201,10 @@ export const clickapplyBtn = (editColumnsOptions)=> {
 
 
 //切换tab
-export const selectedTabIndex = ({'currentTabIndex':i})=>{
+export const selectedTabIndex = (key)=>{
     return {
         type: ACCOUNT_CUSTOM_CHANGETAB,
-        payload: {'currentTabIndex':i}
+        payload: key
     }
 }
 
@@ -213,6 +236,15 @@ export const deletItem = (i,IsLast)=>{
         }
     }
 }
+
+export const collectDeletedItem = (deletedItem)=>{
+    return {
+        type:'ACCOUNT_CUSTOM_COLLECTDELETEITEM',
+        payload:deletedItem
+    }
+}
+
+
 
 // 改变输入框的值
 export const changeInputValue = (i,textValue)=>{
@@ -256,10 +288,10 @@ export {
     ACCOUNT_CUSTOM_DELETEITEM,
     ACCOUNT_CUSTOM_CHANGRINPUTVALUE,
     ACCOUNT_CUSTOM_CHANGEISWORK,
-    ACCOUNT_CUSTOM_SETTINGAPPLY,
     ACCOUNT_CUSTOM_DOWNITEM,
     ACCOUNT_CUSTOM_UPITEM,
     ACCOUNT_CUSTOM_SETTINGCANCLE,
+    ACCOUNT_CUSTOM_APPLY_BTN,
     DATAITEM
 }
 

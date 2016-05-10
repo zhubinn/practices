@@ -8,6 +8,8 @@ import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery } from 'actions/business/account/detail/person'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
+import MapModal from 'containers/Business/Account/MapModal'
+
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
@@ -75,6 +77,18 @@ const columns = [{
     key: 'Address7',
 
 }, {
+    title: '客户地理坐标',
+    dataIndex: 'ID',
+    key: 'ID',
+    render: function (text, record, index) {
+        let cell = (<p>未设置</p>)
+        if (!!record.Lat) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng, record.Lat, '客户地理坐标')}}>已设置</a>)
+        }
+        return cell
+    }
+
+}, {
     title: '客户公司电话',
     dataIndex: 'Phone',
     key: 'Phone',
@@ -113,11 +127,6 @@ const columns = [{
     title: '客户简介',
     dataIndex: 'Descriptions',
     key: 'Descriptions',
-
-}, {
-    title: '业务类型',
-    dataIndex: 'AccountIndustry',
-    key: 'AccountIndustry',
 
 }, {
     title: '主营产品',

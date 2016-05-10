@@ -16,7 +16,6 @@ const rootReducer = combineReducers({
     components,
     business,
     __demo,
-    business,
     routing,
 })
 export default rootReducer

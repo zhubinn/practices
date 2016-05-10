@@ -27,10 +27,6 @@ export default function account_detail_dept($$state = $$initialState, action) {
 
         case GET_TABLE_DATA:
             return $$state.merge({
-                rows: [],
-                current: 1,
-                total: 20,
-                pageSize: 20,
                 loading: action.payload.loading
             })
         case GET_TABLE_DATA_SUCCESS:

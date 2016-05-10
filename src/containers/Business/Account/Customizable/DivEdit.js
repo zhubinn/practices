@@ -19,18 +19,22 @@ class DivEdit extends React.Component{
 	}
 	handleDeletItem(i){
 		const {deletItem} = this.props;
-        const ColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions;
+        let ColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions;
         let IsLast 
         if(ColumnsOptions.length ==1){
         	IsLast =1
         }
 		deletItem(i,IsLast);
+		let  deletedItem  = this.props.$$mapState.toJS().deletedItem;
+		ColumnsOptions[i].IsDeleted = 1
+		deletedItem.push(ColumnsOptions[i])
+		const {collectDeletedItem} = this.props
+		collectDeletedItem(deletedItem)
 	}
 	handleChangeInput(i,e){
-		const value = e.currentTarget.value;
+		let value = e.currentTarget.value;
 		const {changeInputValue} = this.props;
-		const textValue = value.substr(0,10);
-		changeInputValue(i,textValue);
+			changeInputValue(i,value)
 	}
 	handleChangeselect(i,e){
         const ColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions[i];
@@ -52,8 +56,11 @@ class DivEdit extends React.Component{
 		}
 	}
 	render(){
-		const localeditColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions
+		let localeditColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions
+
 		const lastLen = localeditColumnsOptions.length-1
+
+
 		return (
 			<div className = "ck-customize-gongn01">
 				<ul className = "ck-customize-gongnTit clearfix">
@@ -66,34 +73,32 @@ class DivEdit extends React.Component{
 				<div className ="ck-customize-gongWrap" >
 					<ul className = "ck-customize-gongncnt">
 						{
+								localeditColumnsOptions.map((opt,i)=>{
+									if(opt.IsDeleted==0){
+										return (
+											<li key = {i}>
+						                         <div className="Sequence clearfix">
+							                          <div className={i==0?'Sequence-none':'Sequence-top'} onClick = {this.handleItemUp.bind(this,i)}></div>
+							                          <div className={i==lastLen?'Sequence-none02':'Sequence-bottom'} onClick = {this.handleItemDown.bind(this,i)}></div>
+						                         </div>
+												<div className = "ck-gongncnt-first">
+													<input type = 'text' value = {opt.Val} placeholder = "最多输入10个汉字"  onChange = {this.handleChangeInput.bind(this,i)} maxLength = "10"/>
+												</div>
+												<div className = "ck-gongncnt-second clearfix">
+													<button className={i==19?'disableadd':'add'} onClick = {this.handleAddItem.bind(this,i)}>+</button>
+													<button className={opt.IsSys=='1'?'disableCut':'cut'} disabled = {opt.IsSys=='1'?'disabled':''} onClick = {this.handleDeletItem.bind(this,i)}>-</button>
+												</div>
+												<div className = "ck-gongncnt-third">
+													<select name = "statusSelect" value = {opt.IsStop} onChange={this.handleChangeselect.bind(this,i)}>
+														<option value = "1" >未启用</option>
+														<option value = "0" >启用</option>
+													</select>
+												</div>
+											</li>
+										)
+									}
 
-							localeditColumnsOptions.map((opt,i)=>{
-								if(opt.IsDeleted==1){
-									return null
-								}else{
-									return (
-										<li key = {i}>
-					                         <div className="Sequence clearfix">
-						                          <div className={i==0?'Sequence-none':'Sequence-top'} onClick = {this.handleItemUp.bind(this,i)}></div>
-						                          <div className={i==lastLen?'Sequence-none02':'Sequence-bottom'} onClick = {this.handleItemDown.bind(this,i)}></div>
-					                         </div>
-											<div className = "ck-gongncnt-first">
-												<input type = 'text' value = {opt.Val} placeholder = "输入文字"  onChange = {this.handleChangeInput.bind(this,i)} />
-											</div>
-											<div className = "ck-gongncnt-second clearfix">
-												<button className={i==19?'disableadd':'add'} onClick = {this.handleAddItem.bind(this,i)}>+</button>
-												<button className={opt.IsSys=='1'?'disableCut':'cut'} disabled = {opt.IsSys=='1'?'disabled':''} onClick = {this.handleDeletItem.bind(this,i)}>-</button>
-											</div>
-											<div className = "ck-gongncnt-third">
-												<select name = "statusSelect" value = {opt.IsStop} onChange={this.handleChangeselect.bind(this,i)}>
-													<option value = "1" >未启用</option>
-													<option value = "0" >启用</option>
-												</select>
-											</div>
-										</li>
-									)
-								}
-							})
+								})							
 						}
 					</ul>
 				</div>	
