@@ -22,8 +22,11 @@ import FuncLog from "./log/funclog"
 
 import deptstatistic from "./business/statistic/deptstatistic"
 import perstatistic from "./business/statistic/perstatistic"
+import statisticdetail from "./business/statistic/statisticDetail"
+
 import deptsummary from "./business/summary/deptsummary"
 import persummary from "./business/summary/persummary"
+import summarydetail from "./business/summary/summaryDetail"
 
 
 const businessReducers = combineReducers({
@@ -42,8 +45,10 @@ const businessReducers = combineReducers({
 
     deptstatistic,
     perstatistic,
+    statisticdetail,
     deptsummary,
     persummary,
+    summarydetail,
     datalog,
     FuncLog,
 })

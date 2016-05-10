@@ -3,12 +3,12 @@
  */
 import Immutable from 'immutable'
 import { 
-    GET_PERSTATISTIC_DATA,
-    GET_PERSTATISTIC_SUCCESS,
-    GET_PERSTATISTIC_FAILURE,
-} from 'actions/business/business/statistic/PerStatistic'
+    GET_STATISTICDETAIL_DATA,
+    GET_STATISTICDETAIL_SUCCESS,
+    GET_STATISTICDETAIL_FAILURE,
+} from 'actions/business/business/statistic/statisticDetail'
 
-let perStatistic = {
+let statisticDetail = {
     "tableData":{
         "rs": true,
         "data": []
@@ -69,11 +69,11 @@ let perStatistic = {
 
 }
 
-export default function PerStatistic($$state = Immutable.fromJS(perStatistic), action) {
+export default function statisticdetail($$state = Immutable.fromJS(statisticDetail), action) {
     switch(action.type) {
-        case GET_PERSTATISTIC_DATA:
+        case GET_STATISTICDETAIL_DATA:
             return $$state;
-        case GET_PERSTATISTIC_SUCCESS:
+        case GET_STATISTICDETAIL_SUCCESS:
             return $$state.mergeDeep({tableData: action.payload.data});
         default:
             return $$state;

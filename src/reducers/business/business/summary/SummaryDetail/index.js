@@ -3,12 +3,12 @@
  */
 import Immutable from 'immutable'
 import { 
-    GET_DEPTSUMMARY_DATA,
-    GET_DEPTSUMMARY_SUCCESS,
-    GET_DEPTSUMMARY_FAILURE,
-} from 'actions/business/business/summary/DeptSummary'
+    GET_SUMMARYDETAIL_DATA,
+    GET_SUMMARYDETAIL_SUCCESS,
+    GET_SUMMARYDETAIL_FAILURE,
+} from 'actions/business/business/summary/summaryDetail'
 
-let deptSummary = {
+let summaryDetail = {
     "tableData":{
         "rs": true,
         "data": []
@@ -32,42 +32,48 @@ let deptSummary = {
         {
             "title": "全部生意数量",
             "width": 150,
-            "dataIndex": "Business",
-            "key": "Business"
+            "dataIndex": "All",
+            "key": "All"
         },
         {
-            "title": "全部预计金额",
+            "title": "赢单的生意数量",
             "width": 150,
-            "dataIndex": "AmountPlan",
-            "key": "AmountPlan"
+            "dataIndex": "Win",
+            "key": "Win"
         },
         {
-            "title": "全部成交金额",
+            "title": "输单的生意数量",
             "width": 150,
-            "dataIndex": "Amount",
-            "key": "Amount"
+            "dataIndex": "Faild",
+            "key": "Faild"
         },
         {
-            "title": "全部回款金额",
+            "title": "进行中的生意数量",
             "width": 150,
-            "dataIndex": "Payment",
-            "key": "Payment"
+            "dataIndex": "Load",
+            "key": "Load"
         },
         {
-            "title": "全部输单金额",
+            "title": "作废的生意数量",
             "width": 150,
-            "dataIndex": "Failed",
-            "key": "Failed"
+            "dataIndex": "ZF",
+            "key": "ZF"
+        },
+        {
+            "title": "停滞的生意数量",
+            "width": 150,
+            "dataIndex": "TZ",
+            "key": "TZ"
         }
     ]
 
 }
 
-export default function deptsummary($$state = Immutable.fromJS(deptSummary), action) {
+export default function summarydetail($$state = Immutable.fromJS(summaryDetail), action) {
     switch(action.type) {
-        case GET_DEPTSUMMARY_DATA:
+        case GET_SUMMARYDETAIL_DATA:
             return $$state;
-        case GET_DEPTSUMMARY_SUCCESS:
+        case GET_SUMMARYDETAIL_SUCCESS:
             return $$state.mergeDeep({tableData: action.payload.data});
         default:
             return $$state;

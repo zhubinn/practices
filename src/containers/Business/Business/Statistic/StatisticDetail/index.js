@@ -8,45 +8,45 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { Row, Col, Table, Button, Input, Pagination, Modal} from 'antd'
 
-import { getPerStatisticData }  from 'actions/business/business/statistic/PerStatistic'
+import { getStatisticDetailData }  from 'actions/business/business/statistic/statisticDetail'
 
 import SearchInput from 'components/Business/SearchInput'
 import 'antd/lib/index.css'
 import './index.css'
 
 //获取table列表数据接口
-let PerStatisticDataParams = {
+let statisticdetailParams = {
     //url: SCRM.url('/front/js/scrm/fakeData/deptStatistic.php'),
-    url: SCRM.url('/scrmweb/business/getPerStatistic/VISITID/1'),
+    url: SCRM.url('/scrmweb/business/getDeptStatistic/VISITID/1'),
     data: {
         keyword:''
     }
 };
-class PerStatistic extends React.Component {
+
+class statisticDetail extends React.Component {
     constructor(props) {
       super(props)
     }
 
     componentDidMount() {
       //初始获取数据
-      this.props.getPerStatisticData(PerStatisticDataParams);
+      this.props.getStatisticDetailData(statisticdetailParams);
     }
 
     searchInputChange(val) {
-      PerStatisticDataParams.data.keyword = val;
-      this.props.getPerStatisticData(PerStatisticDataParams);
+      statisticdetailParams.data.keyword = val;
+      this.props.getStatisticDetailData(statisticdetailParams);
     }
 
     exportConfirm() {
     }
 
     render() {
-      
 
         //table数据配置
-        const { $$PerStatistic } = this.props;
-        const dataSource = $$PerStatistic.get('tableData').get('data').toJS();
-        const columns = $$PerStatistic.get('tableColumns').toJS();
+        const { $$statisticDetail } = this.props;
+        const dataSource = $$statisticDetail.get('tableData').get('data').toJS();
+        const columns = $$statisticDetail.get('tableColumns').toJS();
 
         return (
             <div  style = {{marginLeft: '20px'}} >
@@ -79,10 +79,10 @@ class PerStatistic extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$PerStatistic: state.business.perstatistic
+        $$statisticDetail: state.business.deptstatistic
     }
 }
 
 export default connect(mapStateToProps, {
-    getPerStatisticData,
-})(PerStatistic)
+    getStatisticDetailData,
+})(statisticDetail)
