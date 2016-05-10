@@ -30,7 +30,7 @@ let table_params = {
     url: '',
     data: {
         page: 1,
-        pageSize: 10,
+        pageSize: 20,
         searchData: [],
         type: 'all'
     }

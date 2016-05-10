@@ -8,33 +8,33 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { Row, Col, Table, Button, Input, Pagination, Modal} from 'antd'
 
-import { getDeptstatisticData }  from 'actions/business/business/statistic/deptstatistic'
+import { getDeptSummaryData }  from 'actions/business/business/summary/DeptSummary'
 
 import SearchInput from 'components/Business/SearchInput'
 import 'antd/lib/index.css'
 import './index.css'
 
 //获取table列表数据接口
-let DeptstatisticParams = {
+let DeptSummaryParams = {
     url: SCRM.url('/front/js/scrm/fakeData/deptStatistic.php'),
     data: {
         keyword:''
     }
 };
 
-class Deptstatistic extends React.Component {
+class DeptSummary extends React.Component {
     constructor(props) {
       super(props)
     }
 
     componentDidMount() {
       //初始获取数据
-      this.props.getDeptstatisticData(DeptstatisticParams);
+      this.props.getDeptSummaryData(DeptSummaryParams);
     }
 
     searchInputChange(val) {
-      DeptstatisticParams.data.keyword = val;
-      this.props.getDeptstatisticData(DeptstatisticParams);
+      DeptSummaryParams.data.keyword = val;
+      this.props.getDeptSummaryData(DeptSummaryParams);
     }
 
     exportConfirm() {
@@ -43,9 +43,9 @@ class Deptstatistic extends React.Component {
     render() {
 
         //table数据配置
-        const { $$deptStatistic } = this.props;
-        const dataSource = $$deptStatistic.get('tableData').get('data').toJS();
-        const columns = $$deptStatistic.get('tableColumns').toJS();
+        const { $$deptSummary } = this.props;
+        const dataSource = $$deptSummary.get('tableData').get('data').toJS();
+        const columns = $$deptSummary.get('tableColumns').toJS();
 
         return (
             <div  style = {{marginLeft: '20px'}} >
@@ -78,10 +78,10 @@ class Deptstatistic extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$deptStatistic: state.business.deptstatistic
+        $$deptSummary: state.business.deptsummary
     }
 }
 
 export default connect(mapStateToProps, {
-    getDeptstatisticData,
-})(Deptstatistic)
+    getDeptSummaryData,
+})(DeptSummary)

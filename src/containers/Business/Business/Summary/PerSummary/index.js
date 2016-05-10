@@ -8,33 +8,32 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { Row, Col, Table, Button, Input, Pagination, Modal} from 'antd'
 
-import { getDeptstatisticData }  from 'actions/business/business/statistic/deptstatistic'
+import { getPerSummaryData }  from 'actions/business/business/summary/PerSummary'
 
 import SearchInput from 'components/Business/SearchInput'
 import 'antd/lib/index.css'
 import './index.css'
 
 //获取table列表数据接口
-let DeptstatisticParams = {
+let PerSummaryParams = {
     url: SCRM.url('/front/js/scrm/fakeData/deptStatistic.php'),
     data: {
         keyword:''
     }
 };
-
-class Deptstatistic extends React.Component {
+class PerSummary extends React.Component {
     constructor(props) {
       super(props)
     }
 
     componentDidMount() {
       //初始获取数据
-      this.props.getDeptstatisticData(DeptstatisticParams);
+      this.props.getPerSummaryData(PerSummaryParams);
     }
 
     searchInputChange(val) {
-      DeptstatisticParams.data.keyword = val;
-      this.props.getDeptstatisticData(DeptstatisticParams);
+      PerSummaryParams.data.keyword = val;
+      this.props.getPerSummaryData(PerSummaryParams);
     }
 
     exportConfirm() {
@@ -43,9 +42,9 @@ class Deptstatistic extends React.Component {
     render() {
 
         //table数据配置
-        const { $$deptStatistic } = this.props;
-        const dataSource = $$deptStatistic.get('tableData').get('data').toJS();
-        const columns = $$deptStatistic.get('tableColumns').toJS();
+        const { $$perStatistic } = this.props;
+        const dataSource = $$perStatistic.get('tableData').get('data').get('rowData').toJS();
+        const columns = $$perStatistic.get('tableColumns').toJS();
 
         return (
             <div  style = {{marginLeft: '20px'}} >
@@ -62,7 +61,7 @@ class Deptstatistic extends React.Component {
                 columns={columns} 
                 rowClassName = {
                   function(record, index){
-                    if (record.deptName == "小计" || record.deptName == "总计") {
+                    if (dataSource[index].classname == "total") {
                       return "busi-total-item";
                     }
                     return "";
@@ -78,10 +77,10 @@ class Deptstatistic extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$deptStatistic: state.business.deptstatistic
+        $$perStatistic: state.business.perSummary
     }
 }
 
 export default connect(mapStateToProps, {
-    getDeptstatisticData,
-})(Deptstatistic)
+    getPerSummaryData,
+})(PerSummary)

@@ -32,7 +32,11 @@ import Account_Detail_Dept_Page from 'containers/Business/Account/Detail/Dept'
 
 
 //生意
-import Deptstatistic from 'containers/Business/Business/Statistic/DeptStatistic'
+import DeptStatistic from 'containers/Business/Business/Statistic/DeptStatistic'
+import PerStatistic from 'containers/Business/Business/Statistic/PerStatistic'
+
+import DeptSummary from 'containers/Business/Business/Summary/DeptSummary'
+import PerSummary from 'containers/Business/Business/Summary/DeptSummary'
 
 //日志
 import FuncLog from 'containers/Business/Log/FuncLog'
@@ -65,7 +69,10 @@ export default (
                 <Route path="deptlist/:role/:id" component={Account_List_Dept_Page}/>
             </Route>
             <Route path="business">
-                <Route path="deptstatistic/:role/:id" component={Deptstatistic} />
+                <Route path="deptstatistic/:role/:id" component={DeptStatistic} />
+                <Route path="perstatistic/:role/:id" component={PerStatistic} />
+                <Route path="deptsummary/:role/:id" component={DeptSummary} />
+                <Route path="persummary/:role/:id" component={PerSummary} />
             </Route>
             <Route path="log">
                 <Route path="datalog/:role/:id" component={DataLog} />
