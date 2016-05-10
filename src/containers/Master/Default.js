@@ -23,6 +23,11 @@ class IndexPage extends React.Component {
                         <Link to="/__demo/nested_table">
                             查询嵌套表格
                         </Link>
+                    </li>                    
+                    <li>
+                        <Link to="/__demo/selectPeople">
+                            选人组件
+                        </Link>
                     </li>
                 </ul>
                 {this.props.children}

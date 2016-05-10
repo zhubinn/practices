@@ -9,6 +9,7 @@ import MasterPage from 'containers/Master/Default'
 import ModulePage from 'containers/Master/Module'
 import DemoTablePage from 'containers/__demo/Table'
 import DemoLoginPage from 'containers/__demo/Login'
+import selectPeoplePage from 'containers/__demo/selectPeople'
 
 import DemoQueryNestedTablePage from 'containers/__demo/QueryNestedTable'
 
@@ -43,6 +44,8 @@ export default (
             <Route path="table" component={DemoTablePage}/>
             <Route path="login" component={DemoLoginPage}/>
             <Route path="nested_table" component={DemoQueryNestedTablePage}/>
+            <Route path="selectPeople" component={selectPeoplePage}/>
+
         </Route>
 
 
