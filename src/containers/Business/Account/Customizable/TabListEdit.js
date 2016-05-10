@@ -93,7 +93,9 @@ class TabListEdit extends React.Component{
                     clickapplyBtn,
                     clickCloseBtn,
                     getTableData,
-                    collectDeletedItem
+                    collectDeletedItem,
+                    HasRepeatData
+
                 } = this.props;
         return (
             <div className = "ck-customize-CntMian">
@@ -117,6 +119,7 @@ class TabListEdit extends React.Component{
                         DownItem = {DownItem} 
                         UpItem={UpItem}
                         collectDeletedItem={collectDeletedItem}
+                        HasRepeatData={HasRepeatData}
                         >
                     </DivEdit>
                     <div className = "ck-customizeConfirm">

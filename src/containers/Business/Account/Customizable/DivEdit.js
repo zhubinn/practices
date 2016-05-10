@@ -13,11 +13,11 @@ class DivEdit extends React.Component{
 	handleAddItem(i){
 		const {addItem} = this.props;
         const ColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions;
-		/*zanding 20 tiao*/
-		if(ColumnsOptions.length<20){
+		/*zanding 50 tiao*/
+		if(ColumnsOptions.length<50){
 			addItem(i);
 		}else{
-			message.warn('最多可添加20条选项');
+			message.warn('最多可添加50条选项');
 		}
 	}
 	handleDeletItem(i){
@@ -58,12 +58,44 @@ class DivEdit extends React.Component{
 			DownItem(i)
 		}
 	}
+	handleRepeatData(){
+        const ColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions;
+		let columnsArr = []
+		ColumnsOptions.map((r,i)=>{
+			if(r.Val!=''){
+				columnsArr.push(r.Val)
+			}
+		})
+		let s = columnsArr.join(",")+",";
+
+		for(let i=0;i<columnsArr.length;i++) {
+
+		if(s.replace(columnsArr[i]+",","").indexOf(columnsArr[i]+",")>-1) {
+
+		//alert("数组中有重复元素：" + columnsArr[i]);
+        message.config({
+          top: 250
+        });    			
+        message.warn('字段名称不允许重复');
+
+        	const {HasRepeatData} = this.props
+        	HasRepeatData(true)
+
+
+
+		break;
+
+		}else{
+        	const {HasRepeatData} = this.props
+        	HasRepeatData(false)
+		}
+
+		}
+	}
 	render(){
 		let localeditColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions
 
 		const lastLen = localeditColumnsOptions.length-1
-
-		console.log(222222)
 
 		return (
 			<div className = "ck-customize-gongn01">
@@ -86,7 +118,9 @@ class DivEdit extends React.Component{
 							                          <div className={i==lastLen?'Sequence-none02':'Sequence-bottom'} onClick = {this.handleItemDown.bind(this,i)}></div>
 						                         </div>
 												<div className = "ck-gongncnt-first">
-													<input type = 'text' value = {opt.Val} placeholder = "最多输入10个汉字"  onChange = {this.handleChangeInput.bind(this,i)} maxLength = "10"/>
+													<input type = 'text' value = {opt.Val} placeholder = "最多输入10个汉字"  
+													 onChange = {this.handleChangeInput.bind(this,i)} maxLength = "10"
+													 onBlur = {this.handleRepeatData.bind(this)}/>
 												</div>
 												<div className = "ck-gongncnt-second clearfix">
 													<button className={i==19?'disableadd':'add'} onClick = {this.handleAddItem.bind(this,i)}>+</button>

@@ -14,7 +14,8 @@ import {
     ACCOUNT_CUSTOM_DOWNITEM,
     ACCOUNT_CUSTOM_UPITEM,
     ACCOUNT_CUSTOM_SETTINGCANCLE,
-    DATAITEM
+    ACCOUNT_CUSTOM_DATAITEM,
+    ACCOUNT_CUSTOM_ISREPEAT,
 } from 'actions/Business/Account/Customizable'
 
 
@@ -23,12 +24,15 @@ const $$initialState = Immutable.fromJS({
     selectedRow:{}, 
     IsShow:false, 
     currentTabIndex:'1',
-    deletedItem:[]
+    deletedItem:[],
+    isRepeat:false,
 })
 
 const  Customizable = ($$state = $$initialState, action)=>{
     switch(action.type) {
-        case DATAITEM:
+        case ACCOUNT_CUSTOM_ISREPEAT:
+            return $$state.merge({isRepeat:action.payload})
+        case ACCOUNT_CUSTOM_DATAITEM:
             return $$state.merge({data:action.payload})
     	case ACCOUNT_CUSTOM_TABLE_GETDATA:
     		return $$state
