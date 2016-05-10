@@ -40,7 +40,7 @@ export default function configureStore(initialState) {
             collapsed,
             colors,
         })),
-        window.devToolsExtension()
+        window.devToolsExtension ? window.devToolsExtension() : f => f
     ))
 
     if (module.hot) {
