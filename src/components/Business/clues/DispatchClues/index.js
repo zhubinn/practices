@@ -284,6 +284,7 @@ export default class DispatchClues extends React.Component {
 
                 actions.updateTableData(selectIDs);
                 actions.showDispatchModal(!isShowModal)
+                actions.selectChange([], [])
                 message.success('分派成功！');
                 //setTimeout(() => location.reload(),500)
             }
