@@ -24,10 +24,6 @@ import DemoLoginPage from 'containers/__demo/Login'
 import DemoQueryNestedTablePage from 'containers/__demo/QueryNestedTable'
 
 
-import Account_List_Dept_Page from 'containers/Business/Account/List/Dept'
-import Account_List_Person_Page from 'containers/Business/Account/List/Person'
-import Account_Detail_Person_Page from 'containers/Business/Account/Detail/Person'
-import Account_Detail_Dept_Page from 'containers/Business/Account/Detail/Dept'
 
 
 import Error_404 from 'containers/Error/404'
@@ -88,12 +84,16 @@ export default (
                 <Route path="datalog/:role/:id" component={DataLog} />
                 <Route path="func/:role/:id" component={FuncLog} />
             </Route>
+
+            <Route path="numreport">
+                <Route path="list/:role/:id/:template/:tid" component={NumberReportViewPage} />
+            </Route>
+
+            <Route path="lead">
+                <Route path="dispatch/:role/:id" component={DispatchCluesPage} />
+            </Route>
+
         </Route>
-        /*报数查看路由*/
-        <Route path="scrmnumreport/index/list/:role/:id/:template/:tid" component={NumberReportViewPage}/>
-        /*线索分派路由*/
-        <Route path="scrmweb/lead/dispatch/:role/:id" component={DispatchCluesPage}/>
-        /*<Route path="scrmnumreport/index/list/VISITID/1/templateID/528" component={NumberReportViewPage}/>*/
 
         <Route path="*" component={Error_404}/>
     </Route>

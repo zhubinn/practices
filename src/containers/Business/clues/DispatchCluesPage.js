@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import DispatchClues from 'components/Business/clues/DispatchClues'
 
-import * as DispatchCluesActions from 'actions/DispatchClues/DispatchCluesActions'
+import * as DispatchCluesActions from 'actions/business/DispatchClues/DispatchCluesActions'
 
 
 class DispatchCluesPage extends Component {

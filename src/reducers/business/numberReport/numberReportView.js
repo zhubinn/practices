@@ -1,4 +1,4 @@
-import { FETCH_DATA,CLICK_PREV_NEXT_BUTTON, CLICK_SURE_DATER_BUTTON, IMPORT_BUTTON } from '../../../constants/numberReportViewTypes'
+import { FETCH_DATA,CLICK_PREV_NEXT_BUTTON, CLICK_SURE_DATER_BUTTON, IMPORT_BUTTON } from '../../../constants/numberReport/numberReportViewTypes'
 import Immutable from 'immutable'
 
 const $$initialState = {

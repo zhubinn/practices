@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import NumberReportView from 'components/Business/numberReport/NumberReportView'
 
-import * as NumberReportViewActions from 'actions/numberReport/NumberReportViewActions'
+import * as NumberReportViewActions from 'actions/business/numberReport/NumberReportViewActions'
 
 
 class NumberReportViewPage extends Component {

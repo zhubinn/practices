@@ -4,10 +4,6 @@
 import { combineReducers } from 'redux'
 
 
-
-import datalog from "./log/datalog"
-import FuncLog from "./log/funclog"
-
 import deptstatistic from "./business/deptstatistic"
 
 
@@ -34,7 +30,6 @@ import account_detail_dept from './account/detail/dept'
 
 import datalog from "./log/datalog"
 import FuncLog from "./log/funclog"
-import deptstatistic from "./business/deptstatistic"
 
 
 const businessReducers = combineReducers({

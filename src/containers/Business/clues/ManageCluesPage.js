@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 
-import * as NumberReportViewActions from 'actions/numberReport/NumberReportViewActions'
+import * as NumberReportViewActions from 'actions/business/numberReport/NumberReportViewActions'
 
 
 class ManageCluesPage extends Component {
