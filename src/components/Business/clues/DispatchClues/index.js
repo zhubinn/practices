@@ -81,8 +81,6 @@ export default class DispatchClues extends React.Component {
         const { dispatchCluesState,actions } = this.props
         const dispatchState = dispatchCluesState.toJS().dispatchState
 
-
-
         this.fetchTableData({
             assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
             rowsPerPage: 10
@@ -151,20 +149,17 @@ export default class DispatchClues extends React.Component {
         const { dispatchCluesState ,actions } = this.props
         const { rowData, loading, dispatchState } = dispatchCluesState.toJS()
 
-
-
-
         //未分派0
         if(dispatchState === 0){
             const rowSelection = {
                 onChange: this.onSelectChange.bind(this)
             };
             return (
-                loading  ? <Table ref="tableList" onChange={this.handleTableChange.bind(this)} loading={this.state.loading} pagination={this.state.pagination}  rowSelection={rowSelection} columns={columns} dataSource={rowData} /> : <Spin  />
+                loading  ? <Table ref="tableList" onChange={this.handleTableChange.bind(this)} loading={this.state.loading} pagination={this.state.pagination}  rowSelection={rowSelection} columns={columns} dataSource={rowData} /> : <div className="loading-box"><Spin  /></div>
             )
         }else if(dispatchState === 1){
             return (
-                loading  ? <Table ref="tableList" onChange={this.handleTableChange.bind(this)} loading={this.state.loading} pagination={this.state.pagination} columns={columns} dataSource={rowData} /> : <Spin  />
+                loading  ? <Table ref="tableList" onChange={this.handleTableChange.bind(this)} loading={this.state.loading} pagination={this.state.pagination} columns={columns} dataSource={rowData} /> : <div className="loading-box"><Spin  /></div>
             )
         }
 
@@ -173,6 +168,8 @@ export default class DispatchClues extends React.Component {
     handClickTab(state){
         const { dispatchCluesState,actions } = this.props
         const dispatchState = dispatchCluesState.toJS().dispatchState
+
+        if(state === dispatchState) return;
 
         this.setState({
             pagination: {}
