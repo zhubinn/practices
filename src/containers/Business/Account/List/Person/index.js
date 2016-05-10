@@ -2,7 +2,7 @@
  * Created by janeluck on 4/27/16.
  */
 import { connect } from 'react-redux'
-import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination,Modal, Form, Upload, message  } from 'antd'
+import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination,Modal, Form, Upload, message, Progress  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery, table_params } from 'actions/business/account/list/person'
@@ -13,7 +13,7 @@ import MapModal from 'containers/Business/Account/MapModal'
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
-
+const ProgressLine = Progress.Line;
 
 // SCRM.url 由原来外层页面引入
 
@@ -200,7 +200,9 @@ class Account_List_Person_Page extends React.Component {
         super()
         this.state = {
             importModalVisible: false,
-            fileList: []
+            inImport: false,
+            fileList: [],
+            importProgress: 0
         }
     }
 
@@ -290,7 +292,7 @@ class Account_List_Person_Page extends React.Component {
         console.log(this.state.fileList)
     }
 
-    handleExport = (e)=> {
+    handleExport = (e) => {
         e.preventDefault();
 
         const exportParam = {
@@ -302,6 +304,30 @@ class Account_List_Person_Page extends React.Component {
         console.log(exportUrl);
         window.open(exportUrl);
 
+    }
+
+    onProgress = (progress) => {
+
+        this.setState({
+            importProgress: progress
+        })
+        if (progress == 100) {
+            clearInterval(this.progressTimer)
+            message.success(`导入成功!`);
+            this.setState({
+                inImport: false
+            })
+        }
+
+
+    }
+    queryProcess = () => {
+        var that = this
+        this.progressTimer = setInterval(function () {
+            var progress = that.state.importProgress + 10
+
+            that.onProgress(progress);
+        }, 200);
     }
     render() {
         const {
@@ -320,7 +346,7 @@ class Account_List_Person_Page extends React.Component {
 
         const that = this
         const uploadProps = {
-            //showUploadList: false,
+            showUploadList: false,
             name: 'file',
             action: SCRM.url('/common/scrmImportOptimization/import/objName/Account'),
             headers: {
@@ -333,7 +359,14 @@ class Account_List_Person_Page extends React.Component {
                     console.log(info.file, info.fileList);
                 }
                 if (info.file.status === 'done') {
-                    message.success(`${info.file.name} 上传成功。`);
+                    message.success(`${info.file.name} 上传成功, 正在导入...`);
+                    that.setState({
+                        inImport: true,
+                        importProgress: 0
+                    })
+                    that.queryProcess()
+
+
                 } else if (info.file.status === 'error') {
                     message.error(`${info.file.name} 上传失败。`);
                 }
@@ -341,9 +374,16 @@ class Account_List_Person_Page extends React.Component {
                 that.setState({ fileList });
             }
         };
-        const importFooter = (<Row> <Col span="12" offset="3"><Button type="primary" onclick={(e)=>{this.handleImport(e)}}>
-            <Icon type="poweroff"/>开始导入
-        </Button></Col></Row>)
+        const importFooter = (<Row> <Col span="12" offset="3">
+            {this.state.inImport ? (<Button type="ghost" disabled><Icon type="poweroff"/>导入中...</Button>) : (<Upload {...uploadProps} >
+                <Button type="primary" loading={this.state.inImport}>
+                    <Icon type="upload"/>导入上传
+                </Button>
+            </Upload>) }
+
+
+
+       </Col></Row>)
 
         return (
             <div>
@@ -374,11 +414,7 @@ class Account_List_Person_Page extends React.Component {
                             <div>
                                 <h4>二、选择需要导入的CSV文件</h4>
                                 <div>
-                                    <Upload {...uploadProps} fileList={this.state.fileList}>
-                                        <Button type="ghost">
-                                            <Icon type="upload"/> 点击上传
-                                        </Button>
-                                    </Upload>
+
                                 </div>
                                 <div>
                                     <p>1、只支持CSV格式，文件大小不能超过1M；</p>
@@ -386,6 +422,11 @@ class Account_List_Person_Page extends React.Component {
                                     <p>3、请不要在同一时间导入多个文件。</p>
                                 </div>
                             </div>
+                            {this.state.inImport ? (<div>
+                                <h4>导入进度: </h4>
+                                <ProgressLine percent={this.state.importProgress} />*
+
+                            </div>) : null}
 
 
                         </Modal>
