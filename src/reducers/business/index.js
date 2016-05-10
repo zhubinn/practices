@@ -20,6 +20,11 @@ import account_detail_dept from './account/detail/dept'
 import datalog from "./log/datalog"
 import FuncLog from "./log/funclog"
 
+import deptstatistic from "./business/statistic/deptstatistic"
+import perstatistic from "./business/statistic/perstatistic"
+import deptsummary from "./business/summary/deptsummary"
+import persummary from "./business/summary/persummary"
+
 
 const businessReducers = combineReducers({
     account_Customizable,
@@ -35,6 +40,10 @@ const businessReducers = combineReducers({
     account_detail_dept,
     account_detail_person,
 
+    deptstatistic,
+    perstatistic,
+    deptsummary,
+    persummary,
     datalog,
     FuncLog,
 })
