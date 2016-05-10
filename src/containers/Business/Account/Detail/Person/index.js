@@ -369,7 +369,7 @@ class Account_Detail_Person_Page extends React.Component {
         return (
             <div style={{width: 1950}}>
 
-                <Table
+                <Table className = "ckDetil-depttable"
                     columns={business_columns}
                     dataSource={row.Opportunity}
                     pagination={false}>
@@ -407,18 +407,22 @@ class Account_Detail_Person_Page extends React.Component {
         queryDataTable.queryColumns = $$account_detail_person.toJS().queryColumns
         queryDataTable.loading = $$account_detail_person.toJS().loading
         return (
-            <div>
+            <div style={{marginLeft: '20px'}}>
+                <div style={{marginTop: '14px',marginBottom: '14px'}}>
                 <Row>
                     <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
                     <Col span="8" offset="8">
+                        <div className = "ckDetail-deptfilter">
                         <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
+                        </div>
 
                         <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
 
                     </Col>
                 </Row>
+                    </div>
                 <Tabs defaultActiveKey="all"
                       type="card"
                       onChange={i => {this.changeType(i)}}>

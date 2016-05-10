@@ -9,7 +9,7 @@ import { getTableData, getTableQuery, table_params } from 'actions/business/acco
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import MapModal from 'containers/Business/Account/MapModal'
-
+import 'containers/Business/index.less'
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 
@@ -274,18 +274,24 @@ class Account_List_Dept_Page extends React.Component {
         queryDataTable.queryColumns = $$account_list_dept.toJS().queryColumns
         queryDataTable.loading = $$account_list_dept.toJS().loading
         return (
-            <div>
+            <div style={{marginLeft: '20px'}}>
+              <div style={{marginTop: '14px',marginBottom: '14px'}}>
                 <Row>
-                    <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
+                    <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/></Col>
 
                     <Col span="8" offset="8">
-                        <Button type="primary" onClick={(e)=>{
+                        <div className = "cklist-deptfilter">
+                        <Button className='ckBtn' type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
+                            </div>
+                        <div className = "cklist-depChange">
                         <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更联系人</Button>
+                            </div>
                         <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
                     </Col>
                 </Row>
+              </div>
 
                 <Tabs defaultActiveKey="all"
                       type="card"

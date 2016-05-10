@@ -382,7 +382,7 @@ export default class QueryDataTable extends React.Component {
                     <div style={{width: this.calculateWidth()}}>
 
 
-
+                    <div className="ant-noneWe">
                         <div className="ant-table ant-table-large"
                              onSubmit={this.handleSubmit }>
                             <div className="ant-table-body">
@@ -413,6 +413,7 @@ export default class QueryDataTable extends React.Component {
 
                             </div>
 
+                        </div>
                         </div>
 
 

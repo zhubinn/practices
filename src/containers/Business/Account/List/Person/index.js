@@ -346,19 +346,26 @@ class Account_List_Person_Page extends React.Component {
         </Button></Col></Row>)
 
         return (
-            <div>
+            <div style={{marginLeft: '20px'}}>
+                <div style={{marginTop: '14px',marginBottom: '14px'}}>
                 <Row>
                     <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
-                    <Col span="8" offset="8">
+
+                    <Col span="8" offset="8" style={{width: '305px',float: 'right',marginLeft: '0px'}} >
+                        <div className = "cklist-Persontfilter">
                         <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
+                            </div>
+                        <div className = "cklist-PersonChange">
                         <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
+                            </div>
+                        <div className = "cklist-Persondaoru">
                         <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
+                            </div>
                         <Modal title="客户导入" visible={this.state.importModalVisible}
                                footer={importFooter}
-                               onCancel={(e) => {this.handleCancel(e)}}
-                        >
+                               onCancel={(e) => {this.handleCancel(e)}}>
                             <div>
                                 <h4>一、<a href="javascript:;">下载【客户导入模板】</a></h4>
                                 <div>
@@ -391,7 +398,9 @@ class Account_List_Person_Page extends React.Component {
                         </Modal>
                         <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
                     </Col>
+
                 </Row>
+                    </div>
 
                 <Tabs defaultActiveKey="all"
                       type="card"
