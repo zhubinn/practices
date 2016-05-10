@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Modal  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
-import { getTableData, getTableQuery } from 'actions/business/account/detail/dept'
+import { getTableData, getTableQuery, table_params } from 'actions/business/account/detail/dept'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import MapModal from 'containers/Business/Account/MapModal'
@@ -278,40 +278,6 @@ const business_columns = [
     }
 ]
 
-// fakeData
-const business_dataSource = [{
-    "ID": "372",
-    "AccountID": "\u9152\u6c34\u5ba2\u6237",
-    "Name": "\u535a\u767d\u751f\u610f",
-    "Stage": "",
-    "OwnerID": "\u5575\u5575\u2026\u2026\uff01\uff1f\u3002\u3002",
-    "CreatedTime": "2016.05.04 10:35",
-    "DiscoverDate": "2016-05-04",
-    "ExpectedCloseDate": "2016-05-04",
-    "AmountPlan": "200.00",
-    "PaymentTime": "2016-05-04",
-    "PaymentAmount": "10.00",
-    "WFFlag": "1",
-    "EndDate": "",
-    "Amount": "",
-    "Account": "40498"
-}, {
-    "ID": "344",
-    "AccountID": "\u9152\u6c34\u5ba2\u6237",
-    "Name": "\u9152\u6c34\u751f\u610f",
-    "Stage": "",
-    "OwnerID": "\u6ce2\u6ce2\u83dc\u83dc",
-    "CreatedTime": "2016.04.29 16:04",
-    "DiscoverDate": "2016-04-29",
-    "ExpectedCloseDate": "2016-04-29",
-    "AmountPlan": "5000.00",
-    "PaymentTime": "2016-04-29",
-    "PaymentAmount": "10.00",
-    "WFFlag": "1",
-    "EndDate": "",
-    "Amount": "",
-    "Account": "40498"
-}]
 class Account_Detail_Dept_Page extends React.Component {
     constructor() {
         super()
@@ -377,6 +343,19 @@ class Account_Detail_Dept_Page extends React.Component {
                 </Table>
             </div>)
     }
+    handleExport = (e)=> {
+        e.preventDefault();
+
+        const exportParam = {
+            objName: 'accountDeptListDetail',
+            ...(table_params.data)
+        }
+
+        const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
+        console.log(exportUrl);
+        window.open(exportUrl);
+
+    }
 
     render() {
         const {
@@ -402,7 +381,7 @@ class Account_Detail_Dept_Page extends React.Component {
                         }}>筛选</Button>
 
 
-                        <Button type="ghost">导出</Button>
+                        <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
                     </Col>
                 </Row>
                 <Tabs defaultActiveKey="all"

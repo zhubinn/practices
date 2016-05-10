@@ -8,12 +8,16 @@ import user from './user'
 import DemoPagination from './DemoPagination'
 import DemoTodoList from './DemoTodoList'
 
+import selectPeople from './selectPeople'
+
+
 
 const __demoReducers = combineReducers({
     report,
     user,
     DemoPagination,
     DemoTodoList,
+    selectPeople
 })
 
 export default __demoReducers
