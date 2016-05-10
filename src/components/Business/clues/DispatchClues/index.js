@@ -155,11 +155,22 @@ export default class DispatchClues extends React.Component {
                 onChange: this.onSelectChange.bind(this)
             };
             return (
-                loading  ? <Table ref="tableList" onChange={this.handleTableChange.bind(this)} loading={this.state.loading} pagination={this.state.pagination}  rowSelection={rowSelection} columns={columns} dataSource={rowData} /> : <div className="loading-box"><Spin  /></div>
+                loading  ? <Table ref="tableList"
+                                  onChange={this.handleTableChange.bind(this)}
+                                  loading={this.state.loading}
+                                  pagination={this.state.pagination}
+                                  rowSelection={rowSelection}
+                                  columns={columns}
+                                  dataSource={rowData} /> : <div className="loading-box"><Spin  /></div>
             )
         }else if(dispatchState === 1){
             return (
-                loading  ? <Table ref="tableList" onChange={this.handleTableChange.bind(this)} loading={this.state.loading} pagination={this.state.pagination} columns={columns} dataSource={rowData} /> : <div className="loading-box"><Spin  /></div>
+                loading  ? <Table ref="tableList"
+                                  onChange={this.handleTableChange.bind(this)}
+                                  loading={this.state.loading}
+                                  pagination={this.state.pagination}
+                                  columns={columns}
+                                  dataSource={rowData} /> : <div className="loading-box"><Spin  /></div>
             )
         }
 
@@ -299,8 +310,10 @@ export default class DispatchClues extends React.Component {
                     {
                         <div>
                             <div className="ds-dept-list">
-                                <Spin spining = { !deptData.length  } />
 
+                                <div  className = { !deptData.length ? "loading-box" : "loading-box hidden" }>
+                                    <Spin  />
+                                </div>
                                 <RadioGroup onChange={this.onDeptRadioChange.bind(this)} >
                                     {
                                         deptData.map((item, index) => {
