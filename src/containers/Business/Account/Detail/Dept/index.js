@@ -351,7 +351,7 @@ class Account_Detail_Dept_Page extends React.Component {
             ...(table_params.data)
         }
 
-        const exportUrl = SCRM.url('/common/scrmExport/export') + 'param=' + JSON.stringify(exportParam);
+        const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
         console.log(exportUrl);
         window.open(exportUrl);
 

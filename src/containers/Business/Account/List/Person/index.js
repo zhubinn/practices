@@ -199,7 +199,8 @@ class Account_List_Person_Page extends React.Component {
     constructor() {
         super()
         this.state = {
-            visible: false
+            importModalVisible: false,
+            fileList: []
         }
     }
 
@@ -261,9 +262,7 @@ class Account_List_Person_Page extends React.Component {
         }
 
     }
-    handleImport = () => {
 
-    }
     showImportModal = ()=> {
         this.setState({
             importModalVisible: true
@@ -287,15 +286,19 @@ class Account_List_Person_Page extends React.Component {
 
     }
 
+    handleImport = (e) => {
+        console.log(this.state.fileList)
+    }
+
     handleExport = (e)=> {
         e.preventDefault();
 
         const exportParam = {
-            objName: 'accountListDetail',
+            objName: 'accountList',
             ...(table_params.data)
         }
 
-        const exportUrl = SCRM.url('/common/scrmExport/export') + 'param=' + JSON.stringify(exportParam);
+        const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
         console.log(exportUrl);
         window.open(exportUrl);
 
@@ -315,14 +318,17 @@ class Account_List_Person_Page extends React.Component {
         queryDataTable.queryColumns = $$account_list_person.toJS().queryColumns
         queryDataTable.loading = $$account_list_person.toJS().loading
 
-
+        const that = this
         const uploadProps = {
+            //showUploadList: false,
             name: 'file',
-            action: '/upload.do',
+            action: SCRM.url('/common/scrmImportOptimization/import/objName/Account'),
             headers: {
                 authorization: 'authorization-text',
             },
+
             onChange(info) {
+
                 if (info.file.status !== 'uploading') {
                     console.log(info.file, info.fileList);
                 }
@@ -331,9 +337,11 @@ class Account_List_Person_Page extends React.Component {
                 } else if (info.file.status === 'error') {
                     message.error(`${info.file.name} 上传失败。`);
                 }
+                let fileList = info.fileList;
+                that.setState({ fileList });
             }
         };
-        const importFooter = (<Row> <Col span="12" offset="3"><Button type="primary">
+        const importFooter = (<Row> <Col span="12" offset="3"><Button type="primary" onclick={(e)=>{this.handleImport(e)}}>
             <Icon type="poweroff"/>开始导入
         </Button></Col></Row>)
 
@@ -347,8 +355,9 @@ class Account_List_Person_Page extends React.Component {
                         }}>筛选</Button>
                         <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
                         <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
-                        <Modal title="客户导入" visible={false}
+                        <Modal title="客户导入" visible={this.state.importModalVisible}
                                footer={importFooter}
+                               onCancel={(e) => {this.handleCancel(e)}}
                         >
                             <div>
                                 <h4>一、<a href="javascript:;">下载【客户导入模板】</a></h4>
@@ -365,7 +374,7 @@ class Account_List_Person_Page extends React.Component {
                             <div>
                                 <h4>二、选择需要导入的CSV文件</h4>
                                 <div>
-                                    <Upload {...uploadProps}>
+                                    <Upload {...uploadProps} fileList={this.state.fileList}>
                                         <Button type="ghost">
                                             <Icon type="upload"/> 点击上传
                                         </Button>
