@@ -8,6 +8,28 @@ class IndexPage extends React.Component {
     render() {
         return (
             <div>
+
+                /*leesx React-Redux demo*/
+                <div>
+                    <ul>
+                        <li>
+                            <Link to="/__demo/hello">
+                                添加删除过滤字段Hello
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/__demo/CustomEditFieldPage">
+                                客户自定义字段CustomEditFieldPage
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/numberReport/NumberReportViewPage">
+                                报数---查看报数
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+
                 <ul>
                     <li>
                         <Link to="/__demo/login">

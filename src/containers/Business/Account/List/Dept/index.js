@@ -16,7 +16,7 @@ const TabPane = Tabs.TabPane;
 // SCRM.url 由原来外层页面引入
 
 const columns = [{
-    title: '客户名称',
+    title: '客户名称22',
     dataIndex: 'Name',
     key: 'Name',
 
@@ -202,7 +202,6 @@ class Account_List_Dept_Page extends React.Component {
     componentDidMount() {
         // todo: url包装
         this.props.getTableData({
-
             url: SCRM.url('/scrmweb/accounts/getList')
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))

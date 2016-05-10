@@ -5,6 +5,7 @@
 import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 import {rowsData, columns, searchColumns,secondRowsData, secondColumns} from 'components/Business/DataTable/fakeData'
+let FormData = require('form-data');
 
 // 获取数据
 const GET_DATA = 'GET_DATA'
@@ -49,7 +50,6 @@ const getData = (params, source)=> {
      }, 1000)
      })*/
     return (dispatch, getState) => {
-
         dispatch(fetchData(GET_DATA, {pending: true, rows: []}, source))
         // todo: 封装
         fetch(params.url, {
