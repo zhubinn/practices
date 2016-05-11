@@ -4,6 +4,7 @@
 import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination,Modal, Form, Upload, message, Progress  } from 'antd'
 import 'antd/style/index.less'
+import reqwest from 'reqwest'
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery, table_params } from 'actions/business/account/list/person'
 import {
@@ -282,7 +283,19 @@ class Account_List_Person_Page extends React.Component {
             changeIsMultiselect(IsMultiselect)
             const {getPeopleData} = this.props
             getPeopleData(getPeopleParams)
+            reqwest({
+                url: SCRM.url('/setting/scrm/changeOwner'),
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    'objName': 'Account',
+                    'ownerID': '',
+                    'selectIDs': ''
+                },
+                success: function(r) {
 
+                }
+            })
 
         }
 
@@ -385,193 +398,187 @@ class Account_List_Person_Page extends React.Component {
         const exportParam = {
             objName: 'accountList',
             ...(table_params.data)
-    }
-
-    const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
-    console
-.
-    log(exportUrl)
-
-;
-    window
-.
-    open(exportUrl)
-
-;
-
-}
-
-onProgress = (progress) => {
-
-    this.setState({
-        importProgress: progress
-    })
-    if (progress == 100) {
-        clearInterval(this.progressTimer)
-        message.success(`导入成功!`);
-        this.setState({
-            inImport: false
-        })
-    }
-
-
-}
-queryProcess = () => {
-    var that = this
-    this.progressTimer = setInterval(function () {
-        var progress = that.state.importProgress + 10
-
-        that.onProgress(progress);
-    }, 200);
-}
-render()
-{
-    const {
-        $$account_list_person,
-        getTableData
-
-        } = this.props
-
-    let queryDataTable = {}
-    let peoplePropsData = {}
-    queryDataTable.dataSource = $$account_list_person.toJS().rows
-    queryDataTable.current = $$account_list_person.toJS().current
-    queryDataTable.total = $$account_list_person.toJS().total
-    queryDataTable.pageSize = $$account_list_person.toJS().pageSize
-    queryDataTable.queryColumns = $$account_list_person.toJS().queryColumns
-    queryDataTable.loading = $$account_list_person.toJS().loading
-
-
-    peoplePropsData.IsMultiselect = $$account_list_person.toJS().IsMultiselect
-    peoplePropsData.data = $$account_list_person.toJS().data
-    peoplePropsData.selectPeopleModal = $$account_list_person.toJS().selectPeopleModal
-
-    const that = this
-    const uploadProps = {
-        showUploadList: false,
-        name: 'file',
-        action: SCRM.url('/common/scrmImportOptimization/import/objName/Account'),
-        headers: {
-            authorization: 'authorization-text',
-        },
-
-        onChange(info) {
-
-            if (info.file.status !== 'uploading') {
-                console.log(info.file, info.fileList);
-            }
-            if (info.file.status === 'done') {
-                message.success(`${info.file.name} 上传成功, 正在导入...`);
-                that.setState({
-                    inImport: true,
-                    importProgress: 0
-                })
-                that.queryProcess()
-
-
-            } else if (info.file.status === 'error') {
-                message.error(`${info.file.name} 上传失败。`);
-            }
-
         }
-    };
-    const importFooter = (<Row> <Col span="12" offset="3">
-        {this.state.inImport ? (<Button type="ghost" disabled><Icon type="poweroff"/>导入中...</Button>) : (
-            <Upload {...uploadProps} >
-                <Button type="primary" loading={this.state.inImport}>
-                    <Icon type="upload"/>导入上传
-                </Button>
-            </Upload>) }
+
+        const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
+        console.log(exportUrl);
+        window.open(exportUrl);
+
+    }
+
+    onProgress = (progress) => {
+
+        this.setState({
+            importProgress: progress
+        })
+        if (progress == 100) {
+            clearInterval(this.progressTimer)
+            message.success(`导入成功!`);
+            this.setState({
+                inImport: false
+            })
+        }
 
 
-    </Col></Row>)
+    }
+    queryProcess = () => {
+        var that = this
+        this.progressTimer = setInterval(function () {
+            var progress = that.state.importProgress + 10
 
-    return (
-        <div style={{marginLeft: '20px'}}>
-            <div style={{marginTop: '14px',marginBottom: '14px'}}>
-                <Row>
-                    <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
-                    <Col span="10" offset="6">
-                        <div className="cklist-Persontfilter">
-                            <Button type="primary" onClick={(e)=>{
+
+            that.onProgress(progress);
+        }, 200);
+    }
+
+    render() {
+        const {
+            $$account_list_person,
+            getTableData
+
+            } = this.props
+
+        let queryDataTable = {}
+        let peoplePropsData = {}
+        queryDataTable.dataSource = $$account_list_person.toJS().rows
+        queryDataTable.current = $$account_list_person.toJS().current
+        queryDataTable.total = $$account_list_person.toJS().total
+        queryDataTable.pageSize = $$account_list_person.toJS().pageSize
+        queryDataTable.queryColumns = $$account_list_person.toJS().queryColumns
+        queryDataTable.loading = $$account_list_person.toJS().loading
+
+
+        peoplePropsData.IsMultiselect = $$account_list_person.toJS().IsMultiselect
+        peoplePropsData.data = $$account_list_person.toJS().data
+        peoplePropsData.selectPeopleModal = $$account_list_person.toJS().selectPeopleModal
+
+        const that = this
+        const uploadProps = {
+            showUploadList: false,
+            name: 'file',
+            action: SCRM.url('/common/scrmImportOptimization/import/objName/Account'),
+            headers: {
+                authorization: 'authorization-text',
+            },
+
+            onChange(info) {
+
+                if (info.file.status !== 'uploading') {
+                    console.log(info.file, info.fileList);
+                }
+                if (info.file.status === 'done') {
+                    message.success(`${info.file.name} 上传成功, 正在导入...`);
+                    that.setState({
+                        inImport: true,
+                        importProgress: 0
+                    })
+                    that.queryProcess()
+
+
+                } else if (info.file.status === 'error') {
+                    message.error(`${info.file.name} 上传失败。`);
+                }
+
+            }
+        };
+        const importFooter = (<Row> <Col span="12" offset="3">
+            {this.state.inImport ? (<Button type="ghost" disabled><Icon type="poweroff"/>导入中...</Button>) : (
+                <Upload {...uploadProps} >
+                    <Button type="primary" loading={this.state.inImport}>
+                        <Icon type="upload"/>导入上传
+                    </Button>
+                </Upload>) }
+
+
+        </Col></Row>)
+
+        return (
+            <div style={{marginLeft: '20px'}}>
+                <div style={{marginTop: '14px',marginBottom: '14px'}}>
+                    <Row>
+                        <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/>
+                        </Col>
+                        <Col span="10" offset="6">
+                            <div className="cklist-Persontfilter">
+                                <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
-                        </div>
-                        <div className="cklist-PersonChange">
-                            <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
-                        </div>
-                        <div className="cklist-Persondaoru">
-                            <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
-                        </div>
-                        <Modal title="客户导入" visible={this.state.importModalVisible}
-                               footer={importFooter}
-                               onCancel={(e) => {this.handleCancel(e)}}
-                               maskClosable={false}
-                               accept='.jpg'
+                            </div>
+                            <div className="cklist-PersonChange">
+                                <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
+                            </div>
+                            <div className="cklist-Persondaoru">
+                                <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
+                            </div>
+                            <Modal title="客户导入" visible={this.state.importModalVisible}
+                                   footer={importFooter}
+                                   onCancel={(e) => {this.handleCancel(e)}}
+                                   maskClosable={false}
+                                   accept='.jpg'
                             >
-                            <div>
-                                <h4>一、<a href="javascript:;">下载【客户导入模板】</a></h4>
-
                                 <div>
-                                    <p>请按照数据模板的格式准备要导入的数据。</p>
-                                </div>
-                                <p>注意事项:</p>
+                                    <h4>一、<a href="javascript:;">下载【客户导入模板】</a></h4>
 
-                                <div>
-                                    <p>1、模板中的表头不可更改，不可删除；</p>
+                                    <div>
+                                        <p>请按照数据模板的格式准备要导入的数据。</p>
+                                    </div>
+                                    <p>注意事项:</p>
 
-                                    <p>2、其中客户名称为必填项，其他均为选填项；</p>
+                                    <div>
+                                        <p>1、模板中的表头不可更改，不可删除；</p>
 
-                                    <p>3、填写客户地址时，特别行政区名称需填写在模板中的省份字段下，由省/自治区直辖的县级行政区划，需将其名称直接填写在模板中的市字段下。</p>
-                                </div>
-                            </div>
-                            <div>
-                                <h4>二、选择需要导入的CSV文件</h4>
+                                        <p>2、其中客户名称为必填项，其他均为选填项；</p>
 
-                                <div>
-
+                                        <p>3、填写客户地址时，特别行政区名称需填写在模板中的省份字段下，由省/自治区直辖的县级行政区划，需将其名称直接填写在模板中的市字段下。</p>
+                                    </div>
                                 </div>
                                 <div>
-                                    <p>1、只支持CSV格式，文件大小不能超过1M；</p>
+                                    <h4>二、选择需要导入的CSV文件</h4>
 
-                                    <p>2、为保证较好性能，请将导入条数控制在2000条以内；</p>
+                                    <div>
 
-                                    <p>3、请不要在同一时间导入多个文件。</p>
+                                    </div>
+                                    <div>
+                                        <p>1、只支持CSV格式，文件大小不能超过1M；</p>
+
+                                        <p>2、为保证较好性能，请将导入条数控制在2000条以内；</p>
+
+                                        <p>3、请不要在同一时间导入多个文件。</p>
+                                    </div>
                                 </div>
-                            </div>
-                            {this.state.inImport ? (<div>
-                                <h4>导入进度: </h4>
-                                <ProgressLine percent={this.state.importProgress}/>*
+                                {this.state.inImport ? (<div>
+                                    <h4>导入进度: </h4>
+                                    <ProgressLine percent={this.state.importProgress}/>*
 
-                            </div>) : null}
-
-
-                        </Modal>
-                        <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
-                    </Col>
-                </Row>
-
-                <Tabs defaultActiveKey="all"
-                      type="card"
-                      onChange={i => {this.changeType(i)}}>
-                    <TabPane tab="全部客户" key="all">
-                    </TabPane>
-                    <TabPane tab="负责的客户" key="owner">
-                    </TabPane>
-                    <TabPane tab="参与的客户" key="relation">
-                    </TabPane>
-                    <TabPane tab="重点客户" key="important">
-                    </TabPane>
-                    <TabPane tab="关注的客户" key="follow">
-                    </TabPane>
-                </Tabs>
+                                </div>) : null}
 
 
-                <QueryDataTable
-                    columns={columns}
-                    checkMode={true}
-                    {...queryDataTable}
-                    onGetTableData={
+                            </Modal>
+                            <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
+                        </Col>
+                    </Row>
+
+                    <Tabs defaultActiveKey="all"
+                          type="card"
+                          onChange={i => {this.changeType(i)}}>
+                        <TabPane tab="全部客户" key="all">
+                        </TabPane>
+                        <TabPane tab="负责的客户" key="owner">
+                        </TabPane>
+                        <TabPane tab="参与的客户" key="relation">
+                        </TabPane>
+                        <TabPane tab="重点客户" key="important">
+                        </TabPane>
+                        <TabPane tab="关注的客户" key="follow">
+                        </TabPane>
+                    </Tabs>
+
+
+                    <QueryDataTable
+                        columns={columns}
+                        checkMode={true}
+                        {...queryDataTable}
+                        onGetTableData={
 
                                 (obj)=>{
                                     this.refs.searchInput.emptyInput()
@@ -580,20 +587,20 @@ render()
                                     })
                                 }
                             }
-                    ref="queryDataTable"
+                        ref="queryDataTable"
                     >
-                </QueryDataTable>
-                <SelectPeople
-                    {...peoplePropsData}
-                    handleClickConfirm={this.getFilterData.bind(this)}
-                    handleClickCancle={this.handleChangeStatus.bind(this)}
-                    requestData={this.requestPDList.bind(this)}
-                    requestNextPoepleData={this.requestNextPoepleData.bind(this)}
+                    </QueryDataTable>
+                    <SelectPeople
+                        {...peoplePropsData}
+                        handleClickConfirm={this.getFilterData.bind(this)}
+                        handleClickCancle={this.handleChangeStatus.bind(this)}
+                        requestData={this.requestPDList.bind(this)}
+                        requestNextPoepleData={this.requestNextPoepleData.bind(this)}
                     />
+                </div>
             </div>
-        </div>
-    )
-}
+        )
+    }
 }
 
 const mapStateToProps = (state, ownProps) => {
