@@ -428,8 +428,12 @@ export default class QueryDataTable extends React.Component {
                     </div>
 
                 </div>
+                {/*
+                是否分页
+                默认展示分页, 当props传入pagination: false不再分页
+                */}
+                {(typeof  this.props.pagination !== 'undefined') && !this.props.pagination ? null : (<Pagination  {...pagination}/>)}
 
-                <Pagination  {...pagination}/>
             </div>
         )
     }
