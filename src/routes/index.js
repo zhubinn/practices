@@ -7,7 +7,7 @@ import { Route, IndexRoute } from 'react-router'
 
 //Develop Leesx
 //报数-报数查看
-import NumberReportViewPage from 'containers/Business/NumberReport/NumberReportView'
+import NumberReportViewPage from 'containers/Business/NumberReport/ListView'
 //线索-线索分派
 import DispatchCluesPage from 'containers/Business/Clues/DispatchClues'
 // import DemoPagination from 'containers/__demo/Pagination'

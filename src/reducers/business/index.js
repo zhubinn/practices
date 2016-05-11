@@ -6,8 +6,8 @@ import { combineReducers } from 'redux'
 
 
 
-import numberReportViewState from './numberReport/numberReportView'
-import dispatchCluesState from './dispatchClues/dispatchClues'
+import numberReportViewState from './numberReport/ListView'
+import dispatchCluesState from './clues/DispatchClues'
 
 
 import account_Customizable from './account/Customizable'
