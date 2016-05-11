@@ -13,11 +13,22 @@ class DivEdit extends React.Component{
 	handleAddItem(i){
 		const {addItem} = this.props;
         const ColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions;
-		/*zanding 50 tiao*/
-		if(ColumnsOptions.length<50){
+		/*最多添加50条信息，不包含系统默认的*/
+		let columnArrNoSys = []
+
+		ColumnsOptions.map((r,i)=>{
+			if(r.IsSys==0){
+				columnArrNoSys.push(r)
+			}
+		})
+
+		if(columnArrNoSys.length<51){
 			addItem(i);
 		}else{
-			message.warn('最多可添加50条选项');
+	        message.config({
+	          top: 250
+	        });   			
+	        message.warn('最多可添加50条选项');
 		}
 	}
 	handleDeletItem(i){
@@ -66,30 +77,32 @@ class DivEdit extends React.Component{
 				columnsArr.push(r.Val)
 			}
 		})
-		let s = columnsArr.join(",")+",";
+		let nary=columnsArr.sort();
 
-		for(let i=0;i<columnsArr.length;i++) {
+		//定义一个变量记录
+		let isRepeat = 1
+		for(let i=0;i<columnsArr.length;i++){
 
-		if(s.replace(columnsArr[i]+",","").indexOf(columnsArr[i]+",")>-1) {
+			if (nary[i]==nary[i+1]){
 
-		//alert("数组中有重复元素：" + columnsArr[i]);
-        message.config({
-          top: 250
-        });    			
-        message.warn('字段名称不允许重复');
+		        message.config({
+		          top: 250
+		        });    			
+		        message.warn(columnsArr[i]+'字段不能重复');
 
-        	const {HasRepeatData} = this.props
-        	HasRepeatData(true)
+		        	const {HasRepeatData} = this.props
+		        	HasRepeatData(true)
 
+				break;
 
+			}else{
+				isRepeat = 0
+			}
 
-		break;
-
-		}else{
-        	const {HasRepeatData} = this.props
-        	HasRepeatData(false)
 		}
-
+		if(isRepeat == 0){
+        	const {HasRepeatData} = this.props
+        	HasRepeatData(false)		
 		}
 	}
 	render(){
@@ -120,14 +133,16 @@ class DivEdit extends React.Component{
 												<div className = "ck-gongncnt-first">
 													<input type = 'text' value = {opt.Val} placeholder = "最多输入10个汉字"  
 													 onChange = {this.handleChangeInput.bind(this,i)} maxLength = "10"
-													 onBlur = {this.handleRepeatData.bind(this)}/>
+													 onBlur = {this.handleRepeatData.bind(this)}
+													 readOnly = {opt.IsSys =='1'?true:false}/>
 												</div>
 												<div className = "ck-gongncnt-second clearfix">
-													<button className={i==19?'disableadd':'add'} onClick = {this.handleAddItem.bind(this,i)}>+</button>
+													<button className='add' onClick = {this.handleAddItem.bind(this,i)}>+</button>
 													<button className={opt.IsSys=='1'?'disableCut':'cut'} disabled = {opt.IsSys=='1'?'disabled':''} onClick = {this.handleDeletItem.bind(this,i)}>-</button>
 												</div>
 												<div className = "ck-gongncnt-third">
-													 <Select  value = {opt.IsStop==0?'启用':'未启用'} style={{ width: 90 }} onChange={this.handleChangeselect.bind(this,i)}>
+													 <Select  value = {opt.IsStop==0?'启用':'未启用'} style={{ width: 90 }} 
+													 onChange={this.handleChangeselect.bind(this,i)} disabled = {opt.IsSys=='1'?true:false}>
 													      <Option value = "1" >未启用</Option>
 													      <Option value = "0" >启用</Option>
 													  </Select>
