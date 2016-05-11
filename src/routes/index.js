@@ -3,19 +3,33 @@
  */
 import { Route, IndexRoute } from 'react-router'
 
+
+
+//Develop Leesx
+import HelloPage from 'containers/__demo/HelloPage'
+import CustomEditFieldPage from 'containers/__demo/CustomEditFieldPage'
+import NumberReportViewPage from 'containers/Business/numberReport/NumberReportViewPage'
+import DispatchCluesPage from 'containers/Business/clues/DispatchCluesPage'
+import ManageCluesPage from 'containers/Business/clues/ManageCluesPage'
+// import DemoPagination from 'containers/__demo/Pagination'
+
+
 import IndexPage from 'containers'
 
 import MasterPage from 'containers/Master/Default'
 import ModulePage from 'containers/Master/Module'
 import DemoTablePage from 'containers/__demo/Table'
 import DemoLoginPage from 'containers/__demo/Login'
+import selectPeoplePage from 'containers/__demo/selectPeople'
 
 import DemoQueryNestedTablePage from 'containers/__demo/QueryNestedTable'
 
 import Error_404 from 'containers/Error/404'
 
 
+
 //客户
+
 import CustomizablePage from 'containers/Business/Account/Customizable'
 import DeptStatisticPage from 'containers/Business/Account/Statistic/DeptStatistic'
 import PerStatisticPage from 'containers/Business/Account/Statistic/PerStatistic'
@@ -49,6 +63,8 @@ export default (
             <Route path="table" component={DemoTablePage}/>
             <Route path="login" component={DemoLoginPage}/>
             <Route path="nested_table" component={DemoQueryNestedTablePage}/>
+            <Route path="selectPeople" component={selectPeoplePage}/>
+
         </Route>
 
 
@@ -80,6 +96,15 @@ export default (
                 <Route path="datalog/:role/:id" component={DataLog} />
                 <Route path="func/:role/:id" component={FuncLog} />
             </Route>
+
+            <Route path="numreport">
+                <Route path="list/:role/:id/:template/:tid" component={NumberReportViewPage} />
+            </Route>
+
+            <Route path="lead">
+                <Route path="dispatch/:role/:id" component={DispatchCluesPage} />
+            </Route>
+
         </Route>
 
         <Route path="*" component={Error_404}/>

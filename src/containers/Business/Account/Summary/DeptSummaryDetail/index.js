@@ -81,10 +81,21 @@ class AccountSummaryDetail extends React.Component{
     const {getAccountSummaryDetailData} = this.props
       this.props.getAccountSummaryDetailData(summaryDetailParams)
   }
-  exportTable(e){
-    //alert('导出报表接口')
-
+  //导出报表
+  exportTable(){
+    let exportParam = {
+      objName:'accountSummaryDetail',
+      keyword:summaryDetailParams['data'].keyword,
+      deptID:typeof id === 'undefined' ? -1 :id,
+      deptName:typeof name === 'undefined' ? '':name
+    }
+    let exportParamStr = JSON.stringify(exportParam);
+    let p = 'param='+exportParamStr;
+    const exportUrl = SCRM.url('/common/scrmExport/export')+'?'+p;
+    console.log(exportUrl);
+    window.open(exportUrl);
   }
+  //搜索
   handleClickSearch(value){
     const {getAccountSummaryDetailData} = this.props
     summaryDetailParams['data'].keyword = value
@@ -95,6 +106,11 @@ class AccountSummaryDetail extends React.Component{
   render(){
           const rowData = this.props.$$account_deptsummarydetail.toJS().rowData
           const loading = this.props.$$account_deptsummarydetail.toJS().loading
+          let dataSource = []
+          rowData.map((r,i)=>{
+             r["key"] = i;
+             dataSource.push(r)
+          })      
           return (
             <div style={{marginLeft: '20px'}}>
                 <div className = "col_cktop">
@@ -112,7 +128,7 @@ class AccountSummaryDetail extends React.Component{
                     <div className = "summaryDetaildataTableCon">
                       <Table ref = "dataTable"
                        columns={summaryDetailColumns} 
-                       dataSource={rowData} 
+                       dataSource={dataSource} 
                        useFixedHeader 
                        pagination = {false}
                        loading={loading}

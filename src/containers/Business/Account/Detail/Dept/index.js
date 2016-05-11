@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Modal  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
-import { getTableData, getTableQuery } from 'actions/business/account/detail/dept'
+import { getTableData, getTableQuery, table_params } from 'actions/business/account/detail/dept'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import MapModal from 'containers/Business/Account/MapModal'
@@ -116,6 +116,11 @@ const columns = [{
     title: '门店电话',
     dataIndex: 'Phone6',
     key: 'Phone6',
+
+}, {
+    title: '传真',
+    dataIndex: 'Phone8',
+    key: 'Phone8',
 
 }, {
     title: '其他电话',
@@ -278,40 +283,6 @@ const business_columns = [
     }
 ]
 
-// fakeData
-const business_dataSource = [{
-    "ID": "372",
-    "AccountID": "\u9152\u6c34\u5ba2\u6237",
-    "Name": "\u535a\u767d\u751f\u610f",
-    "Stage": "",
-    "OwnerID": "\u5575\u5575\u2026\u2026\uff01\uff1f\u3002\u3002",
-    "CreatedTime": "2016.05.04 10:35",
-    "DiscoverDate": "2016-05-04",
-    "ExpectedCloseDate": "2016-05-04",
-    "AmountPlan": "200.00",
-    "PaymentTime": "2016-05-04",
-    "PaymentAmount": "10.00",
-    "WFFlag": "1",
-    "EndDate": "",
-    "Amount": "",
-    "Account": "40498"
-}, {
-    "ID": "344",
-    "AccountID": "\u9152\u6c34\u5ba2\u6237",
-    "Name": "\u9152\u6c34\u751f\u610f",
-    "Stage": "",
-    "OwnerID": "\u6ce2\u6ce2\u83dc\u83dc",
-    "CreatedTime": "2016.04.29 16:04",
-    "DiscoverDate": "2016-04-29",
-    "ExpectedCloseDate": "2016-04-29",
-    "AmountPlan": "5000.00",
-    "PaymentTime": "2016-04-29",
-    "PaymentAmount": "10.00",
-    "WFFlag": "1",
-    "EndDate": "",
-    "Amount": "",
-    "Account": "40498"
-}]
 class Account_Detail_Dept_Page extends React.Component {
     constructor() {
         super()
@@ -320,10 +291,22 @@ class Account_Detail_Dept_Page extends React.Component {
 
     componentDidMount() {
 
-        this.props.getTableData({
 
-            url: SCRM.url('/scrmweb/accounts/getListDetail')
+
+        // 判断是否为穿透
+        let data = {}
+
+        if(!!(window.location.search.match(/id=(\d*)/) && RegExp.$1)){
+            data.deptID =RegExp.$1
+        }
+
+        // 获取table的数据
+        this.props.getTableData({
+            url: SCRM.url('/scrmweb/accounts/getListDetail'),
+            data
         })
+
+
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
 
@@ -369,13 +352,26 @@ class Account_Detail_Dept_Page extends React.Component {
 
         return (
             <div style={{width: 1950}}>
-                <Table
+                <Table className = "ckDetil-depttable"
                     columns={business_columns}
                     dataSource={row.Opportunity}
                     pagination={false}>
 
                 </Table>
             </div>)
+    }
+    handleExport = (e)=> {
+        e.preventDefault();
+
+        const exportParam = {
+            objName: 'accountDeptListDetail',
+            ...(table_params.data)
+        }
+
+        const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
+        console.log(exportUrl);
+        window.open(exportUrl);
+
     }
 
     render() {
@@ -393,18 +389,22 @@ class Account_Detail_Dept_Page extends React.Component {
         queryDataTable.queryColumns = $$account_detail_dept.toJS().queryColumns
         queryDataTable.loading = $$account_detail_dept.toJS().loading
         return (
-            <div>
-                <Row>
-                    <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
-                    <Col span="8" offset="8">
-                        <Button type="primary" onClick={(e)=>{
-                            this.refs.queryDataTable.toggleQueryTable(e)
-                        }}>筛选</Button>
+            <div style={{marginLeft: '20px'}}>
+                <div style={{marginTop: '14px',marginBottom: '14px'}}>
+                    <Row>
+                        <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
+                        <Col span="8" offset="8">
+                            <div className = "ckDetail-deptfilter">
+                            <Button type="primary" onClick={(e)=>{
+                                this.refs.queryDataTable.toggleQueryTable(e)
+                            }}>筛选</Button>
+                                </div>
 
 
-                        <Button type="ghost">导出</Button>
-                    </Col>
-                </Row>
+                            <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
+                        </Col>
+                    </Row>
+                </div>
                 <Tabs defaultActiveKey="all"
                       type="card"
                       onChange={i => {this.changeType(i)}}>

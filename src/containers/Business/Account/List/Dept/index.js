@@ -5,18 +5,18 @@ import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Modal  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
-import { getTableData, getTableQuery } from 'actions/business/account/list/dept'
+import { getTableData, getTableQuery, table_params } from 'actions/business/account/list/dept'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import MapModal from 'containers/Business/Account/MapModal'
-
+import 'containers/Business/index.less'
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 
 // SCRM.url 由原来外层页面引入
 
 const columns = [{
-    title: '客户名称',
+    title: '客户名称22',
     dataIndex: 'Name',
     key: 'Name',
 
@@ -118,6 +118,11 @@ const columns = [{
     key: 'Phone6',
 
 }, {
+    title: '传真',
+    dataIndex: 'Phone8',
+    key: 'Phone8',
+
+}, {
     title: '其他电话',
     dataIndex: 'Phone7',
     key: 'Phone7',
@@ -200,10 +205,17 @@ class Account_List_Dept_Page extends React.Component {
     }
 
     componentDidMount() {
-        // todo: url包装
-        this.props.getTableData({
+        // 判断是否为穿透
+        let data = {}
 
-            url: SCRM.url('/scrmweb/accounts/getList')
+        if(!!(window.location.search.match(/id=(\d*)/) && RegExp.$1)){
+            data.deptID =RegExp.$1
+        }
+
+        // 获取table的数据
+        this.props.getTableData({
+            url: SCRM.url('/scrmweb/accounts/getList'),
+            data
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
@@ -246,7 +258,19 @@ class Account_List_Dept_Page extends React.Component {
         console.log(this.refs.queryDataTable.getCheckedRows())
 
     }
+    handleExport = (e)=> {
+        e.preventDefault();
 
+        const exportParam = {
+            objName: 'accountDeptList',
+            ...(table_params.data)
+        }
+
+        const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
+        console.log(exportUrl);
+        window.open(exportUrl);
+
+    }
     render() {
         const {
             $$account_list_dept,
@@ -262,18 +286,24 @@ class Account_List_Dept_Page extends React.Component {
         queryDataTable.queryColumns = $$account_list_dept.toJS().queryColumns
         queryDataTable.loading = $$account_list_dept.toJS().loading
         return (
-            <div>
+            <div style={{marginLeft: '20px'}}>
+              <div style={{marginTop: '14px',marginBottom: '14px'}}>
                 <Row>
-                    <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
+                    <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/></Col>
 
                     <Col span="8" offset="8">
-                        <Button type="primary" onClick={(e)=>{
+                        <div className = "cklist-deptfilter">
+                        <Button className='ckBtn' type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
+                            </div>
+                        <div className = "cklist-depChange">
                         <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更联系人</Button>
-                        <Button type="ghost">导出</Button>
+                            </div>
+                        <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
                     </Col>
                 </Row>
+              </div>
 
                 <Tabs defaultActiveKey="all"
                       type="card"
