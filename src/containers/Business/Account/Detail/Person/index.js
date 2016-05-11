@@ -318,10 +318,17 @@ class Account_Detail_Person_Page extends React.Component {
     }
 
     componentDidMount() {
-        // todo: url包装
-        this.props.getTableData({
+        // 判断是否为穿透
+        let data = {}
 
-            url: SCRM.url('/scrmweb/accounts/getListDetail')
+        if(!!(window.location.search.match(/id=(\d*)/) && RegExp.$1)){
+            data.userID =RegExp.$1
+        }
+
+        // 获取table的数据
+        this.props.getTableData({
+            url: SCRM.url('/scrmweb/accounts/getListDetail'),
+            data
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }

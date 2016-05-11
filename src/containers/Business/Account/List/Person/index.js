@@ -31,6 +31,10 @@ let getPeopleParams = {
         keyword: ''
     }
 }
+
+
+
+
 // SCRM.url 由原来外层页面引入
 
 const columns = [{
@@ -223,10 +227,18 @@ class Account_List_Person_Page extends React.Component {
     }
 
     componentDidMount() {
-        // todo: url包装
-        this.props.getTableData({
 
-            url: SCRM.url('/scrmweb/accounts/getList')
+        // 判断是否为穿透
+        let data = {}
+
+        if(!!(window.location.search.match(/id=(\d*)/) && RegExp.$1)){
+            data.userID =RegExp.$1
+        }
+
+        // 获取table的数据
+        this.props.getTableData({
+            url: SCRM.url('/scrmweb/accounts/getList'),
+            data
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }

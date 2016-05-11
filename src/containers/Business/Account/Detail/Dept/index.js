@@ -286,10 +286,22 @@ class Account_Detail_Dept_Page extends React.Component {
 
     componentDidMount() {
 
-        this.props.getTableData({
 
-            url: SCRM.url('/scrmweb/accounts/getListDetail')
+
+        // 判断是否为穿透
+        let data = {}
+
+        if(!!(window.location.search.match(/id=(\d*)/) && RegExp.$1)){
+            data.deptID =RegExp.$1
+        }
+
+        // 获取table的数据
+        this.props.getTableData({
+            url: SCRM.url('/scrmweb/accounts/getListDetail'),
+            data
         })
+
+
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
 
