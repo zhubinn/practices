@@ -181,9 +181,17 @@ export default class QueryDataTable extends React.Component {
                                 </tr>
                                 </tbody>
                             </table>
-                            <div className="formFooter">
-                                <Button type="ghost" onClick={(e) => {this.resetForm(e)}}>重置</Button>
-                                <Button type="primary"  onClick={(e) => {this.handleSubmit(e)}}>确定</Button>
+                            <div className="QueryDataTable-formFooter">
+                                <Row>
+                                    <Col span={12} offset={6}>
+                                        <div className="ckDetail-deptfilter">
+                                            <Button type="ghost" onClick={(e) => {this.resetForm(e)}}>重置</Button>
+                                        </div>
+
+                                        <Button type="primary"  onClick={(e) => {this.handleSubmit(e)}}>确定</Button>
+                                    </Col>
+                                 </Row>
+
                             </div>
                         </Form>
 
