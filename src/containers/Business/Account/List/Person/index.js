@@ -266,6 +266,7 @@ class Account_List_Person_Page extends React.Component {
     }
 
 
+
     //变更负责人选人
     changeOwner = (e) => {
         console.log('获取已经选择的row')
@@ -405,7 +406,6 @@ class Account_List_Person_Page extends React.Component {
         window.open(exportUrl);
 
     }
-
     onProgress = (progress) => {
 
         this.setState({
@@ -426,12 +426,11 @@ class Account_List_Person_Page extends React.Component {
         this.progressTimer = setInterval(function () {
             var progress = that.state.importProgress + 10
 
-
             that.onProgress(progress);
         }, 200);
     }
-
-    render() {
+    render()
+    {
         const {
             $$account_list_person,
             getTableData
@@ -496,20 +495,24 @@ class Account_List_Person_Page extends React.Component {
             <div style={{marginLeft: '20px'}}>
                 <div style={{marginTop: '14px',marginBottom: '14px'}}>
                     <Row>
-                        <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/>
-                        </Col>
+                        <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
+
                         <Col span="10" offset="6">
+
                             <div className="cklist-Persontfilter">
                                 <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
                             </div>
+
                             <div className="cklist-PersonChange">
                                 <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
                             </div>
+
                             <div className="cklist-Persondaoru">
                                 <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
                             </div>
+
                             <Modal title="客户导入" visible={this.state.importModalVisible}
                                    footer={importFooter}
                                    onCancel={(e) => {this.handleCancel(e)}}
@@ -557,28 +560,31 @@ class Account_List_Person_Page extends React.Component {
                             <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
                         </Col>
                     </Row>
-
-                    <Tabs defaultActiveKey="all"
-                          type="card"
-                          onChange={i => {this.changeType(i)}}>
-                        <TabPane tab="全部客户" key="all">
-                        </TabPane>
-                        <TabPane tab="负责的客户" key="owner">
-                        </TabPane>
-                        <TabPane tab="参与的客户" key="relation">
-                        </TabPane>
-                        <TabPane tab="重点客户" key="important">
-                        </TabPane>
-                        <TabPane tab="关注的客户" key="follow">
-                        </TabPane>
-                    </Tabs>
+                </div>
 
 
-                    <QueryDataTable
-                        columns={columns}
-                        checkMode={true}
-                        {...queryDataTable}
-                        onGetTableData={
+
+                <Tabs defaultActiveKey="all"
+                      type="card"
+                      onChange={i => {this.changeType(i)}}>
+                    <TabPane tab="全部客户" key="all">
+                    </TabPane>
+                    <TabPane tab="负责的客户" key="owner">
+                    </TabPane>
+                    <TabPane tab="参与的客户" key="relation">
+                    </TabPane>
+                    <TabPane tab="重点客户" key="important">
+                    </TabPane>
+                    <TabPane tab="关注的客户" key="follow">
+                    </TabPane>
+                </Tabs>
+
+
+                <QueryDataTable
+                    columns={columns}
+                    checkMode={true}
+                    {...queryDataTable}
+                    onGetTableData={
 
                                 (obj)=>{
                                     this.refs.searchInput.emptyInput()
@@ -587,18 +593,18 @@ class Account_List_Person_Page extends React.Component {
                                     })
                                 }
                             }
-                        ref="queryDataTable"
-                    >
-                    </QueryDataTable>
-                    <SelectPeople
-                        {...peoplePropsData}
-                        handleClickConfirm={this.getFilterData.bind(this)}
-                        handleClickCancle={this.handleChangeStatus.bind(this)}
-                        requestData={this.requestPDList.bind(this)}
-                        requestNextPoepleData={this.requestNextPoepleData.bind(this)}
-                    />
-                </div>
+                    ref="queryDataTable"
+                >
+                </QueryDataTable>
+                <SelectPeople
+                    {...peoplePropsData}
+                    handleClickConfirm={this.getFilterData.bind(this)}
+                    handleClickCancle={this.handleChangeStatus.bind(this)}
+                    requestData={this.requestPDList.bind(this)}
+                    requestNextPoepleData={this.requestNextPoepleData.bind(this)}
+                />
             </div>
+
         )
     }
 }

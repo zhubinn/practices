@@ -346,7 +346,7 @@ export default class QueryDataTable extends React.Component {
 
         let table = (
             <Table ref='dataTable'
-                   size='small'
+
                    dataSource={dataSource}
                    columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
                                )}
@@ -359,7 +359,7 @@ export default class QueryDataTable extends React.Component {
         )
         if (this.props.expandedRowRender) {
             table = (<Table ref='dataTable'
-                            size='small'
+
                            dataSource={dataSource}
                            columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
                                )}
