@@ -59,7 +59,7 @@ export default function deptstatistic($$state = Immutable.fromJS(perSummary), ac
         case GET_PERSUMMARY_DATA:
             return $$state;
         case GET_PERSUMMARY_SUCCESS:
-            return $$state.mergeDeep({tableData: action.payload.data});
+            return $$state.merge({tableData: action.payload.data});
         default:
             return $$state;
     }

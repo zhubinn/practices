@@ -16,15 +16,15 @@ import {
 let funclog = {
     queryColumns:{
         "Operator": {
-            "searchType": 18,
+            "searchType": 5,
             "renderData": {
                 "defaultValue": ""
             }
         },
         "RelObjectType": {
-            "searchType": 12,
+            "searchType": 13,
             "renderData": {
-                "defaultValue": "",
+                "defaultValue": 1,
                 "options": [
                     {
                         "text": "客户",
@@ -70,7 +70,7 @@ let funclog = {
             }
         },
         "OperatorType": {
-            "searchType": 12,
+            "searchType": 13,
             "renderData": {
                 "defaultValue": "",
                 "options": [

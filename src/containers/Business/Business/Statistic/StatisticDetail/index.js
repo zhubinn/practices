@@ -65,7 +65,7 @@ class statisticDetail extends React.Component {
 
         let queryDataTable = {}
         queryDataTable.dataSource = $$statisticDetail.get('tableData').get('data').toJS();
-        queryDataTable.queryColumns = $$statisticDetail.get('queryColumns').toJS()
+        //queryDataTable.queryColumns = $$statisticDetail.get('queryColumns').toJS()
 
         return (
             <div  style = {{marginLeft: '20px'}} >
@@ -74,15 +74,13 @@ class statisticDetail extends React.Component {
                   <SearchInput  ref="searchInput"  onSearch = {this.normalSearch} />
                 </Col>
                 <Col span="14" style = {{textAlign: 'right'}} >
-                  <Button type="primary" onClick={(e)=>{
-                            this.refs.queryDataTable.toggleQueryTable(e)
-                        }}>筛选</Button>
                   <Button type="ghost" onClick = {this.exportConfirm} >导出EXCEL</Button>
                 </Col>
               </Row>
               <QueryDataTable
                     columns={columns}
                     checkMode={false}
+                    pagination={false}
                     {...queryDataTable}
                     onGetTableData={
                                 (obj)=>{
@@ -93,6 +91,14 @@ class statisticDetail extends React.Component {
                                 }
                             }
                     ref="queryDataTable"
+                    rowClassName = {
+                      function(record, index){
+                        if (record.DeptName == "小计" || record.DeptName == "合计") {
+                          return "busi-total-item";
+                        }
+                        return "";
+                      }
+                    }
                 />
             </div>
         )

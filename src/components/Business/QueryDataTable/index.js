@@ -254,7 +254,8 @@ export default class QueryDataTable extends React.Component {
 
                     return (<FormItem>
                         <Select multiple {...getFieldProps('9_' + col['key'], {
-                            initialValue: queryCol['renderData']['defaultValue']
+
+                           
                         })} >
                             {queryCol['renderData']['options'].map((item, i) =>(
                                 <Option value={item.value} key={i}>{item.text}</Option>)

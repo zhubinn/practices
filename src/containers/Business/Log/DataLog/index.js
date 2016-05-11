@@ -122,6 +122,7 @@ class DataLog extends React.Component {
                     onGetTableData={
                                 (obj)=>{
                                     this.refs.searchInput.emptyInput()
+                                    debugger
                                     getDataLogData({
                                         data: obj
                                     })

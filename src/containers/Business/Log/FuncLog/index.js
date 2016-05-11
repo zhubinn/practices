@@ -95,7 +95,7 @@ class FunctionLog extends React.Component {
         const { $$funcLogState, getFuncLogData } = this.props;
         const columns = $$funcLogState.get('tableColumns').toJS();
         const expotModal = $$funcLogState.get('export').get('visible');
-
+         debugger
         //分页配置
         let queryDataTable = {}
         let tablePageData = $$funcLogState.get('tableData').get('data');

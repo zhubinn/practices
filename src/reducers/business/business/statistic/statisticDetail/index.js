@@ -81,7 +81,7 @@ export default function statisticdetail($$state = Immutable.fromJS(statisticDeta
         case GET_STATISTICDETAIL_DATA:
             return $$state;
         case GET_STATISTICDETAIL_SUCCESS:
-            return $$state.mergeDeep({tableData: action.payload.data});
+            return $$state.merge({tableData: action.payload.data});
         case GET_STATISTICDETAIL_QUERY:
             return $$state;
         case GET_STATISTICDETAILQUERY_SUCCESS:

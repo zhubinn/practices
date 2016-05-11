@@ -74,7 +74,7 @@ export default function deptstatistic($$state = Immutable.fromJS(deptStatistic),
         case GET_DEPTSTATISTIC_DATA:
             return $$state;
         case GET_DEPTSTATISTIC_SUCCESS:
-            return $$state.mergeDeep({tableData: action.payload.data});
+            return $$state.merge({tableData: action.payload.data});
         default:
             return $$state;
     }

@@ -65,7 +65,7 @@ export default function PerStatistic($$state = Immutable.fromJS(perStatistic), a
         case GET_PERSTATISTIC_DATA:
             return $$state;
         case GET_PERSTATISTIC_SUCCESS:
-            return $$state.mergeDeep({tableData: action.payload.data});
+            return $$state.merge({tableData: action.payload.data});
         default:
             return $$state;
     }

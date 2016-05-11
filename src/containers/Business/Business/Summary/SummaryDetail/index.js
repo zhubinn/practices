@@ -79,10 +79,11 @@ class summaryDetail extends React.Component {
                     columns={columns}
                     checkMode={false}
                     {...queryDataTable}
+                    pagination={false}
                     onGetTableData={
                                 (obj)=>{
                                     this.refs.searchInput.emptyInput()
-                                    getStatisticDetailData({
+                                    getSummaryDetailData({
                                         data: obj
                                     })
                                 }

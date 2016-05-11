@@ -75,7 +75,7 @@ export default function summarydetail($$state = Immutable.fromJS(summaryDetail),
         case GET_SUMMARYDETAIL_DATA:
             return $$state;
         case GET_SUMMARYDETAIL_SUCCESS:
-            return $$state.mergeDeep({tableData: action.payload.data});
+            return $$state.merge({tableData: action.payload.data});
         case GET_SUMMARYDETAIL_QUERY:
             return $$state;
         case GET_SUMMARYDETAILQUERY_SUCCESS:

@@ -68,7 +68,7 @@ export default function deptsummary($$state = Immutable.fromJS(deptSummary), act
         case GET_DEPTSUMMARY_DATA:
             return $$state;
         case GET_DEPTSUMMARY_SUCCESS:
-            return $$state.mergeDeep({tableData: action.payload.data});
+            return $$state.merge({tableData: action.payload.data});
         default:
             return $$state;
     }
