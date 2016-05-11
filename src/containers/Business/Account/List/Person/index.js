@@ -536,41 +536,45 @@ class Account_List_Person_Page extends React.Component {
                                    maskClosable={false}
                                    accept='.jpg'
                             >
-                                <div>
-                                    <h4>一、<a href="javascript:;">下载【客户导入模板】</a></h4>
-
+                                <div className="account-import">
                                     <div>
-                                        <p>请按照数据模板的格式准备要导入的数据。</p>
-                                    </div>
-                                    <p>注意事项:</p>
+                                        <h3>一、<a href="javascript:;">下载【客户导入模板】</a></h3>
 
+                                        <div>
+                                            <p>请按照数据模板的格式准备要导入的数据。</p>
+                                        </div>
+                                        <p>注意事项:</p>
+
+                                        <div>
+                                            <p>1、模板中的表头不可更改，不可删除；</p>
+
+                                            <p>2、其中客户名称为必填项，其他均为选填项；</p>
+
+                                            <p>3、填写客户地址时，特别行政区名称需填写在模板中的省份字段下，由省/自治区直辖的县级行政区划，需将其名称直接填写在模板中的市字段下。</p>
+                                        </div>
+                                    </div>
                                     <div>
-                                        <p>1、模板中的表头不可更改，不可删除；</p>
+                                        <h3>二、选择需要导入的CSV文件</h3>
 
-                                        <p>2、其中客户名称为必填项，其他均为选填项；</p>
+                                        <div>
 
-                                        <p>3、填写客户地址时，特别行政区名称需填写在模板中的省份字段下，由省/自治区直辖的县级行政区划，需将其名称直接填写在模板中的市字段下。</p>
+                                        </div>
+                                        <div>
+                                            <p>1、只支持CSV格式，文件大小不能超过1M；</p>
+
+                                            <p>2、为保证较好性能，请将导入条数控制在2000条以内；</p>
+
+                                            <p>3、请不要在同一时间导入多个文件。</p>
+                                        </div>
                                     </div>
+                                    {this.state.inImport ? (<div>
+                                        <h4>导入进度: </h4>
+                                        <ProgressLine percent={this.state.importProgress}/>*
+
+                                    </div>) : null}
                                 </div>
-                                <div>
-                                    <h4>二、选择需要导入的CSV文件</h4>
 
-                                    <div>
 
-                                    </div>
-                                    <div>
-                                        <p>1、只支持CSV格式，文件大小不能超过1M；</p>
-
-                                        <p>2、为保证较好性能，请将导入条数控制在2000条以内；</p>
-
-                                        <p>3、请不要在同一时间导入多个文件。</p>
-                                    </div>
-                                </div>
-                                {this.state.inImport ? (<div>
-                                    <h4>导入进度: </h4>
-                                    <ProgressLine percent={this.state.importProgress}/>*
-
-                                </div>) : null}
 
 
                             </Modal>
