@@ -18,7 +18,6 @@ const FormItem = Form.Item;
 let DataLogParams = {
     //url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/logData.php',
     url: SCRM.url('/scrmoplog/index/opdetaillogIndex')
-    //'http://esn.yangtianming.com/scrmoplog/index/opdetaillogIndex'
 }
 
 let exportParams = {
@@ -30,16 +29,11 @@ let exportParams = {
 class DataLog extends React.Component {
     constructor(props) {
       super(props)
-      // this.searchInputChange = this.searchInputChange.bind(this)
-      // this.searchTimer;
-      // this.state = {
-      //   visible: false
-      // }
     }
 
     componentDidMount() {
       this.props.getDataLogData(DataLogParams);
-      //this.props.getDataLogQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
+      this.props.getDataLogQuery(SCRM.url('/scrmoplog/index/getOpdetaillogFilter'))
     }
 
     // 普通搜索和筛选(高级搜索)互斥

@@ -38,6 +38,7 @@ class FunctionLog extends React.Component {
     componentDidMount() {
       //初始获取数据
       this.props.getFuncLogData(FuncLogParams);
+      //this.props.getFuncLogQuery(SCRM.url('/scrmoplog/index/getOplogFilter'))
     }
 
     // 普通搜索和筛选(高级搜索)互斥

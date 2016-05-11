@@ -70,11 +70,11 @@ export default (
             <Route path="business">
                 <Route path="deptsummary/:role/:id" component={DeptSummary} />
                 <Route path="persummary/:role/:id" component={PerSummary} />
-                <Route path="summarydetail/:role/:id" component={SummaryDetail} />
+                <Route path="deptsummarydetail/:role/:id" component={SummaryDetail} />
 
                 <Route path="deptstatistic/:role/:id" component={DeptStatistic} />
                 <Route path="perstatistic/:role/:id" component={PerStatistic} />
-                <Route path="statisticdetail/:role/:id" component={DeptStatistic} />
+                <Route path="deptstatisticdetail/:role/:id" component={StatisticDetail} />
             </Route>
             <Route path="log">
                 <Route path="datalog/:role/:id" component={DataLog} />

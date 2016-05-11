@@ -36,7 +36,7 @@ let table_params = {
     }
 }
 
-// let table_query_url = ''
+let table_query_url = ''
 
 const pageSizeChange = (val) => {
     const fetchData = (type, payload)=> {
@@ -122,8 +122,6 @@ const getDataLogQuery = (url)=> {
             payload
         }
     }
-
-
 
     /**
      *  body:  Object.assign(table_params.data, params.data)

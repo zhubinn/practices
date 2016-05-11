@@ -8,16 +8,17 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { Row, Col, Table, Button, Input, Pagination, Modal} from 'antd'
 
-import { getSummaryDetailData }  from 'actions/business/business/summary/summaryDetail'
+import { getSummaryDetailData, getSummaryDetailQuery }  from 'actions/business/business/summary/summaryDetail'
 
 import SearchInput from 'components/Business/SearchInput'
+import QueryDataTable from 'components/Business/QueryDataTable'
 import 'antd/lib/index.css'
 import './index.css'
 
 //获取table列表数据接口
 let summarydetailParams = {
     //url: SCRM.url('/front/js/scrm/fakeData/deptStatistic.php'),
-    url: SCRM.url('/scrmweb/business/getDeptStatistic/VISITID/1'),
+    url: SCRM.url('/scrmweb/business/getDeptSummaryDetail/VISITID/1'),
     data: {
         keyword:''
     }
@@ -31,11 +32,21 @@ class summaryDetail extends React.Component {
     componentDidMount() {
       //初始获取数据
       this.props.getSummaryDetailData(summarydetailParams);
-    }
 
-    searchInputChange(val) {
-      summarydetailParams.data.keyword = val;
-      this.props.getSummaryDetailData(summarydetailParams);
+      //this.props.getSummaryDetailQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
+    }
+        // 普通搜索和筛选(高级搜索)互斥
+    normalSearch = (value) => {
+        // 重置筛选(高级搜索)
+        this.refs.queryDataTable.resetQueryForm()
+
+        this.refs.queryDataTable.clearCheckedAndExpanded()
+        this.props.getSummaryDetailData({
+            data: {
+                searchData: [],
+                keyword: value
+            }
+        })
     }
 
     exportConfirm() {
@@ -45,33 +56,39 @@ class summaryDetail extends React.Component {
 
         //table数据配置
         const { $$summaryDetail } = this.props;
-        const dataSource = $$summaryDetail.get('tableData').get('data').toJS();
         const columns = $$summaryDetail.get('tableColumns').toJS();
+
+        let queryDataTable = {}
+        queryDataTable.dataSource = $$summaryDetail.get('tableData').get('data').toJS();
+        queryDataTable.queryColumns = $$summaryDetail.get('queryColumns').toJS()
 
         return (
             <div  style = {{marginLeft: '20px'}} >
               <Row>
                 <Col span="10">
-                  <SearchInput onSearch = {this.searchInputChange.bind(this)} />
+                  <SearchInput ref="searchInput" onSearch = {this.normalSearch.bind(this)} />
                 </Col>
                 <Col span="14" style = {{textAlign: 'right'}} >
+                  <Button type="primary" onClick={(e)=>{
+                            this.refs.queryDataTable.toggleQueryTable(e)
+                        }}>筛选</Button>
                   <Button type="ghost" onClick = {this.exportConfirm} >导出EXCEL</Button>
                 </Col>
               </Row>
-              <Table 
-                dataSource={dataSource} 
-                columns={columns} 
-                rowClassName = {
-                  function(record, index){
-                    if (record.Name == "小计" || record.Name == "合计") {
-                      return "busi-total-item";
-                    }
-                    return "";
-                  }
-                }
-                pagination={false}
-                useFixedHeader
-              />
+              <QueryDataTable
+                    columns={columns}
+                    checkMode={false}
+                    {...queryDataTable}
+                    onGetTableData={
+                                (obj)=>{
+                                    this.refs.searchInput.emptyInput()
+                                    getStatisticDetailData({
+                                        data: obj
+                                    })
+                                }
+                            }
+                    ref="queryDataTable"
+                />
             </div>
         )
     }
@@ -85,4 +102,5 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps, {
     getSummaryDetailData,
+    getSummaryDetailQuery,
 })(summaryDetail)

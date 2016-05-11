@@ -20,7 +20,7 @@ let deptSummary = {
             "dataIndex": "Name",
             "key": "Name",
             render(text, record, index) {
-                const  peneUrl = SCRM.url('/scrmweb/business/getDeptSummaryDetail?params={"ID":' + record.ID + '}');
+                const  peneUrl = SCRM.url('/scrmweb/business/deptsummarydetail?params={"ID":' + record.ID + '}');
                 if(record.classname){
                     //return {text};
                     return <span>{text}</span>;

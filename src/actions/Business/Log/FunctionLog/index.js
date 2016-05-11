@@ -35,6 +35,8 @@ let table_params = {
     }
 }
 
+let table_query_url = ''
+
 const pageSizeChange = (val) => {
     const fetchData = (type, payload)=> {
         return {
@@ -127,7 +129,7 @@ const getFuncLogQuery = (url)=> {
     **/
     return (dispatch, getState) => {
 
-        dispatch(fetchData(GET_DATALOG_QUERY, {queryColumns: {}}))
+        dispatch(fetchData(GET_FUNCLOG_QUERY, {queryColumns: {}}))
 
         fetch(table_query_url = url || table_query_url, {
             method: 'POST',
@@ -144,7 +146,7 @@ const getFuncLogQuery = (url)=> {
             return response.json()
         }).then(function (data) {
             debugger
-            dispatch(fetchData(GET_DATALOG_QUERY_SUCCESS, {
+            dispatch(fetchData(GET_FUNCLOG_QUERY_SUCCESS, {
                 data: data.data
             }))
 

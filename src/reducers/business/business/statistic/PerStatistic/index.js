@@ -18,16 +18,7 @@ let perStatistic = {
             "title": "部门名称",
             "width": 150,
             "dataIndex": "Name",
-            "key": "Name",
-            render(text, record, index) {
-                const  peneUrl = SCRM.url('/scrmweb/business/getDeptStatisticDetail?params={"ID":' + record.ID + '}');
-                if(record.classname){
-                    //return {text};
-                    return <span>{text}</span>;
-                }else{
-                    return <a href={peneUrl}>{text}</a>;
-                }
-            }
+            "key": "Name"
         },
         {
             "title": "全部生意数量",
