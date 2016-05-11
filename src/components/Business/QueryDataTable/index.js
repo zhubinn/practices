@@ -33,7 +33,7 @@ export default class QueryDataTable extends React.Component {
 
         /*todo: 有warning提示暂时注释*/
         // 刷新数据回调函数
-       // onGetTableData: React.PropTypes.function
+        // onGetTableData: React.PropTypes.function
     }
 
     static defaultProps = {
@@ -163,7 +163,8 @@ export default class QueryDataTable extends React.Component {
                     const { getFieldProps } = this.props.form;
 
                     return (
-                        <Form form={this.props.form} style={{display: that.state.isSearchShow ? 'block' : 'none'}} className="ant-table-nonebtn01">
+                        <Form form={this.props.form} style={{display: that.state.isSearchShow ? 'block' : 'none'}}
+                              className="ant-table-nonebtn01">
                             <table>
 
                                 <tbody className="ant-table-tbody">
@@ -185,7 +186,7 @@ export default class QueryDataTable extends React.Component {
 
                                 <div className="QueryDataTable-formbtn">
                                     <Button type="ghost" onClick={(e) => {this.resetForm(e)}}>重置</Button>
-                                 </div>
+                                </div>
 
                                 <Button type="primary" onClick={(e) => {this.handleSubmit(e)}}>确定</Button>
 
@@ -433,13 +434,14 @@ export default class QueryDataTable extends React.Component {
 
                 </div>
                 {/*
-                默认展示分页(以下两种情况不再展示分页)
-                1. 当props传入pagination: false
-                2. 当dataSource为空数组时
-                */}
+                 默认展示分页(以下两种情况不再展示分页)
+                 1. 当props传入pagination: false
+                 2. 当dataSource为空数组时
+                 */}
 
 
-                {(typeof  this.props.pagination !== 'undefined') && !this.props.pagination ? null : (dataSource.length === 0 ? null : (<Pagination  {...pagination}/>))}
+                {(typeof  this.props.pagination !== 'undefined') && !this.props.pagination ? null : (dataSource.length === 0 ? null : (
+                    <Pagination  {...pagination}/>))}
 
             </div>
         )

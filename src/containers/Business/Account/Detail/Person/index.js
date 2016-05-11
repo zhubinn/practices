@@ -9,7 +9,7 @@ import { getTableData, getTableQuery,  table_params } from 'actions/business/acc
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import MapModal from 'containers/Business/Account/MapModal'
-
+import {GLOBAL_INFO} from 'components/Business/Global_info'
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
@@ -418,6 +418,9 @@ class Account_Detail_Person_Page extends React.Component {
         queryDataTable.pageSize = $$account_detail_person.toJS().pageSize
         queryDataTable.queryColumns = $$account_detail_person.toJS().queryColumns
         queryDataTable.loading = $$account_detail_person.toJS().loading
+
+
+        console.log(GLOBAL_INFO)
         return (
             <div style={{marginLeft: '20px'}}>
                 <div style={{marginTop: '14px',marginBottom: '14px'}}>
