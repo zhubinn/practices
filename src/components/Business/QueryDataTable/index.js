@@ -390,7 +390,7 @@ export default class QueryDataTable extends React.Component {
 
             <div>
 
-                <div style={{width: '800px', height: '500px',  overflow: "auto"}}>
+                <div style={{width: '800px', maxHeight: '500px',  overflow: "auto"}}>
                     <div style={{width: this.calculateWidth()}}>
 
 
