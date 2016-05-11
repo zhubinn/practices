@@ -35,6 +35,15 @@ let summaryDetail = {
             "width": 150,
             "dataIndex": "Name",
             "key": "Name",
+            render(text, record, index) {
+                const  peneUrl = SCRM.url('/scrmweb/business/deptsummarydetail?params={"ID":' + record.ID + '}');
+                if(record.classname){
+                    //return {text};
+                    return <span>{text}</span>;
+                }else{
+                    return <a href={peneUrl}>{text}</a>;
+                }
+            }
         },
         {
             "title": "全部生意数量",
