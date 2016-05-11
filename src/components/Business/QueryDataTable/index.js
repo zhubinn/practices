@@ -161,7 +161,7 @@ export default class QueryDataTable extends React.Component {
                     const { getFieldProps } = this.props.form;
 
                     return (
-                        <Form form={this.props.form} style={{display: that.state.isSearchShow ? 'block' : 'none'}}>
+                        <Form form={this.props.form} style={{display: that.state.isSearchShow ? 'block' : 'none'}} className="ant-table-nonebtn01">
                             <table>
 
                                 <tbody className="ant-table-tbody">
@@ -181,9 +181,9 @@ export default class QueryDataTable extends React.Component {
                             </table>
                             <div className="QueryDataTable-formFooter">
 
-
-                                <Button type="ghost" onClick={(e) => {this.resetForm(e)}}>重置</Button>
-
+                                <div className="QueryDataTable-formbtn">
+                                    <Button type="ghost" onClick={(e) => {this.resetForm(e)}}>重置</Button>
+                                 </div>
 
                                 <Button type="primary" onClick={(e) => {this.handleSubmit(e)}}>确定</Button>
 
