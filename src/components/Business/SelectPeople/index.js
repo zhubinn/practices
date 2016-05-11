@@ -5,7 +5,7 @@
 
 import React ,{findDOMNode} from 'react'
 
-import { Modal,message, Button,Row } from 'antd';
+import { Modal,message, Button,Row,Checkbox } from 'antd';
 
 import { isEmpty } from 'lodash'
 import './search.less'
@@ -17,15 +17,20 @@ export default class SelectPeople extends React.Component {
 
     static propTypes = {
         data: React.PropTypes.array,
-        //IsMultiselect: React.PropTypes.bool,
+        IsMultiselect: React.PropTypes.number,
         selectPeopleModal: React.PropTypes.bool,
-
+        checkedRowsLength:React.PropTypes.number,
+        isChangeBusiness:React.PropTypes.bool,
+        isChangeContact:React.PropTypes.bool
     }
 
     static defaultProps = {
         IsMultiselect: 0,
         data: [],
-        selectPeopleModal:false
+        selectPeopleModal:false,
+        checkedRowsLength:0,
+        isChangeBusiness:false,
+        isChangeContact:false
     }
 
 
@@ -35,7 +40,8 @@ export default class SelectPeople extends React.Component {
             'itemdata':[],
             'areapadding':0,
             'value':'',
-            'currentPage':1
+            'currentPage':1,
+
         }
     }
     componentDidMount(){
@@ -70,7 +76,7 @@ export default class SelectPeople extends React.Component {
                 let newareapadding = this.state.areapadding;
                 const textValue = e.currentTarget.value;
 
-                if(e.keyCode == 8&&textValue.length == 0){
+                if(e.keyCode == 8&&textValue.length == 0 && ItemData.length>0 ){
 
                     newareapadding = newareapadding -ItemData[ItemData.length-1].itemWidth;
                     ItemData.splice(ItemData.length-1,1);
@@ -113,16 +119,20 @@ export default class SelectPeople extends React.Component {
                                 })
                             },0)
 
+                            let rowsPerPage = textValue==''?20:60
+
+
+
                             if(textValue == ''){
                                 if(nameItemData.length==0){
                                     console.log('按kong关键词进行搜索')
-                                    this.props.requestData(page,textValue)
+                                    this.props.requestData(page,textValue,rowsPerPage)
                                 }
 
                             }else{
                                 console.log('按关键词进行搜索')
                                 //debugger
-                                this.props.requestData(page,textValue)                           
+                                this.props.requestData(page,textValue,rowsPerPage)                           
                             }
 
 
@@ -173,85 +183,94 @@ export default class SelectPeople extends React.Component {
 
     }
 
+
+
+    /*人员展示列表方法开始*/
+        clickListItem(i){
+            const clickData = this.props.data[i]
+            const IsMultiselect = this.props.IsMultiselect
+            let itemdata = this.state.itemdata;
+            let InittextareaPadding = this.state.areapadding;
+            let itemWidth = 20;
+            for(let j = 0; j<clickData.Name.length;j++){
+              //汉字
+              if(clickData.Name.charCodeAt(j) > 255){
+                itemWidth += 12;
+              }else{
+                itemWidth += 7;
+              }
+            };
+            let namearr = [];
+            /* *
+            *0 单选  ；1 可多选
+            */
+            if(IsMultiselect==0){
+                itemdata.splice(0,itemdata.length)
+                itemdata.push({"ownerId":clickData.ID,"itemName":clickData.Name,"itemWidth":itemWidth});
+                InittextareaPadding =itemWidth;
+            }else {
+                if(itemdata.length>0){
+                    for(let i = 0; i<itemdata.length;i++){
+                         namearr.push(itemdata[i].itemName);                
+                    }
+                    if(namearr.indexOf(clickData.Name)<0){
+                        itemdata.push({"ownerId":clickData.ID,"itemName":clickData.Name,"itemWidth":itemWidth});
+                        InittextareaPadding +=itemWidth;
+                    }
+                }else{
+                    itemdata.push({"ownerId":clickData.ID,"itemName":clickData.Name,"itemWidth":itemWidth});
+                    InittextareaPadding +=itemWidth;
+                }
+            }
+
+            setTimeout(()=>{
+                this.setState({
+                    "itemdata":itemdata,
+                    "areapadding":InittextareaPadding,
+                    "value":''
+                })
+            },0)
+        }
+
+        //滚动底部加载下一页
+
+        handleScroll(){
+          const scroll_height = ReactDOM.findDOMNode(this.refs.BombBoxList).scrollHeight;
+          const  win_height = ReactDOM.findDOMNode(this.refs.BombBoxList).clientHeight;
+          const scroll_top = ReactDOM.findDOMNode(this.refs.BombBoxList).scrollTop;
+          const searchValue = this.state.value
+          if (searchValue==''&&(scroll_height - win_height - scroll_top) == 0 ) {
+            console.log(scroll_height)
+            console.log(win_height)
+            console.log(scroll_top)
+
+            let currentpage = this.state.currentPage
+            currentpage++
+            setTimeout(()=>{
+                this.setState({
+                    "currentPage":currentpage,
+                })
+            },0)
+
+
+            this.props.requestNextData(currentpage,'')                           
+
+        }
+    }
+
+    componentDidMount(){
+    }
+    /*人员展示列表方法结束*/
+
     //人员列表展示部分
 
     peopleList = ()=>{
        const peopleListData = this.props.data;
-       const that = this
-       const PeopleList = React.createClass({
-            clickListItem(i){
-                const clickData = that.props.data[i]
-                const IsMultiselect = that.props.IsMultiselect
-                let itemdata = that.state.itemdata;
-                let InittextareaPadding = that.state.areapadding;
-                let itemWidth = 20;
-                for(let j = 0; j<clickData.Name.length;j++){
-                  //汉字
-                  if(clickData.Name.charCodeAt(j) > 255){
-                    itemWidth += 12;
-                  }else{
-                    itemWidth += 7;
-                  }
-                };
-                let namearr = [];
-                /* *
-                *0 单选  ；1 可多选
-                */
-                if(IsMultiselect==0){
-                    itemdata.splice(0,itemdata.length)
-                    itemdata.push({"ownerId":clickData.ID,"itemName":clickData.Name,"itemWidth":itemWidth});
-                    InittextareaPadding =itemWidth;
-                }else {
-                    if(itemdata.length>0){
-                        for(let i = 0; i<itemdata.length;i++){
-                             namearr.push(itemdata[i].itemName);                
-                        }
-                        if(namearr.indexOf(clickData.Name)<0){
-                            itemdata.push({"ownerId":clickData.ID,"itemName":clickData.Name,"itemWidth":itemWidth});
-                            InittextareaPadding +=itemWidth;
-                        }
-                    }else{
-                        itemdata.push({"ownerId":clickData.ID,"itemName":clickData.Name,"itemWidth":itemWidth});
-                        InittextareaPadding +=itemWidth;
-                    }
-                }
 
-                setTimeout(()=>{
-                    that.setState({
-                        "itemdata":itemdata,
-                        "areapadding":InittextareaPadding,
-                        "value":''
-                    })
-                },0)
-            },
-
-            //滚动底部加载下一页
-
-            handleScroll(){
-
-              const scroll_height = ReactDOM.findDOMNode(this.refs.BombBoxList).scrollHeight;
-              const  win_height = ReactDOM.findDOMNode(this.refs.BombBoxList).clientHeight;
-              const scroll_top = ReactDOM.findDOMNode(this.refs.BombBoxList).scrollTop;
-
-              if ((scroll_height - win_height - scroll_top) == 0&&scroll_top>0 ) {
-                let currentpage = that.state.currentPage
-                currentpage++
-                setTimeout(()=>{
-                    that.setState({
-                        "currentPage":currentpage,
-                    })
-                },0)
-
-
-                this.props.requestNextData(currentpage,'')                           
-
-            }
-        },
-
-            render (){
                 return (
-                    <div className="mbox_BombBoxList01"  ref = "BombBoxList" onScroll ={this.handleScroll}>
-                        <div className = "mbox_boxList02" ref = "mbox_boxList" >
+                    <div className="mbox_BombBoxList01" ref = "mbox_boxList" >
+                        <div className = "mbox_boxList02" ref = "BombBoxList" 
+                        onScroll ={this.handleScroll.bind(this)} >
                           <ul className="clearfix m_list02" ref = "mListUl">
                             {
                                 peopleListData.map((item, i) => {
@@ -268,10 +287,6 @@ export default class SelectPeople extends React.Component {
                         </div>
                     </div>
                 )                
-            }
-       })
-
-        return <PeopleList   requestNextData =  {this.props.requestNextPoepleData}></PeopleList>
 
     }
 
@@ -281,8 +296,15 @@ export default class SelectPeople extends React.Component {
        const that = this
        const choseData = this.state.itemdata;
        const  ConfirmForm = React.createClass({
-            clickCancleBtn(){
-                //回调父组件的方法，改变容器的state          
+           clickCancleBtn(){
+                //回调父组件的方法，改变容器的state
+            setTimeout(()=>{
+                that.setState({
+                    "currentPage":1,
+                    "value":''
+                })
+            },0)           
+
                 this.props.clickCancle()
             },
             clickConfirmBtn(){
@@ -300,7 +322,13 @@ export default class SelectPeople extends React.Component {
                     });            
                     message.warn('请您先选择人员');
                 }else{
-                    this.props.clickOK(choseNameData)            
+                    setTimeout(()=>{
+                        that.setState({
+                            "currentPage":1,
+                            "value":''
+                        })
+                    },0)                       
+                 this.props.clickOK(choseNameData)            
                 }
 
 
@@ -309,8 +337,8 @@ export default class SelectPeople extends React.Component {
                 return (
                     <div className = "m_btn01 clearfix">
                         <Row>
-                            <Button type = 'primary' onClick = {this.clickConfirmBtn.bind(this)}>确定</Button>
-                            <Button onClick = {this.clickCancleBtn.bind(this)}>取消</Button>
+                            <Button type = 'primary' onClick = {this.clickConfirmBtn}>确定</Button>
+                            <Button onClick = {this.clickCancleBtn}>取消</Button>
                         </Row>
                     </div>
                 )        
@@ -324,8 +352,24 @@ export default class SelectPeople extends React.Component {
 
     }
 
+    clickCancleBtn(){
+        setTimeout(()=>{
+            this.setState({
+                "currentPage":1,
+                "value":''
+
+            })
+        },0) 
+    this.props.handleClickCancle()    
+    }
+    
+
     render (){
         const selectPeopleModal = this.props.selectPeopleModal 
+        const checkedRowsLength = this.props.checkedRowsLength
+        const isChangeContact = this.props.isChangeContact
+        const isChangeBusiness = this.props.isChangeBusiness
+
                 return (
 
                         <Modal ref="modal"
@@ -333,11 +377,28 @@ export default class SelectPeople extends React.Component {
                           visible={selectPeopleModal}
                           title="按负责人筛选" 
                           width = '840'
-                          onCancel = {this.props.handleClickCancle}                   
+                          onCancel = {this.clickCancleBtn.bind(this)}                   
                           footer={this.confirmBtn()}
                           >
                           <div>{this.searchTextarea()}</div>
                           <div>{this.peopleList()}</div>
+                          <div style={{marginTop: '10px'}}>
+                              <span style={{marginRight: '10px'}}>已选{checkedRowsLength}个客户</span>
+                              <span>同时变更相关业务的负责人：                            
+                              <label>
+                                    <Checkbox   ref="checkboxInput" 
+                                    checked = {isChangeBusiness?true:false}
+                                    onChange = {this.props.handleChangeBusiness}/>
+                               生意
+                               </label>                          
+                               <label>
+                                    <Checkbox  ref="checkboxInput" 
+                                    checked = {isChangeContact?true:false}
+                                    onChange = {this.props.handleChangeContact}/>
+                               联系人
+                               </label>
+                                </span>
+                          </div>
                         </Modal>
 
                 )

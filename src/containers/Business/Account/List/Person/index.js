@@ -10,7 +10,10 @@ import {
     changeIsMultiselect,
     getPeopleData,
     changeIsShowStatus,
-    getNextPagePeopleData
+    getNextPagePeopleData,
+    isChangeContact,
+    isChangeBusiness
+
 } from 'actions/__demo/selectPeople'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
@@ -285,6 +288,16 @@ class Account_List_Person_Page extends React.Component {
             const {changeIsMultiselect} = this.props
             changeIsMultiselect(IsMultiselect)
             const {getPeopleData} = this.props
+
+            const paramData = {
+                page:1,
+                rowsPerPage:20,
+                keyword:''
+            }
+
+            Object.assign(getPeopleParams.data, paramData);
+
+
             getPeopleData(getPeopleParams)
 
 
@@ -301,6 +314,14 @@ class Account_List_Person_Page extends React.Component {
         const {changeIsMultiselect} = this.props
         changeIsMultiselect(IsMultiselect)
         const {getPeopleData} = this.props
+        const paramData = {
+            page:1,
+            rowsPerPage:20,
+            keyword:''
+        }
+
+        Object.assign(getPeopleParams.data, paramData);        
+
         getPeopleData(getPeopleParams)
     }
 
@@ -326,11 +347,11 @@ class Account_List_Person_Page extends React.Component {
     }
 
     //再次请求数据(按关键词搜索)
-    requestPDList(page,value){
+    requestPDList(page,value,rowsPerPage){
 
         const paramData = {
             page:page,
-            rowsPerPage:20,
+            rowsPerPage:rowsPerPage,
             keyword:value
         }
 
@@ -351,7 +372,7 @@ class Account_List_Person_Page extends React.Component {
         const paramData = {
             page:page,
             rowsPerPage:20,
-            keyword:value
+            keyword:''
         }
 
         Object.assign(getPeopleParams.data, paramData);
@@ -363,13 +384,22 @@ class Account_List_Person_Page extends React.Component {
 
     }
 
+    //勾选是否关联生意
+    changeBusiness(){
+        const {isChangeBusiness,$$account_list_person} = this.props
+        const isChangeBusinessStatus = $$account_list_person.toJS().isChangeBusiness
+        isChangeBusiness(!isChangeBusinessStatus)
+    }    
 
+    //勾选是否关联客户
+    changeContact(){
+        const {isChangeContact,$$account_list_person} = this.props
 
+        const isChangeContactStatus = $$account_list_person.toJS().isChangeContact
+        isChangeContact(!isChangeContactStatus)
+    }
 
-
-
-
-
+    //
 
     showImportModal = ()=> {
         this.setState({
@@ -439,6 +469,7 @@ class Account_List_Person_Page extends React.Component {
             getTableData
 
             } = this.props
+        //const checkedRows = this.refs.queryDataTable.getCheckedRows()
 
         let queryDataTable = {}
         let peoplePropsData = {}
@@ -453,6 +484,10 @@ class Account_List_Person_Page extends React.Component {
         peoplePropsData.IsMultiselect = $$account_list_person.toJS().IsMultiselect
         peoplePropsData.data = $$account_list_person.toJS().data
         peoplePropsData.selectPeopleModal = $$account_list_person.toJS().selectPeopleModal
+        //选中人员的长度 假数据
+        peoplePropsData.checkedRowsLength = 10
+        peoplePropsData.isChangeBusiness = $$account_list_person.toJS().isChangeBusiness
+        peoplePropsData.isChangeContact = $$account_list_person.toJS().isChangeContact
 
         const that = this
         const uploadProps = {
@@ -582,7 +617,10 @@ class Account_List_Person_Page extends React.Component {
                     handleClickConfirm={this.getFilterData.bind(this)}
                     handleClickCancle={this.handleChangeStatus.bind(this)}
                     requestData = {this.requestPDList.bind(this)}
-                    requestNextPoepleData = {this.requestNextPoepleData.bind(this)}
+                    requestNextData = {this.requestNextPoepleData.bind(this)}
+                    handleChangeBusiness = {this.changeBusiness.bind(this)}
+                    handleChangeContact = {this.changeContact.bind(this)}
+
                 />
             </div>
         )
@@ -601,5 +639,7 @@ export default connect(mapStateToProps, {
     changeIsMultiselect,
     getPeopleData,
     changeIsShowStatus,
-    getNextPagePeopleData
+    getNextPagePeopleData,
+    isChangeContact,
+    isChangeBusiness
 })(Account_List_Person_Page)

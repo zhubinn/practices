@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import randomString  from 'random-string'
 
-import Search from './Search.less'
+import Search from './SearchPeople.less'
 
 import PeopleTitle from './PeopleTitle'
 import PeopleSearch from './PeopleSearch'
