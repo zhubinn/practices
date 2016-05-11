@@ -51,6 +51,9 @@ import PerStatistic from 'containers/Business/Business/Statistic/PerStatistic'
 import DeptSummary from 'containers/Business/Business/Summary/DeptSummary'
 import PerSummary from 'containers/Business/Business/Summary/DeptSummary'
 
+import DeptList from 'containers/Business/Business/List/Dept'
+import PersonList from 'containers/Business/Business/List/Person'
+
 //日志
 import FuncLog from 'containers/Business/Log/FuncLog'
 import DataLog from 'containers/Business/Log/DataLog'
@@ -86,6 +89,8 @@ export default (
                 <Route path="perstatistic/:role/:id" component={PerStatistic} />
                 <Route path="deptsummary/:role/:id" component={DeptSummary} />
                 <Route path="persummary/:role/:id" component={PerSummary} />
+                <Route path="deptlist/:role/:id" component={DeptList} />
+                <Route path="list/:role/:id" component={PersonList} />
             </Route>
             <Route path="log">
                 <Route path="datalog/:role/:id" component={DataLog} />
