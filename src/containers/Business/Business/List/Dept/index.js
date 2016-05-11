@@ -10,6 +10,8 @@ import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import MapModal from 'containers/Business/Account/MapModal'
 
+import 'containers/Business/lsx-index.less'
+
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 
@@ -606,7 +608,6 @@ const columns7 = [{
 // 查询表格
 // 依赖Table, Pagination, Form
 
-
 class DeptList extends React.Component {
     constructor() {
         super()
@@ -675,18 +676,24 @@ class DeptList extends React.Component {
         queryDataTable.queryColumns = $$business_list_dept.toJS().queryColumns
         queryDataTable.loading = $$business_list_dept.toJS().loading
         return (
-            <div>
-                <Row>
-                    <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
+            <div style={{marginLeft:'20px'}}>
+                <div style={{marginTop: '14px',marginBottom: '14px'}}>
 
-                    <Col span="8" offset="8">
-                        <Button type="primary" onClick={(e)=>{
-                            this.refs.queryDataTable.toggleQueryTable(e)
-                        }}>筛选</Button>
+                    <Row>
+                        <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
 
-                        <Button type="ghost">导出</Button>
-                    </Col>
-                </Row>
+                        <Col span="8" offset="8">
+                            <div className="ckBusiness-listfilter">
+                                <Button type="primary" onClick={(e)=>{
+                                    this.refs.queryDataTable.toggleQueryTable(e)
+                                }}>筛选</Button>
+
+                             </div>
+
+                            <Button type="ghost">导出</Button>
+                        </Col>
+                    </Row>
+                   </div>
 
                 <Tabs defaultActiveKey="all"
                       type="card"

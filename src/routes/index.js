@@ -6,11 +6,10 @@ import { Route, IndexRoute } from 'react-router'
 
 
 //Develop Leesx
-import HelloPage from 'containers/__demo/HelloPage'
-import CustomEditFieldPage from 'containers/__demo/CustomEditFieldPage'
-import NumberReportViewPage from 'containers/Business/numberReport/NumberReportViewPage'
-import DispatchCluesPage from 'containers/Business/clues/DispatchCluesPage'
-import ManageCluesPage from 'containers/Business/clues/ManageCluesPage'
+//报数-报数查看
+import NumberReportViewPage from 'containers/Business/NumberReport/NumberReportView'
+//线索-线索分派
+import DispatchCluesPage from 'containers/Business/Clues/DispatchClues'
 // import DemoPagination from 'containers/__demo/Pagination'
 
 

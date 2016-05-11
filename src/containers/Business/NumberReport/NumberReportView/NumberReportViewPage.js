@@ -5,10 +5,10 @@ import reqwest from 'reqwest'
 import { message, notification } from 'antd'
 
 
-import InfoPath from './infoPath'
-import InputDater from './inputDater'
-import DaterButton from './daterButton'
-import TableList from './tableList'
+import InfoPath from './InfoPath'
+import InputDater from './InputDater'
+import TableList from './TableList'
+
 //less
 import './less/numberReport.less'
 // mock data

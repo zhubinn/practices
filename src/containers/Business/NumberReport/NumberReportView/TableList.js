@@ -3,7 +3,7 @@
  */
 import { findDOMNode } from 'react-dom'
 import { Spin } from 'antd';
-import Row from './row'
+import Row from './Row'
 
 export default class TableList extends React.Component {
 

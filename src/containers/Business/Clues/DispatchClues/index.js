@@ -6,7 +6,7 @@
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import DispatchClues from 'components/Business/clues/DispatchClues'
+import DispatchClues from './DispatchClues'
 
 import * as DispatchCluesActions from 'actions/business/DispatchClues/DispatchCluesActions'
 

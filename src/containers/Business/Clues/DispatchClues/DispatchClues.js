@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom'
 import reqwest from 'reqwest'
 import { Table,Row , Col, Modal, Spin,  Button, Radio, message, Input } from 'antd'
 const RadioGroup = Radio.Group;
-import SearchInput from './SearchInput'
+import SearchInput from 'components/Business/SearchInput'
 //less
 import './less/clues.less'
 
@@ -349,8 +349,9 @@ export default class DispatchClues extends React.Component {
         const dispatchState = dispatchCluesState.toJS().dispatchState
 
         return (
-            <div>
+            <div style={{marginLeft: '20px'}}>
                 <div className="col-right">
+                    <div style={{marginTop: '14px',marginBottom: '14px'}}>
 
                     <Row>
                         <Col span="16">
@@ -361,6 +362,7 @@ export default class DispatchClues extends React.Component {
                             <button className = { dispatchState === 0 ? "col-cktop-btn " : "col-cktop-btn hidden" }  onClick = { this.showModal.bind(this) }>分派</button>
                         </Col>
                     </Row>
+                        </div>
                     <div className="ck-tab-hd">
                         <ul className="clearfix">
                             <li className = { dispatchState === 0 ? "active" : null } onClick = { this.handClickTab.bind(this,0) }><a>未分派</a></li>

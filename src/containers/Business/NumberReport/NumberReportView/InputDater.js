@@ -11,9 +11,6 @@ const MonthPicker = DatePicker.MonthPicker;
 // const RangePicker = DatePicker.RangePicker;
 
 
-// mock data
-import { data,data2 } from './data/response'
-
 let COUNT = 0
 let daterValue
 let WEEK_END_DATER

@@ -3,6 +3,7 @@
  */
 import { findDOMNode } from 'react-dom'
 import { Spin } from 'antd';
+import NoneData from './NoneData'
 
 export default class Row extends React.Component {
 
@@ -42,7 +43,7 @@ export default class Row extends React.Component {
         return (
             <tbody >
 
-                { nodes.length > 0 ? nodes : <tr><td colSpan="4">{ !loading ? <Spin /> : '没有数据' }</td></tr> }
+                { nodes.length > 0 ? nodes : <tr><td colSpan="4">{ !loading ? <Spin /> : <NoneData /> }</td></tr> }
             </tbody>
         )
 
