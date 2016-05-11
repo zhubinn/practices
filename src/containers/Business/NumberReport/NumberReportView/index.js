@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import NumberReportView from './NumberReportViewPage'
+import NumberReportView from './NumberReportView'
 
 import * as NumberReportViewActions from 'actions/business/numberReport/NumberReportViewActions'
 

@@ -21,7 +21,7 @@ export default class NoneData extends React.Component {
 
     render() {
 
-
+        //借用ant的样式
         return (
             <div className="none-data-placeholder">
                 <i className=" anticon anticon-frown"></i>
