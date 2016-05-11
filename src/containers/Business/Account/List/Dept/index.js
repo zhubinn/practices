@@ -118,6 +118,11 @@ const columns = [{
     key: 'Phone6',
 
 }, {
+    title: '传真',
+    dataIndex: 'Phone8',
+    key: 'Phone8',
+
+}, {
     title: '其他电话',
     dataIndex: 'Phone7',
     key: 'Phone7',
