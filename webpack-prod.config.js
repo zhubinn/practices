@@ -37,7 +37,7 @@ module.exports = {
         loaders: [{
             test: /\.(js|jsx)$/,
             loader: 'babel',
-            exclude: /node_modules/,
+            //exclude: /node_modules/,
         }, {
             test: /\.(jpg|png|gif)$/,
             loader: 'url',
