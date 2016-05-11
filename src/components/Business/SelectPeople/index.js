@@ -19,18 +19,14 @@ export default class SelectPeople extends React.Component {
         data: React.PropTypes.array,
         IsMultiselect: React.PropTypes.number,
         selectPeopleModal: React.PropTypes.bool,
-        checkedRowsLength:React.PropTypes.number,
-        isChangeBusiness:React.PropTypes.bool,
-        isChangeContact:React.PropTypes.bool
+        checkedRowsLength:React.PropTypes.number
     }
 
     static defaultProps = {
         IsMultiselect: 0,
         data: [],
         selectPeopleModal:false,
-        checkedRowsLength:0,
-        isChangeBusiness:false,
-        isChangeContact:false
+        checkedRowsLength:0
     }
 
 
@@ -41,7 +37,8 @@ export default class SelectPeople extends React.Component {
             'areapadding':0,
             'value':'',
             'currentPage':1,
-
+            'isChangeBusiness':false,
+            'isChangeContact':false
         }
     }
     componentDidMount(){
@@ -72,10 +69,16 @@ export default class SelectPeople extends React.Component {
 
             //按下退格删除键删除
             handleKeyDown(e){
+                 e=e||window.event
                 let ItemData = this.state.itemdata;
                 let newareapadding = this.state.areapadding;
-                const textValue = e.currentTarget.value;
-
+                let textValue = e.currentTarget.value;
+                //屏蔽回车键的换行
+                if (e.keyCode == 13) {
+                    e.returnValue = false
+                    return  false
+                }
+                                                          
                 if(e.keyCode == 8&&textValue.length == 0 && ItemData.length>0 ){
 
                     newareapadding = newareapadding -ItemData[ItemData.length-1].itemWidth;
@@ -100,13 +103,15 @@ export default class SelectPeople extends React.Component {
 
             //keyUp 搜索
             handleKeyUp(e){
+                 e=e||window.event
                 const textValue = e.currentTarget.value;
                 const nameItemData = this.state.itemdata;
 
                 let self = e.target;
                 clearTimeout(self.timer);
 
-                self.timer = setTimeout(
+                if(e.keyCode!=13){
+                    self.timer = setTimeout(
                     function()
                     {
                         delete self.timer;
@@ -126,7 +131,7 @@ export default class SelectPeople extends React.Component {
                             if(textValue == ''){
                                 if(nameItemData.length==0){
                                     console.log('按kong关键词进行搜索')
-                                    this.props.requestData(page,textValue,rowsPerPage)
+                                        this.props.requestData(page,textValue,rowsPerPage)
                                 }
 
                             }else{
@@ -138,12 +143,14 @@ export default class SelectPeople extends React.Component {
 
                     }.bind(this),
                     500
-                );
+                );                
+            }
                     
             }
 
             //改变输入框关键词
             changeInput(e){
+                 e=e||window.event
                 const value = e.target.value
                 this.setState({
                     'value':value
@@ -159,14 +166,14 @@ export default class SelectPeople extends React.Component {
         
                 return (
                     <div className="mbox784_textwrap">
-                      <textarea id="textarea" rows="1" className="M01text"
+                      <input id="textarea" rows="1" className="M01text"
                       ref = "textarea"
                       style={{paddingLeft: (10+arreapadding) + 'px'}} 
                       onKeyDown = {this.handleKeyDown.bind(this)}
                       onKeyUp = {this.handleKeyUp.bind(this)}
                       value = {this.state.value}
                       onChange = {this.changeInput.bind(this)}
-                      ></textarea>
+                      />
                       <p className = "dev-tags">
                            {
                             nameItemData.map((item,i)=>{
@@ -299,9 +306,14 @@ export default class SelectPeople extends React.Component {
            clickCancleBtn(){
                 //回调父组件的方法，改变容器的state
             setTimeout(()=>{
+                //关闭模态层时状态恢复初始
                 that.setState({
                     "currentPage":1,
-                    "value":''
+                    "value":'',
+                    'itemdata':[],
+                    'areapadding':0,
+                    'isChangeBusiness':false,
+                    'isChangeContact':false
                 })
             },0)           
 
@@ -322,13 +334,22 @@ export default class SelectPeople extends React.Component {
                     });            
                     message.warn('请您先选择人员');
                 }else{
+                    //关闭模态层时状态恢复初始
                     setTimeout(()=>{
                         that.setState({
                             "currentPage":1,
-                            "value":''
+                            "value":'',
+                            'itemdata':[],
+                            'areapadding':0,
+                            'isChangeBusiness':false,
+                            'isChangeContact':false                        
                         })
-                    },0)                       
-                 this.props.clickOK(choseNameData)            
+                    },0)
+                    let filterData = {}
+                    filterData.choseNameData = choseNameData
+                    filterData.isChangeBusiness = that.state.isChangeBusiness
+                    filterData.isChangeContact = that.state.isChangeContact                    
+                    this.props.clickOK(filterData)            
                 }
 
 
@@ -352,23 +373,45 @@ export default class SelectPeople extends React.Component {
 
     }
 
+    //点击模态层以及关闭X按钮
     clickCancleBtn(){
+        //关闭模态层时状态恢复初始
         setTimeout(()=>{
             this.setState({
                 "currentPage":1,
-                "value":''
-
-            })
+                "value":'',
+                'itemdata':[],
+                'areapadding':0,
+                'isChangeBusiness':false,
+                'isChangeContact':false            
+        })
         },0) 
     this.props.handleClickCancle()    
     }
     
+    //是否勾选改变生意
+    handleChangeBusiness(e){
+        const isChangeBusiness = `${e.target.checked}`
+        setTimeout(()=>{
+            this.setState({
+                "isChangeBusiness":isChangeBusiness
+            })
+        },0)     
+    }    
+
+    //是否勾选改变联系人
+    handleChangeContact(e){
+        const isChangeContact = `${e.target.checked}`
+        setTimeout(()=>{
+            this.setState({
+                "isChangeContact":isChangeContact
+            })
+        },0)         
+    }
 
     render (){
         const selectPeopleModal = this.props.selectPeopleModal 
         const checkedRowsLength = this.props.checkedRowsLength
-        const isChangeContact = this.props.isChangeContact
-        const isChangeBusiness = this.props.isChangeBusiness
 
                 return (
 
@@ -386,15 +429,14 @@ export default class SelectPeople extends React.Component {
                               <span style={{marginRight: '10px'}}>已选{checkedRowsLength}个客户</span>
                               <span>同时变更相关业务的负责人：                            
                               <label>
-                                    <Checkbox   ref="checkboxInput" 
-                                    checked = {isChangeBusiness?true:false}
-                                    onChange = {this.props.handleChangeBusiness}/>
+                                    <Checkbox   ref="checkboxInput"  checked={this.state.isChangeBusiness}
+                                    onChange = {this.handleChangeBusiness.bind(this)}/>
                                生意
                                </label>                          
                                <label>
-                                    <Checkbox  ref="checkboxInput" 
-                                    checked = {isChangeContact?true:false}
-                                    onChange = {this.props.handleChangeContact}/>
+                                    <Checkbox  ref="checkboxInput"  checked={this.state.isChangeContact}
+                                    
+                                    onChange = {this.handleChangeContact.bind(this)}/>
                                联系人
                                </label>
                                 </span>

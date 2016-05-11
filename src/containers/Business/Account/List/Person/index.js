@@ -384,22 +384,7 @@ class Account_List_Person_Page extends React.Component {
 
     }
 
-    //勾选是否关联生意
-    changeBusiness(){
-        const {isChangeBusiness,$$account_list_person} = this.props
-        const isChangeBusinessStatus = $$account_list_person.toJS().isChangeBusiness
-        isChangeBusiness(!isChangeBusinessStatus)
-    }    
 
-    //勾选是否关联客户
-    changeContact(){
-        const {isChangeContact,$$account_list_person} = this.props
-
-        const isChangeContactStatus = $$account_list_person.toJS().isChangeContact
-        isChangeContact(!isChangeContactStatus)
-    }
-
-    //
 
     showImportModal = ()=> {
         this.setState({
@@ -486,8 +471,6 @@ class Account_List_Person_Page extends React.Component {
         peoplePropsData.selectPeopleModal = $$account_list_person.toJS().selectPeopleModal
         //选中人员的长度 假数据
         peoplePropsData.checkedRowsLength = 10
-        peoplePropsData.isChangeBusiness = $$account_list_person.toJS().isChangeBusiness
-        peoplePropsData.isChangeContact = $$account_list_person.toJS().isChangeContact
 
         const that = this
         const uploadProps = {
@@ -618,8 +601,6 @@ class Account_List_Person_Page extends React.Component {
                     handleClickCancle={this.handleChangeStatus.bind(this)}
                     requestData = {this.requestPDList.bind(this)}
                     requestNextData = {this.requestNextPoepleData.bind(this)}
-                    handleChangeBusiness = {this.changeBusiness.bind(this)}
-                    handleChangeContact = {this.changeContact.bind(this)}
 
                 />
             </div>

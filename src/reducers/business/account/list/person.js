@@ -34,9 +34,7 @@ const $$initialState = Immutable.fromJS({
     loading: false,
     IsMultiselect:0,
     selectPeopleModal:false,
-    data:[],
-    isChangeBusiness:false,
-    isChangeContact:false
+    data:[]
 
 })
 
@@ -91,10 +89,6 @@ export default function account_list_person($$state = $$initialState, action) {
             const totalData = currentData.concat(action.payload)
             return $$state.merge({data:totalData})
 
-        case COMPONENTS_ISCHANGEBUSINESS:
-            return $$state.merge({isChangeBusiness:action.payload})        
-        case COMPONENTS_ISCHANGECONTACT:
-            return $$state.merge({isChangeContact:action.payload})
         default:
             return $$state
     }
