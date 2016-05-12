@@ -295,20 +295,7 @@ class Account_List_Person_Page extends React.Component {
 
 
             getPeopleData(getPeopleParams)
-            reqwest({
-                url: SCRM.url('/setting/scrm/changeOwner'),
-                dataType: 'json',
-                type: 'POST',
-                data: {
-                    'objName': 'Account',
-                    'ownerID': '',
-                    'selectIDs': ''
-                },
-                success: function (r) {
 
-                }
-
-            })
         }
     }
 
@@ -338,12 +325,37 @@ class Account_List_Person_Page extends React.Component {
 
 
     //点击确定按钮获取所选人员信息
-    getFilterData(PeopleInfor) {
+    getFilterData (PeopleInfor) {
+        const checkedRows = this.refs.queryDataTable.getCheckedRows()
         console.log('所选人员信息')
         console.log(PeopleInfor)
         const {changeIsShowStatus} = this.props
         changeIsShowStatus()
 
+
+        reqwest({
+            url: SCRM.url('/setting/scrm/changeOwner'),
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                objName: 'Account',
+                ownerID: PeopleInfor.choseNameData[0].ownerId,
+                selectIDs: checkedRows.map((item, i)=>{
+                    return item.ID
+                }),
+                relContact: !PeopleInfor.isChangeContact ? 0 : 1,
+                relOptnty: !PeopleInfor.isChangeBusiness ? 0 : 1
+
+            },
+            success: function (r) {
+                if (r.rs) {
+                    message.success(`操作成功`);
+                } else {
+                    message.error(`操作失败`);
+                }
+            }
+
+        })
 
     }
 
@@ -381,6 +393,7 @@ class Account_List_Person_Page extends React.Component {
         console.log('请求下一页数据')
         const {getNextPagePeopleData} = this.props
         getNextPagePeopleData(getPeopleParams)
+
 
 
     }
