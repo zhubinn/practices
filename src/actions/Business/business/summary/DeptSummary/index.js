@@ -22,7 +22,6 @@ const getDeptSummaryData = (params ,val) => {
     }
 
     return (dispatch, getState) => {
-        debugger
         dispatch(fetchData(GET_DEPTSUMMARY_DATA))
         fetch(params.url, {
             credentials: 'include',

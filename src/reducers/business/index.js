@@ -58,10 +58,8 @@ const businessReducers = combineReducers({
     deptsummary,
     persummary,
     summarydetail,
-
     business_list_dept,
     business_list_person,
-
 
     numberReportViewState,
     dispatchCluesState,

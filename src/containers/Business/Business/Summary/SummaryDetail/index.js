@@ -58,7 +58,7 @@ class summaryDetail extends React.Component {
     render() {
 
         //table数据配置
-        const { $$summaryDetail } = this.props;
+        const { $$summaryDetail, getSummaryDetailData } = this.props;
         const columns = $$summaryDetail.get('tableColumns').toJS();
 
         let queryDataTable = {}
@@ -72,9 +72,6 @@ class summaryDetail extends React.Component {
                   <SearchInput ref="searchInput" onSearch = {this.normalSearch.bind(this)} />
                 </Col>
                 <Col span="14" style = {{textAlign: 'right'}} >
-                  <Button type="primary" onClick={(e)=>{
-                            this.refs.queryDataTable.toggleQueryTable(e)
-                        }}>筛选</Button>
                   <Button type="ghost" onClick = {this.exportConfirm} >导出EXCEL</Button>
                 </Col>
               </Row>
