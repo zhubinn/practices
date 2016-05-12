@@ -88,6 +88,7 @@ export default (
             <Route path="business">
                 <Route path="deptsummary/:role/:id" component={DeptSummary} />
                 <Route path="persummary/:role/:id" component={PerSummary} />
+
                 <Route path="deptsummarydetail/:role/:id" component={SummaryDetail} />
 
                 <Route path="deptstatistic/:role/:id" component={DeptStatistic} />
@@ -96,6 +97,7 @@ export default (
 
                 <Route path="deptlist/:role/:id" component={DeptList} />
                 <Route path="list/:role/:id" component={PersonList} />
+
             </Route>
             <Route path="log">
                 <Route path="datalog/:role/:id" component={DataLog} />
