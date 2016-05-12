@@ -28,13 +28,31 @@ let statisticDetail = {
             "title": "部门名称",
             "width": 150,
             "dataIndex": "DeptName",
-            "key": "DeptName"
+            "key": "DeptName",
+            render(text, record, index) {
+                const  peneUrl = SCRM.url('/scrmweb/business/deptlist?params={"ID":' + record.ID + '}');
+                if(record.classname){
+                    //return {text};
+                    return <span>{text}</span>;
+                }else{
+                    return <a href={peneUrl}>{text}</a>;
+                }
+            }
         },
         {
             "title": "用户名称",
             "width": 150,
             "dataIndex": "Name",
-            "key": "Name"
+            "key": "Name",
+            render(text, record, index) {
+                const  peneUrl = SCRM.url('/scrmweb/business/list?params={"ID":' + record.ID + '}');
+                if(record.classname){
+                    //return {text};
+                    return <span>{text}</span>;
+                }else{
+                    return <a href={peneUrl}>{text}</a>;
+                }
+            }
         },
         {
             "title": "全部生意数量",

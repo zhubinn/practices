@@ -15,12 +15,14 @@ import QueryDataTable from 'components/Business/QueryDataTable'
 import 'antd/lib/index.css'
 import './index.css'
 
+import getQueryString from 'components/Business/GetQueryString'
 //获取table列表数据接口
 let statisticdetailParams = {
     //url: SCRM.url('/front/js/scrm/fakeData/deptStatistic.php'),
     url: SCRM.url('/scrmweb/business/getDeptStatisticDetail/VISITID/1'),
     data: {
-        keyword:''
+        keyword:'',
+        deptID:getQueryString("deptID")
     }
 };
 

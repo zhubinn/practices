@@ -61,7 +61,7 @@ class DataLog extends React.Component {
       this.props.exportHide()
       //console.log(exportParams);
       let objData = JSON.stringify(exportParams);
-      window.open(SCRM.url("/common/ScrmExportOptimization/export")+ '?param=' + objData);
+      window.open(SCRM.url("/ScrmExportOptimization/export")+ '?param=' + objData);
     }
 
     handleCancel(e) {
@@ -70,19 +70,29 @@ class DataLog extends React.Component {
 
     exportTimeChange(value){
 
-      function formatDate(date, format){
-        switch(format){
-          case "yyyy-MM-dd HH:mm:ss":
-          return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-          case "yyyy-MM-dd":
-          return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-          default:
-          return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-        }
-      }
-      
-      exportParams.begin = formatDate(value[0], "yyyy-MM-dd HH:mm:ss");
-      exportParams.end = formatDate(value[1], "yyyy-MM-dd HH:mm:ss");
+      // function comple(val){
+      //   if(val<10){
+      //     return "0"+val;
+      //   }else{
+      //     return val;
+      //   }
+      // }
+
+      // function formatDate(date, format){
+      //   switch(format){
+      //     case "yyyy-MM-dd HH:mm:ss":
+      //     return date.getFullYear() + "-" + comple(date.getMonth()) + "-" + comple(date.getDate()) + " " + comple(date.getHours()) + ":" + comple(date.getMinutes()) + ":" + comple(date.getSeconds());
+      //     case "yyyy-MM-dd":
+      //     return date.getFullYear() + "-" + comple(date.getMonth()) + "-" + comple(date.getDate());
+      //     default:
+      //     return date.getFullYear() + "-" + comple(date.getMonth()) + "-" + comple(date.getDate());
+      //   }
+      // }
+
+      // exportParams.begin = formatDate(value[0], "yyyy-MM-dd HH:mm:ss");
+      // exportParams.end = formatDate(value[1], "yyyy-MM-dd HH:mm:ss");
+      exportParams.begin = value[0];
+      exportParams.end = value[1];
     }
 
     render() {
@@ -122,7 +132,6 @@ class DataLog extends React.Component {
                     onGetTableData={
                                 (obj)=>{
                                     this.refs.searchInput.emptyInput()
-                                    debugger
                                     getDataLogData({
                                         data: obj
                                     })

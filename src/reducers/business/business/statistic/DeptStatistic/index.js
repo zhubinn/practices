@@ -20,7 +20,7 @@ let deptStatistic = {
             "dataIndex": "Name",
             "key": "Name",
             render(text, record, index) {
-                const  peneUrl = SCRM.url('/scrmweb/business/deptstatisticdetail?params={"ID":' + record.ID + '}');
+                const  peneUrl = SCRM.url('/scrmweb/business/deptstatisticdetail?deptID=' + record.ID);
                 if(record.classname){
                     //return {text};
                     return <span>{text}</span>;

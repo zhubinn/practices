@@ -28,6 +28,7 @@ let table_params = {
 let table_query_url = ''
 
 const getStatisticDetailData = (params ,val) => {
+    debugger
     const fetchData = (type, payload) => {
         return {
             type,

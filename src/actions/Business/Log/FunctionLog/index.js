@@ -145,7 +145,6 @@ const getFuncLogQuery = (url)=> {
             }
             return response.json()
         }).then(function (data) {
-            debugger
             dispatch(fetchData(GET_FUNCLOG_QUERY_SUCCESS, {
                 data: data.data
             }))
