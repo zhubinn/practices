@@ -211,6 +211,7 @@ export default class DispatchClues extends React.Component {
 
     clickSearch(value){
         const val = value.trim()
+        
 
         this.setState({
             owner:val,
