@@ -118,6 +118,11 @@ const columns = [{
     key: 'Phone6',
 
 }, {
+    title: '传真',
+    dataIndex: 'Phone8',
+    key: 'Phone8',
+
+}, {
     title: '其他电话',
     dataIndex: 'Phone7',
     key: 'Phone7',
@@ -286,10 +291,22 @@ class Account_Detail_Dept_Page extends React.Component {
 
     componentDidMount() {
 
-        this.props.getTableData({
 
-            url: SCRM.url('/scrmweb/accounts/getListDetail')
+
+        // 判断是否为穿透
+        let data = {}
+
+        if(!!(window.location.search.match(/id=(\d*)/) && RegExp.$1)){
+            data.deptID =RegExp.$1
+        }
+
+        // 获取table的数据
+        this.props.getTableData({
+            url: SCRM.url('/scrmweb/accounts/getListDetail'),
+            data
         })
+
+
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
     }
 
@@ -335,7 +352,7 @@ class Account_Detail_Dept_Page extends React.Component {
 
         return (
             <div style={{width: 1950}}>
-                <Table
+                <Table className = "ckDetil-depttable"
                     columns={business_columns}
                     dataSource={row.Opportunity}
                     pagination={false}>
@@ -372,18 +389,22 @@ class Account_Detail_Dept_Page extends React.Component {
         queryDataTable.queryColumns = $$account_detail_dept.toJS().queryColumns
         queryDataTable.loading = $$account_detail_dept.toJS().loading
         return (
-            <div>
-                <Row>
-                    <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
-                    <Col span="8" offset="8">
-                        <Button type="primary" onClick={(e)=>{
-                            this.refs.queryDataTable.toggleQueryTable(e)
-                        }}>筛选</Button>
+            <div style={{marginLeft: '20px'}}>
+                <div style={{marginTop: '14px',marginBottom: '14px'}}>
+                    <Row>
+                        <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
+                        <Col span="8" offset="8">
+                            <div className = "ckDetail-deptfilter">
+                            <Button type="primary" onClick={(e)=>{
+                                this.refs.queryDataTable.toggleQueryTable(e)
+                            }}>筛选</Button>
+                                </div>
 
 
-                        <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
-                    </Col>
-                </Row>
+                            <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
+                        </Col>
+                    </Row>
+                </div>
                 <Tabs defaultActiveKey="all"
                       type="card"
                       onChange={i => {this.changeType(i)}}>

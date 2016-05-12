@@ -1184,7 +1184,6 @@ let searchColumns = {
             options:[
                 {
                     text: '全部',
-                    // Notes: 该条目0和1被占用,以后类似情况约定0为全部
 
                     value: -1
                 },
@@ -1207,8 +1206,6 @@ let searchColumns = {
             options:[
                 {
                     text: '全部',
-                    // Notes: 该条目0和1被占用,以后类似情况约定0为全部
-
                     value: -1
 
                 },

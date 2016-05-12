@@ -89,9 +89,6 @@ class DataLog extends React.Component {
       
       exportParams.begin = formatDate(value[0], "yyyy-MM-dd HH:mm:ss");
       exportParams.end = formatDate(value[1], "yyyy-MM-dd HH:mm:ss");
-      // exportParams.begin = value[0];
-      // exportParams.end = value[1];
-      //this.props.exportHide()
     }
 
     render() {
@@ -110,7 +107,7 @@ class DataLog extends React.Component {
         queryDataTable.pageSize = tablePageData.get('pageSize');
         queryDataTable.queryColumns = $$logState.get('queryColumns').toJS()
         //queryDataTable.loading = $$account_list_person.toJS().loading
-
+        
         return (
             <div style = {{marginLeft: '20px'}} >
               <Row>
@@ -139,9 +136,16 @@ class DataLog extends React.Component {
                     ref="queryDataTable"
                 >
                 </QueryDataTable>
-                <Modal title="导出日志" visible={expotModal}
-                onOk={this.handleOk.bind(this)} onCancel={this.handleCancel.bind(this)}>
-                  <RangePicker showTime format="yyyy-MM-dd HH:mm:ss" onChange={this.exportTimeChange.bind(this)} />
+                <Modal 
+                title="导出日志" 
+                visible={expotModal}
+                onOk={this.handleOk.bind(this)} 
+                onCancel={this.handleCancel.bind(this)}>
+                  <RangePicker 
+                  showTime 
+                  format="yyyy-MM-dd HH:mm:ss" 
+                  onChange={this.exportTimeChange.bind(this)} 
+                  />
                 </Modal>
             </div>
         )

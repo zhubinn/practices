@@ -16,7 +16,7 @@ import {
 let datalog = {
     queryColumns: {
         "Operator": {
-            "searchType": 18,
+            "searchType": 5,
             "renderData": {
                 "defaultValue": ""
             }
