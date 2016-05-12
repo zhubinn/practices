@@ -209,8 +209,15 @@ const columns = [{
 
 }];
 
-// 查询表格
-// 依赖Table, Pagination, Form
+
+
+
+
+// 是否为本人查看
+
+let isSelf = true
+if (window.location.search.match(/id=(\d*)/)) isSelf = false
+if (RegExp.$1 == GLOBAL_INFO.userinfo.ID) isSelf = true
 
 
 class Account_List_Person_Page extends React.Component {
@@ -587,20 +594,23 @@ class Account_List_Person_Page extends React.Component {
                     </Col>
                 </Row>
                 </div>
-                <Tabs defaultActiveKey="all"
-                      type="card"
-                      onChange={i => {this.changeType(i)}}>
-                    <TabPane tab="全部客户" key="all">
-                    </TabPane>
-                    <TabPane tab="负责的客户" key="owner">
-                    </TabPane>
-                    <TabPane tab="参与的客户" key="relation">
-                    </TabPane>
-                    <TabPane tab="重点客户" key="important">
-                    </TabPane>
-                    <TabPane tab="关注的客户" key="follow">
-                    </TabPane>
-                </Tabs>
+                {isSelf ? (<Tabs defaultActiveKey="all"
+                                 type="card"
+                                 onChange={i => {this.changeType(i)}}>
+                    <TabPane tab="全部客户" key="all"></TabPane>
+                    <TabPane tab="负责的客户" key="owner"></TabPane>
+                    <TabPane tab="参与的客户" key="relation"></TabPane>
+                    <TabPane tab="重点客户" key="important"></TabPane>
+                    <TabPane tab="关注的客户" key="follow"></TabPane>
+                </Tabs>) : (<Tabs defaultActiveKey="all"
+                                  type="card"
+                                  onChange={i => {this.changeType(i)}}>
+                    <TabPane tab="全部客户" key="all"></TabPane>
+                    <TabPane tab="负责的客户" key="owner"></TabPane>
+
+                    <TabPane tab="重点客户" key="important"></TabPane>
+                    <TabPane tab="关注的客户" key="follow"></TabPane>
+                </Tabs>)}
 
 
                 <QueryDataTable

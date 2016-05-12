@@ -316,6 +316,15 @@ const business_dataSource = [{
     "Amount": "",
     "Account": "40498"
 }]
+
+
+// 是否为本人查看
+
+let isSelf = true
+if (window.location.search.match(/id=(\d*)/)) isSelf = false
+if (RegExp.$1 == GLOBAL_INFO.userinfo.ID) isSelf = true
+
+
 class Account_Detail_Person_Page extends React.Component {
     constructor() {
         super()
@@ -326,8 +335,8 @@ class Account_Detail_Person_Page extends React.Component {
         // 判断是否为穿透
         let data = {}
 
-        if(!!(window.location.search.match(/id=(\d*)/) && RegExp.$1)){
-            data.userID =RegExp.$1
+        if (!!(window.location.search.match(/id=(\d*)/) && RegExp.$1)) {
+            data.userID = RegExp.$1
         }
 
         // 获取table的数据
@@ -381,10 +390,10 @@ class Account_Detail_Person_Page extends React.Component {
         return (
             <div style={{width: 1950}}>
 
-                <Table className = "ckDetil-depttable"
-                    columns={business_columns}
-                    dataSource={row.Opportunity}
-                    pagination={false}>
+                <Table className="ckDetil-depttable"
+                       columns={business_columns}
+                       dataSource={row.Opportunity}
+                       pagination={false}>
 
                 </Table>
 
@@ -404,6 +413,7 @@ class Account_Detail_Person_Page extends React.Component {
         window.open(exportUrl);
 
     }
+
     render() {
         const {
             $$account_detail_person,
@@ -420,38 +430,44 @@ class Account_Detail_Person_Page extends React.Component {
         queryDataTable.loading = $$account_detail_person.toJS().loading
 
 
-        console.log(GLOBAL_INFO)
+
         return (
             <div style={{marginLeft: '20px'}}>
                 <div style={{marginTop: '14px',marginBottom: '14px'}}>
-                <Row>
-                    <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
-                    <Col span="8" offset="8">
-                        <div className = "ckDetail-deptfilter">
-                        <Button type="primary" onClick={(e)=>{
+                    <Row>
+                        <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/>
+                        </Col>
+                        <Col span="8" offset="8">
+                            <div className="ckDetail-deptfilter">
+                                <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
-                        </div>
+                            </div>
 
-                        <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
+                            <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
 
-                    </Col>
-                </Row>
-                    </div>
-                <Tabs defaultActiveKey="all"
-                      type="card"
-                      onChange={i => {this.changeType(i)}}>
-                    <TabPane tab="全部客户" key="all">
-                    </TabPane>
-                    <TabPane tab="负责的客户" key="owner">
-                    </TabPane>
-                    <TabPane tab="参与的客户" key="relation">
-                    </TabPane>
-                    <TabPane tab="重点客户" key="important">
-                    </TabPane>
-                    <TabPane tab="关注的客户" key="follow">
-                    </TabPane>
-                </Tabs>
+                        </Col>
+                    </Row>
+                </div>
+
+
+                {isSelf ? (<Tabs defaultActiveKey="all"
+                                 type="card"
+                                 onChange={i => {this.changeType(i)}}>
+                    <TabPane tab="全部客户" key="all"></TabPane>
+                    <TabPane tab="负责的客户" key="owner"></TabPane>
+                    <TabPane tab="参与的客户" key="relation"></TabPane>
+                    <TabPane tab="重点客户" key="important"></TabPane>
+                    <TabPane tab="关注的客户" key="follow"></TabPane>
+                </Tabs>) : (<Tabs defaultActiveKey="all"
+                                  type="card"
+                                  onChange={i => {this.changeType(i)}}>
+                    <TabPane tab="全部客户" key="all"></TabPane>
+                    <TabPane tab="负责的客户" key="owner"></TabPane>
+
+                    <TabPane tab="重点客户" key="important"></TabPane>
+                    <TabPane tab="关注的客户" key="follow"></TabPane>
+                </Tabs>)}
                 <QueryDataTable
                     columns={columns}
                     expandedRowRender={this.expandedRowRender}
