@@ -527,16 +527,25 @@ class Account_List_Person_Page extends React.Component {
 
 
         return (
-            <div>
+            <div style={{marginLeft: '20px'}}>
+                <div style={{marginTop: '14px',marginBottom: '14px'}}>
                 <Row>
                     <Col span="8"><SearchInput ref="searchInput"
                                                onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
-                    <Col span="8" offset="8">
-                        <Button type="primary" onClick={(e)=>{
+                    <Col span="10" offset="6">
+                        <div className="cklist-Persontfilter">
+                            <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
-                        <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
-                        <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
+                        </div>
+                        <div className="cklist-PersonChange">
+                            <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
+
+                        </div>
+                        <div className="cklist-Persondaoru">
+                            <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
+                        </div>
+
                         <Modal title="客户导入" visible={this.state.importModalVisible}
                                footer={importFooter}
                                onCancel={(e) => {this.handleCancel(e)}}
@@ -577,7 +586,7 @@ class Account_List_Person_Page extends React.Component {
                         <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
                     </Col>
                 </Row>
-
+                </div>
                 <Tabs defaultActiveKey="all"
                       type="card"
                       onChange={i => {this.changeType(i)}}>
@@ -619,6 +628,7 @@ class Account_List_Person_Page extends React.Component {
 
                 />
             </div>
+
         )
     }
 }
