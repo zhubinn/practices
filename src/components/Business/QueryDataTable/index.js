@@ -15,8 +15,8 @@ const RangePicker = DatePicker.RangePicker;
 const InputGroup = Input.Group;
 
 
-function noop() {}
-
+function noop() {
+}
 
 
 export default class QueryDataTable extends React.Component {
@@ -30,8 +30,10 @@ export default class QueryDataTable extends React.Component {
         dataSource: React.PropTypes.array,
         pagination: React.PropTypes.object,
         queryColumns: React.PropTypes.object,
+
+        /*todo: 有warning提示暂时注释*/
         // 刷新数据回调函数
-        onGetTableData: React.PropTypes.function
+        // onGetTableData: React.PropTypes.function
     }
 
     static defaultProps = {
@@ -59,9 +61,9 @@ export default class QueryDataTable extends React.Component {
         }
     }
 
-    clearCheckedAndExpanded = () =>{
+    clearCheckedAndExpanded = () => {
         // todo: ???
-        setTimeout(()=>{
+        setTimeout(()=> {
             this.setState({
                 selectedRowKeys: [],
                 expandedRowKeys: [],
@@ -76,13 +78,12 @@ export default class QueryDataTable extends React.Component {
         this.setState({selectedRowKeys});
     }
 
-  
 
     // 重置筛选表单数据(供外部调用)
-    resetQueryForm = ()=>{
+    resetQueryForm = ()=> {
         /*this.setState({
-            needRenderQuery: true
-        })*/
+         needRenderQuery: true
+         })*/
         this.queryForm = ''
     }
     handleSelectAll = (e, dataSource) => {
@@ -112,7 +113,6 @@ export default class QueryDataTable extends React.Component {
     }
 
 
-
     toggleQueryTable = (e) => {
         this.setState({
             isSearchShow: !this.state.isSearchShow
@@ -130,14 +130,14 @@ export default class QueryDataTable extends React.Component {
                     e.preventDefault();
                     console.log('收到表单值：', this.props.form.getFieldsValue());
                     const queryFormData = this.props.form.getFieldsValue()
-                    ;
+                        ;
 
                     // that.props.onSure(this.props.form.getFieldsValue())
                     that.clearCheckedAndExpanded()
 
                     if (that.props.onGetTableData) {
                         that.props.onGetTableData({
-                            searchData: Object.keys(this.props.form.getFieldsValue()).map((item)=>{
+                            searchData: Object.keys(this.props.form.getFieldsValue()).map((item)=> {
                                 return {
                                     name: item.split('_')[1],
                                     operator: item.split('_')[0],
@@ -163,7 +163,8 @@ export default class QueryDataTable extends React.Component {
                     const { getFieldProps } = this.props.form;
 
                     return (
-                        <Form form={this.props.form} style={{display: that.state.isSearchShow ? 'block' : 'none'}}>
+                        <Form form={this.props.form} style={{display: that.state.isSearchShow ? 'block' : 'none'}}
+                              className="ant-table-nonebtn01">
                             <table>
 
                                 <tbody className="ant-table-tbody">
@@ -181,9 +182,15 @@ export default class QueryDataTable extends React.Component {
                                 </tr>
                                 </tbody>
                             </table>
-                            <div className="formFooter">
-                                <Button type="ghost" onClick={(e) => {this.resetForm(e)}}>重置</Button>
-                                <Button type="primary"  onClick={(e) => {this.handleSubmit(e)}}>确定</Button>
+                            <div className="QueryDataTable-formFooter">
+
+                                <div className="QueryDataTable-formbtn">
+                                    <Button type="ghost" onClick={(e) => {this.resetForm(e)}}>重置</Button>
+                                </div>
+
+                                <Button type="primary" onClick={(e) => {this.handleSubmit(e)}}>确定</Button>
+
+
                             </div>
                         </Form>
 
@@ -211,24 +218,23 @@ export default class QueryDataTable extends React.Component {
         if (queryCol) {
 
 
-
             switch (queryCol['searchType']) {
-             /*   case 3:
-                    return (<FormItem >
-                        <InputGroup {...getFieldProps('-1_' + col['key'], {
-                            initialValue: queryCol['renderData']['defaultValue']
-                        })}>
-                            <Input  />
-                            <div className="ant-input-group-wrap">
-                                <Select defaultValue=".com" style={{ width: 70 }}>
-                                    <Option value=".com">.com</Option>
-                                    <Option value=".jp">.jp</Option>
-                                    <Option value=".cn">.cn</Option>
-                                    <Option value=".org">.org</Option>
-                                </Select>
-                            </div>
-                        </InputGroup>
-                    </FormItem>)*/
+                /*   case 3:
+                 return (<FormItem >
+                 <InputGroup {...getFieldProps('-1_' + col['key'], {
+                 initialValue: queryCol['renderData']['defaultValue']
+                 })}>
+                 <Input  />
+                 <div className="ant-input-group-wrap">
+                 <Select defaultValue=".com" style={{ width: 70 }}>
+                 <Option value=".com">.com</Option>
+                 <Option value=".jp">.jp</Option>
+                 <Option value=".cn">.cn</Option>
+                 <Option value=".org">.org</Option>
+                 </Select>
+                 </div>
+                 </InputGroup>
+                 </FormItem>)*/
                 case 4:
                 case 5:
                 case 6:
@@ -251,9 +257,10 @@ export default class QueryDataTable extends React.Component {
 
                     return (<FormItem>
                         <Select multiple {...getFieldProps('9_' + col['key'], {
-                            initialValue: queryCol['renderData']['defaultValue']
+                           // initialValue: queryCol['renderData']['defaultValue']
                         })} >
-                            {queryCol['renderData']['options'].map((item, i) =>(<Option value={item.value} key = {i}>{item.text}</Option>)
+                            {queryCol['renderData']['options'].map((item, i) =>(
+                                <Option value={item.value} key={i}>{item.text}</Option>)
                             )}
                         </Select>
                     </FormItem>)
@@ -265,7 +272,8 @@ export default class QueryDataTable extends React.Component {
                     </FormItem>)
                 case 16:
                     return (<FormItem>
-                        <RangePicker showTime format="yyyy/MM/dd HH:mm:ss"  showTime  {...getFieldProps('11_' + col['key'], {
+                        <RangePicker showTime format="yyyy/MM/dd HH:mm:ss"
+                                     showTime  {...getFieldProps('11_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
@@ -279,9 +287,9 @@ export default class QueryDataTable extends React.Component {
 
     calculateWidth = ()=> {
         let width = 0
-        this.props.checkMode  &&  (width = width + 41)
-        this.props.expandedRowRender  &&  (width = width + 34)
-        this.props.columns.forEach((item, i) =>{
+        this.props.checkMode && (width = width + 41)
+        this.props.expandedRowRender && (width = width + 34)
+        this.props.columns.forEach((item, i) => {
             width += item.width || this.defaultColWidth
         })
 
@@ -289,13 +297,11 @@ export default class QueryDataTable extends React.Component {
     }
 
 
-
-
     onExpand(expanded, record) {
         console.log('onExpand', expanded, record);
     }
 
-    onExpandedRowsChange= (rows) => {
+    onExpandedRowsChange = (rows) => {
         this.setState({
             expandedRowKeys: rows,
         });
@@ -321,7 +327,7 @@ export default class QueryDataTable extends React.Component {
         const pagination = {
             current: current,
             pageSize: pageSize,
-            total: total,
+            total: parseInt(total),
             showSizeChanger: true,
             showQuickJumper: true,
             onChange: (pageNumber) => {
@@ -346,7 +352,9 @@ export default class QueryDataTable extends React.Component {
 
         let table = (
             <Table ref='dataTable'
-                   dataSource={dataSource}
+
+                   dataSource={dataSource.map((item, i) =>  Object.assign(item, {key: i})
+                               )}
                    columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
                                )}
                    rowSelection={rowSelection}
@@ -358,38 +366,39 @@ export default class QueryDataTable extends React.Component {
         )
         if (this.props.expandedRowRender) {
             table = (<Table ref='dataTable'
-                           dataSource={dataSource}
-                           columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
-                               )}
-                           rowSelection={rowSelection}
-                           pagination={false}
-                           showHeader={false}
-                           loading={loading}
 
-                           expandIconAsCell
-                           expandedRowRender={this.props.expandedRowRender}
-                           expandedRowKeys={this.state.expandedRowKeys}
-                           onExpandedRowsChange={this.onExpandedRowsChange}
-                           onExpand={this.onExpand}
-                           rowKey={this.getRowKey}
+                            dataSource={dataSource.map((item, i) =>  Object.assign(item, {key: i})
+                               )}
+                            columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
+                               )}
+                            rowSelection={rowSelection}
+                            pagination={false}
+                            showHeader={false}
+                            loading={loading}
+
+                            expandIconAsCell
+                            expandedRowRender={this.props.expandedRowRender}
+                            expandedRowKeys={this.state.expandedRowKeys}
+                            onExpandedRowsChange={this.onExpandedRowsChange}
+                            onExpand={this.onExpand}
+                            rowKey={this.getRowKey}
             >
             </Table>)
         }
-
 
 
         return (
 
             <div>
 
-                <div style={{width: '800px', height: '500px',  overflow: "auto"}}>
+                <div style={{width: '800px', maxHeight: '500px',  overflow: "auto"}}>
                     <div style={{width: this.calculateWidth()}}>
 
 
-
-                        <div className="ant-table ant-table-large"
-                             onSubmit={this.handleSubmit }>
-                            <div className="ant-table-body">
+                        <div className="ant-noneWe">
+                            <div className="ant-table ant-table-large"
+                                 onSubmit={this.handleSubmit }>
+                                <div className="ant-table-body">
 
                                     <table>
                                         <thead className="ant-table-thead">
@@ -401,9 +410,10 @@ export default class QueryDataTable extends React.Component {
                                                         checked={ !!dataSource.length && this.state.selectedRowKeys.length === dataSource.length }
                                                         onChange={
                                                             (e)=>{this.handleSelectAll(e, dataSource)}}/></th>) : null }
-                                            {this.props.expandedRowRender ? (<th style={{width: 34}}></th>): null}
+                                            {this.props.expandedRowRender ? (<th style={{width: 18}}></th>) : null}
                                             {
-                                                columns.map((col, i) => <th key={i} width={col.width||this.defaultColWidth}>{col.title}</th>)
+                                                columns.map((col, i) => <th style={{textAlign: 'center'}} key={i}
+                                                                            width={col.width||this.defaultColWidth}>{col.title}</th>)
                                             }
                                         </tr>
                                         </thead>
@@ -413,10 +423,9 @@ export default class QueryDataTable extends React.Component {
                                     {this.renderQueryTable(columns, queryColumns, checkMode)}
 
 
-
+                                </div>
 
                             </div>
-
                         </div>
 
 
@@ -424,8 +433,16 @@ export default class QueryDataTable extends React.Component {
                     </div>
 
                 </div>
+                {/*
+                 默认展示分页(以下两种情况不再展示分页)
+                 1. 当props传入pagination: false
+                 2. 当dataSource为空数组时
+                 */}
 
-                <Pagination  {...pagination}/>
+
+                {(typeof  this.props.pagination !== 'undefined') && !this.props.pagination ? null : (dataSource.length === 0 ? null : (
+                    <Pagination  {...pagination}/>))}
+
             </div>
         )
     }

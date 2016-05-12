@@ -20,6 +20,8 @@ import {
     COMPONENTS_GETPEOPLEDATA_SUCCESS,
     COMPONENTS_GETNEXTPEOPLEDATA,
     COMPONENTS_GETNEXTPEOPLEDATA_SUCCESS,
+    COMPONENTS_ISCHANGEBUSINESS,
+    COMPONENTS_ISCHANGECONTACT
 
 } from 'actions/__demo/selectPeople'
 
@@ -33,7 +35,6 @@ const $$initialState = Immutable.fromJS({
     IsMultiselect:0,
     selectPeopleModal:false,
     data:[]
-
 
 })
 
@@ -87,6 +88,7 @@ export default function account_list_person($$state = $$initialState, action) {
             const currentData = $$state.toJS().data
             const totalData = currentData.concat(action.payload)
             return $$state.merge({data:totalData})
+
         default:
             return $$state
     }

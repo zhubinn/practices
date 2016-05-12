@@ -4,6 +4,8 @@
 import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination,Modal, Form, Upload, message, Progress  } from 'antd'
 import 'antd/style/index.less'
+import reqwest from 'reqwest'
+
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery, table_params } from 'actions/business/account/list/person'
 import {
@@ -16,6 +18,7 @@ import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import MapModal from 'containers/Business/Account/MapModal'
 import SelectPeople from 'components/Business/SelectPeople'
+import 'containers/Business/index.less'
 
 
 const FormItem = Form.Item;
@@ -24,10 +27,10 @@ const ProgressLine = Progress.Line;
 
 let getPeopleParams = {
     url: SCRM.url('/setting/scrm/getSelectList'),
-    data:{
-        page:1,
-        rowsPerPage:20,
-        keyword:''
+    data: {
+        page: 1,
+        rowsPerPage: 20,
+        keyword: ''
     }
 }
 // SCRM.url 由原来外层页面引入
@@ -265,11 +268,7 @@ class Account_List_Person_Page extends React.Component {
     }
 
 
-
-
-
-
-   //变更负责人选人
+    //变更负责人选人
     changeOwner = (e) => {
         console.log('获取已经选择的row')
         console.log(this.refs.queryDataTable.getCheckedRows())
@@ -285,53 +284,88 @@ class Account_List_Person_Page extends React.Component {
             const {changeIsMultiselect} = this.props
             changeIsMultiselect(IsMultiselect)
             const {getPeopleData} = this.props
+
+            const paramData = {
+                page: 1,
+                rowsPerPage: 20,
+                keyword: ''
+            }
+
+            Object.assign(getPeopleParams.data, paramData);
+
+
             getPeopleData(getPeopleParams)
 
-
         }
-
     }
 
-
-
-
     //筛选选人
-    handleSelection(){
+    handleSelection() {
         const IsMultiselect = 1;//0 单选  1 多选
         const {changeIsMultiselect} = this.props
         changeIsMultiselect(IsMultiselect)
         const {getPeopleData} = this.props
+        const paramData = {
+            page: 1,
+            rowsPerPage: 20,
+            keyword: ''
+        }
+
+        Object.assign(getPeopleParams.data, paramData);
+
         getPeopleData(getPeopleParams)
     }
 
 
-
-
     //点击取消按钮改变模态层显示状态
-    handleChangeStatus(){
+    handleChangeStatus() {
         const {changeIsShowStatus} = this.props
         changeIsShowStatus()
     }
 
 
     //点击确定按钮获取所选人员信息
-    getFilterData(PeopleInfor){
+    getFilterData (PeopleInfor) {
+        const checkedRows = this.refs.queryDataTable.getCheckedRows()
         console.log('所选人员信息')
         console.log(PeopleInfor)
         const {changeIsShowStatus} = this.props
         changeIsShowStatus()
 
 
+        reqwest({
+            url: SCRM.url('/setting/scrm/changeOwner'),
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                objName: 'Account',
+                ownerID: PeopleInfor.choseNameData[0].ownerId,
+                selectIDs: checkedRows.map((item, i)=>{
+                    return item.ID
+                }),
+                relContact: !PeopleInfor.isChangeContact ? 0 : 1,
+                relOptnty: !PeopleInfor.isChangeBusiness ? 0 : 1
+
+            },
+            success: function (r) {
+                if (r.rs) {
+                    message.success(`操作成功`);
+                } else {
+                    message.error(`操作失败`);
+                }
+            }
+
+        })
 
     }
 
     //再次请求数据(按关键词搜索)
-    requestPDList(page,value){
+    requestPDList(page, value, rowsPerPage) {
 
         const paramData = {
-            page:page,
-            rowsPerPage:20,
-            keyword:value
+            page: page,
+            rowsPerPage: rowsPerPage,
+            keyword: value
         }
 
         Object.assign(getPeopleParams.data, paramData);
@@ -345,13 +379,13 @@ class Account_List_Person_Page extends React.Component {
 
 
     //请求人员组件的下一页数据
-    requestNextPoepleData(page,value){
+    requestNextPoepleData(page, value) {
 
 
         const paramData = {
-            page:page,
-            rowsPerPage:20,
-            keyword:value
+            page: page,
+            rowsPerPage: 20,
+            keyword: ''
         }
 
         Object.assign(getPeopleParams.data, paramData);
@@ -361,14 +395,8 @@ class Account_List_Person_Page extends React.Component {
         getNextPagePeopleData(getPeopleParams)
 
 
+
     }
-
-
-
-
-
-
-
 
 
     showImportModal = ()=> {
@@ -393,7 +421,6 @@ class Account_List_Person_Page extends React.Component {
     handleUpload = (e) => {
 
     }
-
 
 
     handleExport = (e) => {
@@ -433,6 +460,7 @@ class Account_List_Person_Page extends React.Component {
             that.onProgress(progress);
         }, 200);
     }
+
     render() {
         const {
             $$account_list_person,
@@ -453,6 +481,8 @@ class Account_List_Person_Page extends React.Component {
         peoplePropsData.IsMultiselect = $$account_list_person.toJS().IsMultiselect
         peoplePropsData.data = $$account_list_person.toJS().data
         peoplePropsData.selectPeopleModal = $$account_list_person.toJS().selectPeopleModal
+        //选中人员的长度 假数据
+        peoplePropsData.checkedRowsLength = 10
 
         const that = this
         const uploadProps = {
@@ -484,20 +514,23 @@ class Account_List_Person_Page extends React.Component {
             }
         };
         const importFooter = (<Row> <Col span="12" offset="3">
-            {this.state.inImport ? (<Button type="ghost" disabled><Icon type="poweroff"/>导入中...</Button>) : (<Upload {...uploadProps} >
-                <Button type="primary" loading={this.state.inImport}>
-                    <Icon type="upload"/>导入上传
-                </Button>
-            </Upload>) }
+            {this.state.inImport ? (<Button type="ghost" disabled><Icon type="poweroff"/>导入中...</Button>) : (
+                <Upload {...uploadProps} >
+                    <Button type="primary" loading={this.state.inImport}>
+                        <Icon type="upload"/>导入上传
+                    </Button>
+                </Upload>) }
 
 
+        </Col></Row>)
 
-       </Col></Row>)
+
 
         return (
             <div>
                 <Row>
-                    <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
+                    <Col span="8"><SearchInput ref="searchInput"
+                                               onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
                     <Col span="8" offset="8">
                         <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
@@ -535,7 +568,7 @@ class Account_List_Person_Page extends React.Component {
                             </div>
                             {this.state.inImport ? (<div>
                                 <h4>导入进度: </h4>
-                                <ProgressLine percent={this.state.importProgress} />*
+                                <ProgressLine percent={this.state.importProgress}/>*
 
                             </div>) : null}
 
@@ -581,8 +614,9 @@ class Account_List_Person_Page extends React.Component {
                     {...peoplePropsData}
                     handleClickConfirm={this.getFilterData.bind(this)}
                     handleClickCancle={this.handleChangeStatus.bind(this)}
-                    requestData = {this.requestPDList.bind(this)}
-                    requestNextPoepleData = {this.requestNextPoepleData.bind(this)}
+                    requestData={this.requestPDList.bind(this)}
+                    requestNextData={this.requestNextPoepleData.bind(this)}
+
                 />
             </div>
         )

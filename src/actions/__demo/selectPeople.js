@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import reqwest from 'reqwest';
 import { routerMiddleware, push } from 'react-router-redux'
 
 const COMPONENTS_CHANGE_ISMUTISELECT = 'COMPONENTS_CHANGE_ISMUTISELECT'
@@ -8,6 +9,9 @@ const COMPONENTS_GETPEOPLEDATA_SUCCESS = 'COMPONENTS_GETPEOPLEDATA_SUCCESS'
 
 const COMPONENTS_GETNEXTPEOPLEDATA = 'COMPONENTS_GETNEXTPEOPLEDATA'
 const COMPONENTS_GETNEXTPEOPLEDATA_SUCCESS = 'COMPONENTS_GETNEXTPEOPLEDATA_SUCCESS'
+
+
+
 
 //设置筛选或变更状态
 export const changeIsMultiselect = (IsMultiselect)=> {
@@ -44,29 +48,22 @@ export const getPeopleData = (params) => {
 
     return (dispatch, getState) => {
         const url = params.url;
-        dispatch(_getPeopleData(COMPONENTS_GETPEOPLEDATA, {}));
+        //dispatch(_getPeopleData(COMPONENTS_GETPEOPLEDATA, {}));
 
-        fetch(params.url, {
-            credentials: 'include',
-            method: 'post',
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: 'params=' + JSON.stringify(params.data)
-        }).then(function (response) {
-            if (response.status >= 400) {
-                throw new Error("Bad response from server")
+        console.log('请求参数：', params);
+        reqwest({
+          url: url,
+          method: 'post',
+          data: params.data,
+          type: 'json',
+          success: (data) => {
+            if(data.rs){
+                dispatch(_getPeopleData(COMPONENTS_GETPEOPLEDATA_SUCCESS, data.data.users))
             }
-            return response.json()
-        }).then(function (data) {
-
-            dispatch(_getPeopleData(COMPONENTS_GETPEOPLEDATA_SUCCESS, data.data.users))
-
-        })
-
+          }
+        });
 
     }
-    //dispatch(_getPeopleData(COMPONENTS_GETPEOPLEDATA,{}));
 
 
     /* //fakeData pageOne
@@ -260,33 +257,25 @@ export const getNextPagePeopleData = (params) => {
         }
     }
 
-
-    return (dispatch, getState) => {
+        return (dispatch, getState) => {
         const url = params.url;
-        dispatch(_getNextPagePeopleData(COMPONENTS_GETPEOPLEDATA, {}));
+        //dispatch(_getNextPagePeopleData(COMPONENTS_GETNEXTPEOPLEDATA, {}));
 
-        fetch(params.url, {
-            credentials: 'include',
-            method: 'post',
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: 'params=' + JSON.stringify(params.data)
-        }).then(function (response) {
-            if (response.status >= 400) {
-                throw new Error("Bad response from server")
+        console.log('请求参数：', params);
+        reqwest({
+          url: url,
+          method: 'post',
+          data: params.data,
+          type: 'json',
+          success: (data) => {
+            if(data.rs){
+                dispatch(_getNextPagePeopleData(COMPONENTS_GETNEXTPEOPLEDATA_SUCCESS, data.data.users))
             }
-            return response.json()
-        }).then(function (data) {
-
-            dispatch(_getNextPagePeopleData(COMPONENTS_GETNEXTPEOPLEDATA_SUCCESS, data.data.users))
-
-        })
+          }
+        });
 
 
     }
-    //dispatch(_getNextPagePeopleData(COMPONENTS_GETNEXTPEOPLEDATA,{}));
-
 
     //fakeData pageOne
     /* const data  = {"rs":true,"data":{"total":192,"pages":20,"currentPage":1,"pageRow":10,"users":
@@ -460,11 +449,6 @@ export const getNextPagePeopleData = (params) => {
      "Url":"http://esn.fuwenfang.com/space/cons/index/id/4139"
      }
      ]}*/
-
-
-return (dispatch, getState) => {
-    dispatch(_getNextPagePeopleData(COMPONENTS_GETNEXTPEOPLEDATA_SUCCESS, data.data.users))
-}
 
 }
 
