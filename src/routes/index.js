@@ -6,11 +6,10 @@ import { Route, IndexRoute } from 'react-router'
 
 
 //Develop Leesx
-import HelloPage from 'containers/__demo/HelloPage'
-import CustomEditFieldPage from 'containers/__demo/CustomEditFieldPage'
-import NumberReportViewPage from 'containers/Business/numberReport/NumberReportViewPage'
-import DispatchCluesPage from 'containers/Business/clues/DispatchCluesPage'
-import ManageCluesPage from 'containers/Business/clues/ManageCluesPage'
+//报数-报数查看
+import NumberReportViewPage from 'containers/Business/NumberReport/ListView'
+//线索-线索分派
+import DispatchCluesPage from 'containers/Business/Clues/DispatchClues'
 // import DemoPagination from 'containers/__demo/Pagination'
 
 
@@ -51,6 +50,9 @@ import PerStatistic from 'containers/Business/Business/Statistic/PerStatistic'
 import DeptSummary from 'containers/Business/Business/Summary/DeptSummary'
 import PerSummary from 'containers/Business/Business/Summary/DeptSummary'
 
+import DeptList from 'containers/Business/Business/List/Dept'
+import PersonList from 'containers/Business/Business/List/Person'
+
 //日志
 import FuncLog from 'containers/Business/Log/FuncLog'
 import DataLog from 'containers/Business/Log/DataLog'
@@ -86,6 +88,8 @@ export default (
                 <Route path="perstatistic/:role/:id" component={PerStatistic} />
                 <Route path="deptsummary/:role/:id" component={DeptSummary} />
                 <Route path="persummary/:role/:id" component={PerSummary} />
+                <Route path="deptlist/:role/:id" component={DeptList} />
+                <Route path="list/:role/:id" component={PersonList} />
             </Route>
             <Route path="log">
                 <Route path="datalog/:role/:id" component={DataLog} />

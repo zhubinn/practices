@@ -1,24 +1,19 @@
-/*
- * 线索
- * 管理线索
- * */
-
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import NumberReportView from './NumberReportView'
+
+import * as NumberReportViewActions from 'actions/business/numberReport/ListView'
 
 
-import * as NumberReportViewActions from 'actions/business/numberReport/NumberReportViewActions'
-
-
-class ManageCluesPage extends Component {
+class NumberReportViewPage extends Component {
 
 
     render() {
-
+        const { numberReportViewState, actions } = this.props
         return (
             <div>
-                管理
+                <NumberReportView numberReportViewState={ numberReportViewState }  actions={actions} />
             </div>
         )
     }
@@ -28,7 +23,7 @@ class ManageCluesPage extends Component {
 
 
 
-ManageCluesPage.propTypes = {
+NumberReportViewPage.propTypes = {
     numberReportViewState: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
 }
@@ -51,4 +46,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ManageCluesPage)
+)(NumberReportViewPage)
