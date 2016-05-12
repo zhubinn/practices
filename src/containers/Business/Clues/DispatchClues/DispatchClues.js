@@ -11,54 +11,67 @@ import './less/clues.less'
 const columns = [{
     title: '姓名',
     dataIndex: 'Name',
+    key: 'Name',
     width: 65
 }, {
     title: '客户名称',
     dataIndex: 'Company',
+    key: 'Company',
     width: 180
 },{
     title: '导入来源',
     dataIndex: 'ImportSource',
+    key: 'ImportSource',
     width: 180
 }, {
     title: '创建时间',
     dataIndex: 'CreatedTime',
+    key: 'CreatedTime',
     width: 140
 },  {
     title: '线索负责人',
     dataIndex: 'OwnerID',
+    key: 'OwnerID',
     width: 180
 }, {
     title: '线索录入人',
     dataIndex: 'CreatedByID',
+    key: 'CreatedByID',
     width: 180
 }, {
     title: '微信',
     dataIndex: 'Wechat',
+    key: 'Wechat',
     width: 160
 }, {
     title: 'QQ',
     dataIndex: 'QQ',
+    key: 'QQ',
     width: 160
 }, {
     title: '线索来源',
     dataIndex: 'Source',
+    key: 'Source',
     width: 260
 }, {
     title: '描述',
     dataIndex: 'Description',
+    key: 'Description',
     width:160
 }, {
     title: '电话',
     dataIndex: 'Phone',
+    key: 'Phone',
     width: 160
 }, {
     title: '已转化客户',
     dataIndex: 'TransedAccountID',
+    key: 'TransedAccountID',
     width: 280
 }, {
     title: '已转化联系人',
     dataIndex: 'TransedContactID',
+    key: 'TransedContactID',
     width: 280
 }]
 
