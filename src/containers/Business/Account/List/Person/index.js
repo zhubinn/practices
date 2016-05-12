@@ -372,11 +372,11 @@ class Account_List_Person_Page extends React.Component {
         const {changeIsShowStatus} = this.props
         changeIsShowStatus()
 
-
+        message.loading('正在执行中...', 0);
         reqwest({
             url: SCRM.url('/setting/scrm/changeOwner'),
-            dataType: 'json',
-            type: 'POST',
+            type:'json',
+            method:'post',
             data: {
                 objName: 'Account',
                 ownerID: PeopleInfor.choseNameData[0].ownerId,
@@ -387,9 +387,14 @@ class Account_List_Person_Page extends React.Component {
                 relOptnty: !PeopleInfor.isChangeBusiness ? 0 : 1
 
             },
+
             success: function (r) {
+
+                console.log(r)
                 if (r.rs) {
+                    message.destroy()
                     message.success(`操作成功`);
+                    top.window.location.href = top.window.location.href
                 } else {
                     message.error(`操作失败`);
                 }
