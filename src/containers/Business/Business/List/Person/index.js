@@ -8,7 +8,7 @@ import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery } from 'actions/business/business/list/person'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
-
+import getQueryString from 'components/Business/GetQueryString'
 
 import 'containers/Business/lsx-index.less'
 
@@ -107,7 +107,11 @@ class PersonList extends React.Component {
     componentDidMount() {
         // todo: url包装
         this.props.getTableData({
-            url: SCRM.url('/scrmweb/business/getList')
+            url: SCRM.url('/scrmweb/business/getList'),
+            data:{
+                keyword:'',
+                userID:getQueryString("userID"),
+            }
 
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/business/getOpportunityFilter'))
@@ -123,6 +127,7 @@ class PersonList extends React.Component {
             data: {
                 searchData: [],
                 keyword: value,
+                userID:getQueryString("userID"),
                 page: 1,
                 pageSize: 0
             }
@@ -140,6 +145,7 @@ class PersonList extends React.Component {
             data: {
                 searchData: [],
                 keyword: '',
+                userID:getQueryString("userID"),
                 page: 1,
                 pageSize: 0,
                 type

@@ -129,6 +129,9 @@ export default class InputDater extends React.Component {
             method:'post',
             data:param,
             type:'json',
+            error: function (result) {
+                message.error(result.error)
+            },
             success:(result) => {
                 if (result.rs === true) {
                     actions.fetchData(true, result.data)

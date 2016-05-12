@@ -8,6 +8,7 @@ import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery } from 'actions/business/business/list/dept'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
+import getQueryString from 'components/Business/GetQueryString'
 
 
 import 'containers/Business/lsx-index.less'
@@ -107,7 +108,12 @@ class DeptList extends React.Component {
     componentDidMount() {
         // todo: url包装
         this.props.getTableData({
-            url: SCRM.url('/scrmweb/business/getDeptList')
+            url: SCRM.url('/scrmweb/business/getDeptList'),
+            data:{
+                deptID:getQueryString("deptID"),
+                keyword:'',
+
+            }
 
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/business/getOpportunityFilter'))
@@ -122,6 +128,7 @@ class DeptList extends React.Component {
         this.props.getTableData({
             data: {
                 searchData: [],
+                deptID:getQueryString("deptID"),
                 keyword: value,
                 page: 1,
                 pageSize: 0
@@ -139,6 +146,7 @@ class DeptList extends React.Component {
         this.props.getTableData({
             data: {
                 searchData: [],
+                deptID:getQueryString("deptID"),
                 keyword: '',
                 page: 1,
                 pageSize: 0,

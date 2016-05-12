@@ -115,6 +115,9 @@ export default class DispatchClues extends React.Component {
             method:'post',
             data:params,
             type:'json',
+            error:  (result) => {
+                message.error(result.error)
+            },
             success:(result) => {
 
                 const pagination = this.state.pagination;
@@ -211,7 +214,7 @@ export default class DispatchClues extends React.Component {
 
     clickSearch(value){
         const val = value.trim()
-        
+
 
         this.setState({
             owner:val,
