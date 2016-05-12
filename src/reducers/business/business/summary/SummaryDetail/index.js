@@ -30,7 +30,7 @@ let summaryDetail = {
             "dataIndex": "DeptName",
             "key": "DeptName",
             render(text, record, index) {
-                const  peneUrl = SCRM.url('/scrmweb/business/deptlist?params={"ID":' + record.ID + '}');
+                const  peneUrl = SCRM.url('/scrmweb/business/deptlist?deptID=' + record.ID);
                 if(record.classname){
                     //return {text};
                     return <span>{text}</span>;
@@ -45,7 +45,7 @@ let summaryDetail = {
             "dataIndex": "Name",
             "key": "Name",
             render(text, record, index) {
-                const  peneUrl = SCRM.url('/scrmweb/business/list?params={"ID":' + record.ID + '}');
+                const  peneUrl = SCRM.url('/scrmweb/business/list?userID=' + record.ID);
                 if(record.classname){
                     //return {text};
                     return <span>{text}</span>;
