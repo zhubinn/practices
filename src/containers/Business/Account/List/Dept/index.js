@@ -224,7 +224,7 @@ const columns = [{
     dataIndex: 'TradingAmout',
     key: 'TradingAmout',
 },{
-    title: '汇款金额',
+    title: '回款金额',
     dataIndex: 'PaymentAmount',
     key: 'PaymentAmount',
 },{
