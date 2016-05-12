@@ -17,6 +17,12 @@ let summaryDetail = {
             "renderData": {
                 "defaultValue": ""
             }
+        },
+        "Name": {
+            "searchType": 5,
+            "renderData": {
+                "defaultValue": ""
+            }
         }
     },
     "tableData":{
