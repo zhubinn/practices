@@ -17,7 +17,7 @@ import './index.css'
 //获取table列表数据接口
 let PerSummaryParams = {
     //url: SCRM.url('/front/js/scrm/fakeData/deptStatistic.php'),
-    url: SCRM.url('/scrmweb/business/getPerSummary/VISITID/1'),
+    url: SCRM.url('/scrmweb/business/getPerSummary'),
     data: {
         keyword:''
     }

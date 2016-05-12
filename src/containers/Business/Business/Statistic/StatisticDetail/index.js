@@ -19,7 +19,7 @@ import getQueryString from 'components/Business/GetQueryString'
 //获取table列表数据接口
 let statisticdetailParams = {
     //url: SCRM.url('/front/js/scrm/fakeData/deptStatistic.php'),
-    url: SCRM.url('/scrmweb/business/getDeptStatisticDetail/VISITID/1'),
+    url: SCRM.url('/scrmweb/business/getDeptStatisticDetail'),
     data: {
         keyword:'',
         deptID:getQueryString("deptID")
