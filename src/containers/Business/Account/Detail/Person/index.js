@@ -134,6 +134,11 @@ const columns = [{
     key: 'Descriptions',
 
 }, {
+    title: '业务类型',
+    dataIndex: 'AccountIndustry',
+    key: 'AccountIndustry',
+
+}, {
     title: '主营产品',
     dataIndex: 'MainProduct',
     key: 'MainProduct',
@@ -147,11 +152,6 @@ const columns = [{
     title: '客户级别',
     dataIndex: 'AccountLevel',
     key: 'AccountLevel',
-
-}, {
-    title: '业务类型',
-    dataIndex: 'AccountIndustry',
-    key: 'AccountIndustry',
 
 }, {
     title: '所属区域',
@@ -193,11 +193,36 @@ const columns = [{
     dataIndex: 'CreatedTime',
     key: 'CreatedTime',
 
+},{
+    title: '创建方式',
+    dataIndex: 'CreatedType',
+    key: 'CreatedType',
+},{
+    title: '生意数量',
+    dataIndex: 'OptntyCount',
+    key: 'OptntyCount',
+},{
+    title: '成交金额',
+    dataIndex: 'TradingAmout',
+    key: 'TradingAmout',
+},{
+    title: '汇款金额',
+    dataIndex: 'PaymentAmount',
+    key: 'PaymentAmount',
+},{
+    title: '线索录入人',
+    dataIndex: 'LeadCreater',
+    key: 'LeadCreater',
+},{
+    title: '线索负责人',
+    dataIndex: 'LeadOwner',
+    key: 'LeadOwner',
+},{
+    title: '线索来源',
+    dataIndex: 'LeadSource',
+    key: 'LeadSource',
 }];
 
-
-// 查询表格
-// 依赖Table, Pagination, Form
 
 // 嵌套表格生意列表
 const business_columns = [
@@ -282,40 +307,6 @@ const business_columns = [
     }
 ]
 
-// fakeData
-const business_dataSource = [{
-    "ID": "372",
-    "AccountID": "\u9152\u6c34\u5ba2\u6237",
-    "Name": "\u535a\u767d\u751f\u610f",
-    "Stage": "",
-    "OwnerID": "\u5575\u5575\u2026\u2026\uff01\uff1f\u3002\u3002",
-    "CreatedTime": "2016.05.04 10:35",
-    "DiscoverDate": "2016-05-04",
-    "ExpectedCloseDate": "2016-05-04",
-    "AmountPlan": "200.00",
-    "PaymentTime": "2016-05-04",
-    "PaymentAmount": "10.00",
-    "WFFlag": "1",
-    "EndDate": "",
-    "Amount": "",
-    "Account": "40498"
-}, {
-    "ID": "344",
-    "AccountID": "\u9152\u6c34\u5ba2\u6237",
-    "Name": "\u9152\u6c34\u751f\u610f",
-    "Stage": "",
-    "OwnerID": "\u6ce2\u6ce2\u83dc\u83dc",
-    "CreatedTime": "2016.04.29 16:04",
-    "DiscoverDate": "2016-04-29",
-    "ExpectedCloseDate": "2016-04-29",
-    "AmountPlan": "5000.00",
-    "PaymentTime": "2016-04-29",
-    "PaymentAmount": "10.00",
-    "WFFlag": "1",
-    "EndDate": "",
-    "Amount": "",
-    "Account": "40498"
-}]
 
 
 // 是否为本人查看
