@@ -151,14 +151,15 @@ class DeptList extends React.Component {
 
     render() {
         const {
-            $$business_list_dept,
-            getTableData
+                $$business_list_dept,
+                getTableData
 
             } = this.props
 
-        debugger
+        //debugger
 
-        let queryDataTable = {}
+        let queryDataTable = {};
+
         queryDataTable.dataSource = $$business_list_dept.toJS().rows
         queryDataTable.current = $$business_list_dept.toJS().current
         queryDataTable.total = $$business_list_dept.toJS().total
@@ -201,7 +202,7 @@ class DeptList extends React.Component {
                     </TabPane>
                     <TabPane tab="停滞的生意" key="stop">
                     </TabPane>
-                    <TabPane tab="重要的生意" key="import">
+                    <TabPane tab="重要的生意" key="important">
                     </TabPane>
                 </Tabs>
 
@@ -213,7 +214,7 @@ class DeptList extends React.Component {
                     onGetTableData={
 
                                 (obj)=>{
-                                debugger
+
                                     getTableData({
                                         data: obj
                                     })
