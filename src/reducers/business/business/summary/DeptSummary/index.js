@@ -16,11 +16,11 @@ let deptSummary = {
     "tableColumns":[
         {
             "title": "部门名称",
-            width: 150,
-            "dataIndex": "deptName",
-            "key": "deptName",
+            "width": 150,
+            "dataIndex": "Name",
+            "key": "Name",
             render(text, record, index) {
-                const  peneUrl = SCRM.url('/scrmweb/accounts/deptsummarydetail?id=' + record.OperatorType);
+                const  peneUrl = SCRM.url('/scrmweb/business/deptsummarydetail?deptID=' + record.ID);
                 if(record.classname){
                     //return {text};
                     return <span>{text}</span>;
@@ -30,46 +30,34 @@ let deptSummary = {
             }
         },
         {
-            "title": "全部生意",
-            width: 150,
-            "dataIndex": "allBusiness",
-            "key": "allBusiness"
+            "title": "全部生意数量",
+            "width": 150,
+            "dataIndex": "Business",
+            "key": "Business"
         },
         {
-            "title": "赢单生意",
-            width: 150,
-            "dataIndex": "winBusiness",
-            "key": "winBusiness"
+            "title": "全部预计金额",
+            "width": 150,
+            "dataIndex": "AmountPlan",
+            "key": "AmountPlan"
         },
         {
-            "title": "输单生意",
-            width: 150,
-            "dataIndex": "failureBusiness",
-            "key": "failureBusiness"
+            "title": "全部成交金额",
+            "width": 150,
+            "dataIndex": "Amount",
+            "key": "Amount"
         },
         {
-            "title": "进行中生意",
-            width: 150,
-            "dataIndex": "doingBusiness",
-            "key": "doingBusiness"
+            "title": "全部回款金额",
+            "width": 150,
+            "dataIndex": "Payment",
+            "key": "Payment"
         },
         {
-            "title": "作废生意",
-            width: 150,
-            "dataIndex": "cancelBusiness",
-            "key": "cancelBusiness"
-        },
-        {
-            "title": "停滞生意",
-            width: 150,
-            "dataIndex": "stopBusiness",
-            "key": "stopBusiness"
-        },
-        {
-            "title": "重要生意",
-            width: 150,
-            "dataIndex": "importantBusiness",
-            "key": "importantBusiness"
+            "title": "全部输单金额",
+            "width": 150,
+            "dataIndex": "Failed",
+            "key": "Failed"
         }
     ]
 
@@ -80,7 +68,7 @@ export default function deptsummary($$state = Immutable.fromJS(deptSummary), act
         case GET_DEPTSUMMARY_DATA:
             return $$state;
         case GET_DEPTSUMMARY_SUCCESS:
-            return $$state.mergeDeep({tableData: action.payload.data});
+            return $$state.merge({tableData: action.payload.data});
         default:
             return $$state;
     }

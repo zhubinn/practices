@@ -16,7 +16,8 @@ import './index.css'
 
 //获取table列表数据接口
 let PerStatisticDataParams = {
-    url: SCRM.url('/front/js/scrm/fakeData/deptStatistic.php'),
+    //url: SCRM.url('/front/js/scrm/fakeData/deptStatistic.php'),
+    url: SCRM.url('/scrmweb/business/getPerStatistic'),
     data: {
         keyword:''
     }
@@ -62,7 +63,7 @@ class PerStatistic extends React.Component {
                 columns={columns} 
                 rowClassName = {
                   function(record, index){
-                    if (record.deptName == "小计" || record.deptName == "总计") {
+                    if (record.Name == "小计" || record.Name == "合计") {
                       return "busi-total-item";
                     }
                     return "";

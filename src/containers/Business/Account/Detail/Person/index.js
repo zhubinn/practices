@@ -134,6 +134,11 @@ const columns = [{
     key: 'Descriptions',
 
 }, {
+    title: '业务类型',
+    dataIndex: 'AccountIndustry',
+    key: 'AccountIndustry',
+
+}, {
     title: '主营产品',
     dataIndex: 'MainProduct',
     key: 'MainProduct',
@@ -147,11 +152,6 @@ const columns = [{
     title: '客户级别',
     dataIndex: 'AccountLevel',
     key: 'AccountLevel',
-
-}, {
-    title: '业务类型',
-    dataIndex: 'AccountIndustry',
-    key: 'AccountIndustry',
 
 }, {
     title: '所属区域',
@@ -193,11 +193,36 @@ const columns = [{
     dataIndex: 'CreatedTime',
     key: 'CreatedTime',
 
+},{
+    title: '创建方式',
+    dataIndex: 'CreatedType',
+    key: 'CreatedType',
+},{
+    title: '生意数量',
+    dataIndex: 'OptntyCount',
+    key: 'OptntyCount',
+},{
+    title: '成交金额',
+    dataIndex: 'TradingAmout',
+    key: 'TradingAmout',
+},{
+    title: '汇款金额',
+    dataIndex: 'PaymentAmount',
+    key: 'PaymentAmount',
+},{
+    title: '线索录入人',
+    dataIndex: 'LeadCreater',
+    key: 'LeadCreater',
+},{
+    title: '线索负责人',
+    dataIndex: 'LeadOwner',
+    key: 'LeadOwner',
+},{
+    title: '线索来源',
+    dataIndex: 'LeadSource',
+    key: 'LeadSource',
 }];
 
-
-// 查询表格
-// 依赖Table, Pagination, Form
 
 // 嵌套表格生意列表
 const business_columns = [
@@ -282,40 +307,15 @@ const business_columns = [
     }
 ]
 
-// fakeData
-const business_dataSource = [{
-    "ID": "372",
-    "AccountID": "\u9152\u6c34\u5ba2\u6237",
-    "Name": "\u535a\u767d\u751f\u610f",
-    "Stage": "",
-    "OwnerID": "\u5575\u5575\u2026\u2026\uff01\uff1f\u3002\u3002",
-    "CreatedTime": "2016.05.04 10:35",
-    "DiscoverDate": "2016-05-04",
-    "ExpectedCloseDate": "2016-05-04",
-    "AmountPlan": "200.00",
-    "PaymentTime": "2016-05-04",
-    "PaymentAmount": "10.00",
-    "WFFlag": "1",
-    "EndDate": "",
-    "Amount": "",
-    "Account": "40498"
-}, {
-    "ID": "344",
-    "AccountID": "\u9152\u6c34\u5ba2\u6237",
-    "Name": "\u9152\u6c34\u751f\u610f",
-    "Stage": "",
-    "OwnerID": "\u6ce2\u6ce2\u83dc\u83dc",
-    "CreatedTime": "2016.04.29 16:04",
-    "DiscoverDate": "2016-04-29",
-    "ExpectedCloseDate": "2016-04-29",
-    "AmountPlan": "5000.00",
-    "PaymentTime": "2016-04-29",
-    "PaymentAmount": "10.00",
-    "WFFlag": "1",
-    "EndDate": "",
-    "Amount": "",
-    "Account": "40498"
-}]
+
+
+// 是否为本人查看
+
+let isSelf = true
+if (window.location.search.match(/id=(\d*)/)) isSelf = false
+if (RegExp.$1 == GLOBAL_INFO.userinfo.ID) isSelf = true
+
+
 class Account_Detail_Person_Page extends React.Component {
     constructor() {
         super()
@@ -326,8 +326,8 @@ class Account_Detail_Person_Page extends React.Component {
         // 判断是否为穿透
         let data = {}
 
-        if(!!(window.location.search.match(/id=(\d*)/) && RegExp.$1)){
-            data.userID =RegExp.$1
+        if (!!(window.location.search.match(/id=(\d*)/) && RegExp.$1)) {
+            data.userID = RegExp.$1
         }
 
         // 获取table的数据
@@ -381,10 +381,10 @@ class Account_Detail_Person_Page extends React.Component {
         return (
             <div style={{width: 1950}}>
 
-                <Table className = "ckDetil-depttable"
-                    columns={business_columns}
-                    dataSource={row.Opportunity}
-                    pagination={false}>
+                <Table className="ckDetil-depttable"
+                       columns={business_columns}
+                       dataSource={row.Opportunity}
+                       pagination={false}>
 
                 </Table>
 
@@ -404,6 +404,7 @@ class Account_Detail_Person_Page extends React.Component {
         window.open(exportUrl);
 
     }
+
     render() {
         const {
             $$account_detail_person,
@@ -420,38 +421,44 @@ class Account_Detail_Person_Page extends React.Component {
         queryDataTable.loading = $$account_detail_person.toJS().loading
 
 
-        console.log(GLOBAL_INFO)
+
         return (
             <div style={{marginLeft: '20px'}}>
                 <div style={{marginTop: '14px',marginBottom: '14px'}}>
-                <Row>
-                    <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
-                    <Col span="8" offset="8">
-                        <div className = "ckDetail-deptfilter">
-                        <Button type="primary" onClick={(e)=>{
+                    <Row>
+                        <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/>
+                        </Col>
+                        <Col span="8" offset="8">
+                            <div className="ckDetail-deptfilter">
+                                <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
-                        </div>
+                            </div>
 
-                        <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
+                            <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
 
-                    </Col>
-                </Row>
-                    </div>
-                <Tabs defaultActiveKey="all"
-                      type="card"
-                      onChange={i => {this.changeType(i)}}>
-                    <TabPane tab="全部客户" key="all">
-                    </TabPane>
-                    <TabPane tab="负责的客户" key="owner">
-                    </TabPane>
-                    <TabPane tab="参与的客户" key="relation">
-                    </TabPane>
-                    <TabPane tab="重点客户" key="important">
-                    </TabPane>
-                    <TabPane tab="关注的客户" key="follow">
-                    </TabPane>
-                </Tabs>
+                        </Col>
+                    </Row>
+                </div>
+
+
+                {isSelf ? (<Tabs defaultActiveKey="all"
+                                 type="card"
+                                 onChange={i => {this.changeType(i)}}>
+                    <TabPane tab="全部客户" key="all"></TabPane>
+                    <TabPane tab="负责的客户" key="owner"></TabPane>
+                    <TabPane tab="参与的客户" key="relation"></TabPane>
+                    <TabPane tab="重点客户" key="important"></TabPane>
+                    <TabPane tab="关注的客户" key="follow"></TabPane>
+                </Tabs>) : (<Tabs defaultActiveKey="all"
+                                  type="card"
+                                  onChange={i => {this.changeType(i)}}>
+                    <TabPane tab="全部客户" key="all"></TabPane>
+                    <TabPane tab="负责的客户" key="owner"></TabPane>
+
+                    <TabPane tab="重点客户" key="important"></TabPane>
+                    <TabPane tab="关注的客户" key="follow"></TabPane>
+                </Tabs>)}
                 <QueryDataTable
                     columns={columns}
                     expandedRowRender={this.expandedRowRender}

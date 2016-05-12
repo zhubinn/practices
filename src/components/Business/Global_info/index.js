@@ -5,5 +5,7 @@
 let   GLOBAL_INFO = {}
 if (top.window.GLOBAL_INFO) {
     GLOBAL_INFO = top.window.GLOBAL_INFO
+
 }
-export default  GLOBAL_INFO
+
+export {GLOBAL_INFO}

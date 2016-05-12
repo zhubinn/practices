@@ -18,7 +18,6 @@ const FormItem = Form.Item;
 let DataLogParams = {
     //url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/logData.php',
     url: SCRM.url('/scrmoplog/index/opdetaillogIndex')
-    //'http://esn.yangtianming.com/scrmoplog/index/opdetaillogIndex'
 }
 
 let exportParams = {
@@ -30,16 +29,11 @@ let exportParams = {
 class DataLog extends React.Component {
     constructor(props) {
       super(props)
-      // this.searchInputChange = this.searchInputChange.bind(this)
-      // this.searchTimer;
-      // this.state = {
-      //   visible: false
-      // }
     }
 
     componentDidMount() {
       this.props.getDataLogData(DataLogParams);
-      //this.props.getDataLogQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
+      this.props.getDataLogQuery(SCRM.url('/scrmoplog/index/getOpdetaillogFilter'))
     }
 
     // 普通搜索和筛选(高级搜索)互斥
@@ -67,7 +61,7 @@ class DataLog extends React.Component {
       this.props.exportHide()
       //console.log(exportParams);
       let objData = JSON.stringify(exportParams);
-      window.open(SCRM.url("/common/ScrmExportOptimization/export")+ '?param=' + objData);
+      window.open(SCRM.url("/ScrmExportOptimization/export")+ '?param=' + objData);
     }
 
     handleCancel(e) {
@@ -76,19 +70,29 @@ class DataLog extends React.Component {
 
     exportTimeChange(value){
 
-      function formatDate(date, format){
-        switch(format){
-          case "yyyy-MM-dd HH:mm:ss":
-          return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-          case "yyyy-MM-dd":
-          return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-          default:
-          return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-        }
-      }
-      
-      exportParams.begin = formatDate(value[0], "yyyy-MM-dd HH:mm:ss");
-      exportParams.end = formatDate(value[1], "yyyy-MM-dd HH:mm:ss");
+      // function comple(val){
+      //   if(val<10){
+      //     return "0"+val;
+      //   }else{
+      //     return val;
+      //   }
+      // }
+
+      // function formatDate(date, format){
+      //   switch(format){
+      //     case "yyyy-MM-dd HH:mm:ss":
+      //     return date.getFullYear() + "-" + comple(date.getMonth()) + "-" + comple(date.getDate()) + " " + comple(date.getHours()) + ":" + comple(date.getMinutes()) + ":" + comple(date.getSeconds());
+      //     case "yyyy-MM-dd":
+      //     return date.getFullYear() + "-" + comple(date.getMonth()) + "-" + comple(date.getDate());
+      //     default:
+      //     return date.getFullYear() + "-" + comple(date.getMonth()) + "-" + comple(date.getDate());
+      //   }
+      // }
+
+      // exportParams.begin = formatDate(value[0], "yyyy-MM-dd HH:mm:ss");
+      // exportParams.end = formatDate(value[1], "yyyy-MM-dd HH:mm:ss");
+      exportParams.begin = value[0];
+      exportParams.end = value[1];
     }
 
     render() {
