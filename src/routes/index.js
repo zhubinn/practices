@@ -46,9 +46,11 @@ import Account_Detail_Dept_Page from 'containers/Business/Account/Detail/Dept'
 //生意
 import DeptStatistic from 'containers/Business/Business/Statistic/DeptStatistic'
 import PerStatistic from 'containers/Business/Business/Statistic/PerStatistic'
+import StatisticDetail from 'containers/Business/Business/Statistic/StatisticDetail'
 
 import DeptSummary from 'containers/Business/Business/Summary/DeptSummary'
-import PerSummary from 'containers/Business/Business/Summary/DeptSummary'
+import PerSummary from 'containers/Business/Business/Summary/PerSummary'
+import SummaryDetail from 'containers/Business/Business/Summary/SummaryDetail'
 
 import DeptList from 'containers/Business/Business/List/Dept'
 import PersonList from 'containers/Business/Business/List/Person'
@@ -84,12 +86,18 @@ export default (
                 <Route path="deptlist/:role/:id" component={Account_List_Dept_Page}/>
             </Route>
             <Route path="business">
-                <Route path="deptstatistic/:role/:id" component={DeptStatistic} />
-                <Route path="perstatistic/:role/:id" component={PerStatistic} />
                 <Route path="deptsummary/:role/:id" component={DeptSummary} />
                 <Route path="persummary/:role/:id" component={PerSummary} />
+<<<<<<< HEAD
+                <Route path="deptsummarydetail/:role/:id" component={SummaryDetail} />
+
+                <Route path="deptstatistic/:role/:id" component={DeptStatistic} />
+                <Route path="perstatistic/:role/:id" component={PerStatistic} />
+                <Route path="deptstatisticdetail/:role/:id" component={StatisticDetail} />
+=======
                 <Route path="deptlist/:role/:id" component={DeptList} />
                 <Route path="list/:role/:id" component={PersonList} />
+>>>>>>> 59731868941e9d925363b192302a3e5a6932f522
             </Route>
             <Route path="log">
                 <Route path="datalog/:role/:id" component={DataLog} />

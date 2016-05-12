@@ -22,7 +22,7 @@ let datalog = {
             }
         },
         "OperatorType": {
-            "searchType": 12,
+            "searchType": 13,
             "renderData": {
                 "defaultValue": "",
                 "options": [
@@ -86,7 +86,7 @@ let datalog = {
             }
         },
         "RelObjectType": {
-            "searchType": 12,
+            "searchType": 13,
             "renderData": {
                 "defaultValue": "",
                 "options": [
