@@ -2,10 +2,11 @@
  * Created by janeluck on 4/27/16.
  */
 import { connect } from 'react-redux'
-import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Modal  } from 'antd'
+import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Modal, Upload, message  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery, table_params } from 'actions/business/account/list/dept'
+import reqwest from 'reqwest'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import MapModal from 'containers/Business/Account/MapModal'
@@ -201,15 +202,20 @@ const columns = [{
 class Account_List_Dept_Page extends React.Component {
     constructor() {
         super()
+        this.state = {
+            importModalVisible: false,
+            inImport: false,
 
+            importProgress: 0
+        }
     }
 
     componentDidMount() {
         // 判断是否为穿透
         let data = {}
 
-        if(!!(window.location.search.match(/id=(\d*)/) && RegExp.$1)){
-            data.deptID =RegExp.$1
+        if (!!(window.location.search.match(/id=(\d*)/) && RegExp.$1)) {
+            data.deptID = RegExp.$1
         }
 
         // 获取table的数据
@@ -254,8 +260,19 @@ class Account_List_Dept_Page extends React.Component {
 
     }
     changeOwner = (e) => {
+        //变更负责人选人
+
         console.log('获取已经选择的row')
         console.log(this.refs.queryDataTable.getCheckedRows())
+        const checkedRows = this.refs.queryDataTable.getCheckedRows()
+        if (checkedRows.length == 0) {
+            Modal.info({
+                title: '请先选择客户',
+                onOk() {
+                },
+            });
+        } else {
+        }
 
     }
     handleExport = (e)=> {
@@ -271,6 +288,54 @@ class Account_List_Dept_Page extends React.Component {
         window.open(exportUrl);
 
     }
+
+
+    showImportModal = ()=> {
+        this.setState({
+            importModalVisible: true
+        });
+    }
+
+    handleOk = () => {
+        console.log('点击了确定');
+        this.setState({
+            importModalVisible: false
+        });
+    }
+    handleCancel = (e) => {
+        console.log(e);
+        this.setState({
+            importModalVisible: false
+        });
+    }
+
+    handleUpload = (e) => {
+
+    }
+    onProgress = (progress) => {
+
+        this.setState({
+            importProgress: progress
+        })
+        if (progress == 100) {
+            clearInterval(this.progressTimer)
+            message.success(`导入成功!`);
+            this.setState({
+                inImport: false
+            })
+        }
+
+
+    }
+    queryProcess = () => {
+        var that = this
+        this.progressTimer = setInterval(function () {
+            var progress = that.state.importProgress + 10
+
+            that.onProgress(progress);
+        }, 200);
+    }
+
     render() {
         const {
             $$account_list_dept,
@@ -285,25 +350,118 @@ class Account_List_Dept_Page extends React.Component {
         queryDataTable.pageSize = $$account_list_dept.toJS().pageSize
         queryDataTable.queryColumns = $$account_list_dept.toJS().queryColumns
         queryDataTable.loading = $$account_list_dept.toJS().loading
+
+        const that = this
+        const uploadProps = {
+            showUploadList: false,
+            name: 'file',
+            action: SCRM.url('/common/scrmImportOptimization/import/objName/Account'),
+            headers: {
+                authorization: 'authorization-text',
+            },
+
+            onChange(info) {
+
+                if (info.file.status !== 'uploading') {
+                    console.log(info.file, info.fileList);
+                }
+                if (info.file.status === 'done') {
+                    message.success(`${info.file.name} 上传成功, 正在导入...`);
+                    that.setState({
+                        inImport: true,
+                        importProgress: 0
+                    })
+                    that.queryProcess()
+
+
+                } else if (info.file.status === 'error') {
+                    message.error(`${info.file.name} 上传失败。`);
+                }
+
+            }
+        };
+        const importFooter = (<Row> <Col span="12" offset="3">
+            {this.state.inImport ? (<Button type="ghost" disabled><Icon type="poweroff"/>导入中...</Button>) : (
+                <Upload {...uploadProps} >
+                    <Button type="primary" loading={this.state.inImport}>
+                        <Icon type="upload"/>导入上传
+                    </Button>
+                </Upload>) }
+
+
+        </Col></Row>)
         return (
             <div style={{marginLeft: '20px'}}>
-              <div style={{marginTop: '14px',marginBottom: '14px'}}>
-                <Row>
-                    <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/></Col>
+                <div style={{marginTop: '14px',marginBottom: '14px'}}>
+                    <Row>
+                        <Col span="8"><SearchInput ref="searchInput"
+                                                   onSearch={(value)=>{this.normalSearch(value)}}/></Col>
 
-                    <Col span="8" offset="8">
-                        <div className = "cklist-deptfilter">
-                        <Button className='ckBtn' type="primary" onClick={(e)=>{
+                        <Col span="10" offset="6">
+                            <div className="cklist-Persontfilter">
+                                <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
                             </div>
-                        <div className = "cklist-depChange">
-                        <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更联系人</Button>
+
+                            <div className="cklist-PersonChange">
+                                <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
                             </div>
-                        <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
-                    </Col>
-                </Row>
-              </div>
+
+                            <div className="cklist-Persondaoru">
+                                <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
+                            </div>
+
+                            <Modal title="客户导入" visible={this.state.importModalVisible}
+                                   footer={importFooter}
+                                   onCancel={(e) => {this.handleCancel(e)}}
+                                   maskClosable={false}
+                                   accept='.jpg'
+                            >
+                                <div className="account-import">
+                                    <div>
+                                        <h3>一、<a href="javascript:;">下载【客户导入模板】</a></h3>
+
+                                        <div>
+                                            <p>请按照数据模板的格式准备要导入的数据。</p>
+                                        </div>
+                                        <p>注意事项:</p>
+
+                                        <div>
+                                            <p>1、模板中的表头不可更改，不可删除；</p>
+
+                                            <p>2、其中客户名称为必填项，其他均为选填项；</p>
+
+                                            <p>3、填写客户地址时，特别行政区名称需填写在模板中的省份字段下，由省/自治区直辖的县级行政区划，需将其名称直接填写在模板中的市字段下。</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h3>二、选择需要导入的CSV文件</h3>
+
+                                        <div>
+
+                                        </div>
+                                        <div>
+                                            <p>1、只支持CSV格式，文件大小不能超过1M；</p>
+
+                                            <p>2、为保证较好性能，请将导入条数控制在2000条以内；</p>
+
+                                            <p>3、请不要在同一时间导入多个文件。</p>
+                                        </div>
+                                    </div>
+                                    {this.state.inImport ? (<div>
+                                        <h4>导入进度: </h4>
+                                        <ProgressLine percent={this.state.importProgress}/>*
+
+                                    </div>) : null}
+                                </div>
+
+                            </Modal>
+
+                            <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
+                        </Col>
+                    </Row>
+                </div>
 
                 <Tabs defaultActiveKey="all"
                       type="card"

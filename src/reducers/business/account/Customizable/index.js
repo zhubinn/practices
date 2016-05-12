@@ -64,7 +64,7 @@ const  Customizable = ($$state = $$initialState, action)=>{
 
         case ACCOUNT_CUSTOM_DELETEITEM:
             if(action.payload.index === 0 && action.payload.isLast==1){
-                const $$lastitemCon =  Immutable.fromJS([{Val:'',IsSys:1,IsStop:0,IsDeleted:0}])
+                const $$lastitemCon =  Immutable.fromJS([{Val:'',IsSys:0,IsStop:0,IsDeleted:0}])
                 return $$state.updateIn(['localeditColumnsOptions'], localeditColumnsOptions => {
                     
                     return $$lastitemCon
@@ -95,7 +95,7 @@ const  Customizable = ($$state = $$initialState, action)=>{
                 return r
             })
             localeditColumnsOptions = localeditColumnsOptions.map((r, i) => {
-                if(i === 0 && NewoptionInfor.length>0 ) {
+                if(i === 0 && NewoptionInfor.length>0&&localeditColumnsOptions.length == 1 ) {
                     return r.updateIn(['IsSys'], IsSys => {
                         return 0
                     })

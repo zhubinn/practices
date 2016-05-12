@@ -108,7 +108,7 @@ export const selectedRowData = (selectedRow,editColumnsOptions)=>{
             {
                 Val:"",//枚举值.
                 IsStop:0,//1：停用 0：启用.
-                IsSys:1,//是否是系统属性.
+                IsSys:0,//是否是系统属性.
                 IsDeleted:0
             }
         ]
@@ -126,7 +126,7 @@ export const selectedRowData = (selectedRow,editColumnsOptions)=>{
             {
                 Val:"",//枚举值.
                 IsStop:0,//1：停用 0：启用.
-                IsSys:1,//是否是系统属性.
+                IsSys:0,//是否是系统属性.
                 IsDeleted:0
             }
         ]        

@@ -6,11 +6,10 @@ import { Route, IndexRoute } from 'react-router'
 
 
 //Develop Leesx
-import HelloPage from 'containers/__demo/HelloPage'
-import CustomEditFieldPage from 'containers/__demo/CustomEditFieldPage'
-import NumberReportViewPage from 'containers/Business/numberReport/NumberReportViewPage'
-import DispatchCluesPage from 'containers/Business/clues/DispatchCluesPage'
-import ManageCluesPage from 'containers/Business/clues/ManageCluesPage'
+//报数-报数查看
+import NumberReportViewPage from 'containers/Business/NumberReport/ListView'
+//线索-线索分派
+import DispatchCluesPage from 'containers/Business/Clues/DispatchClues'
 // import DemoPagination from 'containers/__demo/Pagination'
 
 
@@ -53,6 +52,9 @@ import DeptSummary from 'containers/Business/Business/Summary/DeptSummary'
 import PerSummary from 'containers/Business/Business/Summary/PerSummary'
 import SummaryDetail from 'containers/Business/Business/Summary/SummaryDetail'
 
+import DeptList from 'containers/Business/Business/List/Dept'
+import PersonList from 'containers/Business/Business/List/Person'
+
 //日志
 import FuncLog from 'containers/Business/Log/FuncLog'
 import DataLog from 'containers/Business/Log/DataLog'
@@ -86,11 +88,16 @@ export default (
             <Route path="business">
                 <Route path="deptsummary/:role/:id" component={DeptSummary} />
                 <Route path="persummary/:role/:id" component={PerSummary} />
+<<<<<<< HEAD
                 <Route path="deptsummarydetail/:role/:id" component={SummaryDetail} />
 
                 <Route path="deptstatistic/:role/:id" component={DeptStatistic} />
                 <Route path="perstatistic/:role/:id" component={PerStatistic} />
                 <Route path="deptstatisticdetail/:role/:id" component={StatisticDetail} />
+=======
+                <Route path="deptlist/:role/:id" component={DeptList} />
+                <Route path="list/:role/:id" component={PersonList} />
+>>>>>>> 59731868941e9d925363b192302a3e5a6932f522
             </Route>
             <Route path="log">
                 <Route path="datalog/:role/:id" component={DataLog} />

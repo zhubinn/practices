@@ -30,8 +30,10 @@ export default class QueryDataTable extends React.Component {
         dataSource: React.PropTypes.array,
         pagination: React.PropTypes.object,
         queryColumns: React.PropTypes.object,
+
+        /*todo: 有warning提示暂时注释*/
         // 刷新数据回调函数
-        onGetTableData: React.PropTypes.function
+        // onGetTableData: React.PropTypes.function
     }
 
     static defaultProps = {
@@ -161,7 +163,8 @@ export default class QueryDataTable extends React.Component {
                     const { getFieldProps } = this.props.form;
 
                     return (
-                        <Form form={this.props.form} style={{display: that.state.isSearchShow ? 'block' : 'none'}} className="ant-table-nonebtn01">
+                        <Form form={this.props.form} style={{display: that.state.isSearchShow ? 'block' : 'none'}}
+                              className="ant-table-nonebtn01">
                             <table>
 
                                 <tbody className="ant-table-tbody">
@@ -183,7 +186,7 @@ export default class QueryDataTable extends React.Component {
 
                                 <div className="QueryDataTable-formbtn">
                                     <Button type="ghost" onClick={(e) => {this.resetForm(e)}}>重置</Button>
-                                 </div>
+                                </div>
 
                                 <Button type="primary" onClick={(e) => {this.handleSubmit(e)}}>确定</Button>
 
@@ -255,7 +258,7 @@ export default class QueryDataTable extends React.Component {
                     return (<FormItem>
                         <Select multiple {...getFieldProps('9_' + col['key'], {
 
-                           
+                           // initialValue: queryCol['renderData']['defaultValue']
                         })} >
                             {queryCol['renderData']['options'].map((item, i) =>(
                                 <Option value={item.value} key={i}>{item.text}</Option>)
@@ -325,7 +328,7 @@ export default class QueryDataTable extends React.Component {
         const pagination = {
             current: current,
             pageSize: pageSize,
-            total: total,
+            total: parseInt(total),
             showSizeChanger: true,
             showQuickJumper: true,
             onChange: (pageNumber) => {
@@ -351,7 +354,8 @@ export default class QueryDataTable extends React.Component {
         let table = (
             <Table ref='dataTable'
 
-                   dataSource={dataSource}
+                   dataSource={dataSource.map((item, i) =>  Object.assign(item, {key: i})
+                               )}
                    columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
                                )}
                    rowSelection={rowSelection}
@@ -364,7 +368,8 @@ export default class QueryDataTable extends React.Component {
         if (this.props.expandedRowRender) {
             table = (<Table ref='dataTable'
 
-                            dataSource={dataSource}
+                            dataSource={dataSource.map((item, i) =>  Object.assign(item, {key: i})
+                               )}
                             columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
                                )}
                             rowSelection={rowSelection}
@@ -387,7 +392,7 @@ export default class QueryDataTable extends React.Component {
 
             <div>
 
-                <div style={{width: '800px', height: '500px',  overflow: "auto"}}>
+                <div style={{width: '800px', maxHeight: '500px',  overflow: "auto"}}>
                     <div style={{width: this.calculateWidth()}}>
 
 
@@ -430,10 +435,14 @@ export default class QueryDataTable extends React.Component {
 
                 </div>
                 {/*
-                是否分页
-                默认展示分页, 当props传入pagination: false不再分页
-                */}
-                {(typeof  this.props.pagination !== 'undefined') && !this.props.pagination ? null : (<Pagination  {...pagination}/>)}
+                 默认展示分页(以下两种情况不再展示分页)
+                 1. 当props传入pagination: false
+                 2. 当dataSource为空数组时
+                 */}
+
+
+                {(typeof  this.props.pagination !== 'undefined') && !this.props.pagination ? null : (dataSource.length === 0 ? null : (
+                    <Pagination  {...pagination}/>))}
 
             </div>
         )

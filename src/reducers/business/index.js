@@ -6,8 +6,8 @@ import { combineReducers } from 'redux'
 
 
 
-import numberReportViewState from './numberReport/numberReportView'
-import dispatchCluesState from './dispatchClues/dispatchClues'
+import numberReportViewState from './numberReport/ListView'
+import dispatchCluesState from './clues/DispatchClues'
 
 
 import account_Customizable from './account/Customizable'
@@ -33,7 +33,12 @@ import statisticdetail from "./business/statistic/statisticDetail"
 
 import deptsummary from "./business/summary/deptsummary"
 import persummary from "./business/summary/persummary"
+<<<<<<< HEAD
 import summarydetail from "./business/summary/summaryDetail"
+=======
+import business_list_dept from './business/list/dept'
+import business_list_person from './business/list/person'
+>>>>>>> 59731868941e9d925363b192302a3e5a6932f522
 
 
 const businessReducers = combineReducers({
@@ -55,7 +60,12 @@ const businessReducers = combineReducers({
     statisticdetail,
     deptsummary,
     persummary,
+<<<<<<< HEAD
     summarydetail,
+=======
+    business_list_dept,
+    business_list_person,
+>>>>>>> 59731868941e9d925363b192302a3e5a6932f522
 
     numberReportViewState,
     dispatchCluesState,
