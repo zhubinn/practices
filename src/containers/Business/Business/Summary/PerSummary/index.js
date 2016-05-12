@@ -43,7 +43,6 @@ class PerSummary extends React.Component {
     render() {
 
         //table数据配置
-        debugger
         const { $$perStatistic } = this.props;
         const dataSource = $$perStatistic.get('tableData').get('data').toJS();
         const columns = $$perStatistic.get('tableColumns').toJS();

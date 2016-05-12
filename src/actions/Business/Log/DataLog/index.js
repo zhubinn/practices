@@ -81,7 +81,6 @@ const getDataLogData = (params) => {
     }
 
     return (dispatch, getState) => {
-        debugger
         dispatch(fetchData(GET_DATALOG_DATA))
         fetch(table_params.url = params.url || table_params.url, {
             credentials: 'include',
@@ -145,7 +144,6 @@ const getDataLogQuery = (url)=> {
             }
             return response.json()
         }).then(function (data) {
-            debugger
             dispatch(fetchData(GET_DATALOG_QUERY_SUCCESS, {
                 data: data.data
             }))

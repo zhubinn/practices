@@ -28,7 +28,6 @@ let table_params = {
 let table_query_url = ''
 
 const getSummaryDetailData = (params ,val) => {
-    debugger
     const fetchData = (type, payload) => {
         return {
             type,

@@ -45,7 +45,6 @@ class FunctionLog extends React.Component {
     normalSearch = (value) => {
         // 重置筛选(高级搜索)
         this.refs.queryDataTable.resetQueryForm()
-        debugger
         this.refs.queryDataTable.clearCheckedAndExpanded()
         this.props.getFuncLogData({
             data: {
