@@ -25,7 +25,7 @@ let FuncLogParams = {
 };
 
 let exportParams = {
-    objName: "OperationLog",
+    objName:"OperationLog",
     begin:'',
     end:''
 }

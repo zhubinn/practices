@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch'
 import { findDOMNode } from 'react-dom'
 import reqwest from 'reqwest'
-
+console.log(reqwest)
 import { message, notification } from 'antd'
 
 
@@ -54,6 +54,9 @@ export default class NumberReportView extends React.Component {
                 dateType:obj.nptype
             },
             type: 'json',
+            error: function (result) {
+                message.error(result.error)
+            },
             success: (result) => {
                 if (result.rs === true) {
                     actions.fetchData(true, result.data)

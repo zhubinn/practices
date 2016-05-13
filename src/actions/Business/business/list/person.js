@@ -91,6 +91,7 @@ const getTableData = (params)=> {
                 current: data.data.current,
                 total: data.data.total,
                 pageSize: data.data.pageSize,
+                columns:data.data.Label,
                 loading: false
             }))
 

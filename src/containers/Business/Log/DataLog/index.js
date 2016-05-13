@@ -21,7 +21,7 @@ let DataLogParams = {
 }
 
 let exportParams = {
-    objName: "OperationLog",
+    objName:"OperationDetailLog",
     begin:'',
     end:''
 }
@@ -61,7 +61,7 @@ class DataLog extends React.Component {
       this.props.exportHide()
       //console.log(exportParams);
       let objData = JSON.stringify(exportParams);
-      window.open(SCRM.url("/ScrmExportOptimization/export")+ '?param=' + objData);
+      window.open(SCRM.url("/common/ScrmExportOptimization/export")+ '?param=' + objData);
     }
 
     handleCancel(e) {

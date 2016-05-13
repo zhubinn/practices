@@ -25,6 +25,7 @@ const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 const ProgressLine = Progress.Line;
 
+// 变更负责人选择人组件调用
 let getPeopleParams = {
     url: SCRM.url('/setting/scrm/getSelectList'),
     data: {
@@ -225,7 +226,7 @@ const columns = [{
     dataIndex: 'TradingAmout',
     key: 'TradingAmout',
 },{
-    title: '汇款金额',
+    title: '回款金额',
     dataIndex: 'PaymentAmount',
     key: 'PaymentAmount',
 },{

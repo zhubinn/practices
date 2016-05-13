@@ -114,6 +114,7 @@ export default class QueryDataTable extends React.Component {
 
 
     toggleQueryTable = (e) => {
+        this.refs.TableBoxModel.getDOMNode().scrollTop= "0";
         this.setState({
             isSearchShow: !this.state.isSearchShow
         })
@@ -139,9 +140,10 @@ export default class QueryDataTable extends React.Component {
                         that.props.onGetTableData({
                             searchData: Object.keys(this.props.form.getFieldsValue()).map((item)=> {
                                 return {
-                                    name: item.split('_')[1],
-                                    operator: item.split('_')[0],
 
+                                    searchType: item.split('_')[0],
+                                    operator: item.split('_')[1],
+                                    name: item.split('_')[2] ,
                                     value: queryFormData[item]
 
                                 }
@@ -241,22 +243,22 @@ export default class QueryDataTable extends React.Component {
                 case 9:
 
                     return (<FormItem >
-                        <Input {...getFieldProps('19_' + col['key'], {
+                        <Input {...getFieldProps(queryCol['searchType'] + '_19_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
-                case 2:
+              /*  case 2:
 
                     return (<FormItem>
                         <InputNumber {...getFieldProps(col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
-                    </FormItem>)
+                    </FormItem>)*/
 
                 case 13:
 
                     return (<FormItem>
-                        <Select multiple {...getFieldProps('9_' + col['key'], {
+                        <Select multiple {...getFieldProps(queryCol['searchType'] + '_9_' + col['key'], {
 
                            // initialValue: queryCol['renderData']['defaultValue']
                         })} >
@@ -267,14 +269,14 @@ export default class QueryDataTable extends React.Component {
                     </FormItem>)
                 case 15:
                     return (<FormItem>
-                        <RangePicker format="yyyy-MM-dd" {...getFieldProps('11_' + col['key'], {
+                        <RangePicker format="yyyy-MM-dd" {...getFieldProps(queryCol['searchType'] + '_11_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
                 case 16:
                     return (<FormItem>
                         <RangePicker showTime format="yyyy/MM/dd HH:mm:ss"
-                                     showTime  {...getFieldProps('11_' + col['key'], {
+                                     showTime  {...getFieldProps(queryCol['searchType'] + '_11_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
@@ -392,7 +394,7 @@ export default class QueryDataTable extends React.Component {
 
             <div>
 
-                <div style={{width: '800px', maxHeight: '500px',  overflow: "auto"}}>
+                <div  ref="TableBoxModel" style={{width: '800px', maxHeight: '500px',  overflow: "auto"}}>
                     <div style={{width: this.calculateWidth()}}>
 
 
