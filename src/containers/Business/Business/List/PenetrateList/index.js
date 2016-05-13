@@ -171,9 +171,10 @@ class PenetrateList extends React.Component {
     handleExport(e){
 
         e.preventDefault();
+
         const exportParam = {
-                    objName: 'accountDeptList',
-                    ...table_params.data
+                    objName: 'OpportunityList',
+                    ...(table_params.data)
             }
 
         const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
