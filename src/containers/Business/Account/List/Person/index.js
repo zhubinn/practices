@@ -138,6 +138,11 @@ const columns = [{
     key: 'Phone6',
 
 }, {
+    title: '传真',
+    dataIndex: 'Phone8',
+    key: 'Phone8',
+
+}, {
     title: '其他电话',
     dataIndex: 'Phone7',
     key: 'Phone7',
@@ -207,10 +212,45 @@ const columns = [{
     dataIndex: 'CreatedTime',
     key: 'CreatedTime',
 
+},{
+    title: '创建方式',
+    dataIndex: 'CreatedType',
+    key: 'CreatedType',
+},{
+    title: '生意数量',
+    dataIndex: 'OptntyCount',
+    key: 'OptntyCount',
+},{
+    title: '成交金额',
+    dataIndex: 'TradingAmout',
+    key: 'TradingAmout',
+},{
+    title: '汇款金额',
+    dataIndex: 'PaymentAmount',
+    key: 'PaymentAmount',
+},{
+    title: '线索录入人',
+    dataIndex: 'LeadCreater',
+    key: 'LeadCreater',
+},{
+    title: '线索负责人',
+    dataIndex: 'LeadOwner',
+    key: 'LeadOwner',
+},{
+    title: '线索来源',
+    dataIndex: 'LeadSource',
+    key: 'LeadSource',
 }];
 
-// 查询表格
-// 依赖Table, Pagination, Form
+
+
+
+
+// 是否为本人查看
+
+let isSelf = true
+if (window.location.search.match(/id=(\d*)/)) isSelf = false
+if (RegExp.$1 == GLOBAL_INFO.userinfo.ID) isSelf = true
 
 
 class Account_List_Person_Page extends React.Component {
@@ -332,11 +372,11 @@ class Account_List_Person_Page extends React.Component {
         const {changeIsShowStatus} = this.props
         changeIsShowStatus()
 
-
+        message.loading('正在执行中...', 0);
         reqwest({
             url: SCRM.url('/setting/scrm/changeOwner'),
-            dataType: 'json',
-            type: 'POST',
+            type:'json',
+            method:'post',
             data: {
                 objName: 'Account',
                 ownerID: PeopleInfor.choseNameData[0].ownerId,
@@ -347,9 +387,14 @@ class Account_List_Person_Page extends React.Component {
                 relOptnty: !PeopleInfor.isChangeBusiness ? 0 : 1
 
             },
+
             success: function (r) {
+
+                console.log(r)
                 if (r.rs) {
+                    message.destroy()
                     message.success(`操作成功`);
+                    top.window.location.href = top.window.location.href
                 } else {
                     message.error(`操作失败`);
                 }
@@ -587,20 +632,23 @@ class Account_List_Person_Page extends React.Component {
                     </Col>
                 </Row>
                 </div>
-                <Tabs defaultActiveKey="all"
-                      type="card"
-                      onChange={i => {this.changeType(i)}}>
-                    <TabPane tab="全部客户" key="all">
-                    </TabPane>
-                    <TabPane tab="负责的客户" key="owner">
-                    </TabPane>
-                    <TabPane tab="参与的客户" key="relation">
-                    </TabPane>
-                    <TabPane tab="重点客户" key="important">
-                    </TabPane>
-                    <TabPane tab="关注的客户" key="follow">
-                    </TabPane>
-                </Tabs>
+                {isSelf ? (<Tabs defaultActiveKey="all"
+                                 type="card"
+                                 onChange={i => {this.changeType(i)}}>
+                    <TabPane tab="全部客户" key="all"></TabPane>
+                    <TabPane tab="负责的客户" key="owner"></TabPane>
+                    <TabPane tab="参与的客户" key="relation"></TabPane>
+                    <TabPane tab="重点客户" key="important"></TabPane>
+                    <TabPane tab="关注的客户" key="follow"></TabPane>
+                </Tabs>) : (<Tabs defaultActiveKey="all"
+                                  type="card"
+                                  onChange={i => {this.changeType(i)}}>
+                    <TabPane tab="全部客户" key="all"></TabPane>
+                    <TabPane tab="负责的客户" key="owner"></TabPane>
+
+                    <TabPane tab="重点客户" key="important"></TabPane>
+                    <TabPane tab="关注的客户" key="follow"></TabPane>
+                </Tabs>)}
 
 
                 <QueryDataTable

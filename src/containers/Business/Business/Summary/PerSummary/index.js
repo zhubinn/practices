@@ -16,7 +16,8 @@ import './index.css'
 
 //获取table列表数据接口
 let PerSummaryParams = {
-    url: SCRM.url('/front/js/scrm/fakeData/deptStatistic.php'),
+    //url: SCRM.url('/front/js/scrm/fakeData/deptStatistic.php'),
+    url: SCRM.url('/scrmweb/business/getPerSummary'),
     data: {
         keyword:''
     }
@@ -43,9 +44,9 @@ class PerSummary extends React.Component {
 
         //table数据配置
         const { $$perStatistic } = this.props;
-        const dataSource = $$perStatistic.get('tableData').get('data').get('rowData').toJS();
+        const dataSource = $$perStatistic.get('tableData').get('data').toJS();
         const columns = $$perStatistic.get('tableColumns').toJS();
-
+        
         return (
             <div  style = {{marginLeft: '20px'}} >
               <Row>
@@ -61,7 +62,7 @@ class PerSummary extends React.Component {
                 columns={columns} 
                 rowClassName = {
                   function(record, index){
-                    if (dataSource[index].classname == "total") {
+                    if (record.Name == "小计" || record.Name == "合计") {
                       return "busi-total-item";
                     }
                     return "";
@@ -77,7 +78,7 @@ class PerSummary extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$perStatistic: state.business.perSummary
+        $$perStatistic: state.business.persummary
     }
 }
 

@@ -15,6 +15,7 @@ const TabPane = Tabs.TabPane;
 
 // SCRM.url 由原来外层页面引入
 
+
 const columns = [{
     title: '客户名称',
     dataIndex: 'Name',
@@ -133,6 +134,11 @@ const columns = [{
     key: 'Descriptions',
 
 }, {
+    title: '业务类型',
+    dataIndex: 'AccountIndustry',
+    key: 'AccountIndustry',
+
+}, {
     title: '主营产品',
     dataIndex: 'MainProduct',
     key: 'MainProduct',
@@ -146,11 +152,6 @@ const columns = [{
     title: '客户级别',
     dataIndex: 'AccountLevel',
     key: 'AccountLevel',
-
-}, {
-    title: '业务类型',
-    dataIndex: 'AccountIndustry',
-    key: 'AccountIndustry',
 
 }, {
     title: '所属区域',
@@ -192,13 +193,36 @@ const columns = [{
     dataIndex: 'CreatedTime',
     key: 'CreatedTime',
 
+},{
+    title: '创建方式',
+    dataIndex: 'CreatedType',
+    key: 'CreatedType',
+},{
+    title: '生意数量',
+    dataIndex: 'OptntyCount',
+    key: 'OptntyCount',
+},{
+    title: '成交金额',
+    dataIndex: 'TradingAmout',
+    key: 'TradingAmout',
+},{
+    title: '汇款金额',
+    dataIndex: 'PaymentAmount',
+    key: 'PaymentAmount',
+},{
+    title: '线索录入人',
+    dataIndex: 'LeadCreater',
+    key: 'LeadCreater',
+},{
+    title: '线索负责人',
+    dataIndex: 'LeadOwner',
+    key: 'LeadOwner',
+},{
+    title: '线索来源',
+    dataIndex: 'LeadSource',
+    key: 'LeadSource',
 }];
 
-
-// 查询表格
-// 依赖Table, Pagination, Form
-
-// 嵌套表格生意列表
 
 // 嵌套表格生意列表
 const business_columns = [
@@ -358,6 +382,7 @@ class Account_Detail_Dept_Page extends React.Component {
                     pagination={false}>
 
                 </Table>
+                <a href="#">点击查看更多生意...</a>
             </div>)
     }
     handleExport = (e)=> {

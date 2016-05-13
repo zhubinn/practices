@@ -38,13 +38,13 @@ class FunctionLog extends React.Component {
     componentDidMount() {
       //初始获取数据
       this.props.getFuncLogData(FuncLogParams);
+      //this.props.getFuncLogQuery(SCRM.url('/scrmoplog/index/getOplogFilter'))
     }
 
     // 普通搜索和筛选(高级搜索)互斥
     normalSearch = (value) => {
         // 重置筛选(高级搜索)
         this.refs.queryDataTable.resetQueryForm()
-        debugger
         this.refs.queryDataTable.clearCheckedAndExpanded()
         this.props.getFuncLogData({
             data: {
@@ -73,20 +73,29 @@ class FunctionLog extends React.Component {
 
     exportTimeChange(value){
 
-      function formatDate(date, format){
-        switch(format){
-          case "yyyy-MM-dd HH:mm:ss":
-          return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-          case "yyyy-MM-dd":
-          return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-          default:
-          return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-        }
-      }
+      // function comple(val){
+      //   if(val<10){
+      //     return "0"+val;
+      //   }else{
+      //     return val;
+      //   }
+      // }
 
-      exportParams.begin = formatDate(value[0], "yyyy-MM-dd HH:mm:ss");
-      exportParams.end = formatDate(value[1], "yyyy-MM-dd HH:mm:ss");
+      // function formatDate(date, format){
+      //   switch(format){
+      //     case "yyyy-MM-dd HH:mm:ss":
+      //     return date.getFullYear() + "-" + comple(date.getMonth()) + "-" + comple(date.getDate()) + " " + comple(date.getHours()) + ":" + comple(date.getMinutes()) + ":" + comple(date.getSeconds());
+      //     case "yyyy-MM-dd":
+      //     return date.getFullYear() + "-" + comple(date.getMonth()) + "-" + comple(date.getDate());
+      //     default:
+      //     return date.getFullYear() + "-" + comple(date.getMonth()) + "-" + comple(date.getDate());
+      //   }
+      // }
 
+      // exportParams.begin = formatDate(value[0], "yyyy-MM-dd HH:mm:ss");
+      // exportParams.end = formatDate(value[1], "yyyy-MM-dd HH:mm:ss");
+      exportParams.begin = value[0];
+      exportParams.end = value[1];
     }
 
     render() {
@@ -94,7 +103,6 @@ class FunctionLog extends React.Component {
         const { $$funcLogState, getFuncLogData } = this.props;
         const columns = $$funcLogState.get('tableColumns').toJS();
         const expotModal = $$funcLogState.get('export').get('visible');
-
         //分页配置
         let queryDataTable = {}
         let tablePageData = $$funcLogState.get('tableData').get('data');
@@ -139,7 +147,7 @@ class FunctionLog extends React.Component {
                   onOk={this.handleOk.bind(this)} 
                   onCancel={this.handleCancel.bind(this)}
                 >
-                  <RangePicker showTime format="yyyy-MM-dd HH:mm:ss" onChange={this.exportTimeChange.bind(this)} />
+                  <RangePicker showTime format="yyyy-MM-dd HH:mm:ss"  onChange={this.exportTimeChange.bind(this)} />
                 </Modal>
             </div>
         )

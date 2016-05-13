@@ -16,11 +16,11 @@ let deptStatistic = {
     "tableColumns":[
         {
             "title": "部门名称",
-            width: 150,
-            "dataIndex": "deptName",
-            "key": "deptName",
+            "width": 150,
+            "dataIndex": "Name",
+            "key": "Name",
             render(text, record, index) {
-                const  peneUrl = SCRM.url('/scrmweb/accounts/deptsummarydetail?id=' + record.OperatorType);
+                const  peneUrl = SCRM.url('/scrmweb/business/deptstatisticdetail?deptID=' + record.ID);
                 if(record.classname){
                     //return {text};
                     return <span>{text}</span>;
@@ -30,46 +30,40 @@ let deptStatistic = {
             }
         },
         {
-            "title": "全部生意",
-            width: 150,
-            "dataIndex": "allBusiness",
-            "key": "allBusiness"
+            "title": "全部生意数量",
+            "width": 150,
+            "dataIndex": "All",
+            "key": "All"
         },
         {
-            "title": "赢单生意",
-            width: 150,
-            "dataIndex": "winBusiness",
-            "key": "winBusiness"
+            "title": "赢单的生意数量",
+            "width": 150,
+            "dataIndex": "Win",
+            "key": "Win"
         },
         {
-            "title": "输单生意",
-            width: 150,
-            "dataIndex": "failureBusiness",
-            "key": "failureBusiness"
+            "title": "输单的生意数量",
+            "width": 150,
+            "dataIndex": "Faild",
+            "key": "Faild"
         },
         {
-            "title": "进行中生意",
-            width: 150,
-            "dataIndex": "doingBusiness",
-            "key": "doingBusiness"
+            "title": "进行中的生意数量",
+            "width": 150,
+            "dataIndex": "Load",
+            "key": "Load"
         },
         {
-            "title": "作废生意",
-            width: 150,
-            "dataIndex": "cancelBusiness",
-            "key": "cancelBusiness"
+            "title": "作废的生意数量",
+            "width": 150,
+            "dataIndex": "ZF",
+            "key": "ZF"
         },
         {
-            "title": "停滞生意",
-            width: 150,
-            "dataIndex": "stopBusiness",
-            "key": "stopBusiness"
-        },
-        {
-            "title": "重要生意",
-            width: 150,
-            "dataIndex": "importantBusiness",
-            "key": "importantBusiness"
+            "title": "停滞的生意数量",
+            "width": 150,
+            "dataIndex": "TZ",
+            "key": "TZ"
         }
     ]
 
@@ -80,7 +74,7 @@ export default function deptstatistic($$state = Immutable.fromJS(deptStatistic),
         case GET_DEPTSTATISTIC_DATA:
             return $$state;
         case GET_DEPTSTATISTIC_SUCCESS:
-            return $$state.mergeDeep({tableData: action.payload.data});
+            return $$state.merge({tableData: action.payload.data});
         default:
             return $$state;
     }

@@ -36,7 +36,7 @@ let table_params = {
     }
 }
 
-// let table_query_url = ''
+let table_query_url = ''
 
 const pageSizeChange = (val) => {
     const fetchData = (type, payload)=> {
@@ -123,8 +123,6 @@ const getDataLogQuery = (url)=> {
         }
     }
 
-
-
     /**
      *  body:  Object.assign(table_params.data, params.data)
     **/
@@ -146,7 +144,6 @@ const getDataLogQuery = (url)=> {
             }
             return response.json()
         }).then(function (data) {
-            debugger
             dispatch(fetchData(GET_DATALOG_QUERY_SUCCESS, {
                 data: data.data
             }))
