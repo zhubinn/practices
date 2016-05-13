@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Modal  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
-import { getTableData, getTableQuery } from 'actions/business/business/list/dept'
+import { getTableData, getTableQuery, table_params } from 'actions/business/business/list/dept'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import getQueryString from 'components/Business/GetQueryString'
@@ -18,7 +18,7 @@ const TabPane = Tabs.TabPane;
 
 // SCRM.url 由原来外层页面引入
 
-const columns = [{
+/*const columns = [{
     title: '生意名称',
     dataIndex: 'Name',
     key: 'Name',
@@ -93,7 +93,7 @@ const columns = [{
     dataIndex: 'EndDate',
     key: 'EndDate',
 
-}];
+}];*/
 
 
 // 查询表格
@@ -156,6 +156,19 @@ class DeptList extends React.Component {
 
     }
 
+    handleExport(e){
+
+        e.preventDefault();
+        const exportParam = {
+                    objName: 'accountDeptList',
+                    ...table_params.data
+            }
+
+        const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
+        window.open(exportUrl);
+
+    }
+
 
     render() {
         const {
@@ -174,6 +187,9 @@ class DeptList extends React.Component {
         queryDataTable.pageSize = $$business_list_dept.toJS().pageSize
         queryDataTable.queryColumns = $$business_list_dept.toJS().queryColumns
         queryDataTable.loading = $$business_list_dept.toJS().loading
+
+        const columns = $$business_list_dept.toJS().columns
+
         return (
             <div style={{marginLeft:'20px'}}>
 
@@ -190,7 +206,7 @@ class DeptList extends React.Component {
 
                              </div>
 
-                            <Button type="ghost">导出</Button>
+                            <Button type="ghost" onClick = { this.handleExport.bind(this) }>导出</Button>
                         </Col>
                     </Row>
                    </div>

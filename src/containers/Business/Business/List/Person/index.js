@@ -17,7 +17,7 @@ const TabPane = Tabs.TabPane;
 
 // SCRM.url 由原来外层页面引入
 
-const columns = [{
+/*const columns2 = [{
     title: '生意名称',
     dataIndex: 'Name',
     key: 'Name',
@@ -92,7 +92,7 @@ const columns = [{
     dataIndex: 'EndDate',
     key: 'EndDate',
 
-}];
+}];*/
 
 
 // 查询表格
@@ -154,6 +154,18 @@ class PersonList extends React.Component {
 
     }
 
+    handleExport(e){
+
+        e.preventDefault();
+        const exportParam = {
+            objName: 'businessDeptList',
+        }
+
+        const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
+        window.open(exportUrl);
+
+    }
+
 
     render() {
         const {
@@ -169,6 +181,9 @@ class PersonList extends React.Component {
         queryDataTable.pageSize = $$business_list_person.toJS().pageSize
         queryDataTable.queryColumns = $$business_list_person.toJS().queryColumns
         queryDataTable.loading = $$business_list_person.toJS().loading
+
+        const columns = $$business_list_person.toJS().columns
+
         return (
             <div style={{marginLeft:'20px'}}>
                 <div style={{marginTop: '14px',marginBottom: '14px'}}>
@@ -184,7 +199,7 @@ class PersonList extends React.Component {
 
                             </div>
 
-                            <Button type="ghost">导出</Button>
+                            <Button type="ghost" onClick = { this.handleExport.bind(this) }>导出</Button>
                         </Col>
                     </Row>
                 </div>
@@ -204,7 +219,7 @@ class PersonList extends React.Component {
                     </TabPane>
                     <TabPane tab="停滞的生意" key="stop">
                     </TabPane>
-                    <TabPane tab="重要的生意" key="import">
+                    <TabPane tab="重要的生意" key="important">
                     </TabPane>
                 </Tabs>
 
