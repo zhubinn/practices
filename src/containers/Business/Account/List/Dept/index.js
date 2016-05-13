@@ -432,7 +432,7 @@ class Account_List_Dept_Page extends React.Component {
 
                             </Modal>
 
-                            <Button  type="ghost" onClick={(e)=>this.handleExport(e)}>导出</ButtonclassName>
+                            <Button  type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
                         </Col>
                     </Row>
                 </div>
