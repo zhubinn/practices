@@ -165,16 +165,7 @@ class CustomizablePage extends  React.Component{
 
 
             clickapplyBtn(applyParam)
-            
-            //点击应用完毕自带更新table数据
-            let params = {
-                url:SCRM.url('/scrmdefined/account/getAccountEnumAttrList'),
-                data:{
-                    
-                }
-            }
 
-            this.props.getTableData(params)
         }
         
     }
@@ -239,7 +230,6 @@ class CustomizablePage extends  React.Component{
                                 <DivTab 
                                     $$mapState={$$mapState} 
                                     selectedTabIndex={selectedTabIndex} 
-                                    $$mapState={$$mapState} 
                                     changeIsRequired = {changeIsRequired} 
                                     addItem={addItem} 
                                     deletItem={deletItem} 

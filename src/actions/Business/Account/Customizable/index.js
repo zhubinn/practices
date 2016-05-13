@@ -2,6 +2,8 @@ import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 import { message, Button,Modal } from 'antd';
 import {FormData} from 'form-data'
+import reqwest from 'reqwest';
+
 // 选择某一个字段编辑
 const ACCOUNT_CUSTOM_SELECTEDROWDATA = 'ACCOUNT_CUSTOM_SELECTEDROWDATA'
 
@@ -63,13 +65,15 @@ export const HasRepeatData = (status)=>{
  * @returns {Function}
  */
  export const getTableData = (params) => {
+
     const _getTableData = (type, data)=> {
         return {
             type,
             payload: data
         }
     }
-        return (dispatch, getState) => {
+
+    return (dispatch, getState) => {
         const url = params.url;
         //dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA,'req='));
 
@@ -111,7 +115,7 @@ export const selectedRowData = (selectedRow,editColumnsOptions)=>{
         }
     })
     if(editColumnsOptions.length == 0){
-        let editColumnsOptions = [
+        let defaultEditColumnsOptions = [
             {
                 Val:"",//枚举值.
                 IsStop:0,//1：停用 0：启用.
@@ -124,8 +128,8 @@ export const selectedRowData = (selectedRow,editColumnsOptions)=>{
             payload: {
                 'selectedRow':selectedRow,
                 'serverSelectedRow':selectedRow,
-                'servereditColumnsOptions':editColumnsOptions,
-                'localeditColumnsOptions':localeditColumnsOptions.length ==0?editColumnsOptions:localeditColumnsOptions
+                'servereditColumnsOptions':defaultEditColumnsOptions,
+                'localeditColumnsOptions':localeditColumnsOptions.length ==0?defaultEditColumnsOptions:localeditColumnsOptions
             }
         }
     }else{
@@ -203,7 +207,35 @@ export const clickapplyBtn = (applyParam)=> {
                   top: 250
                 });             
                 message.success('应用成功');
-            }else{
+
+            //点击应用成功后更新table数据
+            const _getTableData = (type, data)=> {
+                return {
+                    type,
+                    payload: data
+                }
+            }
+
+            reqwest({
+              url: SCRM.url('/scrmdefined/account/getAccountEnumAttrList'),
+              method: 'post',
+              data: 'req='+JSON.stringify({}),
+              type: 'json',
+              success: (data) => {
+                if(data.rs){
+                    dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data))
+                }else{
+                    Modal.info({
+                        title: '错误信息',
+                        content: data.error,
+                        onOk() {
+                        }
+                    });                
+                }
+              }
+            })
+  
+        }else{
                 Modal.info({
                     title: '错误信息',
                     content: json.error,

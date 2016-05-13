@@ -98,10 +98,7 @@ class DivEdit extends React.Component{
 			}
 
 		}
-		// if(isRepeat == 1){
-  //       	const {HasRepeatData} = this.props
-  //       	HasRepeatData(false)		
-		// }
+
 	}
 	render(){
 		let localeditColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions
