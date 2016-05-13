@@ -352,18 +352,18 @@ class Account_List_Dept_Page extends React.Component {
 
             }
         };
-        const importFooter = (<div className="ckimport-shangc"><Row> <Col span="12" offset="3">
+        const importFooter = (<Row> <Col span="12" offset="3">
             {this.state.inImport ? (<Button type="ghost" disabled><Icon type="poweroff"/>导入中...</Button>) : (
                 <Upload {...uploadProps} >
 
                     <Button  type="primary" loading={this.state.inImport}>
                         <Icon type="upload"/>导入上传
-                    </ButtonclassName>
+                    </Button>
 
                 </Upload>) }
 
 
-        </Col></Row></div>)
+        </Col></Row>)
         return (
             <div style={{marginLeft: '20px'}}>
                 <div style={{marginTop: '14px',marginBottom: '14px'}}>
