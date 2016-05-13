@@ -5,13 +5,12 @@
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import basic from '../css/basic_new_v2.css'
-import Statistic from '../css/Statistic.less'
 
 import {searchKeyWord,getAccountDeptStatisticData} from 'actions/Business/Account/Statistic/DeptStatistic'
 
 import { Table, Icon ,Button,Input, Row, Col} from 'antd';
 import SearchInput from 'components/Business/SearchInput'
+import QueryDataTable from 'components/Business/QueryDataTable'
 
 
 let deptstatisticColumns = [
@@ -20,11 +19,11 @@ let deptstatisticColumns = [
         const  peneUrl = SCRM.url('/scrmweb/accounts/deptstatisticdetail?id=' + record.ID + '&name='+record.Name);
         if(record.ID == 0){
         return (
-          <div className = {record.ID == 0?'statisticSumColumn':''}>{text}</div>
+          <div>{text}</div>
           );
         }else{
             return (
-            <div className = {record.ID == 0?'statisticSumColumn':''}>
+            <div>
               <a href = {peneUrl} target="_blank" title = {text}>{text}</a>
             </div>
             );   
@@ -32,22 +31,22 @@ let deptstatisticColumns = [
     }},
     {title: '全部客户数量', dataIndex: 'All', key: 'All',width: 150,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'statisticSumColumn':''}>{text}</div>
+          <div>{text}</div>
           );
     }},
     {title: '负责的客户数量', dataIndex: 'Owner',key: 'Owner', width: 150,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'statisticSumColumn':''}>{text}</div>
+          <div>{text}</div>
           );
     }},
     {title: '参与的客户数量', dataIndex: 'Relation', key: 'Relation',width: 150,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'statisticSumColumn':''}>{text}</div>
+          <div>{text}</div>
           );
     }},
     {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width: 250,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'statisticSumColumn':''}>{text}</div>
+          <div>{text}</div>
           );
     }}
 ];
@@ -90,13 +89,22 @@ class AccountDeptStatistic extends React.Component{
   }
   
   render(){
+          const {getAccountDeptStatisticData} = this.props
+
           const rowData = this.props.$$account_deptstatistic.toJS().rowData
-          const loading = this.props.$$account_deptstatistic.toJS().loading
+
           let dataSource = []
           rowData.map((r,i)=>{
              r["key"] = i;
              dataSource.push(r)
           })  
+
+        let queryDataTable = {}
+        queryDataTable.dataSource = dataSource
+        queryDataTable.loading = this.props.$$account_deptstatistic.toJS().loading
+
+
+
           return (
             <div style={{marginLeft: '20px'}}>
                 <div className = "col_cktop">
@@ -109,17 +117,31 @@ class AccountDeptStatistic extends React.Component{
                         </Row>                     
                   </div>  
                 </div>
-                <div className = "statisticdataTableWrap">
-                  <div className = "deptStatiticdataTableCon">
-                       <Table ref = "dataTable"
-                       columns={deptstatisticColumns} 
-                       dataSource={dataSource} 
-                       useFixedHeader 
-                       pagination = {false}
-                      loading={loading}
-                      />
-                  </div>
-                </div>
+
+                <QueryDataTable
+                    columns={deptstatisticColumns}
+                    checkMode={false}
+                    pagination = {false}
+                    rowClassName = {
+                      function(record, index){
+                        record.ID == 0?"amountClassName":""
+                        }
+                    }                    
+                    {...queryDataTable}
+                    onGetTableData={
+
+                                (obj)=>{
+                                    this.refs.searchInput.emptyInput()
+                                    getAccountDeptStatisticData({
+                                        data: obj
+                                    })
+                                }
+                            }
+                    ref="queryDataTable"
+                >
+                </QueryDataTable>
+
+
             </div>
           )
         }
