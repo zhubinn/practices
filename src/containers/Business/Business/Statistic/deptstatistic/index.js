@@ -50,6 +50,7 @@ class Deptstatistic extends React.Component {
 
         return (
             <div  style = {{marginLeft: '20px'}} >
+              <div style={{marginTop: '14px',marginBottom: '14px'}}>
               <Row>
                 <Col span="10">
                   <SearchInput onSearch = {this.searchInputChange.bind(this)} />
@@ -58,6 +59,7 @@ class Deptstatistic extends React.Component {
                   <Button type="ghost" onClick = {this.exportConfirm} >导出EXCEL</Button>
                 </Col>
               </Row>
+              </div>
               <Table 
                 dataSource={dataSource} 
                 columns={columns} 
