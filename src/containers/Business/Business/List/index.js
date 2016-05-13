@@ -103,7 +103,7 @@ const SearchInput = React.createClass({
 
 
 
-class Account_Summary_Page extends React.Component {
+class Business_List_Page extends React.Component {
     constructor() {
         super()
     }
@@ -176,4 +176,4 @@ export default connect(mapStateToProps, {
     updateDataSource,
     updateChildDataSource,
     toggleQueryPanel,
-})(Account_Summary_Page)
+})(Business_List_Page)

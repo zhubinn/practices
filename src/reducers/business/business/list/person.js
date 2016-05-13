@@ -35,7 +35,8 @@ export default function business_list_person($$state = $$initialState, action) {
                 current: action.payload.current,
                 total: action.payload.total,
                 pageSize: action.payload.pageSize,
-                loading: action.payload.loading
+                loading: action.payload.loading,
+                columns:action.payload.columns,
             })
         case GET_TABLE_DATA_FAILURE:
             return $$state
