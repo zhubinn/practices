@@ -70,7 +70,7 @@ class statisticDetail extends React.Component {
         //queryDataTable.queryColumns = $$statisticDetail.get('queryColumns').toJS()
 
         return (
-            <div  style = {{marginLeft: '20px'}} >
+            <div  style = {{margin: '0 10px'}} >
               <div style={{marginTop: '14px',marginBottom: '14px'}}>
               <Row>
                 <Col span="10">

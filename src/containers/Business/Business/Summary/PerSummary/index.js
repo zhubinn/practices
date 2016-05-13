@@ -9,7 +9,7 @@ import classNames from 'classnames'
 import { Row, Col, Table, Button, Input, Pagination, Modal} from 'antd'
 
 import { getPerSummaryData }  from 'actions/business/business/summary/PerSummary'
-
+import QueryDataTable from 'components/Business/QueryDataTable'
 import SearchInput from 'components/Business/SearchInput'
 import 'antd/lib/index.css'
 import './index.css'
@@ -48,7 +48,7 @@ class PerSummary extends React.Component {
         const columns = $$perStatistic.get('tableColumns').toJS();
         
         return (
-            <div  style = {{marginLeft: '20px'}} >
+            <div style = {{margin: '0 10px'}} >
               <div style={{marginTop: '14px',marginBottom: '14px'}}>
               <Row>
                 <Col span="10">
@@ -59,20 +59,13 @@ class PerSummary extends React.Component {
                 </Col>
               </Row>
               </div>
-              <Table 
-                dataSource={dataSource} 
-                columns={columns} 
-                rowClassName = {
-                  function(record, index){
-                    if (record.Name == "小计" || record.Name == "合计") {
-                      return "busi-total-item";
-                    }
-                    return "";
-                  }
-                }
-                pagination={false}
-                useFixedHeader
-              />
+              <QueryDataTable
+                    columns={columns}
+                    dataSource={dataSource} 
+                    checkMode={false}
+                    ref="queryDataTable"
+                    pagination={false}
+                />
             </div>
         )
     }
