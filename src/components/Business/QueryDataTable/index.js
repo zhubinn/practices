@@ -333,6 +333,7 @@ export default class QueryDataTable extends React.Component {
             total: parseInt(total),
             showSizeChanger: true,
             showQuickJumper: true,
+            pageSizeOptions: ['20', '50', '80', '100'],
             onChange: (pageNumber) => {
                 this.clearCheckedAndExpanded()
                 this.props.onGetTableData({
