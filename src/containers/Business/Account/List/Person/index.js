@@ -534,17 +534,17 @@ class Account_List_Person_Page extends React.Component {
         const uploadProps = {
             showUploadList: false,
             name: 'file',
-            action: SCRM.url('/common/scrmImportOptimization/import/objName/Account'),
+            action: SCRM.url('/common/scrmCommonImport/import') + '?objName=Account',
             headers: {
                 authorization: 'authorization-text',
             },
-
             onChange(info) {
 
                 if (info.file.status !== 'uploading') {
                     console.log(info.file, info.fileList);
                 }
-                if (info.file.status === 'done') {
+                const response = info.fileList[0].response
+                if (response.rs ) {
                     message.success(`${info.file.name} 上传成功, 正在导入...`);
                     that.setState({
                         inImport: true,
@@ -553,7 +553,7 @@ class Account_List_Person_Page extends React.Component {
                     that.queryProcess()
 
 
-                } else if (info.file.status === 'error') {
+                } else {
                     message.error(`${info.file.name} 上传失败。`);
                 }
 
