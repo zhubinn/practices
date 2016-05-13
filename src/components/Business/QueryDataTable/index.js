@@ -114,6 +114,7 @@ export default class QueryDataTable extends React.Component {
 
 
     toggleQueryTable = (e) => {
+        this.refs.TableBoxModel.getDOMNode().scrollTop= "0";
         this.setState({
             isSearchShow: !this.state.isSearchShow
         })
@@ -392,7 +393,7 @@ export default class QueryDataTable extends React.Component {
 
             <div>
 
-                <div style={{width: '800px', maxHeight: '500px',  overflow: "auto"}}>
+                <div  ref="TableBoxModel" style={{width: '800px', maxHeight: '500px',  overflow: "auto"}}>
                     <div style={{width: this.calculateWidth()}}>
 
 
