@@ -11,54 +11,67 @@ import './less/clues.less'
 const columns = [{
     title: '姓名',
     dataIndex: 'Name',
+    key: 'Name',
     width: 65
 }, {
     title: '客户名称',
     dataIndex: 'Company',
+    key: 'Company',
     width: 180
 },{
     title: '导入来源',
     dataIndex: 'ImportSource',
+    key: 'ImportSource',
     width: 180
 }, {
     title: '创建时间',
     dataIndex: 'CreatedTime',
+    key: 'CreatedTime',
     width: 140
 },  {
     title: '线索负责人',
     dataIndex: 'OwnerID',
+    key: 'OwnerID',
     width: 180
 }, {
     title: '线索录入人',
     dataIndex: 'CreatedByID',
+    key: 'CreatedByID',
     width: 180
 }, {
     title: '微信',
     dataIndex: 'Wechat',
+    key: 'Wechat',
     width: 160
 }, {
     title: 'QQ',
     dataIndex: 'QQ',
+    key: 'QQ',
     width: 160
 }, {
     title: '线索来源',
     dataIndex: 'Source',
+    key: 'Source',
     width: 260
 }, {
     title: '描述',
     dataIndex: 'Description',
+    key: 'Description',
     width:160
 }, {
     title: '电话',
     dataIndex: 'Phone',
+    key: 'Phone',
     width: 160
 }, {
     title: '已转化客户',
     dataIndex: 'TransedAccountID',
+    key: 'TransedAccountID',
     width: 280
 }, {
     title: '已转化联系人',
     dataIndex: 'TransedContactID',
+    key: 'TransedContactID',
     width: 280
 }]
 
@@ -71,6 +84,7 @@ export default class DispatchClues extends React.Component {
         this.state = {
             pagination: {},
             loading: false,
+            visible: false,
             selectedRowKeys:[]
         }
     }
@@ -101,11 +115,14 @@ export default class DispatchClues extends React.Component {
             method:'post',
             data:params,
             type:'json',
+            error:  (result) => {
+                message.error(result.error)
+            },
             success:(result) => {
 
                 const pagination = this.state.pagination;
                 const rowData = result.data.rowData;
-                pagination.total = result.data.total;
+                pagination.total = result.data.total*1;
 
                 this.setState({
                     loading:false,
@@ -122,7 +139,7 @@ export default class DispatchClues extends React.Component {
         const { dispatchCluesState,actions } = this.props
         const dispatchState = dispatchCluesState.toJS().dispatchState
         const pager = this.state.pagination;
-        const keyword = this.state.keyword;
+        const owner = this.state.owner;
         //  清空select状态
         if(this.refs.tableList){
             this.refs.tableList.setState({
@@ -141,7 +158,7 @@ export default class DispatchClues extends React.Component {
             rowsPerPage : pagination.pageSize,
             page : pagination.current,
             assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
-            keyword,
+            owner,
         });
     }
 
@@ -198,8 +215,9 @@ export default class DispatchClues extends React.Component {
     clickSearch(value){
         const val = value.trim()
 
+
         this.setState({
-            keyword:val,
+            owner:val,
             pagination:{
                 current:1
             }
@@ -215,14 +233,13 @@ export default class DispatchClues extends React.Component {
 
         this.fetchTableData({
             assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
-            keyword:value
+            owner:value
         })
 
     }
 
     showModal(){
         const { dispatchCluesState ,actions } = this.props
-        const isShowModal = dispatchCluesState.toJS().showModal
         const rowData = dispatchCluesState.toJS().selectData
 
         if(!rowData.length ) {
@@ -230,10 +247,11 @@ export default class DispatchClues extends React.Component {
             return false;
         }
 
+        this.setState({
+            visible:true
+        })
 
-        actions.showDispatchModal(!isShowModal)
-
-        if(!isShowModal){
+        if(!this.state.visible){
 
             reqwest({
                 url:SCRM.url('/deptcomponent/DeptComponent/getUserListForLeadAssign'),
@@ -247,6 +265,12 @@ export default class DispatchClues extends React.Component {
 
     }
 
+    cancelModal(){
+        this.setState({
+            visible:false
+        })
+    }
+
     onDeptRadioChange(e){
         const { actions } = this.props
 
@@ -255,7 +279,6 @@ export default class DispatchClues extends React.Component {
 
     handleDispatchOk(){
         const { dispatchCluesState ,actions } = this.props
-        const isShowModal = dispatchCluesState.toJS().showModal
         const { selectedRadioID, selectData} = dispatchCluesState.toJS()
         const selectIDs = selectData.map((item) => item.ID)
 
@@ -283,10 +306,12 @@ export default class DispatchClues extends React.Component {
                 }
 
                 actions.updateTableData(selectIDs);
-                actions.showDispatchModal(!isShowModal)
-                actions.selectChange([], [])
-                message.success('分派成功！');
-                //setTimeout(() => location.reload(),500)
+                this.setState({
+                    visible:false
+                },() => {
+                    actions.selectChange([], [])
+                    message.success('分派成功！')
+                })
             }
         })
 
@@ -294,17 +319,16 @@ export default class DispatchClues extends React.Component {
 
     renderModalBox(){
         const { dispatchCluesState ,actions } = this.props
-        const isShowModal = dispatchCluesState.toJS().showModal
         const deptData = dispatchCluesState.toJS().deptData
 
         return (
             <div>
 
                 <Modal ref="modal"
-                       visible={ isShowModal }
-                       title="选择要分派的人员" onOk={this.handleOk} onCancel={this.showModal.bind(this)}
+                       visible={ this.state.visible }
+                       title="选择要分派的人员" onOk={this.handleOk} onCancel={this.cancelModal.bind(this)}
                        footer={[
-                <Button key="back" type="ghost" size="large" onClick={this.showModal.bind(this)}>取消</Button>,
+                <Button key="back" type="ghost" size="large" onClick={this.cancelModal.bind(this)}>取消</Button>,
                 <Button key="submit" type="primary" size="large"  onClick={this.handleDispatchOk.bind(this)}>
                   确定分派
                 </Button>]}>

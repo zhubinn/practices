@@ -6,13 +6,31 @@ import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Modal, Upl
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery, table_params } from 'actions/business/account/list/dept'
+import {
+    changeIsMultiselect,
+    getPeopleData,
+    changeIsShowStatus,
+    getNextPagePeopleData
+} from 'actions/__demo/selectPeople'
 import reqwest from 'reqwest'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
+import SelectPeople from 'components/Business/SelectPeople'
+
 import MapModal from 'containers/Business/Account/MapModal'
 import 'containers/Business/index.less'
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
+
+// 变更负责人选择人组件调用
+let getPeopleParams = {
+    url: SCRM.url('/setting/scrm/getSelectList'),
+    data: {
+        page: 1,
+        rowsPerPage: 20,
+        keyword: ''
+    }
+}
 
 // SCRM.url 由原来外层页面引入
 
@@ -206,7 +224,7 @@ const columns = [{
     dataIndex: 'TradingAmout',
     key: 'TradingAmout',
 },{
-    title: '汇款金额',
+    title: '回款金额',
     dataIndex: 'PaymentAmount',
     key: 'PaymentAmount',
 },{
@@ -288,9 +306,8 @@ class Account_List_Dept_Page extends React.Component {
         })
 
     }
+    //变更负责人选人
     changeOwner = (e) => {
-        //变更负责人选人
-
         console.log('获取已经选择的row')
         console.log(this.refs.queryDataTable.getCheckedRows())
         const checkedRows = this.refs.queryDataTable.getCheckedRows()
@@ -301,20 +318,126 @@ class Account_List_Dept_Page extends React.Component {
                 },
             });
         } else {
+            const IsMultiselect = 0;//0 单选  1 多选
+            const {changeIsMultiselect} = this.props
+            changeIsMultiselect(IsMultiselect)
+            const {getPeopleData} = this.props
+
+            const paramData = {
+                page: 1,
+                rowsPerPage: 20,
+                keyword: ''
+            }
+
+            Object.assign(getPeopleParams.data, paramData);
+
+
+            getPeopleData(getPeopleParams)
+
         }
+    }
+
+    //筛选选人
+    handleSelection() {
+        const IsMultiselect = 1;//0 单选  1 多选
+        const {changeIsMultiselect} = this.props
+        changeIsMultiselect(IsMultiselect)
+        const {getPeopleData} = this.props
+        const paramData = {
+            page: 1,
+            rowsPerPage: 20,
+            keyword: ''
+        }
+
+        Object.assign(getPeopleParams.data, paramData);
+
+        getPeopleData(getPeopleParams)
+    }
+
+
+    //点击取消按钮改变模态层显示状态
+    handleChangeStatus() {
+        const {changeIsShowStatus} = this.props
+        changeIsShowStatus()
+    }
+
+
+    //点击确定按钮获取所选人员信息
+    getFilterData (PeopleInfor) {
+        const checkedRows = this.refs.queryDataTable.getCheckedRows()
+        console.log('所选人员信息')
+        console.log(PeopleInfor)
+        const {changeIsShowStatus} = this.props
+        changeIsShowStatus()
+
+        message.loading('正在执行中...', 0);
+        reqwest({
+            url: SCRM.url('/setting/scrm/changeOwner'),
+            type:'json',
+            method:'post',
+            data: {
+                objName: 'Account',
+                ownerID: PeopleInfor.choseNameData[0].ownerId,
+                selectIDs: checkedRows.map((item, i)=>{
+                    return item.ID
+                }),
+                relContact: !PeopleInfor.isChangeContact ? 0 : 1,
+                relOptnty: !PeopleInfor.isChangeBusiness ? 0 : 1
+
+            },
+
+            success: function (r) {
+
+                console.log(r)
+                if (r.rs) {
+                    message.destroy()
+                    message.success(`操作成功`);
+                    top.window.location.href = top.window.location.href
+                } else {
+                    message.error(`操作失败`);
+                }
+            }
+
+        })
 
     }
-    handleExport = (e)=> {
-        e.preventDefault();
 
-        const exportParam = {
-            objName: 'accountDeptList',
-            ...(table_params.data)
+    //再次请求数据(按关键词搜索)
+    requestPDList(page, value, rowsPerPage) {
+
+        const paramData = {
+            page: page,
+            rowsPerPage: rowsPerPage,
+            keyword: value
         }
 
-        const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
-        console.log(exportUrl);
-        window.open(exportUrl);
+        Object.assign(getPeopleParams.data, paramData);
+
+        console.log('搜索关键词请求')
+        const {getPeopleData} = this.props
+        getPeopleData(getPeopleParams)
+
+
+    }
+
+
+    //请求人员组件的下一页数据
+    requestNextPoepleData(page, value) {
+
+
+        const paramData = {
+            page: page,
+            rowsPerPage: 20,
+            keyword: ''
+        }
+
+        Object.assign(getPeopleParams.data, paramData);
+
+        console.log('请求下一页数据')
+        const {getNextPagePeopleData} = this.props
+        getNextPagePeopleData(getPeopleParams)
+
+
 
     }
 
@@ -341,6 +464,22 @@ class Account_List_Dept_Page extends React.Component {
     handleUpload = (e) => {
 
     }
+
+
+    handleExport = (e) => {
+        e.preventDefault();
+
+        const exportParam = {
+            objName: 'accountList',
+            ...(table_params.data)
+        }
+
+        const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
+        console.log(exportUrl);
+        window.open(exportUrl);
+
+    }
+
     onProgress = (progress) => {
 
         this.setState({
@@ -373,12 +512,20 @@ class Account_List_Dept_Page extends React.Component {
             } = this.props
 
         let queryDataTable = {}
+        let peoplePropsData = {}
         queryDataTable.dataSource = $$account_list_dept.toJS().rows
         queryDataTable.current = $$account_list_dept.toJS().current
         queryDataTable.total = $$account_list_dept.toJS().total
         queryDataTable.pageSize = $$account_list_dept.toJS().pageSize
         queryDataTable.queryColumns = $$account_list_dept.toJS().queryColumns
         queryDataTable.loading = $$account_list_dept.toJS().loading
+
+
+        peoplePropsData.IsMultiselect = $$account_list_dept.toJS().IsMultiselect
+        peoplePropsData.data = $$account_list_dept.toJS().data
+        peoplePropsData.selectPeopleModal = $$account_list_dept.toJS().selectPeopleModal
+        //选中人员的长度 假数据
+        peoplePropsData.checkedRowsLength = 10
 
         const that = this
         const uploadProps = {
@@ -521,7 +668,14 @@ class Account_List_Dept_Page extends React.Component {
                     ref="queryDataTable"
                 >
                 </QueryDataTable>
+                <SelectPeople
+                    {...peoplePropsData}
+                    handleClickConfirm={this.getFilterData.bind(this)}
+                    handleClickCancle={this.handleChangeStatus.bind(this)}
+                    requestData={this.requestPDList.bind(this)}
+                    requestNextData={this.requestNextPoepleData.bind(this)}
 
+                />
 
             </div>
         )
@@ -536,5 +690,9 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps, {
     getTableData,
-    getTableQuery
+    getTableQuery,
+    changeIsMultiselect,
+    getPeopleData,
+    changeIsShowStatus,
+    getNextPagePeopleData
 })(Account_List_Dept_Page)

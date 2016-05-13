@@ -11,14 +11,27 @@ import {    GET_TABLE_DATA,
     GET_TABLE_QUERY_FAILURE,
 
 } from 'actions/business/account/list/dept'
+import {
+    COMPONENTS_CHANGE_ISMUTISELECT,
+    COMPONENTS_CHANGE_ISSHOWMODAL,
+    COMPONENTS_GETPEOPLEDATA,
+    COMPONENTS_GETPEOPLEDATA_SUCCESS,
+    COMPONENTS_GETNEXTPEOPLEDATA,
+    COMPONENTS_GETNEXTPEOPLEDATA_SUCCESS,
+    COMPONENTS_ISCHANGEBUSINESS,
+    COMPONENTS_ISCHANGECONTACT
+
+} from 'actions/__demo/selectPeople'
 const $$initialState = Immutable.fromJS({
     rows: [],
     current: 1,
     total: 20,
     pageSize: 20,
     queryColumns: {},
-    loading: false
-
+    loading: false,
+    IsMultiselect:0,
+    selectPeopleModal:false,
+    data:[]
 
 })
 
@@ -49,7 +62,29 @@ export default function account_list_dept($$state = $$initialState, action) {
             })
         case GET_TABLE_QUERY_FAILURE:
             return $$state
+        case COMPONENTS_CHANGE_ISMUTISELECT:
+            return $$state.merge({
+                IsMultiselect: action.payload,
+                selectPeopleModal:true
+            })
+        case COMPONENTS_CHANGE_ISSHOWMODAL:
+            return $$state.merge({
+                selectPeopleModal:false
+            })
+        case COMPONENTS_GETPEOPLEDATA :
+            return $$state
+        case COMPONENTS_GETPEOPLEDATA_SUCCESS:
+            return $$state.merge({
+                data:action.payload
+            })
 
+        case COMPONENTS_GETNEXTPEOPLEDATA :
+            return $$state
+        case COMPONENTS_GETNEXTPEOPLEDATA_SUCCESS:
+
+            const currentData = $$state.toJS().data
+            const totalData = currentData.concat(action.payload)
+            return $$state.merge({data:totalData})
         default:
             return $$state
     }
