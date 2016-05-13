@@ -14,70 +14,7 @@ class TabListEdit extends React.Component{
         const {changeIsRequired}=this.props;
         selectedRow['IsMust']=='1'?changeIsRequired({'IsMust':'0'}):changeIsRequired({'IsMust':'1'})
     }
-    handleApply(){
-        let localeditColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions
-        const selectedRow = this.props.$$mapState.toJS().selectedRow
-        const deletedColumnsOptions = this.props.$$mapState.toJS().deletedItem
-        //数据可能需要过滤 如果没有任何选项就应用  则提示要先选择应用
-        const {clickapplyBtn} = this.props
-        let num = 0
-        localeditColumnsOptions.map((r,i)=>{
-            r.Val==''?num++:0
-        })
 
-
-        /*点击应用  只有一条且内容为空 可以提交; 
-            若多条且内容为空 或者多条中有空内容，则警告提示*/
-        if(num>0 && localeditColumnsOptions.length>1){
-            
-                message.config({
-                  top: 250
-                });
-                message.warn('请填写选项信息');
-        }else{
-            let applyParamData = {}
-            applyParamData.Name = selectedRow.Name
-            applyParamData.ID = selectedRow.ID
-            applyParamData.Label = selectedRow.Label
-            applyParamData.AttrType = selectedRow.AttrType
-            applyParamData.IsMust = selectedRow.IsMust
-            let paramAllOptions = []
-
-            localeditColumnsOptions=localeditColumnsOptions.concat(deletedColumnsOptions)
-
-            localeditColumnsOptions.map((r,i)=>{
-                let row = {}
-                row.DispOrder = i
-                row.Key = r.Key
-                row.Val = r.Val
-                row.IsStop = r.IsStop
-                row.IsDeleted = r.IsDeleted
-                return paramAllOptions.push(row)
-            })
-            applyParamData.Enums = paramAllOptions
-            let applyParam = {
-                url:SCRM.url('/scrmdefined/account/saveEnumAttr'),
-                data:applyParamData
-            }
-
-
-            clickapplyBtn(applyParam)
-            //点击应用完毕自带更新table数据
-            let params = {
-                url:SCRM.url('/scrmdefined/account/getAccountEnumAttrList'),
-                data:{
-                    
-                }
-            }
-
-            this.props.getTableData(params)
-        }
-        
-    }
-    handleCancle(){
-        const {clickCancleBtn} = this.props;
-        clickCancleBtn();
-    }
 
 	render(){
         const selectedRow = this.props.$$mapState.toJS().selectedRow;

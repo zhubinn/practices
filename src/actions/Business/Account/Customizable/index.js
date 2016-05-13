@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
-import { message, Button } from 'antd';
+import { message, Button,Modal } from 'antd';
 import {FormData} from 'form-data'
 // 选择某一个字段编辑
 const ACCOUNT_CUSTOM_SELECTEDROWDATA = 'ACCOUNT_CUSTOM_SELECTEDROWDATA'
@@ -71,7 +71,7 @@ export const HasRepeatData = (status)=>{
     }
         return (dispatch, getState) => {
         const url = params.url;
-        dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA,'req='));
+        //dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA,'req='));
 
             fetch(params.url, {
                 credentials: 'include',
@@ -88,6 +88,13 @@ export const HasRepeatData = (status)=>{
             }).then(function (data) {
                 if(data.rs){
                     dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data))
+                }else{
+                    Modal.info({
+                        title: '错误信息',
+                        content: data.error,
+                        onOk() {
+                        }
+                    });
                 }
             })
         
@@ -196,6 +203,13 @@ export const clickapplyBtn = (applyParam)=> {
                   top: 250
                 });             
                 message.success('应用成功');
+            }else{
+                Modal.info({
+                    title: '错误信息',
+                    content: json.error,
+                    onOk() {
+                    }
+                });
             }
         })
 

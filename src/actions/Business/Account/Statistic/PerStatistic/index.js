@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
+import { Modal } from 'antd';
 
 //关键词搜索
 const account_Pertatistic_SEARCH = 'account_Pertatistic_SEARCH'
@@ -59,6 +60,13 @@ export const getAccountPerStatisticData = (params) => {
 
                 if(data.rs){
                     dispatch(_getAccountPerStatisticData(account_Pertatistic_GETDATA_SUCCESS, data.data))
+                }else{
+                    Modal.info({
+                        title: '错误信息',
+                        content: data.error,
+                        onOk() {
+                        }
+                    });
                 }
             })
         

@@ -101,7 +101,7 @@ class AccountPerStatistic extends React.Component{
                   <div className="col_cktop-gongneng">
                         <Row>
                             <Col span="10"><SearchInput  onSearch = {this.handleClickSearch.bind(this)}/> </Col>
-                            <Col span="4" offset="10">
+                            <Col span="2" offset="12">
                                 <Button type="ghost" onClick = {this.exportTable.bind(this)}>导出</Button>
                             </Col>
                         </Row>                     
