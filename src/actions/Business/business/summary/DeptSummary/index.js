@@ -13,7 +13,7 @@ const GET_DEPTSUMMARY_SUCCESS = 'GET_DEPTSTATISTIC_SUCCESS'
 const GET_DEPTSUMMARY_FAILURE = 'GET_DEPTSTATISTIC_FAILURE'
 
 
-const getDeptSummaryData = (params ,val) => {
+const getDeptSummaryData = (params) => {
     const fetchData = (type, payload) => {
         return {
             type,

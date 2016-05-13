@@ -206,7 +206,7 @@ const columns = [{
     dataIndex: 'TradingAmout',
     key: 'TradingAmout',
 },{
-    title: '汇款金额',
+    title: '回款金额',
     dataIndex: 'PaymentAmount',
     key: 'PaymentAmount',
 },{
@@ -326,7 +326,7 @@ class Account_Detail_Dept_Page extends React.Component {
 
         // 获取table的数据
         this.props.getTableData({
-            url: SCRM.url('/scrmweb/accounts/getListDetail'),
+            url: SCRM.url('/scrmweb/accounts/getDeptListDetail'),
             data
         })
 
