@@ -75,36 +75,66 @@ class CustomizablePage extends  React.Component{
 
     //点击确定按钮
 
-        handleApply(){
+    handleApply(){
         let localeditColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions
         const selectedRow = this.props.$$mapState.toJS().selectedRow
         const deletedColumnsOptions = this.props.$$mapState.toJS().deletedItem
-        const isRepeat = this.props.$$mapState.toJS().isRepeat
+        //const isRepeat = this.props.$$mapState.toJS().isRepeat
 
         //数据可能需要过滤 如果没有任何选项就应用  则提示要先选择应用
         const {clickapplyBtn} = this.props
         let num = 0
         localeditColumnsOptions.map((r,i)=>{
-            r.Val==''?num++:0
+            r.Val==''?num++:(num=0)
         })
 
         message.config({
           top: 250
-        });        
-            /*点击应用  只有一条且内容为空 可以提交; 
-            若多条且内容为空 或者多条中有空内容，则警告提示*/
+        });  
+
+        //判断所填选项是否有重复值
+        let columnsArry = []
+        localeditColumnsOptions.map((r,i)=>{
+            if(r.Val!=''){
+                columnsArry.push(r.Val)
+            }
+        })        
+        let nary=columnsArry.sort();
+
+        //定义一个变量记录
+        let hasRepeat = 1
+        for(let i=0;i<columnsArry.length;i++){
+
+            if (nary[i]==nary[i+1]){
+
+                hasRepeat = 0
+
+                message.config({
+                  top: 250
+                });             
+
+                break;
+
+            }
+
+        }
+
+        /*点击应用  只有一条且内容为空 可以提交; 
+        若多条且内容为空 或者多条中有空内容，则警告提示*/
         if(num>0 && localeditColumnsOptions.length>1){
             
                 message.warn('请填写选项信息');
+
         }else if(localeditColumnsOptions.length == 1 
                  && localeditColumnsOptions[0].Val == ''
                  && selectedRow.IsMust == '1'){
 
                 message.warn('请将是否必填设置为否');
 
-        }else if(isRepeat){
+        }else if(hasRepeat==0){
 
-                message.warn('字段名称不允许重复');        
+                message.warn('选项信息不允许重复');  
+
         }else{
             let applyParamData = {}
             applyParamData.Name = selectedRow.Name
@@ -112,11 +142,13 @@ class CustomizablePage extends  React.Component{
             applyParamData.Label = selectedRow.Label
             applyParamData.AttrType = selectedRow.AttrType
             applyParamData.IsMust = selectedRow.IsMust
+
             let paramAllOptions = []
+            let totalColumnsOptions = []
 
-            localeditColumnsOptions=localeditColumnsOptions.concat(deletedColumnsOptions)
+            totalColumnsOptions=localeditColumnsOptions.concat(deletedColumnsOptions)
 
-            localeditColumnsOptions.map((r,i)=>{
+            totalColumnsOptions.map((r,i)=>{
                 let row = {}
                 row.DispOrder = i
                 row.Key = r.Key
@@ -133,15 +165,7 @@ class CustomizablePage extends  React.Component{
 
 
             clickapplyBtn(applyParam)
-            //点击应用完毕自带更新table数据
-            let params = {
-                url:SCRM.url('/scrmdefined/account/getAccountEnumAttrList'),
-                data:{
-                    
-                }
-            }
 
-            this.props.getTableData(params)
         }
         
     }
@@ -206,7 +230,6 @@ class CustomizablePage extends  React.Component{
                                 <DivTab 
                                     $$mapState={$$mapState} 
                                     selectedTabIndex={selectedTabIndex} 
-                                    $$mapState={$$mapState} 
                                     changeIsRequired = {changeIsRequired} 
                                     addItem={addItem} 
                                     deletItem={deletItem} 

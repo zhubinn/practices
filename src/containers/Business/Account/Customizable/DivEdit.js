@@ -77,6 +77,7 @@ class DivEdit extends React.Component{
 				columnsArr.push(r.Val)
 			}
 		})
+		//判断所填选项是否有重复值
 		let nary=columnsArr.sort();
 
 		//定义一个变量记录
@@ -85,25 +86,19 @@ class DivEdit extends React.Component{
 
 			if (nary[i]==nary[i+1]){
 
+				isRepeat = 0
+
 		        message.config({
 		          top: 250
 		        });    			
-		        message.warn(columnsArr[i]+'字段不能重复');
-
-		        	const {HasRepeatData} = this.props
-		        	HasRepeatData(true)
+		        message.warn('选项信息不允许重复');
 
 				break;
 
-			}else{
-				isRepeat = 0
 			}
 
 		}
-		if(isRepeat == 0){
-        	const {HasRepeatData} = this.props
-        	HasRepeatData(false)		
-		}
+
 	}
 	render(){
 		let localeditColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions
