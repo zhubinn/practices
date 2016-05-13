@@ -283,6 +283,9 @@ export default class DispatchClues extends React.Component {
     onDeptRadioChange(e){
         const { actions } = this.props
 
+        this.setState({
+            selectOwner:e.target['data-name']
+        })
         actions.selectDeptChange(e.target.value)
     }
 
@@ -343,6 +346,9 @@ export default class DispatchClues extends React.Component {
                 </Button>]}>
                     {
                         <div>
+                            <p className="select-owner">
+                                你已经选择的负责人是:<em>{ this.state.selectOwner }</em>
+                            </p>
                             <div className="ds-dept-list">
 
                                 <div  className = { !deptData.length ? "loading-box" : "loading-box hidden" }>
@@ -352,7 +358,7 @@ export default class DispatchClues extends React.Component {
                                     {
                                         deptData.map((item, index) => {
                                             return (
-                                                <Radio  key={ index } value={item.ID} className ="radio-item">
+                                                <Radio  key={ index } value={item.ID} data-name = {item.Name} className ="radio-item">
                                                     <div className="photo clearfix">
                                                         <img src={ item.Avatar ? item.Avatar :'/front/images/scrm/default_avatar.png' }/>
                                                         <p className="name">{ item.Name }</p>
