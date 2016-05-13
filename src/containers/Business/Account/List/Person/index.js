@@ -336,19 +336,24 @@ class Account_List_Person_Page extends React.Component {
                 if (info.file.status !== 'uploading') {
                     console.log(info.file, info.fileList);
                 }
-                const response = info.fileList[0].response
-                if (response.rs ) {
-                    message.success(`${info.file.name} 上传成功, 正在导入...`);
-                    that.setState({
-                        inImport: true,
-                        importProgress: 0
-                    })
-                    that.queryProcess()
 
 
-                } else {
-                    message.error(`${info.file.name} 上传失败。`);
+                if (info.file.status === 'done') {
+                    let response = info.fileList[0].response
+                    if (response.rs ) {
+                        message.success(`${info.file.name} 上传成功, 正在导入...`);
+                        that.setState({
+                            inImport: true,
+                            importProgress: 0
+                        })
+                        that.queryProcess()
+
+
+                    } else {
+                        message.error(`${info.file.name} 上传失败。`);
+                    }
                 }
+
 
             }
         };
