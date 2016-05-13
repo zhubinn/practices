@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Modal  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
-import { getTableData, getTableQuery, table_params } from 'actions/business/business/list/dept'
+import { getTableData, getTableQuery, table_params } from 'actions/business/business/list/penetrate'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import getQueryString from 'components/Business/GetQueryString'
@@ -99,7 +99,7 @@ const TabPane = Tabs.TabPane;
 // 查询表格
 // 依赖Table, Pagination, Form
 
-class DeptList extends React.Component {
+class PenetrateList extends React.Component {
     constructor() {
         super()
 
@@ -108,10 +108,13 @@ class DeptList extends React.Component {
     componentDidMount() {
         // todo: url包装
         this.props.getTableData({
-            url: SCRM.url('/scrmweb/business/getDeptList'),
+            url: SCRM.url('/scrmweb/business/getPenetrateList'),
             data:{
-                deptID:getQueryString("deptID"),
-                deptUser:'dept',
+                DefinedConds:[{
+                    Name:"Opportunity.AccountID",
+                    Operator:3,
+                    Value1: getQueryString("AccountID") || 0
+                }],
                 keyword:'',
 
             }
@@ -129,8 +132,11 @@ class DeptList extends React.Component {
         this.props.getTableData({
             data: {
                 searchData: [],
-                deptID:getQueryString("deptID"),
-                deptUser:'dept',
+                DefinedConds:[{
+                    Name:"Opportunity.AccountID",
+                    Operator:3,
+                    Value1: getQueryString("AccountID") || 0
+                }],
                 keyword: value,
                 page: 1,
                 pageSize: 0
@@ -148,8 +154,11 @@ class DeptList extends React.Component {
         this.props.getTableData({
             data: {
                 searchData: [],
-                deptID:getQueryString("deptID"),
-                deptUser:'dept',
+                DefinedConds:[{
+                    Name:"Opportunity.AccountID",
+                    Operator:3,
+                    Value1: getQueryString("AccountID") || 0
+                }],
                 keyword: '',
                 page: 1,
                 pageSize: 0,
@@ -165,7 +174,7 @@ class DeptList extends React.Component {
 
         const exportParam = {
                     objName: 'OpportunityList',
-                    ...(table_params.data),
+                    ...(table_params.data)
             }
 
         const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
@@ -176,7 +185,7 @@ class DeptList extends React.Component {
 
     render() {
         const {
-                $$business_list_dept,
+                $$business_list_penetrate,
                 getTableData
 
             } = this.props
@@ -185,14 +194,14 @@ class DeptList extends React.Component {
 
         let queryDataTable = {};
 
-        queryDataTable.dataSource = $$business_list_dept.toJS().rows
-        queryDataTable.current = $$business_list_dept.toJS().current
-        queryDataTable.total = $$business_list_dept.toJS().total
-        queryDataTable.pageSize = $$business_list_dept.toJS().pageSize
-        queryDataTable.queryColumns = $$business_list_dept.toJS().queryColumns
-        queryDataTable.loading = $$business_list_dept.toJS().loading
+        queryDataTable.dataSource = $$business_list_penetrate.toJS().rows
+        queryDataTable.current = $$business_list_penetrate.toJS().current
+        queryDataTable.total = $$business_list_penetrate.toJS().total
+        queryDataTable.pageSize = $$business_list_penetrate.toJS().pageSize
+        queryDataTable.queryColumns = $$business_list_penetrate.toJS().queryColumns
+        queryDataTable.loading = $$business_list_penetrate.toJS().loading
 
-        const columns = $$business_list_dept.toJS().columns
+        const columns = $$business_list_penetrate.toJS().columns
 
         return (
             <div style={{marginLeft:'20px'}}>
@@ -260,11 +269,11 @@ class DeptList extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$business_list_dept: state.business.business_list_dept
+        $$business_list_penetrate: state.business.business_list_penetrate
     }
 }
 
 export default connect(mapStateToProps, {
     getTableData,
     getTableQuery
-})(DeptList)
+})(PenetrateList)
