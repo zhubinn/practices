@@ -123,8 +123,8 @@ const columns = [{
 
 }, {
     title: '业务类型',
-    dataIndex: 'AccountIndustry',
-    key: 'AccountIndustry',
+    dataIndex: 'BusinessTpye',
+    key: 'BusinessTpye',
 
 }, {
     title: '主营产品',
@@ -145,6 +145,16 @@ const columns = [{
     title: '所属区域',
     dataIndex: 'Area',
     key: 'Area',
+
+}, {
+    title: '客户来源',
+    dataIndex: 'Source',
+    key: 'Source',
+
+}, {
+    title: '行业分类',
+    dataIndex: 'Industry',
+    key: 'Industry',
 
 }, {
     title: '客户公司网址',
