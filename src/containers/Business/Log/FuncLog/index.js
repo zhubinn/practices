@@ -115,17 +115,21 @@ class FunctionLog extends React.Component {
         
         return (
             <div  style = {{marginLeft: '20px'}} >
+              <div style={{marginTop: '14px',marginBottom: '14px'}}>
               <Row>
                 <Col span="10">
                   <SearchInput ref="searchInput" onSearch = {this.normalSearch} />
                 </Col>
                 <Col span="14"  style = {{ textAlign: 'right' }}>
-                  <Button type="primary" style = {{marginRight: '10px'}} onClick={(e)=>{
+                  <div className="cklist-Persontfilter">
+                  <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }} >筛选</Button>
+                  </div>
                   <Button type="ghost" onClick = { this.showModal.bind(this) }>导出EXCEL</Button>
                 </Col>
               </Row>
+              </div>
               <QueryDataTable
                     columns={columns}
                     checkMode={false}
