@@ -267,7 +267,7 @@ class Account_List_Dept_Page extends React.Component {
 
         // 获取table的数据
         this.props.getTableData({
-            url: SCRM.url('/scrmweb/accounts/getList'),
+            url: SCRM.url('/scrmweb/accounts/getDeptList'),
             data
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
