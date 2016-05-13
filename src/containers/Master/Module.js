@@ -1,10 +1,10 @@
 /**
  * Created by janeluck on 4/25/16.
  */
-
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
+import 'containers/styles/default'
 
 class ModulePage extends React.Component {
     render() {

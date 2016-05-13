@@ -71,6 +71,7 @@ class statisticDetail extends React.Component {
 
         return (
             <div  style = {{marginLeft: '20px'}} >
+              <div style={{marginTop: '14px',marginBottom: '14px'}}>
               <Row>
                 <Col span="10">
                   <SearchInput  ref="searchInput"  onSearch = {this.normalSearch} />
@@ -79,6 +80,7 @@ class statisticDetail extends React.Component {
                   <Button type="ghost" onClick = {this.exportConfirm} >导出EXCEL</Button>
                 </Col>
               </Row>
+              </div>
               <QueryDataTable
                     columns={columns}
                     checkMode={false}
