@@ -15,6 +15,9 @@ import Immutable from 'immutable'
 const $$initialState = {
             loading:false,
             data:{
+                obj:{
+                    reportItems: []
+                },
                 list:[{
                     reportItems: []
                 }]
