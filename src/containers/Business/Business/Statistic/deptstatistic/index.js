@@ -39,6 +39,14 @@ class Deptstatistic extends React.Component {
     }
 
     exportConfirm() {
+      let exportParam = {
+        objName:'OpportunityDeptStatistic',
+        keyword:DeptstatisticParams['data'].keyword
+      }
+      let exportParamStr = JSON.stringify(exportParam);
+      let p = 'param='+exportParamStr;
+      const exportUrl = SCRM.url('/common/scrmExport/export')+'?'+p;
+      window.open(exportUrl);
     }
 
     render() {

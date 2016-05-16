@@ -21,7 +21,7 @@ let deptSummary = {
             "key": "Name",
             render(text, record, index) {
                 const  peneUrl = SCRM.url('/scrmweb/business/deptsummarydetail?deptID=' + record.ID);
-                if(record.classname){
+                if(record.Name == '小计' || record.Name == '合计'){
                     //return {text};
                     return <span>{text}</span>;
                 }else{

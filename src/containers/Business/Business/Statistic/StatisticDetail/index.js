@@ -57,6 +57,15 @@ class statisticDetail extends React.Component {
     }
 
     exportConfirm() {
+      let exportParam = {
+        objName:'OpportunityDeptUserStatistic',
+        keyword:statisticdetailParams['data'].keyword,
+        deptID:getQueryString("deptID")
+      }
+      let exportParamStr = JSON.stringify(exportParam);
+      let p = 'param='+exportParamStr;
+      const exportUrl = SCRM.url('/common/scrmExport/export')+'?'+p;
+      window.open(exportUrl);
     }
 
     render() {
