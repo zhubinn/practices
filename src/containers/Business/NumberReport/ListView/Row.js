@@ -16,7 +16,7 @@ export default class Row extends React.Component {
 
 
     render() {
-        
+
         const { numberReportViewState ,actions } = this.props
         const loading = numberReportViewState.toJS().loading
         const listObj = numberReportViewState.toJS().data.list
