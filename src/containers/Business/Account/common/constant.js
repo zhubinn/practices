@@ -190,6 +190,7 @@ const columns = [{
     title: '创建时间',
     dataIndex: 'CreatedTime',
     key: 'CreatedTime',
+    width: 250
 
 },{
     title: '创建方式',

@@ -220,23 +220,28 @@ export default class QueryDataTable extends React.Component {
 
 
             switch (queryCol['searchType']) {
-                /*   case 3:
-                 return (<FormItem >
-                 <InputGroup {...getFieldProps('-1_' + col['key'], {
-                 initialValue: queryCol['renderData']['defaultValue']
-                 })}>
-                 <Input  />
-                 <div className="ant-input-group-wrap">
-                 <Select defaultValue=".com" style={{ width: 70 }}>
-                 <Option value=".com">.com</Option>
-                 <Option value=".jp">.jp</Option>
-                 <Option value=".cn">.cn</Option>
-                 <Option value=".org">.org</Option>
-                 </Select>
-                 </div>
-                 </InputGroup>
-                 </FormItem>)*/
                 case 4:
+                    return (<FormItem >
+                        <InputGroup >
+                            <InputNumber {...getFieldProps('3_?_' + col['key'], {
+                                initialValue: queryCol['renderData']['defaultValue']
+                            })}/>
+                            <div className="ant-input-group-wrap">
+                                <Select id={'select'+ col['key']} style={{ width: 70 }}>
+
+                                    <Option value="2">{'='}</Option>
+                                    <Option value="3">{'≠'}</Option>
+                                    <Option value="5">{'>'}</Option>
+                                    <Option value="6">{'>='}</Option>
+                                    <Option value="7">{'<'}</Option>
+                                    <Option value="8">{'<='}</Option>
+
+
+                                </Select>
+                            </div>
+                        </InputGroup>
+                    </FormItem>)
+           /*     case 4:*/
                 case 5:
                 case 6:
                 case 9:
@@ -449,6 +454,60 @@ export default class QueryDataTable extends React.Component {
                     <Pagination  {...pagination}/>))}
 
             </div>
+        )
+    }
+}
+
+class CurrencyInput extends React.Component {
+    constructor(props) {
+        super(props);
+        //const { defaultValue} = this.props;
+
+        this.state = {
+            value: [
+                '',
+                ''
+            ]
+        };
+    }
+    handleChange = (value) => {
+        const props = this.props;
+        if (!('value' in props)) {
+            this.setState({ value });
+        }
+        const startDate = value[0] ? new Date(value[0].getTime()) : null;
+        const endDate = value[1] ? new Date(value[1].getTime()) : null;
+        const startDateString = value[0] ? props.getFormatter().format(value[0]) : '';
+        const endDateString = value[1] ? props.getFormatter().format(value[1]) : '';
+        props.onChange([startDate, endDate], [startDateString, endDateString]);
+    }
+    render() {
+        const {getFieldProps} = this.props
+        return (
+            <div>
+                <InputGroup >
+
+                    <InputNumber {...getFieldProps('3_?_' + col['key'], {
+                        initialValue: queryCol['renderData']['defaultValue']
+                    })}/>
+                    <div className="ant-input-group-wrap">
+                        <Select  style={{ width: 70 }}>
+
+                            <Option value="2">{'='}</Option>
+                            <Option value="3">{'≠'}</Option>
+                            <Option value="5">{'>'}</Option>
+                            <Option value="6">{'>='}</Option>
+                            <Option value="7">{'<'}</Option>
+                            <Option value="8">{'<='}</Option>
+
+
+                        </Select>
+                    </div>
+                </InputGroup>
+                <input type="hidden"  />
+            </div>
+
+
         )
     }
 }
