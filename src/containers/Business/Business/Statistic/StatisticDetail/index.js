@@ -57,10 +57,12 @@ class statisticDetail extends React.Component {
     }
 
     exportConfirm() {
+
       let exportParam = {
         objName:'OpportunityDeptUserStatistic',
         keyword:statisticdetailParams['data'].keyword,
-        deptID:getQueryString("deptID")
+        deptID:getQueryString("deptID"),
+        deptName: unescape(getQueryString("deptName").replace(/\\u/gi, '%u')) 
       }
       let exportParamStr = JSON.stringify(exportParam);
       let p = 'param='+exportParamStr;
