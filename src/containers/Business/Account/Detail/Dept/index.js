@@ -173,7 +173,8 @@ class Account_Detail_Dept_Page extends React.Component {
                     pagination={false}>
 
                 </Table>
-                <a href="#">点击查看更多生意...</a>
+                {row.Opportunity.length === 0 ? null : (<a href="#">点击查看更多生意...</a>)}
+
             </div>)
     }
     handleExport = (e)=> {

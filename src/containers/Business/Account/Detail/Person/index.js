@@ -180,6 +180,7 @@ class Account_Detail_Person_Page extends React.Component {
                        pagination={false}>
 
                 </Table>
+                {row.Opportunity.length === 0 ? null : (<a href="#">点击查看更多生意...</a>)}
 
             </div>)
     }
