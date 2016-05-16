@@ -336,6 +336,8 @@ class Account_List_Dept_Page extends React.Component {
                     console.log(info.file, info.fileList);
                 }
                 if (info.file.status === 'done') {
+                    console.log("info.fileList[0].response:")
+                    console.log(info.fileList[0].response)
                     message.success(`${info.file.name} 上传成功, 正在导入...`);
                     that.setState({
                         inImport: true,

@@ -28,7 +28,6 @@ export default class QueryDataTable extends React.Component {
         loading: React.PropTypes.bool,
         checkMode: React.PropTypes.bool,
         dataSource: React.PropTypes.array,
-        pagination: React.PropTypes.object,
         queryColumns: React.PropTypes.object,
 
         /*todo: 有warning提示暂时注释*/
@@ -114,7 +113,7 @@ export default class QueryDataTable extends React.Component {
 
 
     toggleQueryTable = (e) => {
-        this.refs.TableBoxModel.getDOMNode().scrollTop= "0";
+        this.refs.TableBoxModel.getDOMNode().scrollTop = "0";
         this.setState({
             isSearchShow: !this.state.isSearchShow
         })
@@ -143,7 +142,7 @@ export default class QueryDataTable extends React.Component {
 
                                     searchType: item.split('_')[0],
                                     operator: item.split('_')[1],
-                                    name: item.split('_')[2] ,
+                                    name: item.split('_')[2],
                                     value: queryFormData[item]
 
                                 }
@@ -247,20 +246,20 @@ export default class QueryDataTable extends React.Component {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
-              /*  case 2:
+                /*  case 2:
 
-                    return (<FormItem>
-                        <InputNumber {...getFieldProps(col['key'], {
-                            initialValue: queryCol['renderData']['defaultValue']
-                        })} />
-                    </FormItem>)*/
+                 return (<FormItem>
+                 <InputNumber {...getFieldProps(col['key'], {
+                 initialValue: queryCol['renderData']['defaultValue']
+                 })} />
+                 </FormItem>)*/
 
                 case 13:
 
                     return (<FormItem>
                         <Select multiple {...getFieldProps(queryCol['searchType'] + '_9_' + col['key'], {
 
-                           // initialValue: queryCol['renderData']['defaultValue']
+                            // initialValue: queryCol['renderData']['defaultValue']
                         })} >
                             {queryCol['renderData']['options'].map((item, i) =>(
                                 <Option value={item.value} key={i}>{item.text}</Option>)
@@ -269,7 +268,8 @@ export default class QueryDataTable extends React.Component {
                     </FormItem>)
                 case 15:
                     return (<FormItem>
-                        <RangePicker format="yyyy-MM-dd" {...getFieldProps(queryCol['searchType'] + '_11_' + col['key'], {
+                        <RangePicker
+                            format="yyyy-MM-dd" {...getFieldProps(queryCol['searchType'] + '_11_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
@@ -355,7 +355,7 @@ export default class QueryDataTable extends React.Component {
 
         let table = (
             <Table ref='dataTable'
-
+                {...this.props}
                    dataSource={dataSource.map((item, i) =>  Object.assign(item, {key: i})
                                )}
                    columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
@@ -370,6 +370,7 @@ export default class QueryDataTable extends React.Component {
         if (this.props.expandedRowRender) {
             table = (<Table ref='dataTable'
 
+                {...this.props}
                             dataSource={dataSource.map((item, i) =>  Object.assign(item, {key: i})
                                )}
                             columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
@@ -394,7 +395,7 @@ export default class QueryDataTable extends React.Component {
 
             <div>
 
-                <div  ref="TableBoxModel" style={{width: '800px', maxHeight: '500px',  overflow: "auto"}}>
+                <div ref="TableBoxModel" style={{width: '800px', maxHeight: '500px',  overflow: "auto"}}>
                     <div style={{width: this.calculateWidth()}}>
 
 
