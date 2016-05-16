@@ -57,6 +57,15 @@ class statisticDetail extends React.Component {
     }
 
     exportConfirm() {
+      let exportParam = {
+        objName:'OpportunityDeptUserStatistic',
+        keyword:statisticdetailParams['data'].keyword,
+        deptID:getQueryString("deptID")
+      }
+      let exportParamStr = JSON.stringify(exportParam);
+      let p = 'param='+exportParamStr;
+      const exportUrl = SCRM.url('/common/scrmExport/export')+'?'+p;
+      window.open(exportUrl);
     }
 
     render() {
@@ -70,7 +79,7 @@ class statisticDetail extends React.Component {
         //queryDataTable.queryColumns = $$statisticDetail.get('queryColumns').toJS()
 
         return (
-            <div  style = {{marginLeft: '20px'}} >
+            <div  style = {{margin: '0 10px'}} >
               <div style={{marginTop: '14px',marginBottom: '14px'}}>
               <Row>
                 <Col span="10">

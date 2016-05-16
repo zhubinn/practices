@@ -9,7 +9,7 @@ import classNames from 'classnames'
 import { Row, Col, Table, Button, Input, Pagination, Modal} from 'antd'
 
 import { getDeptstatisticData }  from 'actions/business/business/statistic/deptstatistic'
-
+import QueryDataTable from 'components/Business/QueryDataTable'
 import SearchInput from 'components/Business/SearchInput'
 import 'antd/lib/index.css'
 import './index.css'
@@ -39,6 +39,14 @@ class Deptstatistic extends React.Component {
     }
 
     exportConfirm() {
+      let exportParam = {
+        objName:'OpportunityDeptStatistic',
+        keyword:DeptstatisticParams['data'].keyword
+      }
+      let exportParamStr = JSON.stringify(exportParam);
+      let p = 'param='+exportParamStr;
+      const exportUrl = SCRM.url('/common/scrmExport/export')+'?'+p;
+      window.open(exportUrl);
     }
 
     render() {
@@ -49,7 +57,7 @@ class Deptstatistic extends React.Component {
         const columns = $$deptStatistic.get('tableColumns').toJS();
 
         return (
-            <div  style = {{marginLeft: '20px'}} >
+            <div  style = {{margin: '0 10px'}} >
               <div style={{marginTop: '14px',marginBottom: '14px'}}>
               <Row>
                 <Col span="10">
@@ -60,20 +68,13 @@ class Deptstatistic extends React.Component {
                 </Col>
               </Row>
               </div>
-              <Table 
-                dataSource={dataSource} 
-                columns={columns} 
-                rowClassName = {
-                  function(record, index){
-                    if (record.Name == "小计" || record.Name == "合计") {
-                      return "busi-total-item";
-                    }
-                    return "";
-                  }
-                }
-                pagination={false}
-                useFixedHeader
-              />
+              <QueryDataTable
+                    columns={columns}
+                    dataSource={dataSource} 
+                    checkMode={false}
+                    ref="queryDataTable"
+                    pagination={false}
+                />
             </div>
         )
     }
