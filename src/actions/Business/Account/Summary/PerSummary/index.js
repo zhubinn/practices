@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
+import { Modal } from 'antd';
 
 // 输入搜索关键词
 const account_Persummary_INPUTVAL = 'account_Persummary_INPUTVAL'
@@ -59,6 +60,13 @@ export const getAccountPerSummaryData = (params) => {
 
                 if(data.rs){
                     dispatch(_getAccountPerSummaryData(account_Persummary_GETDATA_SUCCESS, data.data))
+                }else{
+                    Modal.info({
+                        title: '错误信息',
+                        content: data.error,
+                        onOk() {
+                        }
+                    });
                 }
             })
         

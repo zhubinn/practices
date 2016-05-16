@@ -26,6 +26,7 @@ const $$initialState = Immutable.fromJS({
     currentTabIndex:'1',
     deletedItem:[],
     isRepeat:false,
+    isApplySuccess:false
 })
 
 const  Customizable = ($$state = $$initialState, action)=>{
@@ -129,7 +130,8 @@ const  Customizable = ($$state = $$initialState, action)=>{
                     AttrType:action.payload.AttrType,
                     IsMust:action.payload.IsMust
                 },
-                'deletedItem':[]
+                'deletedItem':[],
+                'isApplySuccess':true
             })
 
         case ACCOUNT_CUSTOM_DOWNITEM:

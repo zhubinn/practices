@@ -111,6 +111,7 @@ class DeptList extends React.Component {
             url: SCRM.url('/scrmweb/business/getDeptList'),
             data:{
                 deptID:getQueryString("deptID"),
+                deptUser:'dept',
                 keyword:'',
 
             }
@@ -129,6 +130,7 @@ class DeptList extends React.Component {
             data: {
                 searchData: [],
                 deptID:getQueryString("deptID"),
+                deptUser:'dept',
                 keyword: value,
                 page: 1,
                 pageSize: 0
@@ -147,6 +149,7 @@ class DeptList extends React.Component {
             data: {
                 searchData: [],
                 deptID:getQueryString("deptID"),
+                deptUser:'dept',
                 keyword: '',
                 page: 1,
                 pageSize: 0,
@@ -159,9 +162,10 @@ class DeptList extends React.Component {
     handleExport(e){
 
         e.preventDefault();
+
         const exportParam = {
-                    objName: 'accountDeptList',
-                    ...table_params.data
+                    objName: 'OpportunityList',
+                    ...(table_params.data),
             }
 
         const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);

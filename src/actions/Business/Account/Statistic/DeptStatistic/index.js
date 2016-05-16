@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
-
+import { Modal } from 'antd';
 //关键词搜索
 const account_DeptStatistic_SEARCH = 'account_DeptStatistic_SEARCH'
 //输入框值改变
@@ -30,7 +30,6 @@ export const searchKeyWord = (value)=>{
 //获取数据
 
 export const getAccountDeptStatisticData = (params) => {
-    console.log(params.url)
     const _getAccountDeptStatisticData = (type, data)=> {
         return {
             type,
@@ -59,6 +58,13 @@ export const getAccountDeptStatisticData = (params) => {
 
                 if(data.rs){
                     dispatch(_getAccountDeptStatisticData(account_DeptStatistic_GETDATA_SUCCESS, data.data))
+                }else{
+                    Modal.info({
+                        title: '错误信息',
+                        content: data.error,
+                        onOk() {
+                        }
+                    });
                 }
             })
         

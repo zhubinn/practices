@@ -36,6 +36,7 @@ import persummary from "./business/summary/persummary"
 import summarydetail from "./business/summary/summaryDetail"
 import business_list_dept from './business/list/dept'
 import business_list_person from './business/list/person'
+import business_list_penetrate from './business/list/penetrate'
 
 
 const businessReducers = combineReducers({
@@ -60,6 +61,7 @@ const businessReducers = combineReducers({
     summarydetail,
     business_list_dept,
     business_list_person,
+    business_list_penetrate,
 
     numberReportViewState,
     dispatchCluesState,
