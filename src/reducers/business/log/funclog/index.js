@@ -174,7 +174,8 @@ let funclog = {
         {
             "title": "操作时间",
             "dataIndex": "OperateDate",
-            "key": "OperateDate"
+            "key": "OperateDate",
+            "width": 350
         }
     ]
 }

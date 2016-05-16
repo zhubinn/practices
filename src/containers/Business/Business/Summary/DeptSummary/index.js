@@ -41,7 +41,7 @@ class DeptSummary extends React.Component {
     exportConfirm() {
       let exportParam = {
         objName:'OpportunityDeptSummary',
-        keywords:DeptSummaryParams['data'].keyword
+        keyword:DeptSummaryParams['data'].keyword
       }
       let exportParamStr = JSON.stringify(exportParam);
       let p = 'param='+exportParamStr;
