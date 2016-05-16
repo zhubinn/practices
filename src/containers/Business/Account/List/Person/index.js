@@ -403,17 +403,19 @@ class Account_List_Person_Page extends React.Component {
                 <div style={{marginTop: '14px',marginBottom: '14px'}}>
                     <Row>
                         <Col span="8"><SearchInput ref="searchInput"
-                                                   onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
+                                                   onSearch={(value)=>{this.normalSearch(value)}}/></Col>
+
                         <Col span="10" offset="6">
                             <div className="cklist-Persontfilter">
                                 <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
                             </div>
+
                             <div className="cklist-PersonChange">
                                 <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
-
                             </div>
+
                             <div className="cklist-Persondaoru">
                                 <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
                             </div>
@@ -424,58 +426,63 @@ class Account_List_Person_Page extends React.Component {
                                    maskClosable={false}
                                    accept='.jpg'
                             >
-                                <div>
-                                    <h4>一、<a href="javascript:;">下载【客户导入模板】</a></h4>
+                                <div className="account-import">
                                     <div>
-                                        <p>请按照数据模板的格式准备要导入的数据。</p>
+                                        <h3>一、<a href="javascript:;">下载【客户导入模板】</a></h3>
+
+                                        <div>
+                                            <p>请按照数据模板的格式准备要导入的数据。</p>
+                                        </div>
+                                        <p>注意事项:</p>
+
+                                        <div>
+                                            <p>1、模板中的表头不可更改，不可删除；</p>
+
+                                            <p>2、其中客户名称为必填项，其他均为选填项；</p>
+
+                                            <p>3、填写客户地址时，特别行政区名称需填写在模板中的省份字段下，由省/自治区直辖的县级行政区划，需将其名称直接填写在模板中的市字段下。</p>
+                                        </div>
                                     </div>
-                                    <p>注意事项:</p>
                                     <div>
-                                        <p>1、模板中的表头不可更改，不可删除；</p>
-                                        <p>2、其中客户名称为必填项，其他均为选填项；</p>
-                                        <p>3、填写客户地址时，特别行政区名称需填写在模板中的省份字段下，由省/自治区直辖的县级行政区划，需将其名称直接填写在模板中的市字段下。</p>
+                                        <h3>二、选择需要导入的CSV文件</h3>
+
+                                        <div>
+
+                                        </div>
+                                        <div>
+                                            <p>1、只支持CSV格式，文件大小不能超过1M；</p>
+
+                                            <p>2、为保证较好性能，请将导入条数控制在2000条以内；</p>
+
+                                            <p>3、请不要在同一时间导入多个文件。</p>
+                                        </div>
                                     </div>
+                                    {this.state.inImport ? (<div>
+                                        <h4>导入进度: </h4>
+                                        <ProgressLine percent={this.state.importProgress}/>*
+
+                                    </div>) : null}
                                 </div>
-                                <div>
-                                    <h4>二、选择需要导入的CSV文件</h4>
-                                    <div>
-
-                                    </div>
-                                    <div>
-                                        <p>1、只支持CSV格式，文件大小不能超过1M；</p>
-                                        <p>2、为保证较好性能，请将导入条数控制在2000条以内；</p>
-                                        <p>3、请不要在同一时间导入多个文件。</p>
-                                    </div>
-                                </div>
-                                {this.state.inImport ? (<div>
-                                    <h4>导入进度: </h4>
-                                    <ProgressLine percent={this.state.importProgress}/>*
-
-                                </div>) : null}
-
 
                             </Modal>
-                            <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
+
+                            <Button  type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
                         </Col>
                     </Row>
                 </div>
-                {isSelf ? (<Tabs defaultActiveKey="all"
-                                 type="card"
-                                 onChange={i => {this.changeType(i)}}>
-                    <TabPane tab="全部客户" key="all"></TabPane>
-                    <TabPane tab="负责的客户" key="owner"></TabPane>
-                    <TabPane tab="参与的客户" key="relation"></TabPane>
-                    <TabPane tab="重点客户" key="important"></TabPane>
-                    <TabPane tab="关注的客户" key="follow"></TabPane>
-                </Tabs>) : (<Tabs defaultActiveKey="all"
-                                  type="card"
-                                  onChange={i => {this.changeType(i)}}>
-                    <TabPane tab="全部客户" key="all"></TabPane>
-                    <TabPane tab="负责的客户" key="owner"></TabPane>
 
-                    <TabPane tab="重点客户" key="important"></TabPane>
-                    <TabPane tab="关注的客户" key="follow"></TabPane>
-                </Tabs>)}
+                <Tabs defaultActiveKey="all"
+                      type="card"
+                      onChange={i => {this.changeType(i)}}>
+                    <TabPane tab="全部客户" key="all">
+                    </TabPane>
+                    <TabPane tab="负责的客户" key="owner">
+                    </TabPane>
+                    <TabPane tab="重点客户" key="important">
+                    </TabPane>
+                    <TabPane tab="关注的客户" key="follow">
+                    </TabPane>
+                </Tabs>
 
 
                 <QueryDataTable
@@ -485,7 +492,6 @@ class Account_List_Person_Page extends React.Component {
                     onGetTableData={
 
                                 (obj)=>{
-                                    this.refs.searchInput.emptyInput()
                                     getTableData({
                                         data: obj
                                     })
@@ -502,6 +508,7 @@ class Account_List_Person_Page extends React.Component {
                     requestNextData={this.requestNextPoepleData.bind(this)}
 
                 />
+
             </div>
 
         )

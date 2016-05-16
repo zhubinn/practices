@@ -2,7 +2,7 @@
  * Created by janeluck on 4/27/16.
  */
 import { connect } from 'react-redux'
-import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Modal, Upload, message  } from 'antd'
+import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination,Modal, Form, Upload, message, Progress  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery, table_params } from 'actions/business/account/list/dept'
@@ -274,30 +274,64 @@ class Account_List_Dept_Page extends React.Component {
 
     }
 
-    onProgress = (progress) => {
+    onProgress = (progress, fileKey) => {
 
         this.setState({
             importProgress: progress
         })
         if (progress == 100) {
             clearInterval(this.progressTimer)
-            message.success(`导入成功!`);
+
             this.setState({
                 inImport: false
             })
+            reqwest({
+                url: SCRM.url('/common/scrmCommonImport/getResultMsg') + '?key=' + fileKey,
+                method: 'post',
+                type: 'json',
+                success: function (r) {
+
+                    if (r.rs){
+                        message.info(`${r.data.message}`);
+
+                        if (Object.keys(r.data).indexOf('file') > -1 ) {
+
+                            window.open(SCRM.url('/common/scrmCommonImport/getFailedFile') + '?key=' + fileKey)
+                            message.info('相关信息请查看下载附件')
+                        }
+
+
+                    }else {
+                        message.error(`${r.data}`)
+                    }
+
+                }
+
+            })
+
+
+
+
         }
 
 
     }
-    queryProcess = () => {
+    queryProcess = (fileKey) => {
         var that = this
         this.progressTimer = setInterval(function () {
-            var progress = that.state.importProgress + 10
 
-            that.onProgress(progress);
+            reqwest({
+                url: SCRM.url('/common/scrmCommonImport/getProcess') + '?key=' + fileKey,
+                method: 'post',
+                type: 'json',
+                success: function (r) {
+                    that.onProgress(parseInt(r), fileKey);
+                }
+
+            })
+
         }, 200);
     }
-
     render() {
         const {
             $$account_list_dept,
@@ -325,30 +359,34 @@ class Account_List_Dept_Page extends React.Component {
         const uploadProps = {
             showUploadList: false,
             name: 'file',
-            action: SCRM.url('/common/scrmImportOptimization/import/objName/Account'),
+            action: SCRM.url('/common/scrmCommonImport/import') + '?objName=Account',
             headers: {
                 authorization: 'authorization-text',
             },
-
             onChange(info) {
 
                 if (info.file.status !== 'uploading') {
-                    console.log(info.file, info.fileList);
+                    // console.log(info.file, info.fileList);
                 }
+
+
                 if (info.file.status === 'done') {
-                    console.log("info.fileList[0].response:")
-                    console.log(info.fileList[0].response)
-                    message.success(`${info.file.name} 上传成功, 正在导入...`);
-                    that.setState({
-                        inImport: true,
-                        importProgress: 0
-                    })
-                    that.queryProcess()
+                    let response = info.fileList[0].response
+
+                    if (response.rs) {
+                        message.success(`${info.file.name} 上传成功, 正在导入...`);
+                        that.setState({
+                            inImport: true,
+                            importProgress: 0
+                        })
+                        that.queryProcess(response.data)
 
 
-                } else if (info.file.status === 'error') {
-                    message.error(`${info.file.name} 上传失败。`);
+                    } else {
+                        message.error(`${info.file.name} 上传失败。${response.data}`);
+                    }
                 }
+
 
             }
         };
