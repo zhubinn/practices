@@ -19,8 +19,7 @@
 //
 //         .............................................
 //                  佛祖保佑             永无BUG
-import "es5-shim"
-import 'babel-polyfill'
+import "es6-promise"
 import { browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 
