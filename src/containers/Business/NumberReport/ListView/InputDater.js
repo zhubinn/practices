@@ -101,7 +101,7 @@ export default class InputDater extends React.Component {
 
 
         //TODO 异步請求
-        console.log(TEMP_DATA.nptype === 'week',dater)
+        //console.log(TEMP_DATA.nptype === 'week',dater)
         this.fetchData({
             templateID: TEMP_DATA.templateid,
             date: TEMP_DATA.nptype === 'week' ? dater.split('~')[0] : dater,
