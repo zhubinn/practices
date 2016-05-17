@@ -74,6 +74,14 @@ class Deptstatistic extends React.Component {
                     checkMode={false}
                     ref="queryDataTable"
                     pagination={false}
+                    rowClassName = {
+                      function(record, index){
+                        if (record.Name == "小计" || record.Name == "合计") {
+                          return "amountClassName";
+                        }
+                        return "";
+                      }
+                    }
                 />
             </div>
         )

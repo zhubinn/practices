@@ -97,19 +97,11 @@ class statisticDetail extends React.Component {
                     checkMode={false}
                     pagination={false}
                     {...queryDataTable}
-                    onGetTableData={
-                                (obj)=>{
-                                    this.refs.searchInput.emptyInput()
-                                    getStatisticDetailData({
-                                        data: obj
-                                    })
-                                }
-                            }
                     ref="queryDataTable"
                     rowClassName = {
                       function(record, index){
                         if (record.DeptName == "小计" || record.DeptName == "合计") {
-                          return "busi-total-item";
+                          return "amountClassName";
                         }
                         return "";
                       }
