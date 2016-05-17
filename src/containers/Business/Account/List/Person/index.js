@@ -37,9 +37,6 @@ let getPeopleParams = {
 // SCRM.url 由原来外层页面引入
 
 
-
-
-
 // 是否为本人查看
 
 let isSelf = true
@@ -104,8 +101,7 @@ class Account_List_Person_Page extends React.Component {
 
     //变更负责人选人
     changeOwner = (e) => {
-        console.log('获取已经选择的row')
-        console.log(this.refs.queryDataTable.getCheckedRows())
+
         const checkedRows = this.refs.queryDataTable.getCheckedRows()
         if (checkedRows.length == 0) {
             Modal.info({
@@ -159,22 +155,21 @@ class Account_List_Person_Page extends React.Component {
 
 
     //点击确定按钮获取所选人员信息
-    getFilterData (PeopleInfor) {
+    getFilterData(PeopleInfor) {
         const checkedRows = this.refs.queryDataTable.getCheckedRows()
-        console.log('所选人员信息')
-        console.log(PeopleInfor)
+
         const {changeIsShowStatus} = this.props
         changeIsShowStatus()
 
         message.loading('正在执行中...', 0);
         reqwest({
             url: SCRM.url('/setting/scrm/changeOwner'),
-            type:'json',
-            method:'post',
+            type: 'json',
+            method: 'post',
             data: {
                 objName: 'Account',
                 ownerID: PeopleInfor.choseNameData[0].ownerId,
-                selectIDs: checkedRows.map((item, i)=>{
+                selectIDs: checkedRows.map((item, i)=> {
                     return item.ID
                 }),
                 relContact: !PeopleInfor.isChangeContact ? 0 : 1,
@@ -184,7 +179,6 @@ class Account_List_Person_Page extends React.Component {
 
             success: function (r) {
 
-                console.log(r)
                 if (r.rs) {
                     message.destroy()
                     message.success(`操作成功`);
@@ -209,7 +203,7 @@ class Account_List_Person_Page extends React.Component {
 
         Object.assign(getPeopleParams.data, paramData);
 
-        console.log('搜索关键词请求')
+
         const {getPeopleData} = this.props
         getPeopleData(getPeopleParams)
 
@@ -229,10 +223,9 @@ class Account_List_Person_Page extends React.Component {
 
         Object.assign(getPeopleParams.data, paramData);
 
-        console.log('请求下一页数据')
+
         const {getNextPagePeopleData} = this.props
         getNextPagePeopleData(getPeopleParams)
-
 
 
     }
@@ -245,13 +238,13 @@ class Account_List_Person_Page extends React.Component {
     }
 
     handleOk = () => {
-        console.log('点击了确定');
+
         this.setState({
             importModalVisible: false
         });
     }
     handleCancel = (e) => {
-        console.log(e);
+
         this.setState({
             importModalVisible: false
         });
@@ -271,32 +264,67 @@ class Account_List_Person_Page extends React.Component {
         }
 
         const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
-        console.log(exportUrl);
+
         window.open(exportUrl);
 
     }
 
-    onProgress = (progress) => {
+    onProgress = (progress, fileKey) => {
 
         this.setState({
             importProgress: progress
         })
         if (progress == 100) {
             clearInterval(this.progressTimer)
-            message.success(`导入成功!`);
+
             this.setState({
                 inImport: false
             })
+            reqwest({
+                url: SCRM.url('/common/scrmCommonImport/getResultMsg') + '?key=' + fileKey,
+                method: 'post',
+                type: 'json',
+                success: function (r) {
+
+                    if (r.rs){
+                        message.info(`${r.data.message}`);
+
+                        if (Object.keys(r.data).indexOf('file') > -1 ) {
+
+                                window.open(SCRM.url('/common/scrmCommonImport/getFailedFile') + '?key=' + fileKey)
+                                message.info('相关信息请查看下载附件')
+                        }
+
+
+                    }else {
+                        message.error(`${r.data}`)
+                    }
+
+                }
+
+            })
+
+
+
+
         }
 
 
     }
-    queryProcess = () => {
+    queryProcess = (fileKey) => {
         var that = this
         this.progressTimer = setInterval(function () {
-            var progress = that.state.importProgress + 10
 
-            that.onProgress(progress);
+            reqwest({
+                url: SCRM.url('/common/scrmCommonImport/getProcess') + '?key=' + fileKey,
+                method: 'post',
+                type: 'json',
+                success: function (r) {
+                    that.onProgress(parseInt(r), fileKey);
+                }
+
+            })
+
         }, 200);
     }
 
@@ -334,23 +362,24 @@ class Account_List_Person_Page extends React.Component {
             onChange(info) {
 
                 if (info.file.status !== 'uploading') {
-                    console.log(info.file, info.fileList);
+                    // console.log(info.file, info.fileList);
                 }
 
 
                 if (info.file.status === 'done') {
                     let response = info.fileList[0].response
-                    if (response.rs ) {
+
+                    if (response.rs) {
                         message.success(`${info.file.name} 上传成功, 正在导入...`);
                         that.setState({
                             inImport: true,
                             importProgress: 0
                         })
-                        that.queryProcess()
+                        that.queryProcess(response.data)
 
 
                     } else {
-                        message.error(`${info.file.name} 上传失败。`);
+                        message.error(`${info.file.name} 上传失败。${response.data}`);
                     }
                 }
 
@@ -369,85 +398,91 @@ class Account_List_Person_Page extends React.Component {
         </Col></Row>)
 
 
-
         return (
             <div style={{marginLeft: '20px'}}>
                 <div style={{marginTop: '14px',marginBottom: '14px'}}>
-                <Row>
-                    <Col span="8"><SearchInput ref="searchInput"
-                                               onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
-                    <Col span="10" offset="6">
-                        <div className="cklist-Persontfilter">
-                            <Button type="primary" onClick={(e)=>{
+                    <Row>
+                        <Col span="8"><SearchInput ref="searchInput"
+                                                   onSearch={(value)=>{this.normalSearch(value)}}/></Col>
+
+                        <Col span="10" offset="6">
+                            <div className="cklist-Persontfilter">
+                                <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
-                        </div>
-                        <div className="cklist-PersonChange">
-                            <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
-
-                        </div>
-                        <div className="cklist-Persondaoru">
-                            <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
-                        </div>
-
-                        <Modal title="客户导入" visible={this.state.importModalVisible}
-                               footer={importFooter}
-                               onCancel={(e) => {this.handleCancel(e)}}
-                               maskClosable={false}
-                               accept='.jpg'
-                        >
-                            <div>
-                                <h4>一、<a href="javascript:;">下载【客户导入模板】</a></h4>
-                                <div>
-                                    <p>请按照数据模板的格式准备要导入的数据。</p>
-                                </div>
-                                <p>注意事项:</p>
-                                <div>
-                                    <p>1、模板中的表头不可更改，不可删除；</p>
-                                    <p>2、其中客户名称为必填项，其他均为选填项；</p>
-                                    <p>3、填写客户地址时，特别行政区名称需填写在模板中的省份字段下，由省/自治区直辖的县级行政区划，需将其名称直接填写在模板中的市字段下。</p>
-                                </div>
                             </div>
-                            <div>
-                                <h4>二、选择需要导入的CSV文件</h4>
-                                <div>
 
-                                </div>
-                                <div>
-                                    <p>1、只支持CSV格式，文件大小不能超过1M；</p>
-                                    <p>2、为保证较好性能，请将导入条数控制在2000条以内；</p>
-                                    <p>3、请不要在同一时间导入多个文件。</p>
-                                </div>
+                            <div className="cklist-PersonChange">
+                                <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
                             </div>
-                            {this.state.inImport ? (<div>
-                                <h4>导入进度: </h4>
-                                <ProgressLine percent={this.state.importProgress}/>*
 
-                            </div>) : null}
+                            <div className="cklist-Persondaoru">
+                                <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
+                            </div>
 
+                            <Modal title="客户导入" visible={this.state.importModalVisible}
+                                   footer={importFooter}
+                                   onCancel={(e) => {this.handleCancel(e)}}
+                                   maskClosable={false}
+                                   accept='.jpg'
+                            >
+                                <div className="account-import">
+                                    <div>
+                                        <h3>一、<a href="javascript:;">下载【客户导入模板】</a></h3>
 
-                        </Modal>
-                        <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
-                    </Col>
-                </Row>
+                                        <div>
+                                            <p>请按照数据模板的格式准备要导入的数据。</p>
+                                        </div>
+                                        <p>注意事项:</p>
+
+                                        <div>
+                                            <p>1、模板中的表头不可更改，不可删除；</p>
+
+                                            <p>2、其中客户名称为必填项，其他均为选填项；</p>
+
+                                            <p>3、填写客户地址时，特别行政区名称需填写在模板中的省份字段下，由省/自治区直辖的县级行政区划，需将其名称直接填写在模板中的市字段下。</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h3>二、选择需要导入的CSV文件</h3>
+
+                                        <div>
+
+                                        </div>
+                                        <div>
+                                            <p>1、只支持CSV格式，文件大小不能超过1M；</p>
+
+                                            <p>2、为保证较好性能，请将导入条数控制在2000条以内；</p>
+
+                                            <p>3、请不要在同一时间导入多个文件。</p>
+                                        </div>
+                                    </div>
+                                    {this.state.inImport ? (<div>
+                                        <h4>导入进度: </h4>
+                                        <ProgressLine percent={this.state.importProgress}/>*
+
+                                    </div>) : null}
+                                </div>
+
+                            </Modal>
+
+                            <Button  type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
+                        </Col>
+                    </Row>
                 </div>
-                {isSelf ? (<Tabs defaultActiveKey="all"
-                                 type="card"
-                                 onChange={i => {this.changeType(i)}}>
-                    <TabPane tab="全部客户" key="all"></TabPane>
-                    <TabPane tab="负责的客户" key="owner"></TabPane>
-                    <TabPane tab="参与的客户" key="relation"></TabPane>
-                    <TabPane tab="重点客户" key="important"></TabPane>
-                    <TabPane tab="关注的客户" key="follow"></TabPane>
-                </Tabs>) : (<Tabs defaultActiveKey="all"
-                                  type="card"
-                                  onChange={i => {this.changeType(i)}}>
-                    <TabPane tab="全部客户" key="all"></TabPane>
-                    <TabPane tab="负责的客户" key="owner"></TabPane>
 
-                    <TabPane tab="重点客户" key="important"></TabPane>
-                    <TabPane tab="关注的客户" key="follow"></TabPane>
-                </Tabs>)}
+                <Tabs defaultActiveKey="all"
+                      type="card"
+                      onChange={i => {this.changeType(i)}}>
+                    <TabPane tab="全部客户" key="all">
+                    </TabPane>
+                    <TabPane tab="负责的客户" key="owner">
+                    </TabPane>
+                    <TabPane tab="重点客户" key="important">
+                    </TabPane>
+                    <TabPane tab="关注的客户" key="follow">
+                    </TabPane>
+                </Tabs>
 
 
                 <QueryDataTable
@@ -457,7 +492,6 @@ class Account_List_Person_Page extends React.Component {
                     onGetTableData={
 
                                 (obj)=>{
-                                    this.refs.searchInput.emptyInput()
                                     getTableData({
                                         data: obj
                                     })
@@ -474,6 +508,7 @@ class Account_List_Person_Page extends React.Component {
                     requestNextData={this.requestNextPoepleData.bind(this)}
 
                 />
+
             </div>
 
         )

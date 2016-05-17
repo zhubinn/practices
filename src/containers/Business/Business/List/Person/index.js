@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Modal  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
-import { getTableData, getTableQuery } from 'actions/business/business/list/person'
+import { getTableData, getTableQuery, table_params } from 'actions/business/business/list/person'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import getQueryString from 'components/Business/GetQueryString'
@@ -110,7 +110,7 @@ class PersonList extends React.Component {
             url: SCRM.url('/scrmweb/business/getList'),
             data:{
                 keyword:'',
-                userID:getQueryString("userID"),
+                deptUser:'user',
             }
 
         })
@@ -127,7 +127,7 @@ class PersonList extends React.Component {
             data: {
                 searchData: [],
                 keyword: value,
-                userID:getQueryString("userID"),
+                deptUser:'user',
                 page: 1,
                 pageSize: 0
             }
@@ -145,7 +145,7 @@ class PersonList extends React.Component {
             data: {
                 searchData: [],
                 keyword: '',
-                userID:getQueryString("userID"),
+                deptUser:'user',
                 page: 1,
                 pageSize: 0,
                 type
@@ -158,7 +158,8 @@ class PersonList extends React.Component {
 
         e.preventDefault();
         const exportParam = {
-            objName: 'businessDeptList',
+            objName: 'OpportunityList',
+            ...(table_params.data)
         }
 
         const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);

@@ -1,6 +1,6 @@
 
 /**
- * Created by ytm on 4/7/16.
+ * Created by yangtm on 4/7/16.
  */
 
 import { bindActionCreators } from 'redux'
@@ -113,7 +113,7 @@ class DataLog extends React.Component {
         //queryDataTable.loading = $$account_list_person.toJS().loading
         
         return (
-            <div style = {{marginLeft: '20px'}} >
+            <div style = {{margin: '0 10px'}}>
               <div style={{marginTop: '14px',marginBottom: '14px'}}>
               <Row>
                 <Col span="10">

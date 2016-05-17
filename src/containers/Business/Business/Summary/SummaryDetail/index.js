@@ -53,6 +53,16 @@ class summaryDetail extends React.Component {
     }
 
     exportConfirm() {
+      let exportParam = {
+        objName:'OpportunityDeptUserSummary',
+        keyword:summarydetailParams['data'].keyword,
+        deptID:getQueryString("deptID"),
+        deptName:unescape(getQueryString("deptName").replace(/\\u/gi, '%u'))
+      }
+      let exportParamStr = JSON.stringify(exportParam);
+      let p = 'param='+exportParamStr;
+      const exportUrl = SCRM.url('/common/scrmExport/export')+'?'+p;
+      window.open(exportUrl);
     }
 
     render() {
@@ -66,7 +76,7 @@ class summaryDetail extends React.Component {
         queryDataTable.queryColumns = $$summaryDetail.get('queryColumns').toJS()
 
         return (
-            <div  style = {{marginLeft: '20px'}} >
+            <div  style = {{margin: '0 10px'}} >
               <div style={{marginTop: '14px',marginBottom: '14px'}}>
               <Row>
                 <Col span="10">
@@ -82,15 +92,15 @@ class summaryDetail extends React.Component {
                     checkMode={false}
                     {...queryDataTable}
                     pagination={false}
-                    onGetTableData={
-                                (obj)=>{
-                                    this.refs.searchInput.emptyInput()
-                                    getSummaryDetailData({
-                                        data: obj
-                                    })
-                                }
-                            }
                     ref="queryDataTable"
+                    rowClassName = {
+                      function(record, index){
+                        if (record.DeptName == "小计" || record.DeptName == "合计") {
+                          return "amountClassName";
+                        }
+                        return "";
+                      }
+                    }
                 />
             </div>
         )

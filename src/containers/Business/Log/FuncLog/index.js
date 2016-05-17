@@ -38,7 +38,7 @@ class FunctionLog extends React.Component {
     componentDidMount() {
       //初始获取数据
       this.props.getFuncLogData(FuncLogParams);
-      //this.props.getFuncLogQuery(SCRM.url('/scrmoplog/index/getOplogFilter'))
+      this.props.getFuncLogQuery(SCRM.url('/scrmoplog/index/getOplogFilter'))
     }
 
     // 普通搜索和筛选(高级搜索)互斥
@@ -114,7 +114,7 @@ class FunctionLog extends React.Component {
         //queryDataTable.loading = $$account_list_person.toJS().loading
         
         return (
-            <div  style = {{marginLeft: '20px'}} >
+            <div  style = {{margin: '0 10px'}} >
               <div style={{marginTop: '14px',marginBottom: '14px'}}>
               <Row>
                 <Col span="10">

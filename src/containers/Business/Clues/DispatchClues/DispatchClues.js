@@ -200,9 +200,17 @@ export default class DispatchClues extends React.Component {
         if(state === dispatchState) return;
 
         this.setState({
-            pagination: {}
+            pagination: {},
+            owner:''
         })
+
         actions.clickTab(state,false)
+
+        if(this.refs.searchInput){
+            this.refs.searchInput.setState({
+                value:''
+            })
+        }
 
         this.fetchTableData({
             assigned:state,//0未分派,1已分派未处理 不传默认0
@@ -241,6 +249,7 @@ export default class DispatchClues extends React.Component {
     showModal(){
         const { dispatchCluesState ,actions } = this.props
         const rowData = dispatchCluesState.toJS().selectData
+        const deptData = dispatchCluesState.toJS().deptData
 
         if(!rowData.length ) {
             message.warn('请先选择要分派的线索!');
@@ -251,7 +260,7 @@ export default class DispatchClues extends React.Component {
             visible:true
         })
 
-        if(!this.state.visible){
+        if(!this.state.visible && !deptData.length){
 
             reqwest({
                 url:SCRM.url('/deptcomponent/DeptComponent/getUserListForLeadAssign'),
@@ -274,6 +283,9 @@ export default class DispatchClues extends React.Component {
     onDeptRadioChange(e){
         const { actions } = this.props
 
+        this.setState({
+            selectOwner:e.target['data-name']
+        })
         actions.selectDeptChange(e.target.value)
     }
 
@@ -334,6 +346,9 @@ export default class DispatchClues extends React.Component {
                 </Button>]}>
                     {
                         <div>
+                            <p className="select-owner">
+                                你已经选择的负责人是:<em>{ this.state.selectOwner }</em>
+                            </p>
                             <div className="ds-dept-list">
 
                                 <div  className = { !deptData.length ? "loading-box" : "loading-box hidden" }>
@@ -343,7 +358,7 @@ export default class DispatchClues extends React.Component {
                                     {
                                         deptData.map((item, index) => {
                                             return (
-                                                <Radio  key={ index } value={item.ID} className ="radio-item">
+                                                <Radio  key={ index } value={item.ID} data-name = {item.Name} className ="radio-item">
                                                     <div className="photo clearfix">
                                                         <img src={ item.Avatar ? item.Avatar :'/front/images/scrm/default_avatar.png' }/>
                                                         <p className="name">{ item.Name }</p>
@@ -379,7 +394,7 @@ export default class DispatchClues extends React.Component {
 
                     <Row>
                         <Col span="16">
-                            <SearchInput  placeholder="输入线索负责人" style={{ width: 200 }} onSearch = { this.clickSearch.bind(this) } {...this.props}  />
+                            <SearchInput ref="searchInput"  placeholder="输入线索负责人" style={{ width: 200 }} onSearch = { this.clickSearch.bind(this) } {...this.props}  />
                         </Col>
 
                         <Col span="8">
