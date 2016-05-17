@@ -255,7 +255,7 @@ export default class QueryDataTable extends React.Component {
                 case 9:
 
                     return (<FormItem >
-                        <Input {...getFieldProps(queryCol['searchType'] + '_19_' + col['key'], {
+                        <Input autoComplete="off" {...getFieldProps(queryCol['searchType'] + '_19_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
