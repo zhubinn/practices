@@ -15,7 +15,7 @@ let perStatistic = {
     },
     "tableColumns":[
         {
-            "title": "部门名称",
+            "title": "用户名称",
             "width": 150,
             "dataIndex": "Name",
             "key": "Name"

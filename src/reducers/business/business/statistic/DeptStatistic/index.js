@@ -20,7 +20,7 @@ let deptStatistic = {
             "dataIndex": "Name",
             "key": "Name",
             render(text, record, index) {
-                const  peneUrl = SCRM.url('/scrmweb/business/deptstatisticdetail?deptID=' + record.ID);
+                const  peneUrl = SCRM.url('/scrmweb/business/deptstatisticdetail?deptID=' + record.ID + '&deptName=' + escape(record.Name).replace(/%u/gi, '\\u'));
                 if(record.Name == '小计' || record.Name == '合计'){
                     //return {text};
                     return <span>{text}</span>;
