@@ -6,6 +6,13 @@ const InputGroup = Input.Group;
 const Option = Select.Option;
 
 export default class CurrencyInput extends React.Component {
+    static propTypes = {
+        //select下拉框默认的外层父容器ID
+        popupContainerID: React.PropTypes.string
+    }
+
+
+
     constructor(props) {
         super(props);
 
@@ -16,6 +23,8 @@ export default class CurrencyInput extends React.Component {
             ]
         };
     }
+
+
 
 
     handleInputChange = (value)=> {
@@ -34,14 +43,16 @@ export default class CurrencyInput extends React.Component {
     }
 
     render() {
-
+        const {popupContainerID} = this.props
         return (
 
             <InputGroup >
 
                 <InputNumber value={this.state.value[0]} onChange={this.handleInputChange}/>
                 <div className="ant-input-group-wrap">
-                    <Select style={{ width: 70 }} onChange={this.handleSelectChange}>
+                    <Select style={{ width: 70 }}
+                            getPopupContainer={() => (popupContainerID ? document.getElementById(popupContainerID):document.body)}
+                            onChange={this.handleSelectChange}>
 
                         <Option value="3">{'='}</Option>
                         <Option value="4">{'≠'}</Option>

@@ -7,6 +7,7 @@ import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Select, Ra
 import 'antd/style/index.less'
 import { isEmpty } from 'lodash'
 import CurrencyInput from  'components/Business/QueryDataTable/CurrencyInput'
+import randomString  from 'random-string'
 
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
@@ -48,6 +49,8 @@ export default class QueryDataTable extends React.Component {
 
     constructor(props) {
         super(props)
+        this.identity = 'queryDataTable_' + randomString()
+
         // todo: 默认的列宽度, 有bug ...
         this.defaultColWidth = 200
         this.queryForm = ''
@@ -139,7 +142,7 @@ export default class QueryDataTable extends React.Component {
                         that.props.onGetTableData({
                             searchData: Object.keys(this.props.form.getFieldsValue()).map((item)=> {
 
-                                switch (item.split('_')[0]){
+                                switch (item.split('_')[0]) {
                                     // 金额类型特殊处理CurrencyInput
                                     case "3":
                                         return {
@@ -241,7 +244,9 @@ export default class QueryDataTable extends React.Component {
 
                         <CurrencyInput {...getFieldProps('3_?_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
-                        })}/>
+                        })}
+                            popupContainerID={this.identity}
+                        />
 
                     </FormItem>)
                 case 4:
@@ -262,7 +267,7 @@ export default class QueryDataTable extends React.Component {
                         <Select multiple {...getFieldProps(queryCol['searchType'] + '_9_' + col['key'], {
 
                             // initialValue: queryCol['renderData']['defaultValue']
-                        })} >
+                        })} getPopupContainer={() => document.getElementById(this.identity)}>
                             {queryCol['renderData']['options'].map((item, i) =>(
                                 <Option value={item.value} key={i}>{item.text}</Option>)
                             )}
@@ -273,14 +278,18 @@ export default class QueryDataTable extends React.Component {
                         <RangePicker
                             format="yyyy-MM-dd" {...getFieldProps(queryCol['searchType'] + '_11_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
-                        })} />
+                        })}
+                            getCalendarContainer={() => document.getElementById(this.identity)}
+                        />
                     </FormItem>)
                 case 16:
                     return (<FormItem>
-                        <RangePicker showTime format="yyyy/MM/dd HH:mm:ss"
-                                     showTime  {...getFieldProps(queryCol['searchType'] + '_11_' + col['key'], {
+                        <RangePicker showTime
+                                     format="yyyy/MM/dd HH:mm:ss"   {...getFieldProps(queryCol['searchType'] + '_11_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
-                        })} />
+                        })}
+                                     getCalendarContainer={() => document.getElementById(this.identity)}
+                        />
                     </FormItem>)
                 default:
                     return null
@@ -399,7 +408,7 @@ export default class QueryDataTable extends React.Component {
             <div>
 
                 <div ref="TableBoxModel" style={{width: '800px', maxHeight: '500px',  overflow: "auto"}}>
-                    <div style={{width: this.calculateWidth()}}>
+                    <div style={{width: this.calculateWidth(), position: 'relative'}} id={this.identity}>
 
 
                         <div className="ant-noneWe">
