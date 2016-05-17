@@ -6,6 +6,7 @@ import fetch from 'isomorphic-fetch'
 
 
 
+
 // 获取数据
 const GET_TABLE_DATA = 'GET_TABLE_DATA'
 // 获取数据成功
