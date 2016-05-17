@@ -7,7 +7,7 @@ import 'antd/style/index.less'
 import reqwest from 'reqwest'
 
 import SearchInput from 'components/Business/SearchInput'
-import { getTableData, getTableQuery, table_params } from 'actions/business/account/list/person'
+import { getTableData, getTableQuery, getPermission, table_params } from 'actions/business/account/list/person'
 import {
     changeIsMultiselect,
     getPeopleData,
@@ -62,6 +62,12 @@ class Account_List_Person_Page extends React.Component {
             url: SCRM.url('/scrmweb/accounts/getList')
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
+        this.props.getPermission({
+            url: SCRM.url('/scrmweb/accounts/getPermission'),
+            type: 'all'
+        })
+
+
     }
 
     // 普通搜索和筛选(高级搜索)互斥
@@ -95,6 +101,11 @@ class Account_List_Person_Page extends React.Component {
                 type
             }
         })
+
+        this.props.getPermission({
+            type
+        })
+
 
     }
 
@@ -286,25 +297,23 @@ class Account_List_Person_Page extends React.Component {
                 type: 'json',
                 success: function (r) {
 
-                    if (r.rs){
+                    if (r.rs) {
                         message.info(`${r.data.message}`);
 
-                        if (Object.keys(r.data).indexOf('file') > -1 ) {
+                        if (Object.keys(r.data).indexOf('file') > -1) {
 
-                                window.open(SCRM.url('/common/scrmCommonImport/getFailedFile') + '?key=' + fileKey)
-                                message.info('相关信息请查看下载附件')
+                            window.open(SCRM.url('/common/scrmCommonImport/getFailedFile') + '?key=' + fileKey)
+                            message.info('相关信息请查看下载附件')
                         }
 
 
-                    }else {
+                    } else {
                         message.error(`${r.data}`)
                     }
 
                 }
 
             })
-
-
 
 
         }
@@ -351,6 +360,12 @@ class Account_List_Person_Page extends React.Component {
         //选中人员的长度 假数据
         peoplePropsData.checkedRowsLength = 10
 
+
+        // 权限
+        let permission = $$account_list_person.toJS().permission
+
+
+        // 导入
         const that = this
         const uploadProps = {
             showUploadList: false,
@@ -412,9 +427,10 @@ class Account_List_Person_Page extends React.Component {
                         }}>筛选</Button>
                             </div>
 
-                            <div className="cklist-PersonChange">
+                            {permission.changeOwner == 1 ? (<div className="cklist-PersonChange" >
                                 <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
-                            </div>
+                            </div>) : null}
+
 
                             <div className="cklist-Persondaoru">
                                 <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
@@ -466,7 +482,7 @@ class Account_List_Person_Page extends React.Component {
 
                             </Modal>
 
-                            <Button  type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
+                            <Button type="ghost" onClick={(e)=>this.handleExport(e)}>导出</Button>
                         </Col>
                     </Row>
                 </div>
@@ -524,6 +540,7 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps, {
     getTableData,
     getTableQuery,
+    getPermission,
     changeIsMultiselect,
     getPeopleData,
     changeIsShowStatus,
