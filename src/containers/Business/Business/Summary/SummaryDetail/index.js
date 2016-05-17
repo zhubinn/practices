@@ -92,15 +92,15 @@ class summaryDetail extends React.Component {
                     checkMode={false}
                     {...queryDataTable}
                     pagination={false}
-                    onGetTableData={
-                                (obj)=>{
-                                    this.refs.searchInput.emptyInput()
-                                    getSummaryDetailData({
-                                        data: obj
-                                    })
-                                }
-                            }
                     ref="queryDataTable"
+                    rowClassName = {
+                      function(record, index){
+                        if (record.DeptName == "小计" || record.DeptName == "合计") {
+                          return "amountClassName";
+                        }
+                        return "";
+                      }
+                    }
                 />
             </div>
         )
