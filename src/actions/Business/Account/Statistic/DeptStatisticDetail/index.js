@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
-import { Modal } from 'antd';
+import { Modal ,message} from 'antd';
 
 //关键词搜索
 const account_StatisticDetail_SEARCH = 'account_StatisticDetail_SEARCH'
@@ -60,12 +60,10 @@ export const getAccountStatisticDetailData = (params) => {
                 if(data.rs){
                     dispatch(_getAccountStatisticDetailData(account_StatisticDetail_GETDATA_SUCCESS, data.data))
                 }else{
-                    Modal.info({
-                        title: '错误信息',
-                        content: data.error,
-                        onOk() {
-                        }
-                    });
+                    message.config({
+                      top: 250
+                    });             
+                    message.error(data.error);
                 }
             })
         
