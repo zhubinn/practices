@@ -6,12 +6,10 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { Row, Col, Table, Button, Input, Pagination, Modal} from 'antd'
-
+import { Row, Col,Button, Modal} from 'antd'
 import { getPerStatisticData }  from 'actions/business/business/statistic/PerStatistic'
-import QueryDataTable from 'components/Business/QueryDataTable'
 import SearchInput from 'components/Business/SearchInput'
-import 'antd/lib/index.css'
+import QueryDataTable from 'components/Business/QueryDataTable'
 
 //获取table列表数据接口
 let PerStatisticDataParams = {
@@ -47,12 +45,11 @@ class PerStatistic extends React.Component {
     }
 
     render() {
-      
-
         //table数据配置
         const { $$PerStatistic } = this.props;
         const dataSource = $$PerStatistic.get('tableData').get('data').toJS();
         const columns = $$PerStatistic.get('tableColumns').toJS();
+        const loading = $$PerStatistic.get('loading')
 
         return (
             <div className="ck-root-main">
@@ -69,6 +66,7 @@ class PerStatistic extends React.Component {
               <QueryDataTable
                     columns={columns}
                     dataSource={dataSource} 
+                    loading = {loading}
                     checkMode={false}
                     ref="queryDataTable"
                     pagination={false}

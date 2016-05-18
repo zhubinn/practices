@@ -6,12 +6,11 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { Row, Col, Table, Radio, Button, Input, Pagination, Modal, DatePicker, Form } from 'antd'
+import { Row, Col, Button, Modal, DatePicker, Form } from 'antd'
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
-import { isEmpty } from 'lodash'
-import {getDataLogData, getDataLogQuery, pageSizeChange, exportShow, exportHide}  from 'actions/business/Log/DataLog'
-import 'antd/lib/index.css'
+import {getDataLogData, getDataLogQuery}  from 'actions/business/Log/DataLog'
+
 const RangePicker = DatePicker.RangePicker;
 const FormItem = Form.Item;
 //table列表数据接口
@@ -29,6 +28,9 @@ let exportParams = {
 class DataLog extends React.Component {
     constructor(props) {
       super(props)
+      this.state = {
+          inImport: false
+      }
     }
 
     componentDidMount() {
@@ -53,44 +55,26 @@ class DataLog extends React.Component {
     }
 
     showModal = () => {
-      this.props.exportShow()
-      //this.setState({visible: true})
+      this.setState({
+        inImport: true
+      });
     }
 
     handleOk() {
-      this.props.exportHide()
-      //console.log(exportParams);
+      this.setState({
+        inImport: false
+      });
       let objData = JSON.stringify(exportParams);
       window.open(SCRM.url("/common/ScrmExportOptimization/export")+ '?param=' + objData);
     }
 
     handleCancel(e) {
-      this.props.exportHide()
+      this.setState({
+        inImport: false
+      });
     }
 
     exportTimeChange(value){
-
-      // function comple(val){
-      //   if(val<10){
-      //     return "0"+val;
-      //   }else{
-      //     return val;
-      //   }
-      // }
-
-      // function formatDate(date, format){
-      //   switch(format){
-      //     case "yyyy-MM-dd HH:mm:ss":
-      //     return date.getFullYear() + "-" + comple(date.getMonth()) + "-" + comple(date.getDate()) + " " + comple(date.getHours()) + ":" + comple(date.getMinutes()) + ":" + comple(date.getSeconds());
-      //     case "yyyy-MM-dd":
-      //     return date.getFullYear() + "-" + comple(date.getMonth()) + "-" + comple(date.getDate());
-      //     default:
-      //     return date.getFullYear() + "-" + comple(date.getMonth()) + "-" + comple(date.getDate());
-      //   }
-      // }
-
-      // exportParams.begin = formatDate(value[0], "yyyy-MM-dd HH:mm:ss");
-      // exportParams.end = formatDate(value[1], "yyyy-MM-dd HH:mm:ss");
       exportParams.begin = value[0];
       exportParams.end = value[1];
     }
@@ -98,10 +82,7 @@ class DataLog extends React.Component {
     render() {
         //table数据配置
         const { $$logState, getDataLogData} = this.props;
-        // const dataSource = $$logState.get('tableData').get('data').get('rowData').toJS();
         const columns = $$logState.get('tableColumns').toJS();
-        
-        const expotModal = $$logState.get('export').get('visible');
 
         let queryDataTable = {}
         let tablePageData = $$logState.get('tableData').get('data');
@@ -110,7 +91,7 @@ class DataLog extends React.Component {
         queryDataTable.total = tablePageData.get('total');
         queryDataTable.pageSize = tablePageData.get('pageSize');
         queryDataTable.queryColumns = $$logState.get('queryColumns').toJS()
-        //queryDataTable.loading = $$account_list_person.toJS().loading
+        queryDataTable.loading = $$logState.get('loading')
         
         return (
             <div className="ck-root-main">
@@ -146,7 +127,7 @@ class DataLog extends React.Component {
                 </QueryDataTable>
                 <Modal 
                 title="导出日志" 
-                visible={expotModal}
+                visible={this.state.inImport}
                 onOk={this.handleOk.bind(this)} 
                 onCancel={this.handleCancel.bind(this)}>
                   <RangePicker 
@@ -169,7 +150,4 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps, {
     getDataLogData,
     getDataLogQuery,
-    pageSizeChange,
-    exportShow,
-    exportHide,
 })(DataLog)

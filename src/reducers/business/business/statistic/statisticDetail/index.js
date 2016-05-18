@@ -14,6 +14,7 @@ import {
 let deptID = getQueryString("deptID")
 
 let statisticDetail = {
+    "loading": false,
     "queryColumns": {
         "DeptName": {
             "searchType": 5,
@@ -100,13 +101,14 @@ let statisticDetail = {
 export default function statisticdetail($$state = Immutable.fromJS(statisticDetail), action) {
     switch(action.type) {
         case GET_STATISTICDETAIL_DATA:
-            return $$state;
+            return $$state.merge({
+                loading: true
+            });
         case GET_STATISTICDETAIL_SUCCESS:
-            return $$state.merge({tableData: action.payload.data});
-        case GET_STATISTICDETAIL_QUERY:
-            return $$state;
-        case GET_STATISTICDETAILQUERY_SUCCESS:
-            return $$state.merge({queryColumns: action.payload.data});
+            return $$state.merge({
+                tableData: action.payload.data,
+                loading: false
+            });
         default:
             return $$state;
     }

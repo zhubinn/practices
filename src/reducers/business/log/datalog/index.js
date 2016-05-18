@@ -3,22 +3,15 @@
  */
 import Immutable from 'immutable'
 import { 
-    DATALOG_SIZE_CHANGE,
     GET_DATALOG_DATA,
     GET_DATALOG_SUCCESS,
-    GET_DATALOG_FAILURE,
-    EXPORT_DATALOG_SHOW,
-    EXPORT_DATALOG_HIDE,
     GET_DATALOG_QUERY,
     GET_DATALOG_QUERY_SUCCESS
 } from 'actions/business/Log/DataLog'
 
 let datalog = {
-    queryColumns: {
-    },
-    export:{
-        "visible": false
-    },
+    loading: false,
+    queryColumns: {},
     tableData:{
         "rs": true,
         "data": {
@@ -78,20 +71,25 @@ let datalog = {
 
 export default function Datalog($$state = Immutable.fromJS(datalog), action) {
     switch(action.type) {
-        case DATALOG_SIZE_CHANGE:
-            return $$state.merge({tableData: action.payload.data});
     	case GET_DATALOG_DATA:
-    	    return $$state;
+    	    return $$state.merge({
+                loading: true
+            })
     	case GET_DATALOG_SUCCESS:
-    	    return $$state.merge({tableData: action.payload.data});
+    	    return $$state.merge({
+                tableData: action.payload.data,
+                loading: false
+            });
         case GET_DATALOG_QUERY:
             return $$state;
         case GET_DATALOG_QUERY_SUCCESS:
-            return $$state.merge({queryColumns: action.payload.data});
-        case EXPORT_DATALOG_SHOW:
-            return $$state.merge({export: {"visible": true}});
-        case EXPORT_DATALOG_HIDE:
-            return $$state.merge({export: {"visible": false}});
+            return $$state.merge({
+                queryColumns: action.payload.data
+            });
+        case "PAGE_NO_DATA":
+            return $$state.merge({
+                loading: false
+            });
         default:
             return $$state;
     }
