@@ -12,7 +12,6 @@ import { getPerSummaryData }  from 'actions/business/business/summary/PerSummary
 import QueryDataTable from 'components/Business/QueryDataTable'
 import SearchInput from 'components/Business/SearchInput'
 import 'antd/lib/index.css'
-import './index.css'
 
 //获取table列表数据接口
 let PerSummaryParams = {
@@ -55,14 +54,14 @@ class PerSummary extends React.Component {
         const columns = $$perStatistic.get('tableColumns').toJS();
         
         return (
-            <div style = {{margin: '0 10px'}} >
-              <div style={{marginTop: '14px',marginBottom: '14px'}}>
+            <div className="ck-root-main">
+              <div className="ck-root-title">
               <Row>
                 <Col span="10">
                   <SearchInput onSearch = {this.searchInputChange.bind(this)} />
                 </Col>
                 <Col span="14" style = {{textAlign: 'right'}} >
-                  <Button type="ghost" onClick = {this.exportConfirm} >导出EXCEL</Button>
+                  <Button type="ghost" onClick = {this.exportConfirm} >导出</Button>
                 </Col>
               </Row>
               </div>
