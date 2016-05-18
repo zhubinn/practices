@@ -21,6 +21,7 @@ let columns = []
 
 
 
+
 // 查询表格
 // 依赖Table, Pagination, Form
 
@@ -54,8 +55,8 @@ class DeptList extends React.Component {
         this.props.getTableData({
             data: {
                 searchData: [],
-                deptID:getQueryString("deptID"),
                 deptUser:'dept',
+                deptID:getQueryString("deptID"),
                 keyword: value,
                 page: 1,
                 pageSize: 0
@@ -73,8 +74,8 @@ class DeptList extends React.Component {
         this.props.getTableData({
             data: {
                 searchData: [],
-                deptID:getQueryString("deptID"),
                 deptUser:'dept',
+                deptID:getQueryString("deptID"),
                 keyword: '',
                 page: 1,
                 pageSize: 0,
@@ -108,6 +109,7 @@ class DeptList extends React.Component {
 
 
         columns = $$business_list_dept.toJS().columns
+
         let queryDataTable = {};
 
         queryDataTable.dataSource = $$business_list_dept.toJS().rows
@@ -164,6 +166,7 @@ class DeptList extends React.Component {
                     columns={columns}
                     checkMode={false}
                     {...queryDataTable}
+
                     onGetTableData={
 
                                 (obj)=>{

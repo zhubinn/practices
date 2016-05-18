@@ -111,6 +111,7 @@ class PersonList extends React.Component {
             data:{
                 keyword:'',
                 deptUser:'user',
+                deptID:getQueryString("userID"),
             }
 
         })
@@ -128,6 +129,7 @@ class PersonList extends React.Component {
                 searchData: [],
                 keyword: value,
                 deptUser:'user',
+                deptID:getQueryString("userID"),
                 page: 1,
                 pageSize: 0
             }
@@ -146,6 +148,7 @@ class PersonList extends React.Component {
                 searchData: [],
                 keyword: '',
                 deptUser:'user',
+                deptID:getQueryString("userID"),
                 page: 1,
                 pageSize: 0,
                 type

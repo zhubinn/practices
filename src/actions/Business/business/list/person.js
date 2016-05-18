@@ -86,15 +86,22 @@ const getTableData = (params)=> {
             return response.json()
         }).then(function (data) {
 
-            dispatch(fetchData(GET_TABLE_DATA_SUCCESS, {
+            if(data.rs){
+                dispatch(fetchData(GET_TABLE_DATA_SUCCESS, {
 
-                rows: data.data.rowData,
-                current: data.data.current,
-                total: data.data.total,
-                pageSize: data.data.pageSize,
-                columns:data.data.Label,
-                loading: false
-            }))
+                    rows: data.data.rowData,
+                    current: data.data.current,
+                    total: data.data.total,
+                    pageSize: data.data.pageSize,
+                    columns:data.data.Label,
+                    loading: false
+                }))
+            }else{
+
+                dispatch(fetchData(GET_TABLE_DATA_FAILURE,{loading: false}))
+            }
+
+
 
         })
 
