@@ -19,7 +19,7 @@ let perSummaryColumns = [
           <span>{text}</span>
           );
     }},    
-    {title: '员工姓名', dataIndex: 'Name', key: 'Name', width: 150,render: function(text, record, index){
+    {title: '员工姓名', dataIndex: 'Name', key: 'Name', width: 100,render: function(text, record, index){
         const  peneUrl = SCRM.url('/scrmweb/accounts/peraccountdetail?id=' + record.ID );
         if(record.ID == 0){
         return (
@@ -33,12 +33,12 @@ let perSummaryColumns = [
             );   
         }
     }},
-    {title: '全部客户数量', dataIndex: 'Accounts', key: 'Accounts',width: 250,render: function(text, record, index){
+    {title: '全部客户数量', dataIndex: 'Accounts', key: 'Accounts',width: 150,render: function(text, record, index){
         return (
           <span>{text}</span>
           );
     }},
-    {title: '全部生意数量', dataIndex: 'Business',key: 'Business', width: 200,render: function(text, record, index){
+    {title: '全部生意数量', dataIndex: 'Business',key: 'Business', width: 150,render: function(text, record, index){
         return (
           <span>{text}</span>
           );
