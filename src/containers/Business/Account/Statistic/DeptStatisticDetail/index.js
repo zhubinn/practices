@@ -19,7 +19,7 @@ let statisticDetailColumns = [
           <div>{text}</div>
           );
     }},
-    {title: '员工姓名', dataIndex: 'Name', key: 'Name', width: 130,render: function(text, record, index){
+    {title: '员工姓名', dataIndex: 'Name', key: 'Name', width: 150,render: function(text, record, index){
         const  peneUrl = SCRM.url('/scrmweb/accounts/list?id=' + record.ID);
         if(record.ID == 0){
         return (
@@ -33,22 +33,22 @@ let statisticDetailColumns = [
             );   
         }
     }},
-    {title: '全部客户数量', dataIndex: 'All', key: 'All',width: 130,render: function(text, record, index){
+    {title: '全部客户数量', dataIndex: 'All', key: 'All',width: 150,render: function(text, record, index){
         return (
           <div>{text}</div>
           );
     }},
-    {title: '负责的客户数量', dataIndex: 'Owner',key: 'Owner', width: 130,render: function(text, record, index){
+    {title: '负责的客户数量', dataIndex: 'Owner',key: 'Owner', width: 150,render: function(text, record, index){
         return (
           <div>{text}</div>
           );
     }},
-    {title: '参与的客户数量', dataIndex: 'Relation', key: 'Relation',width: 130,render: function(text, record, index){
+    {title: '参与的客户数量', dataIndex: 'Relation', key: 'Relation',width: 150,render: function(text, record, index){
         return (
           <div>{text}</div>
           );
     }},
-    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width:130,render: function(text, record, index){
+    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width:150,render: function(text, record, index){
         return (
           <div>{text}</div>
           );

@@ -221,11 +221,11 @@ export const clickapplyBtn = (applyParam)=> {
                 }
             }
             reqwest({
-                  url: SCRM.url('/scrmdefined/account/getAccountEnumAttrList'),
-                  method: 'post',
-                  data: 'req='+JSON.stringify({}),
-                  type: 'json',
-                  success: (data) => {
+                url: SCRM.url('/scrmdefined/account/getAccountEnumAttrList'),
+                method: 'post',
+                data: 'req='+JSON.stringify({}),
+                type: 'json',
+                success: (data) => {
                     if(data.rs){
                         dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data))
                     }else{
@@ -234,7 +234,7 @@ export const clickapplyBtn = (applyParam)=> {
                         });             
                         message.error(data.error);           
                     }
-                  }
+                }
             })
         })
 

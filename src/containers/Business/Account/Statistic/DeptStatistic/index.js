@@ -15,7 +15,7 @@ import QueryDataTable from 'components/Business/QueryDataTable'
 
 let deptstatisticColumns = [
 
-    {title: '部门名称', dataIndex: 'Name', key: 'Name', width: 200,render: function(text, record, index){
+    {title: '部门名称', dataIndex: 'Name', key: 'Name', width: 220,render: function(text, record, index){
         const  peneUrl = SCRM.url('/scrmweb/accounts/deptstatisticdetail?id=' + record.ID + '&name='+record.Name);
         if(record.ID == 0){
         return (
@@ -29,12 +29,12 @@ let deptstatisticColumns = [
             );   
         }
     }},
-    {title: '全部客户数量', dataIndex: 'All', key: 'All',width: 200,render: function(text, record, index){
+    {title: '全部客户数量', dataIndex: 'All', key: 'All',width: 220,render: function(text, record, index){
         return (
           <div>{text}</div>
           );
     }},
-    {title: '负责的客户数量', dataIndex: 'Owner',key: 'Owner', width: 200,render: function(text, record, index){
+    {title: '负责的客户数量', dataIndex: 'Owner',key: 'Owner', width: 220,render: function(text, record, index){
         return (
           <div>{text}</div>
           );
@@ -44,7 +44,7 @@ let deptstatisticColumns = [
     //       <div>{text}</div>
     //       );
     // }},
-    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width: 200,render: function(text, record, index){
+    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width: 220,render: function(text, record, index){
         return (
           <div>{text}</div>
           );
