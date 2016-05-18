@@ -17,7 +17,7 @@ const TabPane = Tabs.TabPane;
 
 // SCRM.url 由原来外层页面引入
 
-let columns = [
+const columns = [
     {
         "dataIndex": "Name",
         "key": "Name",
@@ -46,17 +46,20 @@ let columns = [
     {
         "dataIndex": "CreatedTime",
         "key": "CreatedTime",
-        "title": "创建时间"
+        "title": "创建时间",
+        "width":260
     },
     {
         "dataIndex": "DiscoverDate",
         "key": "DiscoverDate",
-        "title": "发现日期"
+        "title": "发现日期",
+        "width":260
     },
     {
         "dataIndex": "ExpectedCloseDate",
         "key": "ExpectedCloseDate",
-        "title": "预计成交日期"
+        "title": "预计成交日期",
+        "width":260
     },
     {
         "dataIndex": "AmountPlan",
@@ -71,17 +74,20 @@ let columns = [
     {
         "dataIndex": "PaymentTime",
         "key": "PaymentTime",
-        "title": "最新回款时间"
+        "title": "最新回款时间",
+        "width":260
     },
     {
         "dataIndex": "PaymentAmount",
         "key": "PaymentAmount",
-        "title": "回款金额"
+        "title": "回款金额",
+        "width":240
     },
     {
         "dataIndex": "EndDate",
         "key": "EndDate",
-        "title": "结束日期"
+        "title": "结束日期",
+        "width":260
     },
     {
         "dataIndex": "Amount",
@@ -179,7 +185,7 @@ class DeptList extends React.Component {
             } = this.props
 
 
-       
+
         let queryDataTable = {};
 
         queryDataTable.dataSource = $$business_list_dept.toJS().rows
