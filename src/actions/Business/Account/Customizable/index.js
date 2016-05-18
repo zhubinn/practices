@@ -205,38 +205,37 @@ export const clickapplyBtn = (applyParam)=> {
                   top: 250
                 });             
                 message.success('应用成功');
+  
+            }else{
+                message.config({
+                  top: 250
+                });             
+                message.error(json.error);
+            }
 
-            //点击应用成功后更新table数据
+            //点击应用按钮后更新table数据
             const _getTableData = (type, data)=> {
                 return {
                     type,
                     payload: data
                 }
             }
-
             reqwest({
-              url: SCRM.url('/scrmdefined/account/getAccountEnumAttrList'),
-              method: 'post',
-              data: 'req='+JSON.stringify({}),
-              type: 'json',
-              success: (data) => {
-                if(data.rs){
-                    dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data))
-                }else{
-                    message.config({
-                      top: 250
-                    });             
-                    message.error(data.error);           
-                }
-              }
+                  url: SCRM.url('/scrmdefined/account/getAccountEnumAttrList'),
+                  method: 'post',
+                  data: 'req='+JSON.stringify({}),
+                  type: 'json',
+                  success: (data) => {
+                    if(data.rs){
+                        dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data))
+                    }else{
+                        message.config({
+                          top: 250
+                        });             
+                        message.error(data.error);           
+                    }
+                  }
             })
-  
-        }else{
-                    message.config({
-                      top: 250
-                    });             
-                    message.error(json.error);
-            }
         })
 
     }
