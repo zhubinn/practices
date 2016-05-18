@@ -24,7 +24,7 @@ let funclog = {
         "data": {
             "total": 128,
             "current": 1,
-            "pageSize": 10,
+            "pageSize": 20,
             "rowData":[]
         }
     },

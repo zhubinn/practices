@@ -10,6 +10,7 @@ import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import {columns} from 'containers/Business/Account/common/constant'
 
+
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 
@@ -174,7 +175,7 @@ class Account_Detail_Dept_Page extends React.Component {
 
                 </Table>
 
-                {row.Opportunity.length === 0 ? null : (<a href={peneUrl}>点击查看更多生意...</a>)}
+                {row.Opportunity.length === 0 ? null : (<div style={{display: 'block',paddingBottom: '10px',paddingTop: '10px'}}><a href={peneUrl}>点击查看更多生意...</a></div>)}
 
             </div>)
     }

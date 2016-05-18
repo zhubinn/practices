@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination,Modal, Form, Upload, message, Progress  } from 'antd'
 import 'antd/style/index.less'
 import SearchInput from 'components/Business/SearchInput'
-import { getTableData, getTableQuery, table_params } from 'actions/business/account/list/dept'
+import { getTableData, getTableQuery,getPermission, table_params } from 'actions/business/account/list/dept'
 import {
     changeIsMultiselect,
     getPeopleData,
@@ -47,7 +47,8 @@ class Account_List_Dept_Page extends React.Component {
             importModalVisible: false,
             inImport: false,
 
-            importProgress: 0
+            importProgress: 0,
+            changeOwnerRowsLength: 0
         }
     }
 
@@ -65,6 +66,10 @@ class Account_List_Dept_Page extends React.Component {
             data
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/accounts/getAccountFilter'))
+        this.props.getPermission({
+            url: SCRM.url('/scrmweb/accounts/getPermission'),
+            type: 'all'
+        })
     }
 
     // 普通搜索和筛选(高级搜索)互斥
@@ -98,6 +103,9 @@ class Account_List_Dept_Page extends React.Component {
                 type
             }
         })
+        this.props.getPermission({
+            type
+        })
 
     }
     //变更负责人选人
@@ -116,7 +124,9 @@ class Account_List_Dept_Page extends React.Component {
             const {changeIsMultiselect} = this.props
             changeIsMultiselect(IsMultiselect)
             const {getPeopleData} = this.props
-
+            this.setState({
+                changeOwnerRowsLength: checkedRows.length
+            })
             const paramData = {
                 page: 1,
                 rowsPerPage: 20,
@@ -352,9 +362,15 @@ class Account_List_Dept_Page extends React.Component {
         peoplePropsData.IsMultiselect = $$account_list_dept.toJS().IsMultiselect
         peoplePropsData.data = $$account_list_dept.toJS().data
         peoplePropsData.selectPeopleModal = $$account_list_dept.toJS().selectPeopleModal
-        //选中人员的长度 假数据
-        peoplePropsData.checkedRowsLength = 10
 
+        //选中人员的长度
+        peoplePropsData.checkedRowsLength = this.state.changeOwnerRowsLength
+
+
+        // 权限
+        let permission = $$account_list_dept.toJS().permission
+
+        // 导入
         const that = this
         const uploadProps = {
             showUploadList: false,
@@ -416,9 +432,9 @@ class Account_List_Dept_Page extends React.Component {
                         }}>筛选</Button>
                             </div>
 
-                            <div className="cklist-PersonChange">
+                            {permission.changeOwner == 1 ? (<div className="cklist-PersonChange" >
                                 <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
-                            </div>
+                            </div>) : null}
 
                             <div className="cklist-Persondaoru">
                                 <Button type="primary" onClick={(e)=>{this.showImportModal()}}>导入</Button>
@@ -527,6 +543,7 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps, {
     getTableData,
     getTableQuery,
+    getPermission,
     changeIsMultiselect,
     getPeopleData,
     changeIsShowStatus,

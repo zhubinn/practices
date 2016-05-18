@@ -9,7 +9,7 @@ import { getTableData, getTableQuery, table_params } from 'actions/business/busi
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import getQueryString from 'components/Business/GetQueryString'
-
+import 'containers/Business/index.less'
 import 'containers/Business/lsx-index.less'
 
 const FormItem = Form.Item;
@@ -186,13 +186,14 @@ class PersonList extends React.Component {
         const columns = $$business_list_person.toJS().columns
 
         return (
-            <div style={{marginLeft:'20px'}}>
-                <div style={{marginTop: '14px',marginBottom: '14px'}}>
+            <div className="ck-root-main">
+
+                <div className="ck-root-title">
 
                     <Row>
                         <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
 
-                        <Col span="8" offset="8">
+                        <Col span="8" offset="8" style = {{textAlign: 'right'}} >
                             <div className="ckBusiness-listfilter">
                                 <Button type="primary" onClick={(e)=>{
                                     this.refs.queryDataTable.toggleQueryTable(e)

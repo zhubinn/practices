@@ -255,7 +255,7 @@ export default class QueryDataTable extends React.Component {
                 case 9:
 
                     return (<FormItem >
-                        <Input {...getFieldProps(queryCol['searchType'] + '_19_' + col['key'], {
+                        <Input autoComplete="off" {...getFieldProps(queryCol['searchType'] + '_19_' + col['key'], {
                             initialValue: queryCol['renderData']['defaultValue']
                         })} />
                     </FormItem>)
@@ -264,10 +264,12 @@ export default class QueryDataTable extends React.Component {
                 case 13:
 
                     return (<FormItem>
-                        <Select multiple {...getFieldProps(queryCol['searchType'] + '_9_' + col['key'], {
+                        <Select filterOption={false}
+                                multiple
+                            {...getFieldProps(queryCol['searchType'] + '_9_' + col['key'], {
 
-                            // initialValue: queryCol['renderData']['defaultValue']
-                        })} getPopupContainer={() => document.getElementById(this.identity)}>
+                                // initialValue: queryCol['renderData']['defaultValue']
+                            })} getPopupContainer={() => document.getElementById(this.identity)}>
                             {queryCol['renderData']['options'].map((item, i) =>(
                                 <Option value={item.value} key={i}>{item.text}</Option>)
                             )}
@@ -339,6 +341,7 @@ export default class QueryDataTable extends React.Component {
 
         // 分页
         const pagination = {
+            className: 'ppppp',
             current: current,
             pageSize: pageSize,
             total: parseInt(total),
@@ -405,9 +408,9 @@ export default class QueryDataTable extends React.Component {
 
         return (
 
-            <div>
+            <div className="QueryDataTable">
 
-                <div ref="TableBoxModel" style={{width: '800px', maxHeight: '500px',  overflow: "auto"}}>
+                <div ref="TableBoxModel" style={{width: '880px', maxHeight: '500px',  overflow: "auto"}}>
                     <div style={{width: this.calculateWidth(), position: 'relative'}} id={this.identity}>
 
 
@@ -457,7 +460,9 @@ export default class QueryDataTable extends React.Component {
 
 
                 {(typeof  this.props.pagination !== 'undefined') && !this.props.pagination ? null : (dataSource.length === 0 ? null : (
-                    <Pagination  {...pagination}/>))}
+                    <Pagination
+                        {...pagination}
+                    />))}
 
             </div>
         )

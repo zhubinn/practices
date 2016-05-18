@@ -11,6 +11,7 @@ import {searchKeyWord,getAccountPerStatisticData} from 'actions/Business/Account
 import { Table, Icon ,Button,Input, Row, Col} from 'antd';
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
+import 'containers/Business/index.less'
 
 let statisticColumns = [
 
@@ -108,16 +109,15 @@ class AccountPerStatistic extends React.Component{
 
 
           return (
-            <div style={{marginLeft: '20px'}}>
-                <div className = "col_cktop">
-                  <div className="col_cktop-gongneng">
+          <div className="ck-root-main">
+              <div className="ck-root-title">
                         <Row>
                             <Col span="10"><SearchInput  onSearch = {this.handleClickSearch.bind(this)}/> </Col>
-                            <Col span="2" offset="12">
+                            <Col span="2" offset="12" style = {{textAlign: 'right'}}>
                                 <Button type="ghost" onClick = {this.exportTable.bind(this)}>导出</Button>
                             </Col>
                         </Row>                     
-                  </div>  
+
                 </div>
                 
                 <QueryDataTable
