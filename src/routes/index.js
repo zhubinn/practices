@@ -75,44 +75,44 @@ export default (
         <Route path="scrmweb" component={ModulePage}>
             <Route path="accounts">
 
-                <Route path="define/:role/:id/*" component={CustomizablePage}/>
-                <Route path="deptstatistic/:role/:id/*" component={DeptStatisticPage}/>
-                <Route path="perstatistic/:role/:id/*" component={PerStatisticPage}/>
-                <Route path="deptstatisticdetail/:role/:id/*" component={DeptStatisticDetailPage}/>
-                <Route path="deptsummary/:role/:id/*" component={DeptSummaryPage}/>
-                <Route path="persummary/:role/:id/*" component={PerSummaryPage}/>
-                <Route path="deptsummarydetail/:role/:id/*" component={DeptSummaryDetailPage}/>
-                <Route path="deptaccountdetail/:role/:id/*" component={Account_Detail_Dept_Page}/>
-                <Route path="peraccountdetail/:role/:id/*" component={Account_Detail_Person_Page}/>
-                <Route path="list/:role/:id/*" component={Account_List_Person_Page}/>
-                <Route path="deptlist/:role/:id/*" component={Account_List_Dept_Page}/>
+                <Route path="define/:role/:id*" component={CustomizablePage}/>
+                <Route path="deptstatistic/:role/:id*" component={DeptStatisticPage}/>
+                <Route path="perstatistic/:role/:id*" component={PerStatisticPage}/>
+                <Route path="deptstatisticdetail/:role/:id*" component={DeptStatisticDetailPage}/>
+                <Route path="deptsummary/:role/:id*" component={DeptSummaryPage}/>
+                <Route path="persummary/:role/:id*" component={PerSummaryPage}/>
+                <Route path="deptsummarydetail/:role/:id*" component={DeptSummaryDetailPage}/>
+                <Route path="deptaccountdetail/:role/:id*" component={Account_Detail_Dept_Page}/>
+                <Route path="peraccountdetail/:role/:id*" component={Account_Detail_Person_Page}/>
+                <Route path="list/:role/:id*" component={Account_List_Person_Page}/>
+                <Route path="deptlist/:role/:id*" component={Account_List_Dept_Page}/>
             </Route>
             <Route path="business">
-                <Route path="deptsummary/:role/:id/*" component={DeptSummary} />
-                <Route path="persummary/:role/:id/*" component={PerSummary} />
+                <Route path="deptsummary/:role/:id*" component={DeptSummary} />
+                <Route path="persummary/:role/:id*" component={PerSummary} />
 
-                <Route path="deptsummarydetail/:role/:id/*" component={SummaryDetail} />
+                <Route path="deptsummarydetail/:role/:id*" component={SummaryDetail} />
 
-                <Route path="deptstatistic/:role/:id/*" component={DeptStatistic} />
-                <Route path="perstatistic/:role/:id/*" component={PerStatistic} />
-                <Route path="deptstatisticdetail/:role/:id/*" component={StatisticDetail} />
+                <Route path="deptstatistic/:role/:id*" component={DeptStatistic} />
+                <Route path="perstatistic/:role/:id*" component={PerStatistic} />
+                <Route path="deptstatisticdetail/:role/:id*" component={StatisticDetail} />
 
-                <Route path="deptlist/:role/:id/*" component={DeptList} />
-                <Route path="list/:role/:id/*" component={PersonList} />
-                <Route path="penetratelist/:role/:id/*" component={PenetrateList} />
+                <Route path="deptlist/:role/:id*" component={DeptList} />
+                <Route path="list/:role/:id*" component={PersonList} />
+                <Route path="penetratelist/:role/:id*" component={PenetrateList} />
 
             </Route>
             <Route path="log">
-                <Route path="datalog/:role/:id/*" component={DataLog} />
-                <Route path="func/:role/:id/*" component={FuncLog} />
+                <Route path="datalog/:role/:id*" component={DataLog} />
+                <Route path="func/:role/:id*" component={FuncLog} />
             </Route>
 
             <Route path="numreport">
-                <Route path="list/:role/:id/*/:template/:tid" component={NumberReportViewPage} />
+                <Route path="list/:role/:id*/:template/:tid" component={NumberReportViewPage} />
             </Route>
 
             <Route path="lead">
-                <Route path="dispatch/:role/:id/*" component={DispatchCluesPage} />
+                <Route path="dispatch/:role/:id*" component={DispatchCluesPage} />
             </Route>
 
         </Route>
