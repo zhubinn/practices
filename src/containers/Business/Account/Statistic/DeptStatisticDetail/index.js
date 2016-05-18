@@ -49,7 +49,7 @@ let statisticDetailColumns = [
           <span>{text}</span>
           );
     }},
-    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width:117,render: function(text, record, index){
+    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width:127,render: function(text, record, index){
         return (
           <span>{text}</span>
           );

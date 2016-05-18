@@ -28,12 +28,12 @@ let deptSummaryColumns = [
             );   
         }
     }},
-    {title: '全部客户数量', dataIndex: 'Accounts', key: 'Accounts',width: 250,render: function(text, record, index){
+    {title: '全部客户数量', dataIndex: 'Accounts', key: 'Accounts',width: 150,render: function(text, record, index){
         return (
           <span>{text}</span>
           );
     }},
-    {title: '全部生意数量', dataIndex: 'Business',key: 'Business', width: 200,render: function(text, record, index){
+    {title: '全部生意数量', dataIndex: 'Business',key: 'Business', width: 150,render: function(text, record, index){
         return (
           <span>{text}</span>
           );
