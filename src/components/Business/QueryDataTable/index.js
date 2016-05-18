@@ -117,7 +117,7 @@ export default class QueryDataTable extends React.Component {
 
 
     toggleQueryTable = (e) => {
-        this.refs.TableBoxModel.getDOMNode().scrollTop = "0";
+        //this.refs.TableBoxModel.getDOMNode().scrollTop = "0";
         this.setState({
             isSearchShow: !this.state.isSearchShow
         })
@@ -410,11 +410,11 @@ export default class QueryDataTable extends React.Component {
 
             <div className="QueryDataTable">
 
-                <div ref="TableBoxModel" style={{width: '880px', maxHeight: '500px',  overflow: "auto"}}>
+                <div ref="TableBoxModel" style={{width: '880px', overflow: "auto"}}>
                     <div style={{width: this.calculateWidth(), position: 'relative'}} id={this.identity}>
 
 
-                        <div className="ant-noneWe">
+                        <div className="ant-noneWe" >
                             <div className="ant-table ant-table-large"
                                  onSubmit={this.handleSubmit }>
                                 <div className="ant-table-body">
@@ -447,8 +447,10 @@ export default class QueryDataTable extends React.Component {
                             </div>
                         </div>
 
+                        <div style={{maxHeight: '500px',  overflow: "auto"}}>
+                            {table}
+                        </div>
 
-                        {table}
                     </div>
 
                 </div>
