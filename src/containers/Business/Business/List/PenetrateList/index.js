@@ -18,82 +18,84 @@ const TabPane = Tabs.TabPane;
 
 // SCRM.url 由原来外层页面引入
 
-/*const columns = [{
-    title: '生意名称',
-    dataIndex: 'Name',
-    key: 'Name',
-
-}, {
-    title: '所属客户',
-    dataIndex: 'AccountID',
-    key: 'AccountID',
-
-}, {
-    title: '生意阶段',
-    dataIndex: 'Stage',
-    key: 'Stage',
-
-}, {
-    title: '录入人',
-    dataIndex: 'CreatedByID',
-    key: 'CreatedByID',
-
-},  {
-    title: '负责人',
-    dataIndex: 'OwnerID',
-    key: 'OwnerID',
-
-}, {
-    title: '建立日期',
-    dataIndex: 'CreatedTime',
-    key: 'CreatedTime',
-
-}, {
-    title: '发现日期',
-    dataIndex: 'DiscoverDate',
-    key: 'DiscoverDate',
-
-}, {
-    title: '预计成交日期',
-    dataIndex: 'ExpectedCloseDate',
-    key: 'ExpectedCloseDate',
-
-}, {
-    title: '预计销售金额',
-    dataIndex: 'AmountPlan',
-    key: 'AmountPlan',
-
-}, {
-    title: '生意来源',
-    dataIndex: 'Source',
-    key: 'Source',
-
-},  {
-    title: '回款期数',
-    dataIndex: 'PaymentTime',
-    key: 'PaymentTime',
-
-},{
-    title: '回款日期',
-    dataIndex: 'PaymentTime',
-    key: 'PaymentTime',
-
-}, {
-    title: '回款金额',
-    dataIndex: 'PaymentAmount',
-    key: 'PaymentAmount',
-
-}, {
-    title: '输单金额',
-    dataIndex: 'Amount',
-    key: 'Amount',
-
-}, {
-    title: '输单日期',
-    dataIndex: 'EndDate',
-    key: 'EndDate',
-
-}];*/
+const columns = [
+    {
+        "dataIndex": "Name",
+        "key": "Name",
+        "title": "生意名称"
+    },
+    {
+        "dataIndex": "AccountID",
+        "key": "AccountID",
+        "title": "客户名称"
+    },
+    {
+        "dataIndex": "Stage",
+        "key": "Stage",
+        "title": "销售阶段"
+    },
+    {
+        "dataIndex": "CreatedByID",
+        "key": "CreatedByID",
+        "title": "创建人"
+    },
+    {
+        "dataIndex": "OwnerID",
+        "key": "OwnerID",
+        "title": "负责人"
+    },
+    {
+        "dataIndex": "CreatedTime",
+        "key": "CreatedTime",
+        "title": "创建时间",
+        "width":260
+    },
+    {
+        "dataIndex": "DiscoverDate",
+        "key": "DiscoverDate",
+        "title": "发现日期",
+        "width":260
+    },
+    {
+        "dataIndex": "ExpectedCloseDate",
+        "key": "ExpectedCloseDate",
+        "title": "预计成交日期",
+        "width":260
+    },
+    {
+        "dataIndex": "AmountPlan",
+        "key": "AmountPlan",
+        "title": "预计销售金额"
+    },
+    {
+        "dataIndex": "Source",
+        "key": "Source",
+        "title": "生意来源"
+    },
+    {
+        "dataIndex": "PaymentTime",
+        "key": "PaymentTime",
+        "title": "最新回款时间",
+        "width":260
+    },
+    {
+        "dataIndex": "PaymentAmount",
+        "key": "PaymentAmount",
+        "title": "回款金额",
+        "width":240
+    },
+    {
+        "dataIndex": "EndDate",
+        "key": "EndDate",
+        "title": "结束日期",
+        "width":260
+    },
+    {
+        "dataIndex": "Amount",
+        "key": "Amount",
+        "title": "销售金额"
+    }
+]
 
 
 // 查询表格
@@ -201,7 +203,7 @@ class PenetrateList extends React.Component {
         queryDataTable.queryColumns = $$business_list_penetrate.toJS().queryColumns
         queryDataTable.loading = $$business_list_penetrate.toJS().loading
 
-        const columns = $$business_list_penetrate.toJS().columns
+
 
         return (
             <div style={{marginLeft:'20px'}}>
