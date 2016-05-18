@@ -9,8 +9,7 @@ import { getTableData, getTableQuery, table_params } from 'actions/business/busi
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import getQueryString from 'components/Business/GetQueryString'
-
-
+import 'containers/Business/index.less'
 import 'containers/Business/lsx-index.less'
 
 const FormItem = Form.Item;
@@ -18,6 +17,7 @@ const TabPane = Tabs.TabPane;
 
 // SCRM.url 由原来外层页面引入
 
+let columns = []
 /*const columns = [{
     title: '生意名称',
     dataIndex: 'Name',
@@ -181,8 +181,8 @@ class DeptList extends React.Component {
 
             } = this.props
 
-        debugger
-        const columns = $$business_list_dept.toJS().columns
+
+        columns = $$business_list_dept.toJS().columns
         let queryDataTable = {};
 
         queryDataTable.dataSource = $$business_list_dept.toJS().rows
@@ -195,14 +195,14 @@ class DeptList extends React.Component {
 
 
         return (
-            <div style={{marginLeft:'20px'}}>
+            <div className="ck-root-main">
 
-                <div style={{marginTop: '14px',marginBottom: '14px'}}>
+                <div className="ck-root-title">
 
                     <Row>
                         <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
 
-                        <Col span="8" offset="8">
+                        <Col span="8" offset="8" style = {{textAlign: 'right'}} >
                             <div className="ckBusiness-listfilter">
                                 <Button type="primary" onClick={(e)=>{
                                     this.refs.queryDataTable.toggleQueryTable(e)
