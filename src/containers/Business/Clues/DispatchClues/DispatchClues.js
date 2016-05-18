@@ -4,6 +4,7 @@ import reqwest from 'reqwest'
 import { Table,Row , Col, Modal, Spin,  Button, Radio, message, Input } from 'antd'
 const RadioGroup = Radio.Group;
 import SearchInput from 'components/Business/SearchInput'
+import 'containers/Business/index.less'
 //less
 import './less/clues.less'
 
@@ -388,9 +389,9 @@ export default class DispatchClues extends React.Component {
         const dispatchState = dispatchCluesState.toJS().dispatchState
 
         return (
-            <div style={{marginLeft: '20px'}}>
+            <div className="ck-root-main">
                 <div className="col-right">
-                    <div style={{marginTop: '14px',marginBottom: '14px'}}>
+                    <div className="ck-root-title">
 
                     <Row>
                         <Col span="16">

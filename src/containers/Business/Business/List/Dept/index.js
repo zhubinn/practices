@@ -9,8 +9,7 @@ import { getTableData, getTableQuery, table_params } from 'actions/business/busi
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import getQueryString from 'components/Business/GetQueryString'
-
-
+import 'containers/Business/index.less'
 import 'containers/Business/lsx-index.less'
 
 const FormItem = Form.Item;
@@ -18,82 +17,8 @@ const TabPane = Tabs.TabPane;
 
 // SCRM.url 由原来外层页面引入
 
-/*const columns = [{
-    title: '生意名称',
-    dataIndex: 'Name',
-    key: 'Name',
+let columns = []
 
-}, {
-    title: '所属客户',
-    dataIndex: 'AccountID',
-    key: 'AccountID',
-
-}, {
-    title: '生意阶段',
-    dataIndex: 'Stage',
-    key: 'Stage',
-
-}, {
-    title: '录入人',
-    dataIndex: 'CreatedByID',
-    key: 'CreatedByID',
-
-},  {
-    title: '负责人',
-    dataIndex: 'OwnerID',
-    key: 'OwnerID',
-
-}, {
-    title: '建立日期',
-    dataIndex: 'CreatedTime',
-    key: 'CreatedTime',
-
-}, {
-    title: '发现日期',
-    dataIndex: 'DiscoverDate',
-    key: 'DiscoverDate',
-
-}, {
-    title: '预计成交日期',
-    dataIndex: 'ExpectedCloseDate',
-    key: 'ExpectedCloseDate',
-
-}, {
-    title: '预计销售金额',
-    dataIndex: 'AmountPlan',
-    key: 'AmountPlan',
-
-}, {
-    title: '生意来源',
-    dataIndex: 'Source',
-    key: 'Source',
-
-},  {
-    title: '回款期数',
-    dataIndex: 'PaymentTime',
-    key: 'PaymentTime',
-
-},{
-    title: '回款日期',
-    dataIndex: 'PaymentTime',
-    key: 'PaymentTime',
-
-}, {
-    title: '回款金额',
-    dataIndex: 'PaymentAmount',
-    key: 'PaymentAmount',
-
-}, {
-    title: '输单金额',
-    dataIndex: 'Amount',
-    key: 'Amount',
-
-}, {
-    title: '输单日期',
-    dataIndex: 'EndDate',
-    key: 'EndDate',
-
-}];*/
 
 
 // 查询表格
@@ -181,8 +106,8 @@ class DeptList extends React.Component {
 
             } = this.props
 
-        //debugger
 
+        columns = $$business_list_dept.toJS().columns
         let queryDataTable = {};
 
         queryDataTable.dataSource = $$business_list_dept.toJS().rows
@@ -192,17 +117,17 @@ class DeptList extends React.Component {
         queryDataTable.queryColumns = $$business_list_dept.toJS().queryColumns
         queryDataTable.loading = $$business_list_dept.toJS().loading
 
-        const columns = $$business_list_dept.toJS().columns
+
 
         return (
-            <div style={{marginLeft:'20px'}}>
+            <div className="ck-root-main">
 
-                <div style={{marginTop: '14px',marginBottom: '14px'}}>
+                <div className="ck-root-title">
 
                     <Row>
                         <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
 
-                        <Col span="8" offset="8">
+                        <Col span="8" offset="8" style = {{textAlign: 'right'}} >
                             <div className="ckBusiness-listfilter">
                                 <Button type="primary" onClick={(e)=>{
                                     this.refs.queryDataTable.toggleQueryTable(e)
