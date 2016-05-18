@@ -5,47 +5,52 @@
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import basic from '../css/basic_new_v2.css'
-import Statistic from '../css/Statistic.less'
 
 import {searchKeyWord,getAccountPerStatisticData} from 'actions/Business/Account/Statistic/PerStatistic'
 
 import { Table, Icon ,Button,Input, Row, Col} from 'antd';
 import SearchInput from 'components/Business/SearchInput'
+import QueryDataTable from 'components/Business/QueryDataTable'
 
 let statisticColumns = [
 
     {title: '部门名称', dataIndex: 'Dept', key: 'Dept', width: 150,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'statisticSumColumn':''}>{text}</div>
+          <div>{text}</div>
           );
     }},
     {title: '员工姓名', dataIndex: 'Name', key: 'Name', width: 130,render: function(text, record, index){
         const  peneUrl = SCRM.url('/scrmweb/accounts/list?id=' + record.ID);
+        if(record.ID == 0){
         return (
-          <div className = {record.ID == 0?'statisticSumColumn':''}>
-            <a href = {peneUrl} title = {text}>{text}</a>
-          </div>
+          <div>{text}</div>
           );
+        }else{
+            return (
+            <div>
+              <a href = {peneUrl} target="_blank">{text}</a>
+            </div>
+            );   
+        }
     }},
     {title: '全部客户数量', dataIndex: 'All', key: 'All',width: 130,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'statisticSumColumn':''}>{text}</div>
+          <div>{text}</div>
           );
     }},
     {title: '负责的客户数量', dataIndex: 'Owner',key: 'Owner', width: 130,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'statisticSumColumn':''}>{text}</div>
+          <div>{text}</div>
           );
     }},
     {title: '参与的客户数量', dataIndex: 'Relation', key: 'Relation',width: 130,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'statisticSumColumn':''}>{text}</div>
+          <div>{text}</div>
           );
     }},
     {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width:130,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'statisticSumColumn':''}>{text}</div>
+          <div>{text}</div>
           );
     }}
 ];
@@ -67,7 +72,7 @@ class AccountPerStatistic extends React.Component{
   componentDidMount() {
       // 页面初始完,获取统计数据,触发action: GET_DATA
       const {getAccountPerStatisticData} = this.props
-      this.props.getAccountPerStatisticData(statisticParams)
+      getAccountPerStatisticData(statisticParams)
   }
   //导出报表
   exportTable(){
@@ -88,13 +93,20 @@ class AccountPerStatistic extends React.Component{
   }
   
   render(){
-          const rowData = this.props.$$account_perstatistic.toJS().rowData
-          const loading = this.props.$$account_perstatistic.toJS().loading
+          const {getAccountDeptStatisticData,$$account_perstatistic} = this.props
+
+          const rowData = $$account_perstatistic.toJS().rowData
           let dataSource = []
           rowData.map((r,i)=>{
              r["key"] = i;
              dataSource.push(r)
           })          
+
+          let queryDataTable = {}
+         queryDataTable.dataSource = dataSource
+         queryDataTable.loading = $$account_perstatistic.toJS().loading
+
+
           return (
             <div style={{marginLeft: '20px'}}>
                 <div className = "col_cktop">
@@ -108,17 +120,28 @@ class AccountPerStatistic extends React.Component{
                   </div>  
                 </div>
                 
-                <div className = "statisticdataTableWrap">
-                    <div className = "perStatiticdataTableCon">
-                      <Table ref = "dataTable"
-                       columns={statisticColumns} 
-                       dataSource={dataSource} 
-                       useFixedHeader 
-                       pagination = {false}
-                      loading={loading}
-                      />
-                    </div>               
-                </div>
+                <QueryDataTable
+                    columns={statisticColumns}
+                    checkMode={false}
+                    pagination = {false}
+                    rowClassName = {
+                      function(record, index){
+                        record.ID == 0?"amountClassName":""
+                        }
+                    }                    
+                    {...queryDataTable}
+                    onGetTableData={
+
+                                (obj)=>{
+                                    this.refs.searchInput.emptyInput()
+                                    getAccountPerStatisticData({
+                                        data: obj
+                                    })
+                                }
+                            }
+                    ref="queryDataTable"
+                >
+                </QueryDataTable>
             </div>
           )
         }

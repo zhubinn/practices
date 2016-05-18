@@ -5,7 +5,6 @@
 import fetch from 'isomorphic-fetch'
 
 
-
 // 获取数据
 const GET_TABLE_DATA = 'GET_TABLE_DATA'
 // 获取数据成功
@@ -13,14 +12,19 @@ const GET_TABLE_DATA_SUCCESS = 'GET_TABLE_DATA_SUCCESS'
 // 获取数据失败
 const GET_TABLE_DATA_FAILURE = 'GET_TABLE_DATA_FAILURE'
 
-// 获取数据
+
 const GET_TABLE_QUERY = 'GET_TABLE_QUERY'
-// 获取数据成功
+
 const GET_TABLE_QUERY_SUCCESS = 'GET_TABLE_QUERY_SUCCESS'
-// 获取数据失败
+
 const GET_TABLE_QUERY_FAILURE = 'GET_TABLE_QUERY_FAILURE'
 
 
+const GET_PERMISSION = 'GET_PERMISSION'
+
+const GET_PERMISSION_SUCCESS = 'GET_PERMISSION_SUCCESS'
+
+const GET_PERMISSION_FAILURE = 'GET_PERMISSION_FAILURE'
 
 
 let table_params = {
@@ -35,7 +39,10 @@ let table_params = {
 
 let table_query_url = ''
 
-
+let permission_params = {
+    url: '',
+    type: 'all'
+}
 /**
  * 获取数据
  * @params {url:'', data: {}}
@@ -68,8 +75,8 @@ const getTableData = (params)=> {
         dispatch(fetchData(GET_TABLE_DATA, {rows: [], loading: true}))
         // todo: 封装
         var data = new FormData();
-        data.append( "json", 1);
-        data.append( "json2", 1);
+        data.append("json", 1);
+        data.append("json2", 1);
         fetch(table_params.url = params.url || table_params.url, {
             method: 'POST',
             credentials: 'include',
@@ -80,8 +87,8 @@ const getTableData = (params)=> {
             //body: JSON.stringify(Object.assign(table_params.data, params.data))
             //body: data
             //body: [['key', 'value'].join('='), ['key', 'value'].join('=')].join('&')
-            body: 'params=' +JSON.stringify(Object.assign(table_params.data, params.data))
-        }).then(function(response) {
+            body: 'params=' + JSON.stringify(Object.assign(table_params.data, params.data))
+        }).then(function (response) {
             if (response.status >= 400) {
                 throw new Error("Bad response from server")
             }
@@ -111,7 +118,6 @@ const getTableQuery = (url)=> {
     }
 
 
-
     /*
      *     body:  Object.assign(table_params.data, params.data)
      *    */
@@ -127,7 +133,7 @@ const getTableQuery = (url)=> {
             },
 
             body: ''
-        }).then(function(response) {
+        }).then(function (response) {
             if (response.status >= 400) {
                 throw new Error("Bad response from server")
             }
@@ -143,8 +149,48 @@ const getTableQuery = (url)=> {
     }
 }
 
+// 权限管理
+
+const getPermission = (params)=> {
+    const fetchData = (type, payload)=> {
+
+        return {
+            type,
+            payload
+        }
+    }
 
 
+    /*
+     *     body:  Object.assign(table_params.data, params.data)
+     *    */
+    return (dispatch, getState) => {
+
+        dispatch(fetchData(GET_PERMISSION))
+
+        fetch(url, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+
+            body: 'params=' + JSON.stringify(params.type || (permission_params.type = params.type))
+        }).then(function (response) {
+            if (response.status >= 400) {
+                throw new Error("Bad response from server")
+            }
+            return response.json()
+        }).then(function (data) {
+
+            dispatch(fetchData(GET_TABLE_QUERY_SUCCESS, {
+                permission: data.data
+            }))
+
+        })
+
+    }
+}
 
 export {
     GET_TABLE_DATA,
@@ -152,8 +198,13 @@ export {
     GET_TABLE_DATA_FAILURE,
     getTableData,
     getTableQuery,
+    getPermission,
     GET_TABLE_QUERY,
     GET_TABLE_QUERY_SUCCESS,
     GET_TABLE_QUERY_FAILURE,
-    table_params
+    GET_PERMISSION,
+    GET_PERMISSION_SUCCESS,
+    GET_PERMISSION_FAILURE,
+    table_params,
+
 }

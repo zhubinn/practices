@@ -1,7 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import { findDOMNode } from 'react-dom'
 import reqwest from 'reqwest'
-console.log(reqwest)
 import { message, notification } from 'antd'
 
 

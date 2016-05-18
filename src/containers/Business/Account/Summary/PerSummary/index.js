@@ -5,63 +5,62 @@
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import basic from '../css/basic_new_v2.css'
-import Statistic from '../css/Summary.less'
 
 import {searchKeyWord,getAccountPerSummaryData} from 'actions/Business/Account/Summary/PerSummary'
 
 import { Table, Icon ,Button,Input, Row, Col} from 'antd';
 import SearchInput from 'components/Business/SearchInput'
+import QueryDataTable from 'components/Business/QueryDataTable'
 
 let perSummaryColumns = [
 
     {title: '部门名称', dataIndex: 'Dept', key: 'Dept', width: 150,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'summarySumColumn':''}>{text}</div>
+          <div>{text}</div>
           );
     }},    
     {title: '员工姓名', dataIndex: 'Name', key: 'Name', width: 150,render: function(text, record, index){
         const  peneUrl = SCRM.url('/scrmweb/accounts/peraccountdetail?id=' + record.ID );
         if(record.ID == 0){
         return (
-          <div className = 'summarySumColumn'>{text}</div>
+          <div>{text}</div>
           );
         }else{
             return (
-            <div className = {record.ID == 0?'summarySumColumn':''}>
-              <a href = {peneUrl} target="_blank" title = {text}>{text}</a>
+            <div>
+              <a href = {peneUrl} target="_blank">{text}</a>
             </div>
             );   
         }
     }},
     {title: '全部客户数量', dataIndex: 'Accounts', key: 'Accounts',width: 250,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'summarySumColumn':''}>{text}</div>
+          <div>{text}</div>
           );
     }},
     {title: '全部生意数量', dataIndex: 'Business',key: 'Business', width: 200,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'summarySumColumn':''}>{text}</div>
+          <div>{text}</div>
           );
     }},
     {title: '全部预计销售金额', dataIndex: 'AmountPlan', key: 'AmountPlan',width: 200,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'summarySumColumn':''}>{parseFloat(text).toFixed(2)}</div>
+          <div>{parseFloat(text).toFixed(2)}</div>
           );
     }},
     {title: '全部成交金额', dataIndex: 'Amount', key: 'Amount',width: 200,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'summarySumColumn':''}>{parseFloat(text).toFixed(2)}</div>
+          <div>{parseFloat(text).toFixed(2)}</div>
           );
     }},
     {title: '全部回款金额', dataIndex: 'Payment', key: 'Payment',width: 200,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'summarySumColumn':''}>{parseFloat(text).toFixed(2)}</div>
+          <div>{parseFloat(text).toFixed(2)}</div>
           );
     }},
     {title: '全部输单金额', dataIndex: 'Failed', key: 'Failed',width: 200,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'summarySumColumn':''}>{parseFloat(text).toFixed(2)}</div>
+          <div>{parseFloat(text).toFixed(2)}</div>
           );
     }}
 ];
@@ -83,7 +82,7 @@ class AccountPerSummary extends React.Component{
   componentDidMount() {
       // 页面初始完,获取统计数据,触发action: GET_DATA
       const {getAccountPerSummaryData} = this.props
-      this.props.getAccountPerSummaryData(summaryParams)
+      getAccountPerSummaryData(summaryParams)
   }
   //导出报表
   exportTable(){
@@ -105,13 +104,21 @@ class AccountPerSummary extends React.Component{
   }
   
   render(){
-          const rowData = this.props.$$account_persummary.toJS().rowData
-          const loading = this.props.$$account_persummary.toJS().loading
+          const {getAccountPerSummaryData,$$account_persummary} = this.props
+
+          const rowData = $$account_persummary.toJS().rowData
           let dataSource = []
           rowData.map((r,i)=>{
              r["key"] = i;
              dataSource.push(r)
-          })          
+          })  
+
+         let queryDataTable = {}
+         queryDataTable.dataSource = dataSource
+         queryDataTable.loading = $$account_persummary.toJS().loading
+
+
+
           return (
             <div style={{marginLeft: '20px'}}>
                 <div className = "col_cktop">
@@ -124,17 +131,28 @@ class AccountPerSummary extends React.Component{
                         </Row>                     
                   </div>
                 </div>
-                <div className = "summarydataTableWrap">
-                  <div className = "perSummarydataTableCon">
-                      <Table ref = "dataTable"
-                       columns={perSummaryColumns} 
-                       dataSource={dataSource} 
-                       useFixedHeader 
-                       pagination = {false}
-                       loading={loading}
-                      />
-                  </div>
-                </div>
+                <QueryDataTable
+                    columns={perSummaryColumns}
+                    checkMode={false}
+                    pagination = {false}
+                    rowClassName = {
+                      function(record, index){
+                        record.ID == 0?"amountClassName":""
+                        }
+                    }
+                    {...queryDataTable}
+                    onGetTableData={
+
+                                (obj)=>{
+                                    this.refs.searchInput.emptyInput()
+                                    getAccountPerSummaryData({
+                                        data: obj
+                                    })
+                                }
+                            }
+                    ref="queryDataTable"
+                >
+                </QueryDataTable>
             </div>
           )
         }
