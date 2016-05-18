@@ -2,6 +2,7 @@
  * Created by ytm on 4/17/16.
  */
 import Immutable from 'immutable'
+import getQueryString from 'components/Business/GetQueryString'
 import { 
     GET_STATISTICDETAIL_DATA,
     GET_STATISTICDETAIL_SUCCESS,
@@ -9,6 +10,8 @@ import {
     GET_STATISTICDETAIL_QUERY,
     GET_STATISTICDETAILQUERY_SUCCESS,
 } from 'actions/business/business/statistic/statisticDetail'
+
+let deptID = getQueryString("deptID")
 
 let statisticDetail = {
     "queryColumns": {
@@ -30,7 +33,7 @@ let statisticDetail = {
             "dataIndex": "DeptName",
             "key": "DeptName",
             render(text, record, index) {
-                const  peneUrl = SCRM.url('/scrmweb/business/deptlist?deptID=' + record.ID + '&sub=0');
+                const  peneUrl = SCRM.url('/scrmweb/business/deptlist?deptID=' + deptID + '&sub=0');
                 if(record.DeptName == '小计' || record.DeptName == '合计'){
                     //return {text};
                     return <span>{text}</span>;
