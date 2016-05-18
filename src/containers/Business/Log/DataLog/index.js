@@ -65,7 +65,7 @@ class DataLog extends React.Component {
         inImport: false
       });
 
-      if(exportParams.begin == "" || exportParams.end == ""){
+      if(exportParams.begin == "" || exportParams.begin == null){
         Modal.info({
             title: '请选择时间范围',
             content: '请选择开始时间和截止时间',
