@@ -168,14 +168,14 @@ const getPermission = (params)=> {
 
         dispatch(fetchData(GET_PERMISSION))
 
-        fetch(url, {
+        fetch(permission_params.url = params.url || permission_params.url, {
             method: 'POST',
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
 
-            body: 'params=' + JSON.stringify(params.type || (permission_params.type = params.type))
+            body: 'params=' + JSON.stringify(params.type)
         }).then(function (response) {
             if (response.status >= 400) {
                 throw new Error("Bad response from server")
@@ -183,7 +183,7 @@ const getPermission = (params)=> {
             return response.json()
         }).then(function (data) {
 
-            dispatch(fetchData(GET_TABLE_QUERY_SUCCESS, {
+            dispatch(fetchData(GET_PERMISSION_SUCCESS, {
                 permission: data.data
             }))
 

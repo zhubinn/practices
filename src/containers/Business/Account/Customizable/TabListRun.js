@@ -33,7 +33,7 @@ class TabListRun extends React.Component{
                 <div className = "ck-customize-CntMian">
                     <ul className = "ck-customize-Txt01 clearfix">
                         <li>字段名称：{serverSelectedRow["Label"]}</li>
-                        <li>字段类型：{serverSelectedRow["AttrType"]==13?'下拉单选':''}</li>
+                        <li>字段类型：{serverSelectedRow["AttrType"]==13?'单选':''}</li>
                         <li>是否必填：{serverSelectedRow["IsMust"]=='1'?"必填":"不必填"}</li>
                     </ul>
                     <div className = "ck-customize-gongn02">
