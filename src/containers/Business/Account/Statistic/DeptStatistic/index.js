@@ -44,7 +44,7 @@ let deptstatisticColumns = [
     //       <div>{text}</div>
     //       );
     // }},
-    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width: 203,render: function(text, record, index){
+    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width: 220,render: function(text, record, index){
         return (
           <span>{text}</span>
           );
