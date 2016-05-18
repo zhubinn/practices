@@ -181,8 +181,8 @@ class DeptList extends React.Component {
 
             } = this.props
 
-        //debugger
-
+        debugger
+        const columns = $$business_list_dept.toJS().columns
         let queryDataTable = {};
 
         queryDataTable.dataSource = $$business_list_dept.toJS().rows
@@ -192,7 +192,7 @@ class DeptList extends React.Component {
         queryDataTable.queryColumns = $$business_list_dept.toJS().queryColumns
         queryDataTable.loading = $$business_list_dept.toJS().loading
 
-        const columns = $$business_list_dept.toJS().columns
+
 
         return (
             <div style={{marginLeft:'20px'}}>
