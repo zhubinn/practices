@@ -16,7 +16,7 @@ let currentText
 let columns = [
     {title: '字段名称', dataIndex: 'Label',key: 'Label', width: 170},
     {title: '字段类型', dataIndex: 'AttrType',key: 'AttrType', width: 160,render: function(text, record, index){
-        return (<div>{text==13?'下拉单选':''}</div>);
+        return (<div>{text==13?'单选':''}</div>);
     }},
     {title: '是否必填', dataIndex: 'IsMust',key: 'IsMust', width: 130,render: function(text, record, index){
         return (<div>{text==1?'是':'否'}</div>);
