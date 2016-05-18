@@ -93,12 +93,10 @@ export const HasRepeatData = (status)=>{
                 if(data.rs){
                     dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data))
                 }else{
-                    Modal.info({
-                        title: '错误信息',
-                        content: data.error,
-                        onOk() {
-                        }
-                    });
+                    message.config({
+                      top: 250
+                    });             
+                    message.error(data.error);                    
                 }
             })
         
@@ -225,23 +223,19 @@ export const clickapplyBtn = (applyParam)=> {
                 if(data.rs){
                     dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data))
                 }else{
-                    Modal.info({
-                        title: '错误信息',
-                        content: data.error,
-                        onOk() {
-                        }
-                    });                
+                    message.config({
+                      top: 250
+                    });             
+                    message.error(data.error);           
                 }
               }
             })
   
         }else{
-                Modal.info({
-                    title: '错误信息',
-                    content: json.error,
-                    onOk() {
-                    }
-                });
+                    message.config({
+                      top: 250
+                    });             
+                    message.error(json.error);
             }
         })
 

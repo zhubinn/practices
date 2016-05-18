@@ -76,7 +76,7 @@ export default class SelectPeople extends React.Component {
         let textValue = e.currentTarget.value;
         //屏蔽回车键的换行
         if (e.keyCode == 13) {
-            e.returnValue = false
+            window.event.returnValue = false
             return false
         }
 

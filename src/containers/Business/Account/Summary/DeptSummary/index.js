@@ -5,13 +5,12 @@
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import basic from '../css/basic_new_v2.css'
-import Statistic from '../css/Summary.less'
 
 import {searchKeyWord,getAccountDeptSummaryData} from 'actions/Business/Account/Summary/DeptSummary'
 
 import { Table, Icon ,Button,Input, Row, Col} from 'antd';
 import SearchInput from 'components/Business/SearchInput'
+import QueryDataTable from 'components/Business/QueryDataTable'
 
 let deptSummaryColumns = [
 
@@ -19,44 +18,44 @@ let deptSummaryColumns = [
         const  peneUrl = SCRM.url('/scrmweb/accounts/deptsummarydetail?id=' + record.ID + '&name='+record.Name);
         if(record.ID == 0){
         return (
-          <div className = 'summarySumColumn'>{text}</div>
+          <div>{text}</div>
           );
         }else{
             return (
-            <div className = {record.ID == 0?'summarySumColumn':''}>
-              <a href = {peneUrl} target="_blank" title = {text}>{text}</a>
+            <div>
+              <a href = {peneUrl} target="_blank">{text}</a>
             </div>
             );   
         }
     }},
     {title: '全部客户数量', dataIndex: 'Accounts', key: 'Accounts',width: 250,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'summarySumColumn':''}>{text}</div>
+          <div>{text}</div>
           );
     }},
     {title: '全部生意数量', dataIndex: 'Business',key: 'Business', width: 200,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'summarySumColumn':''}>{text}</div>
+          <div>{text}</div>
           );
     }},
     {title: '全部预计销售金额', dataIndex: 'AmountPlan', key: 'AmountPlan',width: 200,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'summarySumColumn':''}>{parseFloat(text).toFixed(2)}</div>
+          <div>{parseFloat(text).toFixed(2)}</div>
           );
     }},
     {title: '全部成交金额', dataIndex: 'Amount', key: 'Amount',width: 200,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'summarySumColumn':''}>{parseFloat(text).toFixed(2)}</div>
+          <div>{parseFloat(text).toFixed(2)}</div>
           );
     }},
     {title: '全部回款金额', dataIndex: 'Payment', key: 'Payment',width: 200,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'summarySumColumn':''}>{parseFloat(text).toFixed(2)}</div>
+          <div>{parseFloat(text).toFixed(2)}</div>
           );
     }},
     {title: '全部输单金额', dataIndex: 'Failed', key: 'Failed',width: 200,render: function(text, record, index){
         return (
-          <div className = {record.ID == 0?'summarySumColumn':''}>{parseFloat(text).toFixed(2)}</div>
+          <div>{parseFloat(text).toFixed(2)}</div>
           );
     }}
 ];
@@ -79,7 +78,7 @@ class AccountDeptSummary extends React.Component{
       // 页面初始完,获取统计数据,触发action: GET_DATA
       const {getAccountDeptSummaryData} = this.props
 
-      this.props.getAccountDeptSummaryData(summaryParams)
+      getAccountDeptSummaryData(summaryParams)
   }
   //导出报表
   exportTable(){
@@ -101,13 +100,22 @@ class AccountDeptSummary extends React.Component{
   
   
   render(){
-          const rowData = this.props.$$account_deptsummary.toJS().rowData
-          const loading = this.props.$$account_deptsummary.toJS().loading
+          const {getAccountDeptSummaryData,$$account_deptsummary} = this.props
+
+          const rowData = $$account_deptsummary.toJS().rowData
+
           let dataSource = []
           rowData.map((r,i)=>{
              r["key"] = i;
              dataSource.push(r)
           })
+
+         let queryDataTable = {}
+         queryDataTable.dataSource = dataSource
+         queryDataTable.loading = $$account_deptsummary.toJS().loading
+
+
+
           return (
             <div style={{marginLeft: '20px'}}>
                 <div className = "col_cktop">
@@ -120,17 +128,29 @@ class AccountDeptSummary extends React.Component{
                         </Row>                     
                   </div>  
                 </div>
-                <div className = "summarydataTableWrap">
-                  <div className = "deptSummarydataTableCon">
-                      <Table ref = "dataTable"
-                       columns={deptSummaryColumns} 
-                       dataSource={dataSource} 
-                       useFixedHeader 
-                       pagination = {false}
-                       loading={loading}>
-                      </Table>
-                  </div>
-                </div>
+                <QueryDataTable
+                    columns={deptSummaryColumns}
+                    checkMode={false}
+                    pagination = {false}
+                    rowClassName = {
+                      function(record, index){
+                        record.ID == 0?"amountClassName":""
+                        }
+                    }
+                    {...queryDataTable}
+                    onGetTableData={
+
+                                (obj)=>{
+                                    this.refs.searchInput.emptyInput()
+                                    getAccountDeptSummaryData({
+                                        data: obj
+                                    })
+                                }
+                            }
+                    ref="queryDataTable"
+                >
+                </QueryDataTable>
+
             </div>
           )
         }
