@@ -13,7 +13,7 @@ import { getStatisticDetailData, getStatisticDetailQuery }  from 'actions/busine
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import 'antd/lib/index.css'
-import './index.css'
+import 'containers/Business/index.less'
 
 import getQueryString from 'components/Business/GetQueryString'
 //获取table列表数据接口
@@ -81,14 +81,14 @@ class statisticDetail extends React.Component {
         //queryDataTable.queryColumns = $$statisticDetail.get('queryColumns').toJS()
 
         return (
-            <div  style = {{margin: '0 10px'}} >
-              <div style={{marginTop: '14px',marginBottom: '14px'}}>
+            <div className="ck-root-main">
+              <div className="ck-root-title">
               <Row>
                 <Col span="10">
                   <SearchInput  ref="searchInput"  onSearch = {this.normalSearch} />
                 </Col>
                 <Col span="14" style = {{textAlign: 'right'}} >
-                  <Button type="ghost" onClick = {this.exportConfirm} >导出EXCEL</Button>
+                  <Button type="ghost" onClick = {this.exportConfirm} >导出</Button>
                 </Col>
               </Row>
               </div>

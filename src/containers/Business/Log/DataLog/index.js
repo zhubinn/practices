@@ -113,8 +113,8 @@ class DataLog extends React.Component {
         //queryDataTable.loading = $$account_list_person.toJS().loading
         
         return (
-            <div style = {{margin: '0 10px'}}>
-              <div style={{marginTop: '14px',marginBottom: '14px'}}>
+            <div className="ck-root-main">
+              <div className="ck-root-title">
               <Row>
                 <Col span="10">
                   <SearchInput ref="searchInput" onSearch = {this.normalSearch} />
@@ -125,7 +125,7 @@ class DataLog extends React.Component {
                             this.refs.queryDataTable.toggleQueryTable(e)
                         }}>筛选</Button>
                   </div>
-                  <Button type="ghost" onClick = { this.showModal.bind(this) }>导出EXCEL</Button>
+                  <Button type="ghost" onClick = { this.showModal.bind(this) }>导出</Button>
                 </Col>
               </Row>
               </div>
