@@ -410,7 +410,7 @@ export default class QueryDataTable extends React.Component {
 
             <div className="QueryDataTable">
 
-                <div ref="TableBoxModel" style={{width: '800px', maxHeight: '500px',  overflow: "auto"}}>
+                <div ref="TableBoxModel" style={{width: '880px', maxHeight: '500px',  overflow: "auto"}}>
                     <div style={{width: this.calculateWidth(), position: 'relative'}} id={this.identity}>
 
 
