@@ -11,46 +11,47 @@ import {searchKeyWord,getAccountStatisticDetailData} from 'actions/Business/Acco
 import { Table, Icon ,Button,Input, Row, Col} from 'antd';
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
+import 'containers/Business/index.less'
 
 let statisticDetailColumns = [
 
     {title: '部门名称', dataIndex: 'DeptName', key: 'DeptName', width: 150,render: function(text, record, index){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
     }},
     {title: '员工姓名', dataIndex: 'Name', key: 'Name', width: 150,render: function(text, record, index){
         const  peneUrl = SCRM.url('/scrmweb/accounts/list?id=' + record.ID);
         if(record.ID == 0){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
         }else{
             return (
-            <div>
+            <span>
               <a href = {peneUrl} target="_blank">{text}</a>
-            </div>
+            </span>
             );   
         }
     }},
     {title: '全部客户数量', dataIndex: 'All', key: 'All',width: 150,render: function(text, record, index){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
     }},
     {title: '负责的客户数量', dataIndex: 'Owner',key: 'Owner', width: 150,render: function(text, record, index){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
     }},
     {title: '参与的客户数量', dataIndex: 'Relation', key: 'Relation',width: 150,render: function(text, record, index){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
     }},
-    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width:150,render: function(text, record, index){
+    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width:117,render: function(text, record, index){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
     }}
 ];
@@ -117,17 +118,15 @@ class AccountStatisticDetail extends React.Component{
 
 
           return (
-            <div style={{marginLeft: '20px'}}>
-                <div className = "col_cktop">
-                  <div className="col_cktop-gongneng">
+          <div className="ck-root-main">
+              <div className="ck-root-title">
                         <Row>
                             <Col span="10"><SearchInput  onSearch = {this.handleClickSearch.bind(this)}/> </Col>
-                            <Col span="2" offset="12">
+                            <Col span="2" offset="12" style = {{textAlign: 'right'}}>
                                 <Button type="ghost" onClick = {this.exportTable.bind(this)}>导出</Button>
                             </Col>
                         </Row>                     
                   </div>  
-                </div>
                 
                 <QueryDataTable
                     columns={statisticDetailColumns}
@@ -135,9 +134,12 @@ class AccountStatisticDetail extends React.Component{
                     pagination = {false}
                     rowClassName = {
                       function(record, index){
-                        record.ID == 0?"amountClassName":""
+                        if (record.DeptName == "小计" || record.DeptName == "合计") {
+                          return "amountClassName";
                         }
-                    }                    
+                        return "";
+                      }
+                    }                   
                     {...queryDataTable}
                     onGetTableData={
 
