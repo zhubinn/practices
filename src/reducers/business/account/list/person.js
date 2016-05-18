@@ -40,7 +40,7 @@ const $$initialState = Immutable.fromJS({
 
 })
 
-export default function account_list_dept($$state = $$initialState, action) {
+export default function account_list_person($$state = $$initialState, action) {
     switch (action.type) {
 
         case GET_TABLE_DATA:

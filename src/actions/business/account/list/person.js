@@ -175,7 +175,7 @@ const getPermission = (params)=> {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
 
-            body: 'params=' + JSON.stringify(params.type)
+            body: 'params=' + JSON.stringify({type:params.type})
         }).then(function (response) {
             if (response.status >= 400) {
                 throw new Error("Bad response from server")

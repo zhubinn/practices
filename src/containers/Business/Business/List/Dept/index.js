@@ -17,7 +17,78 @@ const TabPane = Tabs.TabPane;
 
 // SCRM.url 由原来外层页面引入
 
-let columns = []
+let columns = [
+    {
+        "dataIndex": "Name",
+        "key": "Name",
+        "title": "生意名称"
+    },
+    {
+        "dataIndex": "AccountID",
+        "key": "AccountID",
+        "title": "客户名称"
+    },
+    {
+        "dataIndex": "Stage",
+        "key": "Stage",
+        "title": "销售阶段"
+    },
+    {
+        "dataIndex": "CreatedByID",
+        "key": "CreatedByID",
+        "title": "创建人"
+    },
+    {
+        "dataIndex": "OwnerID",
+        "key": "OwnerID",
+        "title": "负责人"
+    },
+    {
+        "dataIndex": "CreatedTime",
+        "key": "CreatedTime",
+        "title": "创建时间"
+    },
+    {
+        "dataIndex": "DiscoverDate",
+        "key": "DiscoverDate",
+        "title": "发现日期"
+    },
+    {
+        "dataIndex": "ExpectedCloseDate",
+        "key": "ExpectedCloseDate",
+        "title": "预计成交日期"
+    },
+    {
+        "dataIndex": "AmountPlan",
+        "key": "AmountPlan",
+        "title": "预计销售金额"
+    },
+    {
+        "dataIndex": "Source",
+        "key": "Source",
+        "title": "生意来源"
+    },
+    {
+        "dataIndex": "PaymentTime",
+        "key": "PaymentTime",
+        "title": "最新回款时间"
+    },
+    {
+        "dataIndex": "PaymentAmount",
+        "key": "PaymentAmount",
+        "title": "回款金额"
+    },
+    {
+        "dataIndex": "EndDate",
+        "key": "EndDate",
+        "title": "结束日期"
+    },
+    {
+        "dataIndex": "Amount",
+        "key": "Amount",
+        "title": "销售金额"
+    }
+]
 
 
 
@@ -108,8 +179,7 @@ class DeptList extends React.Component {
             } = this.props
 
 
-        columns = $$business_list_dept.toJS().columns
-
+       
         let queryDataTable = {};
 
         queryDataTable.dataSource = $$business_list_dept.toJS().rows

@@ -51,7 +51,8 @@ class Account_List_Person_Page extends React.Component {
             importModalVisible: false,
             inImport: false,
 
-            importProgress: 0
+            importProgress: 0,
+            changeOwnerRowsLength: 0
         }
     }
 
@@ -126,6 +127,10 @@ class Account_List_Person_Page extends React.Component {
             changeIsMultiselect(IsMultiselect)
             const {getPeopleData} = this.props
 
+
+            this.setState({
+                changeOwnerRowsLength: checkedRows.length
+            })
             const paramData = {
                 page: 1,
                 rowsPerPage: 20,
@@ -357,8 +362,9 @@ class Account_List_Person_Page extends React.Component {
         peoplePropsData.IsMultiselect = $$account_list_person.toJS().IsMultiselect
         peoplePropsData.data = $$account_list_person.toJS().data
         peoplePropsData.selectPeopleModal = $$account_list_person.toJS().selectPeopleModal
-        //选中人员的长度 假数据
-        peoplePropsData.checkedRowsLength = 10
+
+        //选中人员的长度
+        peoplePropsData.checkedRowsLength = this.state.changeOwnerRowsLength
 
 
         // 权限
@@ -427,7 +433,7 @@ class Account_List_Person_Page extends React.Component {
                         }}>筛选</Button>
                             </div>
 
-                            {permission.changeOwner == 1 ? (<div className="cklist-PersonChange" >
+                            {permission.changeOwner == 1 ? (<div className="cklist-PersonChange">
                                 <Button type="ghost" onClick={(e) => {this.changeOwner(e)}}>变更负责人</Button>
                             </div>) : null}
 
@@ -517,6 +523,7 @@ class Account_List_Person_Page extends React.Component {
                 >
                 </QueryDataTable>
                 <SelectPeople
+
                     {...peoplePropsData}
                     handleClickConfirm={this.getFilterData.bind(this)}
                     handleClickCancle={this.handleChangeStatus.bind(this)}

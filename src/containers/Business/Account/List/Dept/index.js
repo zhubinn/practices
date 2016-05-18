@@ -47,7 +47,8 @@ class Account_List_Dept_Page extends React.Component {
             importModalVisible: false,
             inImport: false,
 
-            importProgress: 0
+            importProgress: 0,
+            changeOwnerRowsLength: 0
         }
     }
 
@@ -123,7 +124,9 @@ class Account_List_Dept_Page extends React.Component {
             const {changeIsMultiselect} = this.props
             changeIsMultiselect(IsMultiselect)
             const {getPeopleData} = this.props
-
+            this.setState({
+                changeOwnerRowsLength: checkedRows.length
+            })
             const paramData = {
                 page: 1,
                 rowsPerPage: 20,
@@ -359,8 +362,9 @@ class Account_List_Dept_Page extends React.Component {
         peoplePropsData.IsMultiselect = $$account_list_dept.toJS().IsMultiselect
         peoplePropsData.data = $$account_list_dept.toJS().data
         peoplePropsData.selectPeopleModal = $$account_list_dept.toJS().selectPeopleModal
-        //选中人员的长度 假数据
-        peoplePropsData.checkedRowsLength = 10
+
+        //选中人员的长度
+        peoplePropsData.checkedRowsLength = this.state.changeOwnerRowsLength
 
 
         // 权限
