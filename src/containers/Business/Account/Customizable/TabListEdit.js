@@ -39,7 +39,7 @@ class TabListEdit extends React.Component{
                 <div >
                     <ul className = "ck-customize-Txt01 clearfix">
                         <li>字段名称：{selectedRow["Label"]}</li>
-                        <li>字段类型：{selectedRow["AttrType"]==13?'下拉单选':''}</li>
+                        <li>字段类型：{selectedRow["AttrType"]==13?'单选':''}</li>
                         <li>
                             <label>是否必填：
                                 <Checkbox checked={selectedRow['IsMust']=='1'?true:false} onChange={this.handleCheckbox} ref="checkboxInput"/>必填
