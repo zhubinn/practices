@@ -18,44 +18,44 @@ let deptSummaryColumns = [
         const  peneUrl = SCRM.url('/scrmweb/accounts/deptsummarydetail?id=' + record.ID + '&name='+record.Name);
         if(record.ID == 0){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
         }else{
             return (
-            <div>
+            <span>
               <a href = {peneUrl} target="_blank">{text}</a>
-            </div>
+            </span>
             );   
         }
     }},
     {title: '全部客户数量', dataIndex: 'Accounts', key: 'Accounts',width: 250,render: function(text, record, index){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
     }},
     {title: '全部生意数量', dataIndex: 'Business',key: 'Business', width: 200,render: function(text, record, index){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
     }},
     {title: '全部预计销售金额', dataIndex: 'AmountPlan', key: 'AmountPlan',width: 200,render: function(text, record, index){
         return (
-          <div>{parseFloat(text).toFixed(2)}</div>
+          <span>{parseFloat(text).toFixed(2)}</span>
           );
     }},
     {title: '全部成交金额', dataIndex: 'Amount', key: 'Amount',width: 200,render: function(text, record, index){
         return (
-          <div>{parseFloat(text).toFixed(2)}</div>
+          <span>{parseFloat(text).toFixed(2)}</span>
           );
     }},
     {title: '全部回款金额', dataIndex: 'Payment', key: 'Payment',width: 200,render: function(text, record, index){
         return (
-          <div>{parseFloat(text).toFixed(2)}</div>
+          <span>{parseFloat(text).toFixed(2)}</span>
           );
     }},
     {title: '全部输单金额', dataIndex: 'Failed', key: 'Failed',width: 200,render: function(text, record, index){
         return (
-          <div>{parseFloat(text).toFixed(2)}</div>
+          <span>{parseFloat(text).toFixed(2)}</span>
           );
     }}
 ];
@@ -134,8 +134,11 @@ class AccountDeptSummary extends React.Component{
                     pagination = {false}
                     rowClassName = {
                       function(record, index){
-                        record.ID == 0?"amountClassName":""
+                        if (record.Name == "小计" || record.Name == "合计") {
+                          return "amountClassName";
                         }
+                        return "";
+                      }
                     }
                     {...queryDataTable}
                     onGetTableData={
