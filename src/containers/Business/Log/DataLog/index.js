@@ -64,8 +64,16 @@ class DataLog extends React.Component {
       this.setState({
         inImport: false
       });
-      let objData = JSON.stringify(exportParams);
-      window.open(SCRM.url("/common/ScrmExportOptimization/export")+ '?param=' + objData);
+
+      if(exportParams.begin == "" || exportParams.end == ""){
+        Modal.info({
+            title: '请选择时间范围',
+            content: '请选择开始时间和截止时间',
+        });
+      }else{
+        let objData = JSON.stringify(exportParams);
+        window.open(SCRM.url("/common/ScrmExportOptimization/export")+ '?param=' + objData);
+      };
     }
 
     handleCancel(e) {
@@ -131,10 +139,11 @@ class DataLog extends React.Component {
                 onOk={this.handleOk.bind(this)} 
                 onCancel={this.handleCancel.bind(this)}>
                   <RangePicker 
-                  showTime 
-                  format="yyyy-MM-dd HH:mm:ss" 
-                  onChange={this.exportTimeChange.bind(this)} 
+                    showTime 
+                    format="yyyy-MM-dd HH:mm:ss" 
+                    onChange={this.exportTimeChange.bind(this)} 
                   />
+                  <p style={{marginTop:'10px', color:'#999'}}>提示：一次导出的数据量最大上限10万条，超出时请缩短时间范围</p>
                 </Modal>
             </div>
         )
