@@ -25,7 +25,7 @@ import {
     COMPONENTS_ISCHANGEBUSINESS,
     COMPONENTS_ISCHANGECONTACT
 
-} from 'actions/__demo/selectPeople'
+} from 'actions/Component/SelectPeople'
 const $$initialState = Immutable.fromJS({
     rows: [],
     current: 1,
