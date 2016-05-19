@@ -4,7 +4,7 @@
 // 查询表格
 // 依赖Table, Pagination, Form
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Select, Radio, Checkbox,  DatePicker, InputNumber, Cascader  } from 'antd'
-import 'antd/style/index.less'
+
 import { isEmpty } from 'lodash'
 import CurrencyInput from  'components/Business/QueryDataTable/CurrencyInput'
 import randomString  from 'random-string'

@@ -14,7 +14,7 @@ import {
 import {
     toggleQueryPanel,
 } from 'actions/components/QueryNestedTable'
-import 'antd/style/index.less'
+
 
 
 const TabPane = Tabs.TabPane;
