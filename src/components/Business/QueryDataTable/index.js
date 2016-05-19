@@ -430,7 +430,7 @@ export default class QueryDataTable extends React.Component {
                                                             (e)=>{this.handleSelectAll(e, dataSource)}}/></th>) : null }
                                             {this.props.expandedRowRender ? (<th style={{width: 18}}></th>) : null}
                                             {
-                                                columns.map((col, i) => <th style={{textAlign: 'center'}} key={i}
+                                                columns.map((col, i) => <th key={i}
                                                                             width={col.width||this.defaultColWidth}>{col.title}</th>)
                                             }
                                         </tr>

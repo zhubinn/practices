@@ -25,36 +25,42 @@ let perStatistic = {
             "title": "全部生意数量",
             "width": 150,
             "dataIndex": "All",
+            "className": "column-money",
             "key": "All"
         },
         {
             "title": "赢单的生意数量",
             "width": 150,
             "dataIndex": "Win",
+            "className": "column-money",
             "key": "Win"
         },
         {
             "title": "输单的生意数量",
             "width": 150,
             "dataIndex": "Faild",
+            "className": "column-money",
             "key": "Faild"
         },
         {
             "title": "进行中的生意数量",
             "width": 150,
             "dataIndex": "Load",
+            "className": "column-money",
             "key": "Load"
         },
         {
             "title": "作废的生意数量",
             "width": 150,
             "dataIndex": "ZF",
+            "className": "column-money",
             "key": "ZF"
         },
         {
             "title": "停滞的生意数量",
             "width": 150,
             "dataIndex": "TZ",
+            "className": "column-money",
             "key": "TZ"
         }
     ]
