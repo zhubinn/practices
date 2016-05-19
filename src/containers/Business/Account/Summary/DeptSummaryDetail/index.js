@@ -16,12 +16,12 @@ import 'containers/Business/index.less'
 
 let summaryDetailColumns = [
 
-    {title: '部门名称', dataIndex: 'DeptName', key: 'DeptName', width: 200,render: function(text, record, index){
+    {title: '部门名称', dataIndex: 'DeptName', key: 'DeptName', width: 150,render: function(text, record, index){
         return (
           <span>{text}</span>
           );
     }},
-    {title: '员工姓名', dataIndex: 'Name', key: 'Name', width: 150,render: function(text, record, index){
+    {title: '员工姓名', dataIndex: 'Name', key: 'Name', width: 100,render: function(text, record, index){
         const  peneUrl = SCRM.url('/scrmweb/accounts/peraccountdetail?id=' + record.ID);
         if(record.ID == 0){
         return (
