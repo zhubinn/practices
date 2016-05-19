@@ -429,7 +429,7 @@ export default class QueryDataTable extends React.Component {
                                                         checked={ !!dataSource.length && this.state.selectedRowKeys.length === dataSource.length }
                                                         onChange={
                                                             (e)=>{this.handleSelectAll(e, dataSource)}}/></th>) : null }
-                                            {this.props.expandedRowRender ? (<th style={{width: 18}}></th>) : null}
+                                            {this.props.expandedRowRender ? (<th style={{width: 34}}></th>) : null}
                                             {
                                                 columns.map((col, i) => <th key={i}
                                                                             width={col.width||this.defaultColWidth}>{col.title}</th>)
