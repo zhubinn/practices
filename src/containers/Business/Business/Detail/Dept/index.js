@@ -33,11 +33,7 @@ const columns = [
         "key": "Stage",
         "title": "销售阶段"
     },
-    {
-        "dataIndex": "CreatedByID",
-        "key": "CreatedByID",
-        "title": "创建人"
-    },
+
     {
         "dataIndex": "OwnerID",
         "key": "OwnerID",
