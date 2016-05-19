@@ -6,15 +6,11 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { Row, Col, Table, Button, Input, Pagination, Modal} from 'antd'
-
+import { Row, Col, Button, Modal} from 'antd'
 import { getSummaryDetailData, getSummaryDetailQuery }  from 'actions/business/business/summary/summaryDetail'
-
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
-import 'antd/lib/index.css'
 import 'containers/Business/index.less'
-
 import getQueryString from 'components/Business/GetQueryString'
 
 //获取table列表数据接口
@@ -73,7 +69,7 @@ class summaryDetail extends React.Component {
 
         let queryDataTable = {}
         queryDataTable.dataSource = $$summaryDetail.get('tableData').get('data').toJS();
-        queryDataTable.queryColumns = $$summaryDetail.get('queryColumns').toJS()
+        const loading = $$summaryDetail.get('loading')
 
         return (
             <div className="ck-root-main">
@@ -90,6 +86,7 @@ class summaryDetail extends React.Component {
               <QueryDataTable
                     columns={columns}
                     checkMode={false}
+                    loading = {loading}
                     {...queryDataTable}
                     pagination={false}
                     ref="queryDataTable"

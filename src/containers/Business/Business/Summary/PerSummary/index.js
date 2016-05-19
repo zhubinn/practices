@@ -6,12 +6,10 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { Row, Col, Table, Button, Input, Pagination, Modal} from 'antd'
-
+import { Row, Col, Button, Modal} from 'antd'
 import { getPerSummaryData }  from 'actions/business/business/summary/PerSummary'
-import QueryDataTable from 'components/Business/QueryDataTable'
 import SearchInput from 'components/Business/SearchInput'
-import 'antd/lib/index.css'
+import QueryDataTable from 'components/Business/QueryDataTable'
 
 //获取table列表数据接口
 let PerSummaryParams = {
@@ -49,9 +47,10 @@ class PerSummary extends React.Component {
     render() {
 
         //table数据配置
-        const { $$perStatistic } = this.props;
-        const dataSource = $$perStatistic.get('tableData').get('data').toJS();
-        const columns = $$perStatistic.get('tableColumns').toJS();
+        const { $$perSummary } = this.props;
+        const dataSource = $$perSummary.get('tableData').get('data').toJS();
+        const columns = $$perSummary.get('tableColumns').toJS();
+        const loading = $$perSummary.get('loading')
         
         return (
             <div className="ck-root-main">
@@ -68,6 +67,7 @@ class PerSummary extends React.Component {
               <QueryDataTable
                     columns={columns}
                     dataSource={dataSource} 
+                    loading = {loading}
                     checkMode={false}
                     ref="queryDataTable"
                     pagination={false}
@@ -79,7 +79,7 @@ class PerSummary extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$perStatistic: state.business.persummary
+        $$perSummary: state.business.persummary
     }
 }
 
