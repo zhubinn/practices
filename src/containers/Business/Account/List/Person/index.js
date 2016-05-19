@@ -313,7 +313,10 @@ class Account_List_Person_Page extends React.Component {
 
 
                     } else {
-                        message.error(`${r.data}`)
+                        Modal.error({
+                            title: '导入失败',
+                            content: r.data,
+                        });
                     }
 
                 }
@@ -400,7 +403,10 @@ class Account_List_Person_Page extends React.Component {
 
 
                     } else {
-                        message.error(`${info.file.name} 上传失败。${response.data}`);
+                        Modal.error({
+                            title: '上传失败',
+                            content: `${info.file.name} 上传失败。${response.data}`,
+                        });
                     }
                 }
 

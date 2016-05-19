@@ -180,12 +180,21 @@ const getPermission = (params)=> {
             if (response.status >= 400) {
                 throw new Error("Bad response from server")
             }
+
             return response.json()
         }).then(function (data) {
+            if (data.rs) {
+                dispatch(fetchData(GET_PERMISSION_SUCCESS, {
+                    permission: data.data
+                }))
 
-            dispatch(fetchData(GET_PERMISSION_SUCCESS, {
-                permission: data.data
-            }))
+            }else{
+                Modal.error({
+                    title: '发生异常',
+                    content: data.message||data.error||''
+                });
+            }
+
 
         })
 
