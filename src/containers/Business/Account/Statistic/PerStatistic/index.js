@@ -34,22 +34,22 @@ let statisticColumns = [
             );   
         }
     }},
-    {title: '全部客户数量', dataIndex: 'All', key: 'All',width: 150,render: function(text, record, index){
+    {title: '全部客户数量', dataIndex: 'All', key: 'All',width: 150,className: 'column-money',render: function(text, record, index){
         return (
           <span>{text}</span>
           );
     }},
-    {title: '负责的客户数量', dataIndex: 'Owner',key: 'Owner', width: 150,render: function(text, record, index){
+    {title: '负责的客户数量', dataIndex: 'Owner',key: 'Owner', width: 150,className: 'column-money',render: function(text, record, index){
         return (
           <span>{text}</span>
           );
     }},
-    {title: '参与的客户数量', dataIndex: 'Relation', key: 'Relation',width: 150,render: function(text, record, index){
+    {title: '参与的客户数量', dataIndex: 'Relation', key: 'Relation',width: 150,className: 'column-money',render: function(text, record, index){
         return (
           <span>{text}</span>
           );
     }},
-    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width:127,render: function(text, record, index){
+    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width:127,className: 'column-money',render: function(text, record, index){
         return (
           <span>{text}</span>
           );
