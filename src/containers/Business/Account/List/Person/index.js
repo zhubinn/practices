@@ -13,7 +13,7 @@ import {
     getPeopleData,
     changeIsShowStatus,
     getNextPagePeopleData
-} from 'actions/__demo/selectPeople'
+} from 'actions/Component/SelectPeople'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import SelectPeople from 'components/Business/SelectPeople'
@@ -27,7 +27,7 @@ const ProgressLine = Progress.Line;
 
 // 变更负责人选择人组件调用
 let getPeopleParams = {
-    url: SCRM.url('/setting/scrm/getSelectList'),
+    url: SCRM.url('/common/scrmCommon/getSelectList'),
     data: {
         page: 1,
         rowsPerPage: 20,
@@ -179,7 +179,7 @@ class Account_List_Person_Page extends React.Component {
 
         message.loading('正在执行中...', 0);
         reqwest({
-            url: SCRM.url('/setting/scrm/changeOwner'),
+            url: SCRM.url('/common/scrmCommon/changeOwner'),
             type: 'json',
             method: 'post',
             data: {
@@ -194,6 +194,14 @@ class Account_List_Person_Page extends React.Component {
             },
 
             success: function (r) {
+
+                if (typeof r.rs === 'undefined') {
+                    Modal.error({
+                        title: '出错了',
+                        content: '服务器错误, 请联系管理员',
+                    });
+                    return
+                }
 
                 if (r.rs) {
                     message.destroy()
@@ -456,7 +464,7 @@ class Account_List_Person_Page extends React.Component {
                             >
                                 <div className="account-import">
                                     <div>
-                                        <h3>一、<a href="javascript:;">下载【客户导入模板】</a></h3>
+                                        <h3>一、<a href={SCRM.url('/common/scrmCommonImport/getTemplate/objName/Account')}>下载【客户导入模板】</a></h3>
 
                                         <div>
                                             <p>请按照数据模板的格式准备要导入的数据。</p>
