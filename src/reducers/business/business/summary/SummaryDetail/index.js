@@ -60,28 +60,36 @@ let summaryDetail = {
             "width": 150,
             "dataIndex": "AmountPlan",
             "className": "column-money",
-            "key": "AmountPlan"
+            "key": "AmountPlan"render(text, record, index) {
+                    return <span>{"￥"+ text}</span>;
+            }
         },
         {
             "title": "全部成交金额",
             "width": 150,
             "dataIndex": "Amount",
             "className": "column-money",
-            "key": "Amount"
+            "key": "Amount"render(text, record, index) {
+                    return <span>{"￥"+ text}</span>;
+            }
         },
         {
             "title": "全部回款金额",
             "width": 150,
             "dataIndex": "Payment",
             "className": "column-money",
-            "key": "Payment"
+            "key": "Payment"render(text, record, index) {
+                    return <span>{"￥"+ text}</span>;
+            }
         },
         {
             "title": "全部输单金额",
             "width": 150,
             "dataIndex": "Failed",
             "className": "column-money",
-            "key": "Failed"
+            "key": "Failed"render(text, record, index) {
+                    return <span>{"￥"+ text}</span>;
+            }
         }
     ]
 
