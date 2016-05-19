@@ -15,28 +15,28 @@ import 'containers/Business/index.less'
 
 let deptstatisticColumns = [
 
-    {title: '部门名称', dataIndex: 'Name', key: 'Name', width: 200,render: function(text, record, index){
+    {title: '部门名称', dataIndex: 'Name', key: 'Name', width: 220,render: function(text, record, index){
         const  peneUrl = SCRM.url('/scrmweb/accounts/deptstatisticdetail?id=' + record.ID + '&name='+record.Name);
         if(record.ID == 0){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
         }else{
             return (
-            <div>
+            <span>
               <a href = {peneUrl} target="_blank" title = {text}>{text}</a>
-            </div>
+            </span>
             );   
         }
     }},
-    {title: '全部客户数量', dataIndex: 'All', key: 'All',width: 200,render: function(text, record, index){
+    {title: '全部客户数量', dataIndex: 'All', key: 'All',width: 220,render: function(text, record, index){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
     }},
-    {title: '负责的客户数量', dataIndex: 'Owner',key: 'Owner', width: 200,render: function(text, record, index){
+    {title: '负责的客户数量', dataIndex: 'Owner',key: 'Owner', width: 220,render: function(text, record, index){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
     }},
     // {title: '参与的客户数量', dataIndex: 'Relation', key: 'Relation',width: 150,render: function(text, record, index){
@@ -44,9 +44,9 @@ let deptstatisticColumns = [
     //       <div>{text}</div>
     //       );
     // }},
-    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width: 200,render: function(text, record, index){
+    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width: 203,render: function(text, record, index){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
     }}
 ];
@@ -125,9 +125,12 @@ class AccountDeptStatistic extends React.Component{
                     pagination = {false}
                     rowClassName = {
                       function(record, index){
-                        record.ID == 0?"amountClassName":""
+                        if (record.Name == "小计" || record.Name == "合计") {
+                          return "amountClassName";
                         }
-                    }                    
+                        return "";
+                      }
+                    }                   
                     {...queryDataTable}
                     onGetTableData={
 

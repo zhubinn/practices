@@ -38,7 +38,9 @@ export default function business_list_penetrate($$state = $$initialState, action
                 columns:action.payload.columns,
             })
         case GET_TABLE_DATA_FAILURE:
-            return $$state
+            return $$state.merge({
+                loading: action.payload.loading
+            })
         case GET_TABLE_QUERY:
             return $$state.merge({
                 queryColumns: {}

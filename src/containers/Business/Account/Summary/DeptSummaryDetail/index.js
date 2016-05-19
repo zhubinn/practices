@@ -11,57 +11,58 @@ import {searchKeyWord,getAccountSummaryDetailData} from 'actions/Business/Accoun
 import { Table, Icon ,Button,Input, Row, Col} from 'antd';
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
+import 'containers/Business/index.less'
 
 
 let summaryDetailColumns = [
 
-    {title: '部门名称', dataIndex: 'DeptName', key: 'DeptName', width: 200,render: function(text, record, index){
+    {title: '部门名称', dataIndex: 'DeptName', key: 'DeptName', width: 150,render: function(text, record, index){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
     }},
-    {title: '员工姓名', dataIndex: 'Name', key: 'Name', width: 150,render: function(text, record, index){
+    {title: '员工姓名', dataIndex: 'Name', key: 'Name', width: 100,render: function(text, record, index){
         const  peneUrl = SCRM.url('/scrmweb/accounts/peraccountdetail?id=' + record.ID);
         if(record.ID == 0){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
         }else{
             return (
-            <div>
+            <span>
               <a href = {peneUrl} target="_blank">{text}</a>
-            </div>
+            </span>
             );   
         }
     }},
     {title: '全部客户数量', dataIndex: 'Accounts', key: 'Accounts',width: 150,render: function(text, record, index){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
     }},
     {title: '全部生意数量', dataIndex: 'Business',key: 'Business', width: 150,render: function(text, record, index){
         return (
-          <div>{text}</div>
+          <span>{text}</span>
           );
     }},
     {title: '全部预计销售金额', dataIndex: 'AmountPlan', key: 'AmountPlan',width: 150,render: function(text, record, index){
         return (
-          <div>{parseFloat(text).toFixed(2)}</div>
+          <span>{parseFloat(text).toFixed(2)}</span>
           );
     }},
     {title: '全部成交金额', dataIndex: 'Amount', key: 'Amount',width:150,render: function(text, record, index){
         return (
-          <div>{parseFloat(text).toFixed(2)}</div>
+          <span>{parseFloat(text).toFixed(2)}</span>
           );
     }},
     {title: '全部回款金额', dataIndex: 'Payment', key: 'Payment',width:150,render: function(text, record, index){
         return (
-          <div>{parseFloat(text).toFixed(2)}</div>
+          <span>{parseFloat(text).toFixed(2)}</span>
           );
     }},
     {title: '全部输单金额', dataIndex: 'Failed', key: 'Failed',width:150,render: function(text, record, index){
         return (
-          <div>{parseFloat(text).toFixed(2)}</div>
+          <span>{parseFloat(text).toFixed(2)}</span>
           );
     }}
 ];
@@ -127,9 +128,8 @@ class AccountSummaryDetail extends React.Component{
 
 
           return (
-            <div style={{marginLeft: '20px'}}>
-                <div className = "col_cktop">
-                  <div className="col_cktop-gongneng">
+          <div className="ck-root-main">
+              <div className="ck-root-title">
                         <Row>
                             <Col span="10"><SearchInput  onSearch = {this.handleClickSearch.bind(this)}/> </Col>
                             <Col span="2" offset="12">
@@ -137,7 +137,6 @@ class AccountSummaryDetail extends React.Component{
                             </Col>
                         </Row>                     
                   </div> 
-                </div>
                 
                 <QueryDataTable
                     columns={summaryDetailColumns}
@@ -145,8 +144,11 @@ class AccountSummaryDetail extends React.Component{
                     pagination = {false}
                     rowClassName = {
                       function(record, index){
-                        record.ID == 0?"amountClassName":""
+                        if (record.DeptName == "小计" || record.DeptName == "合计") {
+                          return "amountClassName";
                         }
+                        return "";
+                      }
                     }
                     {...queryDataTable}
                     onGetTableData={
