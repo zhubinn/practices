@@ -37,6 +37,10 @@ export default function business_list_dept($$state = $$initialState, action) {
                 loading: action.payload.loading,
                 columns:action.payload.columns,
             })
+        case GET_TABLE_DATA_FAILURE:
+            return $$state.merge({
+                loading: action.payload.loading
+            })
         case GET_TABLE_QUERY:
             return $$state.merge({
                 queryColumns: {}
@@ -45,6 +49,9 @@ export default function business_list_dept($$state = $$initialState, action) {
             return $$state.merge({
                 queryColumns: action.payload.queryColumns
             })
+        case GET_TABLE_QUERY_FAILURE:
+            return $$state
+
 
         default:
             return $$state

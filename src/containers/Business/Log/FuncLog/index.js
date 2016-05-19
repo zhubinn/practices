@@ -6,14 +6,10 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { Row, Col, Table, Radio, Button, Input, Pagination, Modal, DatePicker, Form} from 'antd'
-
+import { Row, Col, Button, Modal, DatePicker, Form} from 'antd'
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
-import { isEmpty } from 'lodash'
-
-import { getFuncLogData, getFuncLogQuery, pageSizeChange,  exportShow, exportHide}  from 'actions/business/Log/FunctionLog'
-import 'antd/lib/index.css'
+import { getFuncLogData, getFuncLogQuery}  from 'actions/business/Log/FunctionLog'
 
 const RangePicker = DatePicker.RangePicker;
 const FormItem = Form.Item;
@@ -21,7 +17,6 @@ const FormItem = Form.Item;
 let FuncLogParams = {
     //url: 'http://esn.yangtianming.com/front/js/scrm/fakeData/funcLog.php',
     url: SCRM.url('/scrmoplog/index/oplogIndex'),
-    //url: 'http://esn.yangtianming.com/scrmoplog/index/oplogIndex',
 };
 
 let exportParams = {
@@ -33,6 +28,9 @@ let exportParams = {
 class FunctionLog extends React.Component {
     constructor(props) {
       super(props);
+      this.state = {
+          inImport: false
+      }
     }
 
     componentDidMount() {
@@ -57,43 +55,33 @@ class FunctionLog extends React.Component {
     }
 
     showModal = () => {
-      this.props.exportShow()
+      this.setState({
+        inImport: true
+      });
     }
 
     handleOk() {
-      this.props.exportHide()
-      //console.log(exportParams);
-      let objData = JSON.stringify(exportParams);
-      window.open(SCRM.url("/common/ScrmExportOptimization/export")+ '?param=' + objData);
+      this.setState({
+        inImport: false
+      });
+       if(exportParams.begin == "" || exportParams.begin == null){
+        Modal.info({
+            title: '请选择时间范围',
+            content: '请选择开始时间和截止时间',
+        });
+      }else{
+        let objData = JSON.stringify(exportParams);
+        window.open(SCRM.url("/common/ScrmExportOptimization/export")+ '?param=' + objData);
+      };
     }
 
     handleCancel(e) {
-      this.props.exportHide()
+      this.setState({
+        inImport: false
+      });
     }
 
     exportTimeChange(value){
-
-      // function comple(val){
-      //   if(val<10){
-      //     return "0"+val;
-      //   }else{
-      //     return val;
-      //   }
-      // }
-
-      // function formatDate(date, format){
-      //   switch(format){
-      //     case "yyyy-MM-dd HH:mm:ss":
-      //     return date.getFullYear() + "-" + comple(date.getMonth()) + "-" + comple(date.getDate()) + " " + comple(date.getHours()) + ":" + comple(date.getMinutes()) + ":" + comple(date.getSeconds());
-      //     case "yyyy-MM-dd":
-      //     return date.getFullYear() + "-" + comple(date.getMonth()) + "-" + comple(date.getDate());
-      //     default:
-      //     return date.getFullYear() + "-" + comple(date.getMonth()) + "-" + comple(date.getDate());
-      //   }
-      // }
-
-      // exportParams.begin = formatDate(value[0], "yyyy-MM-dd HH:mm:ss");
-      // exportParams.end = formatDate(value[1], "yyyy-MM-dd HH:mm:ss");
       exportParams.begin = value[0];
       exportParams.end = value[1];
     }
@@ -102,7 +90,6 @@ class FunctionLog extends React.Component {
         //table数据配置
         const { $$funcLogState, getFuncLogData } = this.props;
         const columns = $$funcLogState.get('tableColumns').toJS();
-        const expotModal = $$funcLogState.get('export').get('visible');
         //分页配置
         let queryDataTable = {}
         let tablePageData = $$funcLogState.get('tableData').get('data');
@@ -111,7 +98,7 @@ class FunctionLog extends React.Component {
         queryDataTable.total = tablePageData.get('total');
         queryDataTable.pageSize = tablePageData.get('pageSize');
         queryDataTable.queryColumns = $$funcLogState.get('queryColumns').toJS()
-        //queryDataTable.loading = $$account_list_person.toJS().loading
+        queryDataTable.loading = $$funcLogState.get('loading')
         
         return (
             <div className="ck-root-main">
@@ -147,11 +134,16 @@ class FunctionLog extends React.Component {
                 </QueryDataTable>
                 <Modal 
                   title="导出日志" 
-                  visible={expotModal}
+                  visible={this.state.inImport}
                   onOk={this.handleOk.bind(this)} 
                   onCancel={this.handleCancel.bind(this)}
                 >
-                  <RangePicker showTime format="yyyy-MM-dd HH:mm:ss"  onChange={this.exportTimeChange.bind(this)} />
+                  <RangePicker 
+                    showTime 
+                    format="yyyy-MM-dd HH:mm:ss" 
+                    onChange={this.exportTimeChange.bind(this)} 
+                  />
+                  <p style={{marginTop:'10px', color:'#999'}}>提示：一次导出的数据量最大上限10万条，超出时请缩短时间范围</p>
                 </Modal>
             </div>
         )
@@ -167,7 +159,4 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps, {
     getFuncLogData,
     getFuncLogQuery,
-    pageSizeChange,
-    exportShow,
-    exportHide,
 })(FunctionLog)

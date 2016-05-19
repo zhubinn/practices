@@ -6,12 +6,10 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { Row, Col, Table, Button, Input, Pagination, Modal} from 'antd'
-
+import { Row, Col, Button } from 'antd'
 import { getDeptSummaryData }  from 'actions/business/business/summary/DeptSummary'
-import QueryDataTable from 'components/Business/QueryDataTable'
 import SearchInput from 'components/Business/SearchInput'
-import 'antd/lib/index.css'
+import QueryDataTable from 'components/Business/QueryDataTable'
 import 'containers/Business/index.less'
 
 //获取table列表数据接口
@@ -55,6 +53,7 @@ class DeptSummary extends React.Component {
         const { $$deptSummary } = this.props;
         const dataSource = $$deptSummary.get('tableData').get('data').toJS();
         const columns = $$deptSummary.get('tableColumns').toJS();
+        const loading = $$deptSummary.get('loading')
 
         return (
             <div className="ck-root-main">
@@ -71,6 +70,7 @@ class DeptSummary extends React.Component {
               <QueryDataTable
                     columns={columns}
                     dataSource={dataSource} 
+                    loading = {loading}
                     checkMode={false}
                     ref="queryDataTable"
                     pagination={false}

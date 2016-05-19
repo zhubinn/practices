@@ -3,22 +3,15 @@
  */
 import Immutable from 'immutable'
 import { 
-    FUNCLOG_SIZE_CHANGE,
     GET_FUNCLOG_DATA,
     GET_FUNCLOG_SUCCESS,
-    GET_FUNCLOG_FAILURE,
-    EXPORT_FUNCLOG_SHOW,
-    EXPORT_FUNCLOG_HIDE,
     GET_FUNCLOG_QUERY,
-    GET_FUNCLOG_QUERY_SUCCESS
+    GET_FUNCLOG_QUERY_SUCCESS,
 } from 'actions/business/Log/FunctionLog'
 
 let funclog = {
-    queryColumns:{
-    },
-    export:{
-        "visible": false
-    },
+    loading: false,
+    queryColumns:{},
     "tableData":{
         "rs": true,
         "data": {
@@ -55,20 +48,25 @@ let funclog = {
 
 export default function FuncLog($$state = Immutable.fromJS(funclog), action) {
     switch(action.type) {
-        case FUNCLOG_SIZE_CHANGE:
-            return $$state.merge({tableData: action.payload.data});
         case GET_FUNCLOG_DATA:
-            return $$state;
+            return $$state.merge({
+                loading: true
+            });
         case GET_FUNCLOG_SUCCESS:
-            return $$state.merge({tableData: action.payload.data});
+            return $$state.merge({
+                tableData: action.payload.data,
+                loading: false
+            });
         case GET_FUNCLOG_QUERY:
             return $$state;
         case GET_FUNCLOG_QUERY_SUCCESS:
-            return $$state.merge({queryColumns: action.payload.data});
-        case EXPORT_FUNCLOG_SHOW:
-            return $$state.merge({export: {"visible": true}});
-        case "EXPORT_FUNCLOG_HIDE":
-            return $$state.merge({export: {"visible": false}});
+            return $$state.merge({
+                queryColumns: action.payload.data
+            });
+        case "PAGE_NO_DATA":
+            return $$state.merge({
+                loading: false
+            });
         default:
             return $$state;
     }

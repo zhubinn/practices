@@ -309,7 +309,7 @@ export default class QueryDataTable extends React.Component {
             width += item.width || this.defaultColWidth
         })
 
-        return width + 'px'
+        return width
     }
 
 
@@ -413,7 +413,6 @@ export default class QueryDataTable extends React.Component {
                 <div ref="TableBoxModel" style={{width: '880px', overflow: "auto"}}>
                     <div style={{width: this.calculateWidth(), position: 'relative'}} id={this.identity}>
 
-
                         <div className="ant-noneWe" >
                             <div className="ant-table ant-table-large"
                                  onSubmit={this.handleSubmit }>
@@ -447,7 +446,7 @@ export default class QueryDataTable extends React.Component {
                             </div>
                         </div>
 
-                        <div style={{maxHeight: '500px',  overflow: "auto"}}>
+                        <div style={{maxHeight: '500px', minHeight:'250px', overflow: "auto"}}>
                             {table}
                         </div>
 
