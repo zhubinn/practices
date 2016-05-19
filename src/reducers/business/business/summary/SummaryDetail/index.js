@@ -7,27 +7,12 @@ import {
     GET_SUMMARYDETAIL_DATA,
     GET_SUMMARYDETAIL_SUCCESS,
     GET_SUMMARYDETAIL_FAILURE,
-    GET_SUMMARYDETAIL_QUERY,
-    GET_SUMMARYDETAILQUERY_SUCCESS,
 } from 'actions/business/business/summary/summaryDetail'
 
 let deptID = getQueryString("deptID")
 
 let summaryDetail = {
-    "queryColumns": {
-        "DeptName": {
-            "searchType": 5,
-            "renderData": {
-                "defaultValue": ""
-            }
-        },
-        "Name": {
-            "searchType": 5,
-            "renderData": {
-                "defaultValue": ""
-            }
-        }
-    },
+    "loading": false,
     "tableData":{
         "rs": true,
         "data": []
@@ -100,13 +85,14 @@ let summaryDetail = {
 export default function summarydetail($$state = Immutable.fromJS(summaryDetail), action) {
     switch(action.type) {
         case GET_SUMMARYDETAIL_DATA:
-            return $$state;
+            return $$state.merge({
+                loading: true
+            })
         case GET_SUMMARYDETAIL_SUCCESS:
-            return $$state.merge({tableData: action.payload.data});
-        case GET_SUMMARYDETAIL_QUERY:
-            return $$state;
-        case GET_SUMMARYDETAILQUERY_SUCCESS:
-            return $$state.merge({queryColumns: action.payload.data});
+            return $$state.merge({
+                tableData: action.payload.data,
+                loading: false
+            });
         default:
             return $$state;
     }

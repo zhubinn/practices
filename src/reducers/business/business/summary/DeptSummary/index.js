@@ -9,6 +9,7 @@ import {
 } from 'actions/business/business/summary/DeptSummary'
 
 let deptSummary = {
+    "loading": false,
     "tableData":{
         "rs": true,
         "data": []
@@ -66,9 +67,14 @@ let deptSummary = {
 export default function deptsummary($$state = Immutable.fromJS(deptSummary), action) {
     switch(action.type) {
         case GET_DEPTSUMMARY_DATA:
-            return $$state;
+            return $$state.merge({
+                loading: true
+            })
         case GET_DEPTSUMMARY_SUCCESS:
-            return $$state.merge({tableData: action.payload.data});
+            return $$state.merge({
+                tableData: action.payload.data,
+                loading: false
+            });
         default:
             return $$state;
     }

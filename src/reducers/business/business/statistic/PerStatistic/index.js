@@ -9,6 +9,7 @@ import {
 } from 'actions/business/business/statistic/PerStatistic'
 
 let perStatistic = {
+    "loading": false,
     "tableData":{
         "rs": true,
         "data": []
@@ -63,9 +64,14 @@ let perStatistic = {
 export default function PerStatistic($$state = Immutable.fromJS(perStatistic), action) {
     switch(action.type) {
         case GET_PERSTATISTIC_DATA:
-            return $$state;
+            return $$state.merge({
+                loading: true
+            })
         case GET_PERSTATISTIC_SUCCESS:
-            return $$state.merge({tableData: action.payload.data});
+            return $$state.merge({
+                tableData: action.payload.data,
+                loading: false
+            });
         default:
             return $$state;
     }

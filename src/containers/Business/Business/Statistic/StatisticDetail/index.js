@@ -6,13 +6,11 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { Row, Col, Table, Button, Input, Pagination, Modal} from 'antd'
+import { Row, Col, Button, Modal} from 'antd'
 
 import { getStatisticDetailData, getStatisticDetailQuery }  from 'actions/business/business/statistic/statisticDetail'
-
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
-import 'antd/lib/index.css'
 import 'containers/Business/index.less'
 
 import getQueryString from 'components/Business/GetQueryString'
@@ -79,6 +77,7 @@ class statisticDetail extends React.Component {
         let queryDataTable = {}
         queryDataTable.dataSource = $$statisticDetail.get('tableData').get('data').toJS();
         //queryDataTable.queryColumns = $$statisticDetail.get('queryColumns').toJS()
+        const loading = $$statisticDetail.get('loading')
 
         return (
             <div className="ck-root-main">
@@ -95,6 +94,7 @@ class statisticDetail extends React.Component {
               <QueryDataTable
                     columns={columns}
                     checkMode={false}
+                    loading = {loading}
                     pagination={false}
                     {...queryDataTable}
                     ref="queryDataTable"

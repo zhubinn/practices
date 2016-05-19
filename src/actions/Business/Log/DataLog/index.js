@@ -7,9 +7,6 @@ import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 import {Modal} from 'antd'
 
-// 数据日志页码长度改变
-const DATALOG_SIZE_CHANGE = 'DATALOG_SIZE_CHANGE'
-
 // 获取数据日志报表
 const GET_DATALOG_DATA = 'GET_DATALOG_DATA'
 // 获取数据日志报表成功
@@ -22,9 +19,6 @@ const GET_DATALOG_QUERY = 'GET_DATALOG_QUERY'
 //获取数据日志高级搜索成功
 const GET_DATALOG_QUERY_SUCCESS = 'GET_DATALOG_QUERY_SUCCESS'
 
-// 导出弹框
-const EXPORT_DATALOG_SHOW = 'EXPORT_DATALOG_SHOW'
-const EXPORT_DATALOG_HIDE = 'EXPORT_DATALOG_HIDE'
 
 let table_params = {
     url: '',
@@ -37,40 +31,6 @@ let table_params = {
 }
 
 let table_query_url = ''
-
-const pageSizeChange = (val) => {
-    const fetchData = (type, payload)=> {
-        return {
-            type,
-            payload
-        }
-    }
-    return (dispatch, getState) => {
-        dispatch(fetchData(DATALOG_SIZE_CHANGE, data))
-    }
-}
-
-const exportShow = () => {
-    const fetchData = (type)=> {
-        return {
-            type
-        }
-    }
-    return (dispatch, getState) => {
-        dispatch(fetchData(EXPORT_DATALOG_SHOW))
-    }
-}
-
-const exportHide = () => {
-    const fetchData = (type)=> {
-        return {
-            type
-        }
-    }
-    return (dispatch, getState) => {
-        dispatch(fetchData(EXPORT_DATALOG_HIDE))
-    }
-}
 
 const getDataLogData = (params) => {
     const fetchData = (type, payload) => {
@@ -107,6 +67,7 @@ const getDataLogData = (params) => {
                     title: '错误信息',
                     content: data.error,
                     onOk() {
+                        dispatch(fetchData("PAGE_NO_DATA"))
                     }
                 });
             }
@@ -153,18 +114,11 @@ const getDataLogQuery = (url)=> {
     }
 }
 export {
-    DATALOG_SIZE_CHANGE,
     GET_DATALOG_DATA,
     GET_DATALOG_SUCCESS,
-    GET_DATALOG_FAILURE,
-    EXPORT_DATALOG_SHOW,
-    EXPORT_DATALOG_HIDE,
     GET_DATALOG_QUERY,
     GET_DATALOG_QUERY_SUCCESS,
     
     getDataLogData,
     getDataLogQuery,
-    pageSizeChange,
-    exportShow,
-    exportHide,
 }

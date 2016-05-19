@@ -9,6 +9,7 @@ import {
 } from 'actions/business/business/summary/PerSummary'
 
 let perSummary = {
+    "loading": false,
     "tableData":{
         "rs": true,
         "data": []
@@ -57,9 +58,14 @@ let perSummary = {
 export default function deptstatistic($$state = Immutable.fromJS(perSummary), action) {
     switch(action.type) {
         case GET_PERSUMMARY_DATA:
-            return $$state;
+            return $$state.merge({
+                loading: true
+            })
         case GET_PERSUMMARY_SUCCESS:
-            return $$state.merge({tableData: action.payload.data});
+            return $$state.merge({
+                tableData: action.payload.data,
+                loading: false
+            });
         default:
             return $$state;
     }
