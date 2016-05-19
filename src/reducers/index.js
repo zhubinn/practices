@@ -5,16 +5,6 @@ import { combineReducers } from 'redux'
 import { routerReducer as routing } from 'react-router-redux'
 
 import components from './components'
-import __demo from './__demo'
-
-
-import hello from './__demo/hello'
-import customEditField from './__demo/customEditField'
-
-
-//import report from './__demo/report'
-import user from './__demo/user'
-
 
 import business from './business'
 
@@ -22,9 +12,6 @@ import business from './business'
 const rootReducer = combineReducers({
     components,
     business,
-    __demo,
     routing,
-    hello,
-    customEditField,
 })
 export default rootReducer
