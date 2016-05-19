@@ -54,6 +54,8 @@ import SummaryDetail from 'containers/Business/Business/Summary/SummaryDetail'
 
 import DeptList from 'containers/Business/Business/List/Dept'
 import PersonList from 'containers/Business/Business/List/Person'
+import DeptDetail from 'containers/Business/Business/Detail/Dept'
+import PersonDetail from 'containers/Business/Business/Detail/Person'
 //客户穿透到生意列表
 import PenetrateList from 'containers/Business/Business/List/PenetrateList'
 
@@ -99,6 +101,8 @@ export default (
 
                 <Route path="deptlist/:role/:id*" component={DeptList} />
                 <Route path="list/:role/:id*" component={PersonList} />
+                <Route path="deptlistdetail/:role/:id*" component={DeptDetail} />
+                <Route path="listdetail/:role/:id*" component={PersonDetail} />
                 <Route path="penetratelist/:role/:id*" component={PenetrateList} />
 
             </Route>
