@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Modal  } from 'antd'
 
 import SearchInput from 'components/Business/SearchInput'
-import { getTableData, getTableQuery, table_params } from 'actions/business/business/list/penetrate'
+import { getTableData, getTableQuery, table_params } from 'actions/business/business/detail/penetrate'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import getQueryString from 'components/Business/GetQueryString'
@@ -101,7 +101,7 @@ const columns = [
 // 查询表格
 // 依赖Table, Pagination, Form
 
-class PenetrateList extends React.Component {
+class PenetrateDetail extends React.Component {
     constructor() {
         super()
 
@@ -187,7 +187,7 @@ class PenetrateList extends React.Component {
 
     render() {
         const {
-                $$business_list_penetrate,
+                $$business_detail_penetrate,
                 getTableData
 
             } = this.props
@@ -196,12 +196,12 @@ class PenetrateList extends React.Component {
 
         let queryDataTable = {};
 
-        queryDataTable.dataSource = $$business_list_penetrate.toJS().rows
-        queryDataTable.current = $$business_list_penetrate.toJS().current
-        queryDataTable.total = $$business_list_penetrate.toJS().total
-        queryDataTable.pageSize = $$business_list_penetrate.toJS().pageSize
-        queryDataTable.queryColumns = $$business_list_penetrate.toJS().queryColumns
-        queryDataTable.loading = $$business_list_penetrate.toJS().loading
+        queryDataTable.dataSource = $$business_detail_penetrate.toJS().rows
+        queryDataTable.current = $$business_detail_penetrate.toJS().current
+        queryDataTable.total = $$business_detail_penetrate.toJS().total
+        queryDataTable.pageSize = $$business_detail_penetrate.toJS().pageSize
+        queryDataTable.queryColumns = $$business_detail_penetrate.toJS().queryColumns
+        queryDataTable.loading = $$business_detail_penetrate.toJS().loading
 
 
 
@@ -271,11 +271,11 @@ class PenetrateList extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$business_list_penetrate: state.business.business_list_penetrate
+        $$business_detail_penetrate: state.business.business_detail_penetrate
     }
 }
 
 export default connect(mapStateToProps, {
     getTableData,
     getTableQuery
-})(PenetrateList)
+})(PenetrateDetail)

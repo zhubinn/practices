@@ -75,7 +75,7 @@ class NumberReportViewPage extends Component {
                 }
             }
         })
-        
+
     }
 
     importExcel(){
