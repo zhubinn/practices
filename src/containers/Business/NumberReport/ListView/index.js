@@ -68,7 +68,7 @@ class NumberReportViewPage extends Component {
                 message.error(result.error)
             },
             success: (result) => {
-                if (result.rs === true) {
+                if (result.rs) {
                     actions.fetchData(true, result.data)
                 } else {
                     message.error('服务器错误，请联系客服')

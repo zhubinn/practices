@@ -126,19 +126,25 @@ class DispatchCluesPage extends Component {
             data:params,
             type:'json',
             error:  (result) => {
-                message.error(result.error)
+                message.error('服务器错误,请联系客服!')
             },
             success:(result) => {
 
-                const pagination = this.state.pagination;
-                const rowData = result.data.rowData;
-                pagination.total = result.data.total*1;
+                if(result.rs){
+                    const pagination = this.state.pagination;
+                    const rowData = result.data.rowData;
+                    pagination.total = result.data.total*1;
 
-                this.setState({
-                    loading:false,
-                    pagination,
-                })
-                actions.fetchData(true,rowData)
+                    this.setState({
+                        loading:false,
+                        pagination,
+                    })
+                    actions.fetchData(true,rowData)
+                }else{
+                    message.error(result.error)
+                }
+
+
             }
         })
 
@@ -233,7 +239,6 @@ class DispatchCluesPage extends Component {
     clickSearch(value){
         const val = value.trim()
 
-
         this.setState({
             owner:val,
             pagination:{
@@ -277,7 +282,11 @@ class DispatchCluesPage extends Component {
                 method:'get',
                 type:'json',
                 success:(result) => {
-                    actions.fetchDeptData(true,result.data)
+                    if(result.rs){
+                        actions.fetchDeptData(true,result.data)
+                    }else{
+                        message.error(result.error)
+                    }
                 }
             })
         }
@@ -320,20 +329,24 @@ class DispatchCluesPage extends Component {
             },
             type:'json',
             success:(result) => {
-                //  清空select状态
-                if(this.refs.tableList){
-                    this.refs.tableList.setState({
-                        selectedRowKeys:[]
-                    })
-                }
+                if(result.rs){
+                    //  清空select状态
+                    if(this.refs.tableList){
+                        this.refs.tableList.setState({
+                            selectedRowKeys:[]
+                        })
+                    }
 
-                actions.updateTableData(selectIDs);
-                this.setState({
-                    visible:false
-                },() => {
-                    actions.selectChange([], [])
-                    message.success('分派成功！')
-                })
+                    actions.updateTableData(selectIDs);
+                    this.setState({
+                        visible:false
+                    },() => {
+                        actions.selectChange([], [])
+                        message.success('分派成功！')
+                    })
+                }else{
+                    message.error(result.error)
+                }
             }
         })
 
