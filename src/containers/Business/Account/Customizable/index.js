@@ -107,11 +107,7 @@ class CustomizablePage extends  React.Component{
 
             if (nary[i]==nary[i+1]){
 
-                hasRepeat = 0
-
-                message.config({
-                  top: 250
-                });             
+                hasRepeat = 0           
 
                 break;
 
