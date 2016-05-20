@@ -3,7 +3,7 @@
  */
 import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form  } from 'antd'
-import 'antd/style/index.less'
+
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery,  table_params } from 'actions/business/account/detail/person'
 import { isEmpty } from 'lodash'
@@ -172,19 +172,18 @@ class Account_Detail_Person_Page extends React.Component {
     }
     expandedRowRender = (row) => {
         const peneUrl = SCRM.url('/scrmweb/business/penetratelist') + '?AccountID=' + row.ID
-        return (
-            <div style={{width: 1950}}>
+        const table = (<div style={{width: 1950}}>
+            <Table className = "ckDetil-depttable"
+                   columns={business_columns}
+                   dataSource={row.Opportunity}
+                   pagination={false}>
 
-                <Table className="ckDetil-depttable"
-                       columns={business_columns}
-                       dataSource={row.Opportunity}
-                       pagination={false}>
+            </Table>
 
-                </Table>
+            {row.Opportunity.length === 0 ? null : (<div style={{display: 'block',paddingBottom: '10px',paddingTop: '10px'}}><a href={peneUrl}>点击查看更多生意...</a></div>)}
 
-                {row.Opportunity.length === 0 ? null : (<div style={{display: 'block',paddingBottom: '10px',paddingTop: '10px'}}><a href={peneUrl}>点击查看更多生意...</a></div>)}
-
-            </div>)
+        </div>)
+        return (row.Opportunity.length === 0 ? (<p style={{textAlign: 'left'}}>该客户下没有生意</p>) : table)
     }
 
     handleExport = (e)=> {

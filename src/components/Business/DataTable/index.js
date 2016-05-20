@@ -13,7 +13,6 @@ import './DataTable.less'
 
 
 import {  Spin, InputNumber, Input, DatePicker, Select, Form, Button  } from 'antd';
-import 'antd/lib/index.css';
 
 
 // todo: 获取数据action的详写
