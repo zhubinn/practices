@@ -21,6 +21,12 @@ const GET_TABLE_QUERY_SUCCESS = 'GET_TABLE_QUERY_SUCCESS'
 // 获取数据失败
 const GET_TABLE_QUERY_FAILURE = 'GET_TABLE_QUERY_FAILURE'
 
+const GET_PERMISSION = 'GET_PERMISSION'
+
+const GET_PERMISSION_SUCCESS = 'GET_PERMISSION_SUCCESS'
+
+const GET_PERMISSION_FAILURE = 'GET_PERMISSION_FAILURE'
+
 
 
 
@@ -35,7 +41,10 @@ let table_params = {
 }
 
 let table_query_url = ''
-
+let permission_params = {
+    url: '',
+    type: 'all'
+}
 
 /**
  * 获取数据
@@ -150,6 +159,59 @@ const getTableQuery = (url)=> {
 }
 
 
+// 权限管理
+
+const getPermission = (params)=> {
+    const fetchData = (type, payload)=> {
+
+        return {
+            type,
+            payload
+        }
+    }
+
+
+    /*
+     *     body:  Object.assign(table_params.data, params.data)
+     *    */
+    return (dispatch, getState) => {
+
+        dispatch(fetchData(GET_PERMISSION))
+
+        fetch(permission_params.url = params.url || permission_params.url, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+
+            body: 'params=' + JSON.stringify({type:params.type})
+        }).then(function (response) {
+            if (response.status >= 400) {
+                throw new Error("Bad response from server")
+            }
+
+            return response.json()
+        }).then(function (data) {
+            if (data.rs) {
+                dispatch(fetchData(GET_PERMISSION_SUCCESS, {
+                    permission: data.data
+                }))
+
+            }else{
+                Modal.error({
+                    title: '发生异常',
+                    content: data.message||data.error||''
+                });
+            }
+
+
+        })
+
+    }
+}
+
+
 
 
 export {
@@ -158,8 +220,12 @@ export {
     GET_TABLE_DATA_FAILURE,
     getTableData,
     getTableQuery,
+    getPermission,
     GET_TABLE_QUERY,
     GET_TABLE_QUERY_SUCCESS,
     GET_TABLE_QUERY_FAILURE,
+    GET_PERMISSION,
+    GET_PERMISSION_SUCCESS,
+    GET_PERMISSION_FAILURE,
     table_params,
-}
+    }

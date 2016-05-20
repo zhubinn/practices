@@ -2,18 +2,39 @@
  * Created by janeluck on 4/27/16.
  */
 import { connect } from 'react-redux'
-import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Modal  } from 'antd'
+import {
+    changeIsMultiselect,
+    getPeopleData,
+    changeIsShowStatus,
+    getNextPagePeopleData
+    } from 'actions/Component/SelectPeople'
 
-import SearchInput from 'components/Business/SearchInput'
-import { getTableData, getTableQuery, table_params } from 'actions/business/business/list/person'
+import SelectPeople from 'components/Business/SelectPeople'
+import reqwest from 'reqwest'
 import { isEmpty } from 'lodash'
+
+import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Modal, message  } from 'antd'
+import SearchInput from 'components/Business/SearchInput'
+import { getTableData, getTableQuery, getPermission, table_params } from 'actions/business/business/list/dept'
+
 import QueryDataTable from 'components/Business/QueryDataTable'
 import getQueryString from 'components/Business/GetQueryString'
+
 import 'containers/Business/index.less'
 import 'containers/Business/lsx-index.less'
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
+
+// 变更负责人选择人组件调用
+let getPeopleParams = {
+    url: SCRM.url('/common/scrmCommon/getSelectList'),
+    data: {
+        page: 1,
+        rowsPerPage: 20,
+        keyword: ''
+    }
+}
 
 // SCRM.url 由原来外层页面引入
 
@@ -103,6 +124,10 @@ const columns = [
 class PersonList extends React.Component {
     constructor() {
         super()
+        this.state = {
+            changeOwnerRowsLength: 0,
+            type:'all',
+        }
 
     }
 
@@ -118,6 +143,10 @@ class PersonList extends React.Component {
 
         })
         this.props.getTableQuery(SCRM.url('/scrmweb/business/getOpportunityFilter'))
+        this.props.getPermission({
+            url: SCRM.url('/scrmweb/accounts/getPermission'),
+            type: 'all'
+        })
     }
 
     // 普通搜索和筛选(高级搜索)互斥
@@ -145,6 +174,10 @@ class PersonList extends React.Component {
         this.refs.queryDataTable.resetQueryForm()
         this.refs.queryDataTable.clearCheckedAndExpanded()
 
+        this.setState({
+            type
+        })
+
         this.props.getTableData({
             data: {
                 searchData: [],
@@ -156,6 +189,142 @@ class PersonList extends React.Component {
                 type
             }
         })
+
+    }
+
+    //变更负责人选人
+    changeOwner(e){
+        console.log('获取已经选择的row')
+        console.log(this.refs.queryDataTable.getCheckedRows())
+        const checkedRows = this.refs.queryDataTable.getCheckedRows()
+        if (checkedRows.length == 0) {
+            Modal.info({
+                title: '请先选择客户',
+                onOk() {
+                },
+            });
+        } else {
+            const IsMultiselect = 0;//0 单选  1 多选
+            const {changeIsMultiselect} = this.props
+            changeIsMultiselect(IsMultiselect)
+            const {getPeopleData} = this.props
+            this.setState({
+                changeOwnerRowsLength: checkedRows.length
+            })
+            const paramData = {
+                page: 1,
+                rowsPerPage: 20,
+                keyword: ''
+            }
+
+            Object.assign(getPeopleParams.data, paramData);
+
+
+            getPeopleData(getPeopleParams)
+
+        }
+    }
+
+    //筛选选人
+    handleSelection() {
+        const IsMultiselect = 1;//0 单选  1 多选
+        const {changeIsMultiselect} = this.props
+        changeIsMultiselect(IsMultiselect)
+        const {getPeopleData} = this.props
+        const paramData = {
+            page: 1,
+            rowsPerPage: 20,
+            keyword: ''
+        }
+
+        Object.assign(getPeopleParams.data, paramData);
+
+        getPeopleData(getPeopleParams)
+    }
+
+
+    //点击取消按钮改变模态层显示状态
+    handleChangeStatus() {
+        const {changeIsShowStatus} = this.props
+        changeIsShowStatus()
+    }
+
+
+    //点击确定按钮获取所选人员信息
+    getFilterData (PeopleInfor) {
+        const checkedRows = this.refs.queryDataTable.getCheckedRows()
+        console.log('所选人员信息')
+        console.log(PeopleInfor)
+        const {changeIsShowStatus} = this.props
+        changeIsShowStatus()
+
+        message.loading('正在执行中...', 0);
+        reqwest({
+            url: SCRM.url('/scrmweb/business/modifyOwner'),
+            type:'json',
+            method:'post',
+            data: {
+                type:this.state.type,
+                ownerID: PeopleInfor.choseNameData[0].ownerId,
+                selectIDs: checkedRows.map((item, i)=>{
+                    return item.ID
+                }),
+                relContact: !PeopleInfor.isChangeContact ? 0 : 1,
+                relOptnty: !PeopleInfor.isChangeBusiness ? 0 : 1
+
+            },
+
+            success: function (r) {
+                if (r.rs) {
+                    message.success(`操作成功`);
+                    top.window.location.href = top.window.location.href
+                } else {
+                    message.error(`操作失败`);
+                }
+
+                message.destroy()
+            }
+
+        })
+
+    }
+
+    //再次请求数据(按关键词搜索)
+    requestPDList(page, value, rowsPerPage) {
+
+        const paramData = {
+            page: page,
+            rowsPerPage: rowsPerPage,
+            keyword: value
+        }
+
+        Object.assign(getPeopleParams.data, paramData);
+
+        console.log('搜索关键词请求')
+        const {getPeopleData} = this.props
+        getPeopleData(getPeopleParams)
+
+
+    }
+
+
+    //请求人员组件的下一页数据
+    requestNextPoepleData(page, value) {
+
+
+        const paramData = {
+            page: page,
+            rowsPerPage: 20,
+            keyword: ''
+        }
+
+        Object.assign(getPeopleParams.data, paramData);
+
+        console.log('请求下一页数据')
+        const {getNextPagePeopleData} = this.props
+        getNextPagePeopleData(getPeopleParams)
+
+
 
     }
 
@@ -180,13 +349,26 @@ class PersonList extends React.Component {
 
             } = this.props
 
-        let queryDataTable = {}
+        let queryDataTable = {};
+        let peoplePropsData = {};
+
         queryDataTable.dataSource = $$business_list_person.toJS().rows
         queryDataTable.current = $$business_list_person.toJS().current
         queryDataTable.total = $$business_list_person.toJS().total
         queryDataTable.pageSize = $$business_list_person.toJS().pageSize
         queryDataTable.queryColumns = $$business_list_person.toJS().queryColumns
         queryDataTable.loading = $$business_list_person.toJS().loading
+
+        peoplePropsData.IsMultiselect = $$business_list_person.toJS().IsMultiselect
+        peoplePropsData.data = $$business_list_person.toJS().data
+        peoplePropsData.selectPeopleModal = $$business_list_person.toJS().selectPeopleModal
+
+        //选中人员的长度
+        peoplePropsData.checkedRowsLength = this.state.changeOwnerRowsLength
+
+
+        // 权限
+        let permission = $$business_list_person.toJS().permission
 
 
         return (
@@ -197,13 +379,19 @@ class PersonList extends React.Component {
                     <Row>
                         <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
 
-                        <Col span="8" offset="8" style = {{textAlign: 'right'}} >
+                        <Col span="10" offset="6" style = {{textAlign: 'right'}} >
                             <div className="ckBusiness-listfilter">
                                 <Button type="primary" onClick={(e)=>{
                                     this.refs.queryDataTable.toggleQueryTable(e)
                                 }}>筛选</Button>
 
                             </div>
+
+                            {
+                                permission.changeOwner == 1
+                                    ? <Button type="ghost" onClick={this.changeOwner.bind(this)} style = {{marginRight:10}}>变更负责人</Button>
+                                    : null
+                            }
 
                             <Button type="ghost" onClick = { this.handleExport.bind(this) }>导出</Button>
                         </Col>
@@ -232,7 +420,7 @@ class PersonList extends React.Component {
 
                 <QueryDataTable
                     columns={columns}
-                    checkMode={false}
+                    checkMode={true}
                     {...queryDataTable}
                     onGetTableData={
 
@@ -245,6 +433,15 @@ class PersonList extends React.Component {
                     ref="queryDataTable"
                     >
                 </QueryDataTable>
+
+                <SelectPeople
+                    {...peoplePropsData}
+                    handleClickConfirm={this.getFilterData.bind(this)}
+                    handleClickCancle={this.handleChangeStatus.bind(this)}
+                    requestData={this.requestPDList.bind(this)}
+                    requestNextData={this.requestNextPoepleData.bind(this)}
+
+                    />
 
 
             </div>
@@ -260,5 +457,10 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps, {
     getTableData,
-    getTableQuery
+    getTableQuery,
+    getPermission,
+    changeIsMultiselect,
+    getPeopleData,
+    changeIsShowStatus,
+    getNextPagePeopleData
 })(PersonList)
