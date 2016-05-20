@@ -75,20 +75,7 @@ class NumberReportViewPage extends Component {
                 }
             }
         })
-        /*$.post(SCRM.url('/scrmnumreport/index/listAjax'), {
-         templateID:obj.templateid,
-         date:myDate.getFullYear() +'-'+ this.fillZero(myDate.getMonth()+1) +'-'+ this.fillZero(myDate.getDate()),
-         dateType:obj.nptype
-         },function(data){
-         if(data.rs === true){
-         actions.fetchData(true,data.data);
-         }else{
-         openNotification()
-         }
-         },'json');*/
-
-
-
+        
     }
 
     importExcel(){
