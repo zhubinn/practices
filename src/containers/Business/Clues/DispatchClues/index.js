@@ -26,7 +26,7 @@ const columns = [{
     render(text, row, index) {
 
         return text.length>5 ? text.substring(0,5) : text
-        
+
     },
 }, {
     title: '客户名称',

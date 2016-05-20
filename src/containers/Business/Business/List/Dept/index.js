@@ -26,7 +26,7 @@ const columns = [
     {
         "dataIndex": "AccountID",
         "key": "AccountID",
-        "title": "客户名称"
+        "title": "所属客户"
     },
     {
         "dataIndex": "Stage",
