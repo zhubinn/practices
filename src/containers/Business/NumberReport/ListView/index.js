@@ -1,15 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-//import NumberReportView from './NumberReportView'
-
-import * as NumberReportViewActions from 'actions/business/numberReport/ListView'
 
 import fetch from 'isomorphic-fetch'
 import { findDOMNode } from 'react-dom'
 import reqwest from 'reqwest'
 import { message, notification } from 'antd'
 
+import * as NumberReportViewActions from 'actions/business/numberReport/ListView'
 
 import InfoPath from './InfoPath'
 import InputDater from './InputDater'
@@ -51,7 +49,10 @@ class NumberReportViewPage extends Component {
         const { numberReportViewState ,actions } = this.props
         const myDate = new Date()
 
-        const obj = $('#viewNumList').data()
+        const obj = {
+            nptype:document.querySelector('#npType').value,
+            templateid:document.querySelector('#templateId').value,
+        }
         //TODO 异步請求
 
         reqwest({
@@ -95,7 +96,11 @@ class NumberReportViewPage extends Component {
         const date = new Date()
         const curDay = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate()
         const dater = numberReportViewState.toJS().dater
-        const obj = $("#viewNumList").data()
+
+        const obj = {
+            nptype:document.querySelector('#npType').value,
+            templateid:document.querySelector('#templateId').value,
+        }
         let dateTime
 
         switch (obj.nptype){
