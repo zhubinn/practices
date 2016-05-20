@@ -29,12 +29,14 @@ let deptstatisticColumns = [
             );   
         }
     }},
-    {title: '全部客户数量', dataIndex: 'All', key: 'All',width: 220,render: function(text, record, index){
+    {title: '全部客户数量', dataIndex: 'All', key: 'All',width: 220,className: 'column-money',
+    render: function(text, record, index){
         return (
           <span>{text}</span>
           );
     }},
-    {title: '负责的客户数量', dataIndex: 'Owner',key: 'Owner', width: 220,render: function(text, record, index){
+    {title: '负责的客户数量', dataIndex: 'Owner',key: 'Owner', width: 220,className: 'column-money',
+    render: function(text, record, index){
         return (
           <span>{text}</span>
           );
@@ -44,7 +46,8 @@ let deptstatisticColumns = [
     //       <div>{text}</div>
     //       );
     // }},
-    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width: 203,render: function(text, record, index){
+    {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width: 220,className: 'column-money',
+    render: function(text, record, index){
         return (
           <span>{text}</span>
           );

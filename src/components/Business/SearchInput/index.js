@@ -3,7 +3,7 @@
  */
 import {Button, Icon, Input } from 'antd'
 import classNames from 'classnames';
-import 'antd/style/index.less'
+
 
 const InputGroup = Input.Group;
 

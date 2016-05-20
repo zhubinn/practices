@@ -3,7 +3,7 @@
  */
 import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination,Modal, Form, Upload, message, Progress  } from 'antd'
-import 'antd/style/index.less'
+
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery,getPermission, table_params } from 'actions/business/account/list/dept'
 import {
@@ -11,7 +11,7 @@ import {
     getPeopleData,
     changeIsShowStatus,
     getNextPagePeopleData
-} from 'actions/__demo/selectPeople'
+} from 'actions/Component/SelectPeople'
 import reqwest from 'reqwest'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
@@ -25,7 +25,7 @@ const TabPane = Tabs.TabPane;
 
 // 变更负责人选择人组件调用
 let getPeopleParams = {
-    url: SCRM.url('/setting/scrm/getSelectList'),
+    url: SCRM.url('/common/scrmCommon/getSelectList'),
     data: {
         page: 1,
         rowsPerPage: 20,
@@ -176,7 +176,7 @@ class Account_List_Dept_Page extends React.Component {
 
         message.loading('正在执行中...', 0);
         reqwest({
-            url: SCRM.url('/setting/scrm/changeOwner'),
+            url: SCRM.url('/common/scrmCommon/changeOwner'),
             type:'json',
             method:'post',
             data: {
@@ -457,7 +457,7 @@ class Account_List_Dept_Page extends React.Component {
                             >
                                 <div className="account-import">
                                     <div>
-                                        <h3>一、<a href="javascript:;">下载【客户导入模板】</a></h3>
+                                        <h3>一、<a  href={SCRM.url('/common/scrmCommonImport/getTemplate/objName/Account')}>下载【客户导入模板】</a></h3>
 
                                         <div>
                                             <p>请按照数据模板的格式准备要导入的数据。</p>

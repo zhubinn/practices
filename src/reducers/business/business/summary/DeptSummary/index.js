@@ -34,30 +34,35 @@ let deptSummary = {
             "title": "全部生意数量",
             "width": 150,
             "dataIndex": "Business",
+            "className": "column-money",
             "key": "Business"
         },
         {
             "title": "全部预计金额",
             "width": 150,
             "dataIndex": "AmountPlan",
+            "className": "column-money",
             "key": "AmountPlan"
         },
         {
             "title": "全部成交金额",
             "width": 150,
             "dataIndex": "Amount",
+            "className": "column-money",
             "key": "Amount"
         },
         {
             "title": "全部回款金额",
             "width": 150,
             "dataIndex": "Payment",
+            "className": "column-money",
             "key": "Payment"
         },
         {
             "title": "全部输单金额",
             "width": 150,
             "dataIndex": "Failed",
+            "className": "column-money",
             "key": "Failed"
         }
     ]

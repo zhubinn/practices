@@ -3,7 +3,7 @@
  */
 import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Modal  } from 'antd'
-import 'antd/style/index.less'
+
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery, table_params } from 'actions/business/business/detail/dept'
 import { isEmpty } from 'lodash'
@@ -33,11 +33,7 @@ const columns = [
         "key": "Stage",
         "title": "销售阶段"
     },
-    {
-        "dataIndex": "CreatedByID",
-        "key": "CreatedByID",
-        "title": "创建人"
-    },
+
     {
         "dataIndex": "OwnerID",
         "key": "OwnerID",

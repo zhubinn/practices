@@ -7,7 +7,7 @@ import { Table } from 'antd'
 import { isArray } from 'lodash'
 import QueryTable from './QueryTable'
 import INPUTTYPE from './inputType'
-import 'antd/style/index.less'
+
 import { changeQueryParams } from 'actions/components/QueryNestedTable'
 import $ from 'jquery'
 
