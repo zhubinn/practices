@@ -22,7 +22,12 @@ const columns = [{
     title: '姓名',
     dataIndex: 'Name',
     key: 'Name',
-    width: 65
+    width: 165,
+    render(text, row, index) {
+
+        return text.length>5 ? text.substring(0,5) : text
+        
+    },
 }, {
     title: '客户名称',
     dataIndex: 'Company',
