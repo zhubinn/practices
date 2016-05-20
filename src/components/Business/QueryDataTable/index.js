@@ -347,10 +347,13 @@ export default class QueryDataTable extends React.Component {
 
         // 分页
         const pagination = {
-            className: 'ppppp',
+
             current: current,
             pageSize: pageSize,
             total: parseInt(total),
+            showTotal: (total) => {
+                return   `共 ${total} 条`
+            },
             showSizeChanger: true,
             showQuickJumper: true,
             pageSizeOptions: ['20', '50', '80', '100'],
@@ -477,6 +480,7 @@ export default class QueryDataTable extends React.Component {
                 {(typeof  this.props.pagination !== 'undefined') && !this.props.pagination ? null : (dataSource.length === 0 ? null : (
                     <Pagination
                         {...pagination}
+
                     />))}
 
             </div>
