@@ -4,7 +4,7 @@
 // 查询表格
 // 依赖Table, Pagination, Form
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination, Form, Select, Radio, Checkbox,  DatePicker, InputNumber, Cascader  } from 'antd'
-import 'antd/style/index.less'
+
 import { isEmpty } from 'lodash'
 import CurrencyInput from  'components/Business/QueryDataTable/CurrencyInput'
 import randomString  from 'random-string'
@@ -429,7 +429,7 @@ export default class QueryDataTable extends React.Component {
                                                         checked={ !!dataSource.length && this.state.selectedRowKeys.length === dataSource.length }
                                                         onChange={
                                                             (e)=>{this.handleSelectAll(e, dataSource)}}/></th>) : null }
-                                            {this.props.expandedRowRender ? (<th style={{width: 18}}></th>) : null}
+                                            {this.props.expandedRowRender ? (<th style={{width: 34}}></th>) : null}
                                             {
                                                 columns.map((col, i) => <th key={i}
                                                                             width={col.width||this.defaultColWidth}>{col.title}</th>)

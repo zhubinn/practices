@@ -3,7 +3,7 @@
  */
 import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination,Modal, Form, Upload, message, Progress  } from 'antd'
-import 'antd/style/index.less'
+
 import reqwest from 'reqwest'
 
 import SearchInput from 'components/Business/SearchInput'
