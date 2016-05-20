@@ -428,13 +428,15 @@ class Account_List_Dept_Page extends React.Component {
 
         </Col></Row>)
         return (
-            <div style={{marginLeft: '20px'}}>
-                <div style={{marginTop: '14px',marginBottom: '14px'}}>
+            <div className="ck-root-main">
+
+                <div className="ck-root-title">
+
                     <Row>
                         <Col span="8"><SearchInput ref="searchInput"
                                                    onSearch={(value)=>{this.normalSearch(value)}}/></Col>
 
-                        <Col span="10" offset="6">
+                        <Col span="10" offset="6" style = {{textAlign: 'right'}}>
                             <div className="cklist-Persontfilter">
                                 <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
