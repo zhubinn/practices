@@ -1,14 +1,19 @@
 /**
  * Created by c on 16/3/21.
  */
-var webpack = require('webpack');
-var path = require('path');
+var webpack = require('webpack')
+var path = require('path')
+var ExtractTextPlugin = require("extract-text-webpack-plugin")
+var moment = require('moment')
+
+var extractCSS = new ExtractTextPlugin('[name].min.css')
+var nowDateStr = moment().format("YYYY-MM-DD HH:mm:ss")
 
 module.exports = {
     entry: './src/index.js',
     output: {
         path: './lib',
-        filename: '[name].js'
+        filename: '[name].min.js'
     },
     resolve: {
         extensions: ["", ".js", ".jsx"],
@@ -19,12 +24,8 @@ module.exports = {
             reducers: path.join(__dirname, 'src/reducers'),
             store: path.join(__dirname, 'src/store'),
             routes: path.join(__dirname, 'src/routes'),
-            immutable: path.join(__dirname, 'node_modules/immutable/dist/immutable.min'),
             moment: path.join(__dirname, 'node_modules/moment/min/moment-with-locales.min'),
-            react: path.join(__dirname, 'node_modules/react/dist/react-with-addons.min'),
             redux: path.join(__dirname, 'node_modules/redux/dist/redux.min'),
-            'react-slick': path.join(__dirname, 'node_modules/react-slick/dist/react-slick.min'),
-            'react-dom': path.join(__dirname, 'node_modules/react-dom/dist/react-dom.min'),
             'react-slick': path.join(__dirname, 'node_modules/react-slick/dist/react-slick.min'),
             'react-proxy': path.join(__dirname, 'node_modules/react-proxy/dist/ReactProxy'),
             'react-redux': path.join(__dirname, 'node_modules/react-redux/dist/react-redux.min'),
@@ -33,25 +34,29 @@ module.exports = {
             'react-thunk': path.join(__dirname, 'node_modules/react-thunk/dist/redux-thunk.min'),
         }
     },
+    externals: {
+        react: 'React',
+        immutable: 'Immutable',
+        'react-dom': 'ReactDOM',
+    },
     module: {
         loaders: [{
             test: /\.(js|jsx)$/,
             loader: 'babel',
-            //exclude: /node_modules/,
         }, {
             test: /\.(jpg|png|gif)$/,
             loader: 'url',
         }, {
             test: /\.(less)$/,
-            loaders: ['style', 'css', 'less'],
+            loader: extractCSS.extract(['css', 'less']),
         }, {
             test: /\.(css)$/,
-            loaders: ['style', 'css'],
+            loader: extractCSS.extract(['css']),
         }]
     },
-    devtool: 'source-map',
+    //devtool: 'source-map',
     plugins: [
-        new webpack.NoErrorsPlugin(),
+        extractCSS,
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': '"production"'
         }),
@@ -60,6 +65,16 @@ module.exports = {
             ReactDOM: 'react-dom',
             Redux: 'redux',
         }),
-        new webpack.optimize.UglifyJsPlugin()
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            },
+        }),
+        new webpack.optimize.MinChunkSizePlugin({
+            minChunkSize: 10240
+        }),
+        new webpack.BannerPlugin(`用友超客营销 \n update: ${nowDateStr}`),
     ],
 };
