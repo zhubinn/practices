@@ -75,7 +75,7 @@ let table_params = {
     url: '',
     data: {
         page : 1,
-        rowsPerPage: 0,
+        rowsPerPage: 20,
         searchData: [],
         assigned: 0
     }

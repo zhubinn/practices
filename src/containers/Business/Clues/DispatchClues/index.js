@@ -9,10 +9,13 @@ import { connect } from 'react-redux'
 import fetch from 'isomorphic-fetch'
 import { findDOMNode } from 'react-dom'
 import reqwest from 'reqwest'
-import { Table,Row , Col, Modal, Spin,  Button, Radio, message, Input } from 'antd'
+import { Table,Row , Col, Modal, Spin,  Button, Radio,Tabs, message, Input } from 'antd'
 const RadioGroup = Radio.Group;
+const TabPane = Tabs.TabPane;
+
+
 import SearchInput from 'components/Business/SearchInput'
-import { getTableData, getTableQuery, getPermission, table_params } from 'actions/business/clues/DispatchClues'
+import { getTableData, getTableQuery,selectChange, selectDeptChange,fetchDeptData, showDispatchModal,updateTableData, table_params } from 'actions/business/clues/DispatchClues'
 
 import QueryDataTable from 'components/Business/QueryDataTable'
 import getQueryString from 'components/Business/GetQueryString'
@@ -102,14 +105,15 @@ class DispatchCluesPage extends Component {
         super(props, context)
 
         this.state = {
-
+            type:0,
+            flag:false
         }
     }
 
 
 
     componentDidMount(){
-        
+
         // todo: url包装
         this.props.getTableData({
             url: SCRM.url('/scrmlead/index/getAssignList'),
@@ -136,9 +140,8 @@ class DispatchCluesPage extends Component {
         this.props.getTableData({
             data: {
                 searchData: [],
-                keyword: value,
+                owner: value,
                 page: 1,
-                pageSize: 0
             }
         })
 
@@ -147,10 +150,6 @@ class DispatchCluesPage extends Component {
 
     }
     changeType = (type) => {
-        // 重置筛选(高级搜索)
-        this.refs.searchInput.emptyInput()
-        this.refs.queryDataTable.resetQueryForm()
-        this.refs.queryDataTable.clearCheckedAndExpanded()
 
         this.setState({
             type
@@ -159,132 +158,24 @@ class DispatchCluesPage extends Component {
         this.props.getTableData({
             data: {
                 searchData: [],
-                deptUser:'dept',
-                deptID:getQueryString("deptID"),
-                keyword: '',
+                owner: '',
                 page: 1,
                 pageSize: 0,
-                type
+                assigned:type
             }
         })
 
-        this.props.getPermission({
-            type
-        })
-
-    }
-
-    fetchTableData(params = {canAssign:1}){
-        const { $$dispatchCluesState,actions } = this.props
-
-
-        //console.log('请求参数：', params);
-        this.setState({ loading: true });
-        reqwest({
-            url:SCRM.url('/scrmlead/index/getAssignList'),
-            method:'post',
-            data:params,
-            type:'json',
-            error:  (result) => {
-                message.error('服务器错误,请联系客服!')
-            },
-            success:(result) => {
-
-                if(result.rs){
-                    const pagination = this.state.pagination;
-                    const rowData = result.data.rowData;
-                    pagination.total = result.data.total*1;
-                    pagination.showTotal =()=> `共 ${result.data.total} 条`;
-
-                    this.setState({
-                        loading:false,
-                        pagination,
-                    })
-                    actions.fetchData(true,rowData)
-                }else{
-                    message.error(result.error)
-                }
-
-
-            }
-        })
-
-
-    }
-
-    handleTableChange(pagination) {
-        const { dispatchCluesState,actions } = this.props
-        const dispatchState = dispatchCluesState.toJS().dispatchState
-        const pager = this.state.pagination;
-        const owner = this.state.owner;
         //  清空select状态
-        if(this.refs.tableList){
-            this.refs.tableList.setState({
+        if(this.refs.queryDataTable){
+            this.refs.queryDataTable.setState({
                 selectedRowKeys:[]
             })
         }
 
 
-        pager.current = pagination.current;
-
-        this.setState({
-            pagination: pager
-        });
-
-        this.fetchTableData({
-            rowsPerPage : pagination.pageSize,
-            page : pagination.current,
-            assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
-            owner,
-        });
     }
 
-    renderTableList(){
-        const { dispatchCluesState ,actions } = this.props
-        const { rowData, loading, dispatchState } = dispatchCluesState.toJS()
 
-        //未分派0
-        const rowSelection = {
-            onChange: this.onSelectChange.bind(this)
-        };
-        return (
-            loading  ? <Table ref="tableList"
-                              onChange={this.handleTableChange.bind(this)}
-                              loading={this.state.loading}
-                              pagination={this.state.pagination}
-                              rowSelection={rowSelection}
-                              columns={columns}
-                              dataSource={rowData} /> : <div className="loading-box"><Spin  /></div>
-        )
-
-    }
-
-    handClickTab(state){
-        const { $$dispatchCluesState,actions } = this.props
-        const $$dispatchState = dispatchCluesState.toJS().dispatchState
-
-        if(state === dispatchState) return;
-
-        this.setState({
-            pagination: {},
-            owner:''
-        })
-
-        actions.clickTab(state,false)
-
-        if(this.refs.searchInput){
-            this.refs.searchInput.setState({
-                value:''
-            })
-        }
-
-        this.fetchTableData({
-            assigned:state,//0未分派,1已分派未处理 不传默认0
-        })
-
-
-
-    }
 
     clickSearch(value){
         const val = value.trim()
@@ -312,8 +203,9 @@ class DispatchCluesPage extends Component {
     }
 
     showModal(){
-        const { $$dispatchCluesState ,actions } = this.props
-        const rowData = $$dispatchCluesState.toJS().selectData
+        const { $$dispatchCluesState  } = this.props
+
+        const rowData = this.refs.queryDataTable.getCheckedRows()
         const deptData = $$dispatchCluesState.toJS().deptData
 
         if(!rowData.length ) {
@@ -327,7 +219,7 @@ class DispatchCluesPage extends Component {
         })
 
 
-        actions.selectDeptChange(null)
+        this.props.selectDeptChange(null)
         if(this.refs.radioGroup){
             this.refs.radioGroup.setState({
                 value:null
@@ -343,7 +235,7 @@ class DispatchCluesPage extends Component {
                 type:'json',
                 success:(result) => {
                     if(result.rs){
-                        actions.fetchDeptData(true,result.data)
+                        this.props.fetchDeptData(true,result.data)
                     }else{
                         message.error(result.error)
                     }
@@ -360,17 +252,23 @@ class DispatchCluesPage extends Component {
     }
 
     onDeptRadioChange(e){
-        const { actions } = this.props
+
 
         this.setState({
             selectOwner:e.target['data-name']
         })
-        actions.selectDeptChange(e.target.value)
+        this.props.selectDeptChange(e.target.value)
+    }
+
+    isData(){
+        const { $$dispatchCluesState  } = this.props
+        console.log($$dispatchCluesState.toJS())
     }
 
     handleDispatchOk(){
-        const { $$dispatchCluesState ,actions } = this.props
-        const { selectedRadioID, selectData} = $$dispatchCluesState.toJS()
+        const { $$dispatchCluesState  } = this.props
+        const { selectedRadioID } = $$dispatchCluesState.toJS()
+        const selectData = this.refs.queryDataTable.getCheckedRows()
         const selectIDs = selectData.map((item) => item.ID)
 
 
@@ -393,35 +291,40 @@ class DispatchCluesPage extends Component {
             success:(result) => {
                 if(result.rs){
                     //  清空select状态
-                    if(this.refs.tableList){
-                        this.refs.tableList.setState({
+                    if(this.refs.queryDataTable){
+                        this.refs.queryDataTable.setState({
                             selectedRowKeys:[]
                         })
                     }
 
-                    actions.updateTableData(selectIDs);
+
+                    this.props.selectChange([], []);
                     this.setState({
                         visible:false
                     },() => {
-
-                        actions.selectChange([], [])
                         message.success('分派成功！')
-                        console.log(dispatchCluesState.toJS().rowData)
-                        if(!dispatchCluesState.toJS().rowData.length){
-                            window.location.reload()
-                        }
+                        this.props.updateTableData(selectIDs);
 
+                        this.setState({
+                            flag:true
+                        })
+
+                        //window.location.reload()
                     })
+
+
                 }else{
                     message.error(result.error)
                 }
             }
         })
 
+
+
     }
 
     renderModalBox(){
-        const { $$dispatchCluesState ,actions } = this.props
+        const { $$dispatchCluesState  } = this.props
         const deptData = $$dispatchCluesState.toJS().deptData
 
         return (
@@ -468,10 +371,6 @@ class DispatchCluesPage extends Component {
         )
     }
 
-    onSelectChange(selectedRowKeys,selectedRows){
-        const { $$dispatchCluesState ,actions } = this.props
-        actions.selectChange(selectedRowKeys, selectedRows)
-    }
 
 
     render() {
@@ -482,8 +381,6 @@ class DispatchCluesPage extends Component {
 
             } = this.props
 
-
-        const dispatchState = $$dispatchCluesState.toJS().dispatchState
         let queryDataTable = {};
 
         queryDataTable.dataSource = $$dispatchCluesState.toJS().rows
@@ -493,6 +390,18 @@ class DispatchCluesPage extends Component {
         queryDataTable.queryColumns = $$dispatchCluesState.toJS().queryColumns
         queryDataTable.loading = $$dispatchCluesState.toJS().loading
 
+        //当当前页面数据为空时，刷新页面
+        if(this.state.flag && !queryDataTable.dataSource.length){
+
+            //window.location.reload()
+            this.props.getTableData({
+                url: SCRM.url('/scrmlead/index/getAssignList'),
+                data:{}
+
+            })
+        }
+
+
 
 
         return (
@@ -501,20 +410,23 @@ class DispatchCluesPage extends Component {
                     <div className="ck-root-title">
 
                         <Row>
-                            <Col span="16">
-                                <SearchInput ref="searchInput"  placeholder="输入线索负责人" style={{ width: 200 }} onSearch = { this.clickSearch.bind(this) } {...this.props}  />
-                            </Col>
+                            <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
 
-                            <Col span="8">
+                            <Col span="10" offset="6" style = {{textAlign: 'right'}}>
                                 <button className = "col-cktop-btn "  onClick = { this.showModal.bind(this) }>分派</button>
                             </Col>
                         </Row>
                     </div>
                     <div className="ck-tab-hd">
-                        <ul className="clearfix">
-                            <li className = { dispatchState === 0 ? "active" : null } onClick = { this.handClickTab.bind(this,0) }><a>未分派</a></li>
-                            <li className = { dispatchState === 1 ? "active" : null } onClick = { this.handClickTab.bind(this,1) }><a>已分派</a></li>
-                        </ul>
+                        <Tabs defaultActiveKey="all"
+                              type="card"
+                              onChange={i => {this.changeType(i)}}>
+                            <TabPane tab="未分派" key="0">
+                            </TabPane>
+                            <TabPane tab="已分派" key="1">
+                            </TabPane>
+
+                        </Tabs>
                     </div>
                     <QueryDataTable
                         columns={columns}
@@ -559,17 +471,23 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 
     return {
-        actions: bindActionCreators(DispatchCluesActions, dispatch)
+        actions: bindActionCreators(DispatchCluesActions, dispatch),
     }
 }
 
-export default connect(mapStateToProps, {
-    getTableData,
-    getTableQuery,
-})(DispatchCluesPage)
 
-/*
+
+
+
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
-)(DispatchCluesPage)*/
+    {
+        getTableData,
+        getTableQuery,
+        selectChange,
+        fetchDeptData,
+        selectDeptChange,
+        showDispatchModal,
+        updateTableData
+    }
+)(DispatchCluesPage)

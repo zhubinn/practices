@@ -29,7 +29,7 @@ let getPeopleParams = {
     data: {
         page: 1,
         rowsPerPage: 20,
-        keyword: ''
+        owner: ''
     }
 }
 
