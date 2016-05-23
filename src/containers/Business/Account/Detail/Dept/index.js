@@ -8,7 +8,7 @@ import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery, table_params } from 'actions/business/account/detail/dept'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
-import {columns} from 'containers/Business/Account/common/constant'
+import {detail_columns} from 'containers/Business/Account/common/constant'
 
 
 const FormItem = Form.Item;
@@ -208,11 +208,12 @@ class Account_Detail_Dept_Page extends React.Component {
         queryDataTable.queryColumns = $$account_detail_dept.toJS().queryColumns
         queryDataTable.loading = $$account_detail_dept.toJS().loading
         return (
-            <div style={{marginLeft: '20px'}}>
-                <div style={{marginTop: '14px',marginBottom: '14px'}}>
+            <div className="ck-root-main">
+
+                <div className="ck-root-title">
                     <Row>
                         <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
-                        <Col span="8" offset="8">
+                        <Col span="8" offset="8" style = {{textAlign: 'right'}}>
                             <div className = "ckDetail-deptfilter">
                             <Button type="primary" onClick={(e)=>{
                                 this.refs.queryDataTable.toggleQueryTable(e)
@@ -237,7 +238,7 @@ class Account_Detail_Dept_Page extends React.Component {
                     </TabPane>
                 </Tabs>
                 <QueryDataTable
-                    columns={columns}
+                    columns={detail_columns}
                     expandedRowRender={this.expandedRowRender}
                     {...queryDataTable}
                     onGetTableData={

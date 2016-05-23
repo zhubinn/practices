@@ -8,7 +8,7 @@ import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery,  table_params } from 'actions/business/account/detail/person'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
-import {columns} from 'containers/Business/Account/common/constant'
+import {detail_columns} from 'containers/Business/Account/common/constant'
 import {GLOBAL_INFO} from 'components/Business/Global_info'
 import 'containers/Business/index.less'
 
@@ -218,12 +218,13 @@ class Account_Detail_Person_Page extends React.Component {
 
 
         return (
-            <div style={{marginLeft: '20px'}}>
-                <div style={{marginTop: '14px',marginBottom: '14px'}}>
+            <div className="ck-root-main">
+
+                <div className="ck-root-title">
                     <Row>
                         <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/>
                         </Col>
-                        <Col span="8" offset="8">
+                        <Col span="8" offset="8" style = {{textAlign: 'right'}}>
                             <div className="ckDetail-deptfilter">
                                 <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
@@ -255,7 +256,7 @@ class Account_Detail_Person_Page extends React.Component {
                     <TabPane tab="关注的客户" key="follow"></TabPane>
                 </Tabs>)}
                 <QueryDataTable
-                    columns={columns}
+                    columns={detail_columns}
                     expandedRowRender={this.expandedRowRender}
                     {...queryDataTable}
                     onGetTableData={

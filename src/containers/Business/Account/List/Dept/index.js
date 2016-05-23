@@ -18,7 +18,7 @@ import QueryDataTable from 'components/Business/QueryDataTable'
 import SelectPeople from 'components/Business/SelectPeople'
 import 'containers/Business/index.less'
 
-import {columns} from 'containers/Business/Account/common/constant'
+import {list_columns} from 'containers/Business/Account/common/constant'
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
@@ -428,13 +428,15 @@ class Account_List_Dept_Page extends React.Component {
 
         </Col></Row>)
         return (
-            <div style={{marginLeft: '20px'}}>
-                <div style={{marginTop: '14px',marginBottom: '14px'}}>
+            <div className="ck-root-main">
+
+                <div className="ck-root-title">
+
                     <Row>
                         <Col span="8"><SearchInput ref="searchInput"
                                                    onSearch={(value)=>{this.normalSearch(value)}}/></Col>
 
-                        <Col span="10" offset="6">
+                        <Col span="10" offset="6" style = {{textAlign: 'right'}}>
                             <div className="cklist-Persontfilter">
                                 <Button type="primary" onClick={(e)=>{
                             this.refs.queryDataTable.toggleQueryTable(e)
@@ -515,7 +517,7 @@ class Account_List_Dept_Page extends React.Component {
 
 
                 <QueryDataTable
-                    columns={columns}
+                    columns={list_columns}
                     checkMode={true}
                     {...queryDataTable}
                     onGetTableData={
