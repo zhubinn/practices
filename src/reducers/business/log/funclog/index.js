@@ -17,7 +17,7 @@ let funclog = {
         "data": {
             "total": 128,
             "current": 1,
-            "pageSize": 20,
+            "pageSize": 0,
             "rowData":[]
         }
     },
@@ -25,23 +25,26 @@ let funclog = {
         {
             "title": "操作员",
             "dataIndex": "Operator",
-            "key": "Operator"
+            "key": "Operator",
+            "width": 150,
         },
         {
             "title": "业务功能",
             "dataIndex": "RelObjectType",
-            "key": "RelObjectType"
-        },
-        {
-            "title": "操作类型",
-            "dataIndex": "OperatorType",
-            "key": "OperatorType"
+            "key": "RelObjectType",
+            "width": 200,
         },
         {
             "title": "操作时间",
             "dataIndex": "OperateDate",
             "key": "OperateDate",
-            "width": 360
+            "width": 380,
+        },
+        {
+            "title": "操作类型",
+            "dataIndex": "OperatorType",
+            "key": "OperatorType",
+            "width": 200,
         }
     ]
 }
