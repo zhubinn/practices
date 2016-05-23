@@ -12,6 +12,7 @@ import { Table, Icon ,Button,Input, Row, Col} from 'antd';
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import 'containers/Business/index.less'
+import getQueryString from 'components/Business/GetQueryString'
 
 
 let summaryDetailColumns = [
@@ -23,7 +24,7 @@ let summaryDetailColumns = [
     }},
     {title: '员工姓名', dataIndex: 'Name', key: 'Name', width: 100,render: function(text, record, index){
         const  peneUrl = SCRM.url('/scrmweb/accounts/peraccountdetail?id=' + record.ID);
-        if(record.ID == 0){
+        if(record.Name == "小计" || record.Name == "合计"){
         return (
           <span>{text}</span>
           );
