@@ -48,9 +48,14 @@ export default class CurrencyInput extends React.Component {
 
             <InputGroup >
 
-                <InputNumber value={this.state.value[0]} onChange={this.handleInputChange}/>
+                <InputNumber
+                    autoComplete="off"
+                    maxLength="30"
+                    value={this.state.value[0]}
+                    onChange={this.handleInputChange}/>
+
                 <div className="ant-input-group-wrap">
-                    <Select style={{ width: 70 }}
+                    <Select style={{ width: 50 }}
                             getPopupContainer={() => (popupContainerID ? document.getElementById(popupContainerID):document.body)}
                             onChange={this.handleSelectChange}>
 

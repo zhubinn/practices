@@ -17,7 +17,7 @@ let datalog = {
         "data": {
             "total": 128,
             "current": 1,
-            "pageSize": 20,
+            "pageSize": 0,
             "rowData":[]
         }
     },
@@ -43,28 +43,28 @@ let datalog = {
         {
             "title": "业务对象",
             "dataIndex": "RelObjectName",
-            "key": "RelObjectName"
+            "key": "RelObjectName",
         },
         {
             "title": "字段",
             "dataIndex": "AttributeName",
-            "key": "AttributeName"
-        },
-        {
-            "title": "操作前内容",
-            "dataIndex": "ContentBefore",
-            "key": "ContentBefore"
-        },
-        {
-            "title": "操作后内容",
-            "dataIndex": "ContentAfter",
-            "key": "ContentAfter"
+            "key": "AttributeName",
         },
         {
             "title": "操作时间",
             "dataIndex": "OperateDate",
             "key": "OperateDate",
-            "width": 360
+            "width": 360,
+        },
+        {
+            "title": "操作前内容",
+            "dataIndex": "ContentBefore",
+            "key": "ContentBefore",
+        },
+        {
+            "title": "操作后内容",
+            "dataIndex": "ContentAfter",
+            "key": "ContentAfter",
         }
     ]
 }

@@ -12,6 +12,7 @@ import { Table, Icon ,Button,Input, Row, Col} from 'antd';
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import 'containers/Business/index.less'
+
 let deptSummaryColumns = [
 
     {title: '部门名称', dataIndex: 'Name', key: 'Name', width: 150,render: function(text, record, index){
@@ -68,6 +69,7 @@ let summaryParams = {
       keyword:''
     }
 }
+
 
 
 class AccountDeptSummary extends React.Component{

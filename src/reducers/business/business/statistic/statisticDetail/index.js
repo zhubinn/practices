@@ -62,42 +62,36 @@ let statisticDetail = {
             "title": "全部生意数量",
             "width": 150,
             "dataIndex": "All",
-            "className": "column-money",
             "key": "All"
         },
         {
             "title": "赢单生意数量",
             "width": 150,
             "dataIndex": "Win",
-            "className": "column-money",
             "key": "Win"
         },
         {
             "title": "输单生意数量",
             "width": 150,
             "dataIndex": "Faild",
-            "className": "column-money",
             "key": "Faild"
         },
         {
             "title": "进行中生意数量",
             "width": 150,
             "dataIndex": "Load",
-            "className": "column-money",
             "key": "Load"
         },
         {
             "title": "作废生意数量",
             "width": 150,
             "dataIndex": "ZF",
-            "className": "column-money",
             "key": "ZF"
         },
         {
             "title": "停滞生意数量",
             "width": 150,
             "dataIndex": "TZ",
-            "className": "column-money",
             "key": "TZ"
         }
     ]
