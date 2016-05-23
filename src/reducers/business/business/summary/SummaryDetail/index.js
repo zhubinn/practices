@@ -24,7 +24,7 @@ let summaryDetail = {
             "dataIndex": "DeptName",
             "key": "DeptName",
             render(text, record, index) {
-                const  peneUrl = SCRM.url('/scrmweb/business/deptlist?deptID=' + deptID + '&sub=0');
+                const  peneUrl = SCRM.url('/scrmweb/business/deptlistdetail?deptID=' + deptID + '&sub=0');
                 if(record.DeptName == '小计' || record.DeptName == '合计'){
                     //return {text};
                     return <span>{text}</span>;
@@ -39,7 +39,7 @@ let summaryDetail = {
             "dataIndex": "Name",
             "key": "Name",
             render(text, record, index) {
-                const  peneUrl = SCRM.url('/scrmweb/business/list?userID=' + record.ID);
+                const  peneUrl = SCRM.url('/scrmweb/business/listdetail?userID=' + record.ID);
                 if(record.classname){
                     //return {text};
                     return <span>{text}</span>;

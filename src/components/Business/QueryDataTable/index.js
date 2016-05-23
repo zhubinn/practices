@@ -313,6 +313,11 @@ export default class QueryDataTable extends React.Component {
             width += item.width || this.defaultColWidth
         })
 
+        // 修复错位问题: Mac与Windows下滚动条差异
+        if (navigator.platform.indexOf("Mac") == 0) {
+            width += 17
+        }
+
         return width
     }
 
@@ -380,8 +385,12 @@ export default class QueryDataTable extends React.Component {
                 {...this.props}
                    dataSource={dataSource.map((item, i) =>  Object.assign(item, {key: i})
                                )}
-                   columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
-                               )}
+                   columns={columns.map((item, i, cols) => {
+                            if (i==cols.length-1) return  Object.assign(item, {width: ''})
+
+                            return Object.assign(item, {width: item.width || this.defaultColWidth})
+
+                            })}
                    rowSelection={rowSelection}
                    pagination={false}
                    showHeader={false}
@@ -395,8 +404,12 @@ export default class QueryDataTable extends React.Component {
                 {...this.props}
                             dataSource={dataSource.map((item, i) =>  Object.assign(item, {key: i})
                                )}
-                            columns={columns.map((item, i) => Object.assign(item, {width: item.width || this.defaultColWidth})
-                               )}
+                            columns={columns.map((item, i, cols) => {
+                            if (i==cols.length-1) return  Object.assign(item, {width: ''})
+
+                            return Object.assign(item, {width: item.width || this.defaultColWidth})
+
+                            })}
                             rowSelection={rowSelection}
                             pagination={false}
                             showHeader={false}
@@ -453,7 +466,7 @@ export default class QueryDataTable extends React.Component {
                             </div>
                         </div>
 
-                        <div style={{ minHeight:'250px', overflow: "auto"}}>
+                        <div style={{ maxHeight: '500px', minHeight:'250px', overflow: "auto"}}>
                             {table}
                         </div>
 

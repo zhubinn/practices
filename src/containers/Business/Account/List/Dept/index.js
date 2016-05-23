@@ -391,7 +391,9 @@ class Account_List_Dept_Page extends React.Component {
 
 
                 if (info.file.status === 'done') {
-                    let response = info.fileList[0].response
+
+                    // 只支持单次上传, 每次都取最后一个file
+                    let response = info.fileList[info.fileList.length-1].response
 
                     if (response.rs) {
                         message.success(`${info.file.name} 上传成功, 正在导入...`);
