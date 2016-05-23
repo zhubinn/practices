@@ -413,7 +413,7 @@ export default class SelectPeople extends React.Component {
     render() {
         const selectPeopleModal = this.props.selectPeopleModal
         const checkedRowsLength = this.props.checkedRowsLength
-        const showStatus = this.props.showStatus
+        const isShowChangeTogether = this.props.isShowChangeTogether
         return (
 
             <Modal ref="modal"
@@ -428,7 +428,7 @@ export default class SelectPeople extends React.Component {
                 <div>{this.peopleList()}</div>
                 <div style={{marginTop: '10px'}}>
                     <span style={{marginRight: '10px'}}>已选{checkedRowsLength}个客户</span>
-                              <span style={{display:showStatus?'block':'none'}}>同时变更相关业务的负责人：                            
+                              <span style={{display:isShowChangeTogether?'inline-block':'none'}}>同时变更相关业务的负责人：                            
                                <label>
                                    <Checkbox ref="checkboxInput" checked={this.state.isChangeBusiness}
                                              onChange={this.handleChangeBusiness.bind(this)}/>
