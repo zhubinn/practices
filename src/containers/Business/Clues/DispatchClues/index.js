@@ -139,6 +139,7 @@ class DispatchCluesPage extends Component {
                     const pagination = this.state.pagination;
                     const rowData = result.data.rowData;
                     pagination.total = result.data.total*1;
+                    pagination.showTotal =()=> `共 ${result.data.total} 条`;
 
                     this.setState({
                         loading:false,
