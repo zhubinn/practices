@@ -274,7 +274,7 @@ class Account_List_Dept_Page extends React.Component {
         e.preventDefault();
 
         const exportParam = {
-            objName: 'accountList',
+            objName: 'accountDeptList',
             ...(table_params.data)
         }
 

@@ -31,7 +31,7 @@ const detail_columns = [{
     title: '开户银行',
     dataIndex: 'Bank',
     key: 'Bank',
-    width: 100
+
 
 }, {
     title: '银行账号',
@@ -243,7 +243,7 @@ const list_columns = [{
     title: '开户银行',
     dataIndex: 'Bank',
     key: 'Bank',
-    width: 100
+
 
 }, {
     title: '银行账号',
