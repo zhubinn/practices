@@ -139,7 +139,6 @@ class DataLog extends React.Component {
                 onOk={this.handleOk.bind(this)} 
                 onCancel={this.handleCancel.bind(this)}>
                   <RangePicker 
-                    showTime 
                     format="yyyy-MM-dd HH:mm:ss" 
                     onChange={this.exportTimeChange.bind(this)} 
                   />

@@ -139,7 +139,6 @@ class FunctionLog extends React.Component {
                   onCancel={this.handleCancel.bind(this)}
                 >
                   <RangePicker 
-                    showTime 
                     format="yyyy-MM-dd HH:mm:ss" 
                     onChange={this.exportTimeChange.bind(this)} 
                   />

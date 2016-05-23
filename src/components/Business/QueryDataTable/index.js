@@ -52,7 +52,7 @@ export default class QueryDataTable extends React.Component {
         this.identity = 'queryDataTable_' + randomString()
 
         // todo: 默认的列宽度, 有bug ...
-        this.defaultColWidth = 200
+        this.defaultColWidth = 150
         this.queryForm = ''
 
         this.state = {
@@ -122,7 +122,7 @@ export default class QueryDataTable extends React.Component {
             isSearchShow: !this.state.isSearchShow
         })
     }
-    renderQueryTable = (columns, queryColumns, checkMode) => {
+    renderQueryTable = (columns, queryColumns, checkMode, needExpand) => {
 
 
         if (isEmpty(queryColumns)) return null
@@ -191,6 +191,7 @@ export default class QueryDataTable extends React.Component {
 
                                 <tr className="ant-table-row">
                                     {checkMode ? (<td className="ant-table-selection-column"></td>) : null}
+                                    {needExpand ? (<td style={{width:34}}></td>) : null}
 
                                     {
                                         columns.map((col, i) => (
@@ -256,9 +257,11 @@ export default class QueryDataTable extends React.Component {
                 case 18:
 
                     return (<FormItem >
-                        <Input autoComplete="off" {...getFieldProps(queryCol['searchType'] + '_19_' + col['key'], {
-                            initialValue: queryCol['renderData']['defaultValue']
-                        })} />
+                        <Input autoComplete="off"
+                               maxLength="30"
+                            {...getFieldProps(queryCol['searchType'] + '_19_' + col['key'], {
+                                initialValue: queryCol['renderData']['defaultValue']
+                            })} />
                     </FormItem>)
 
 
@@ -347,7 +350,7 @@ export default class QueryDataTable extends React.Component {
             pageSize: pageSize,
             total: parseInt(total),
             showTotal: (total) => {
-                return   `共 ${total} 条`
+                return `共 ${total} 条`
             },
             showSizeChanger: true,
             showQuickJumper: true,
@@ -417,7 +420,7 @@ export default class QueryDataTable extends React.Component {
                 <div ref="TableBoxModel" style={{width: '880px', overflow: "auto"}}>
                     <div style={{width: this.calculateWidth(), position: 'relative'}} id={this.identity}>
 
-                        <div className="ant-noneWe" >
+                        <div className="ant-noneWe">
                             <div className="ant-table ant-table-large"
                                  onSubmit={this.handleSubmit }>
                                 <div className="ant-table-body">
@@ -442,7 +445,7 @@ export default class QueryDataTable extends React.Component {
                                     </table>
 
                                     {/*搜索部分*/}
-                                    {this.renderQueryTable(columns, queryColumns, checkMode)}
+                                    {this.renderQueryTable(columns, queryColumns, checkMode, expandedRowRender)}
 
 
                                 </div>

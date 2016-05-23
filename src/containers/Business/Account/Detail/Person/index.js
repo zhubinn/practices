@@ -8,7 +8,7 @@ import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery,  table_params } from 'actions/business/account/detail/person'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
-import {columns} from 'containers/Business/Account/common/constant'
+import {detail_columns} from 'containers/Business/Account/common/constant'
 import {GLOBAL_INFO} from 'components/Business/Global_info'
 import 'containers/Business/index.less'
 
@@ -256,7 +256,7 @@ class Account_Detail_Person_Page extends React.Component {
                     <TabPane tab="关注的客户" key="follow"></TabPane>
                 </Tabs>)}
                 <QueryDataTable
-                    columns={columns}
+                    columns={detail_columns}
                     expandedRowRender={this.expandedRowRender}
                     {...queryDataTable}
                     onGetTableData={
