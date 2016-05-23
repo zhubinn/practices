@@ -96,7 +96,7 @@ const  Customizable = ($$state = $$initialState, action)=>{
                 return r
             })
             localeditColumnsOptions = localeditColumnsOptions.map((r, i) => {
-                if(i === 0 && NewoptionInfor.length>0&&localeditColumnsOptions.length == 1 ) {
+                if(i === 0 && NewoptionInfor.length>0&&localeditColumnsOptions.size == 1 ) {
                     return r.updateIn(['IsSys'], IsSys => {
                         return 0
                     })

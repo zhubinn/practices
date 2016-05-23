@@ -12,19 +12,32 @@ import { Table, Icon ,Button,Input, Row, Col} from 'antd';
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import 'containers/Business/index.less'
+import getQueryString from 'components/Business/GetQueryString'
+
+
 
 let deptstatisticColumns = [
 
     {title: '部门名称', dataIndex: 'Name', key: 'Name', width: 220,render: function(text, record, index){
-        const  peneUrl = SCRM.url('/scrmweb/accounts/deptstatisticdetail?id=' + record.ID + '&name='+record.Name);
-        if(record.ID == 0){
+        const  peneUrl = SCRM.url('/scrmweb/accounts/deptstatisticdetail?id=' + record.ID + '&name='+ record.Name);
+        const linkHref = SCRM.url('/scrmweb/accounts/deptstatistic?deptID=' + record.ID);
+        const sumHref = SCRM.url('/scrmweb/accounts/deptstatistic');
+        if(record.Name == "小计"){
         return (
-          <span>{text}</span>
+          <span>
+              <a href = {linkHref}>{text}</a>
+          </span>
           );
+        }else if(record.Name == "合计"){
+          return (
+            <span>
+                <a href = {sumHref}>{text}</a>
+            </span>
+          );        
         }else{
             return (
             <span>
-              <a href = {peneUrl} target="_blank" title = {text}>{text}</a>
+              <a href = {peneUrl} target="_blank">{text}</a>
             </span>
             );   
         }
@@ -59,7 +72,8 @@ let deptstatisticColumns = [
 let statisticParams = {
     url: SCRM.url('/scrmweb/accounts/getDeptStatistic'),
     data: {
-      keyword:''
+      keyword:'',
+      deptID:getQueryString("deptID")
     }
 }
 

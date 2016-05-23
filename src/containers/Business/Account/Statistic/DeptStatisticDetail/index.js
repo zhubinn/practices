@@ -12,19 +12,26 @@ import { Table, Icon ,Button,Input, Row, Col} from 'antd';
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import 'containers/Business/index.less'
+import getQueryString from 'components/Business/GetQueryString'
+
 
 let statisticDetailColumns = [
 
     {title: '部门名称', dataIndex: 'DeptName', key: 'DeptName', width: 176,render: function(text, record, index){
+  
         return (
           <span>{text}</span>
           );
     }},
     {title: '员工姓名', dataIndex: 'Name', key: 'Name', width: 176,render: function(text, record, index){
         const  peneUrl = SCRM.url('/scrmweb/accounts/list?id=' + record.ID);
-        if(record.ID == 0){
+        const linkHref = SCRM.url('/scrmweb/accounts/deptstatisticdetail?deptID=' + record.ID);
+
+        if(record.Name == "小计" || record.Name == "合计"){
         return (
-          <span>{text}</span>
+          <span>
+            <a href = {linkHref}>{text}</a>
+          </span>
           );
         }else{
             return (
