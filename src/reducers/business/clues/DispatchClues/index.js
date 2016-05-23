@@ -20,10 +20,26 @@ const CHANGE_SEARCH_SUGGEST = 'CHANGE_SEARCH_SUGGEST'
 const FETCH_SEARCH_SUGGEST = 'FETCH_SEARCH_SUGGEST'
 const UPDATE_TABLE_DATA = 'UPDATE_TABLE_DATA'
 
+import {
+    GET_TABLE_DATA,
+    GET_TABLE_DATA_SUCCESS,
+    GET_TABLE_DATA_FAILURE,
+    GET_TABLE_QUERY,
+    GET_TABLE_QUERY_SUCCESS,
+    GET_TABLE_QUERY_FAILURE,
+
+    } from 'actions/business/clues/DispatchClues'
+
 
 import Immutable from 'immutable'
 
 const $$initialState = {
+            rows: [],
+            current: 1,
+            total: 20,
+            pageSize: 20,
+            queryColumns: {},
+            loading: false,
             dispatchState:0, // 0 未分派(默认) 1已分派
             showModal:false,
             rowData:[],
@@ -37,6 +53,33 @@ const $$initialState = {
 export default function dispatchCluesState($$state = Immutable.fromJS($$initialState), action) {
 
     switch (action.type) {
+        case GET_TABLE_DATA:
+            return $$state.merge({
+                loading: action.payload.loading
+            })
+        case GET_TABLE_DATA_SUCCESS:
+            return $$state.merge({
+                rows: action.payload.rows,
+                current: action.payload.current,
+                total: action.payload.total,
+                pageSize: action.payload.pageSize,
+                loading: action.payload.loading,
+                columns:action.payload.columns,
+            })
+        case GET_TABLE_DATA_FAILURE:
+            return $$state.merge({
+                loading: action.payload.loading
+            })
+        case GET_TABLE_QUERY:
+            return $$state.merge({
+                queryColumns: {}
+            })
+        case GET_TABLE_QUERY_SUCCESS:
+            return $$state.merge({
+                queryColumns: action.payload.queryColumns
+            })
+        case GET_TABLE_QUERY_FAILURE:
+            return $$state
         case FETCH_DATA:
             return $$state.merge({
                 "loading":action.loading,
