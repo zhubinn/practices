@@ -43,7 +43,6 @@ const $$initialState = {
             assigned: 0,
             dispatchState:0, // 0 未分派(默认) 1已分派
             showModal:false,
-            rowData:[],
             selectData:[],
             deptData:[],
             suggestData:[],

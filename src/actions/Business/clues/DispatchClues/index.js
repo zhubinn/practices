@@ -77,6 +77,7 @@ let table_params = {
         page : 1,
         rowsPerPage: 20,
         searchData: [],
+        owner:'',
         assigned: 0
     }
 }
@@ -143,9 +144,9 @@ const getTableData = (params)=> {
                 dispatch(fetchData(GET_TABLE_DATA_SUCCESS, {
 
                     rows: data.data.rowData,
-                    current: data.data.currentPage,
+                    current: data.data.current,
                     total: data.data.total,
-                    pageSize: data.data.PageRow,
+                    pageSize: data.data.pageSize,
                     loading: false
                 }))
             }else{

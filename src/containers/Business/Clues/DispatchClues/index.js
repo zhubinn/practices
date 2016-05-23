@@ -151,6 +151,12 @@ class DispatchCluesPage extends Component {
     }
     changeType = (type) => {
 
+
+        // 重置筛选(高级搜索)
+        this.refs.searchInput.emptyInput()
+        this.refs.queryDataTable.resetQueryForm()
+        this.refs.queryDataTable.clearCheckedAndExpanded()
+
         this.setState({
             type
         })
@@ -175,32 +181,6 @@ class DispatchCluesPage extends Component {
 
     }
 
-
-
-    clickSearch(value){
-        const val = value.trim()
-
-        this.setState({
-            owner:val,
-            pagination:{
-                current:1
-            }
-        })
-
-        this.searchFetchData(val)
-    }
-
-    searchFetchData(value){
-        const { $$dispatchCluesState ,actions } = this.props
-        const dispatchState = $$dispatchCluesState.toJS().dispatchState
-
-
-        this.fetchTableData({
-            assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
-            owner:value
-        })
-
-    }
 
     showModal(){
         const { $$dispatchCluesState  } = this.props
@@ -260,10 +240,6 @@ class DispatchCluesPage extends Component {
         this.props.selectDeptChange(e.target.value)
     }
 
-    isData(){
-        const { $$dispatchCluesState  } = this.props
-        console.log($$dispatchCluesState.toJS())
-    }
 
     handleDispatchOk(){
         const { $$dispatchCluesState  } = this.props
@@ -307,9 +283,26 @@ class DispatchCluesPage extends Component {
 
                         this.setState({
                             flag:true
+                        },()=>{
+                            //当当前页面数据为空时，刷新页面
+                            if(this.state.flag){
+
+                                if(!this.props.$$dispatchCluesState.toJS().rows.length){
+                                    //window.location.reload()
+                                    this.props.getTableData({
+                                        url: SCRM.url('/scrmlead/index/getAssignList'),
+                                        data:{
+                                            page:1
+                                        }
+
+                                    })
+                                }
+
+
+                            }
                         })
 
-                        //window.location.reload()
+
                     })
 
 
@@ -376,8 +369,8 @@ class DispatchCluesPage extends Component {
     render() {
 
         const {
-            $$dispatchCluesState,
-            getTableData
+                $$dispatchCluesState,
+                getTableData
 
             } = this.props
 
@@ -390,19 +383,6 @@ class DispatchCluesPage extends Component {
         queryDataTable.queryColumns = $$dispatchCluesState.toJS().queryColumns
         queryDataTable.loading = $$dispatchCluesState.toJS().loading
 
-        //当当前页面数据为空时，刷新页面
-        if(this.state.flag && !queryDataTable.dataSource.length){
-
-            //window.location.reload()
-            this.props.getTableData({
-                url: SCRM.url('/scrmlead/index/getAssignList'),
-                data:{}
-
-            })
-        }
-
-
-
 
         return (
             <div className="ck-root-main">
@@ -410,7 +390,7 @@ class DispatchCluesPage extends Component {
                     <div className="ck-root-title">
 
                         <Row>
-                            <Col span="8"><SearchInput ref="searchInput" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
+                            <Col span="8"><SearchInput ref="searchInput" placeholder="请输入线索负责人" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
 
                             <Col span="10" offset="6" style = {{textAlign: 'right'}}>
                                 <button className = "col-cktop-btn "  onClick = { this.showModal.bind(this) }>分派</button>
