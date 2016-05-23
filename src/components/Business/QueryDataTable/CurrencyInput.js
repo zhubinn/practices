@@ -18,7 +18,7 @@ export default class CurrencyInput extends React.Component {
 
         this.state = {
             value: [
-                '',
+                0,
                 ''
             ]
         };
@@ -48,15 +48,11 @@ export default class CurrencyInput extends React.Component {
 
             <InputGroup >
 
-                <InputNumber
-                    autoComplete="off"
-                    maxLength="30"
-                    value={this.state.value[0]}
-                    onChange={this.handleInputChange}/>
 
                 <div className="ant-input-group-wrap">
                     <Select style={{ width: 50 }}
                             getPopupContainer={() => (popupContainerID ? document.getElementById(popupContainerID):document.body)}
+                            defaultValue={'6'}
                             onChange={this.handleSelectChange}>
 
                         <Option value="3">{'='}</Option>
@@ -68,6 +64,11 @@ export default class CurrencyInput extends React.Component {
 
                     </Select>
                 </div>
+                <InputNumber
+                    autoComplete="off"
+                    maxLength="30"
+                    value={this.state.value[0]}
+                    onChange={this.handleInputChange}/>
             </InputGroup>
 
         )
