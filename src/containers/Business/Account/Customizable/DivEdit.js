@@ -34,6 +34,8 @@ class DivEdit extends React.Component{
 	handleDeletItem(i){
 		const {deletItem} = this.props;
         let ColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions;
+        const currentDeletedItem = ColumnsOptions[i]
+        console.log(currentDeletedItem)
         let IsLast 
         if(ColumnsOptions.length ==1){
         	IsLast =1
@@ -127,7 +129,7 @@ class DivEdit extends React.Component{
 						                         </div>
 												<div className = "ck-gongncnt-first">
 													<input type = 'text' value = {opt.Val} placeholder = "最多输入10个汉字"  
-													 onChange = {this.handleChangeInput.bind(this,i)} maxLength = "10"
+													 onChange = {this.handleChangeInput.bind(this,i)} 
 													 onBlur = {this.handleRepeatData.bind(this)}
 													 readOnly = {opt.IsSys =='1'?true:false}/>
 												</div>
