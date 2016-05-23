@@ -40,7 +40,6 @@ class DivEdit extends React.Component{
         if(ColumnsOptions.length ==1){
         	IsLast =1
         }
-        console.log(currentDeletedItem)
         reqwest({
             url: SCRM.url('/scrmdefined/account/checkEnumAttr'),
             method: 'post',

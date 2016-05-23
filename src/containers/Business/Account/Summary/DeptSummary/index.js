@@ -18,7 +18,7 @@ import 'containers/Business/index.less'
 let deptSummaryColumns = [
 
     {title: '部门名称', dataIndex: 'Name', key: 'Name', width: 150,render: function(text, record, index){
-        const  peneUrl = SCRM.url('/scrmweb/accounts/deptsummarydetail?id=' + record.ID + '&name='+ record.Name);
+        const peneUrl = SCRM.url('/scrmweb/accounts/deptsummarydetail?id=' + record.ID + '&name='+ escape(record.Name).replace(/%u/gi, '\\u'));
         const linkHref = SCRM.url('/scrmweb/accounts/deptsummary?deptID=' + record.ID);
         const sumHref = SCRM.url('/scrmweb/accounts/deptsummary');
         if(record.Name == "小计"){
