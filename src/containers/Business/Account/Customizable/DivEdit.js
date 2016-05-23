@@ -1,6 +1,7 @@
 import { isPlainObject, isFunction, isString } from 'lodash'
 import warning from 'fbjs/lib/warning'
 import {message,Select } from 'antd';
+import reqwest from 'reqwest';
 
 const Option = Select.Option;
 
@@ -35,17 +36,55 @@ class DivEdit extends React.Component{
 		const {deletItem} = this.props;
         let ColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions;
         const currentDeletedItem = ColumnsOptions[i]
-        console.log(currentDeletedItem)
-        let IsLast 
+        let IsLast =0
         if(ColumnsOptions.length ==1){
         	IsLast =1
         }
-		deletItem(i,IsLast);
-		let  deletedItem  = this.props.$$mapState.toJS().deletedItem;
-		ColumnsOptions[i].IsDeleted = 1
-		deletedItem.push(ColumnsOptions[i])
-		const {collectDeletedItem} = this.props
-		collectDeletedItem(deletedItem)
+        console.log(currentDeletedItem)
+        reqwest({
+            url: SCRM.url('/scrmdefined/account/checkEnumAttr'),
+            method: 'post',
+            data: 'params='+JSON.stringify({data:currentDeletedItem}),
+            type: 'json',
+            success: (json) => {
+                if(json.rs){
+                	if(json.data.count == 0){
+                		//未使用可删除
+
+				        deletItem(i,IsLast);
+						let  deletedItem  = this.props.$$mapState.toJS().deletedItem;
+						ColumnsOptions[i].IsDeleted = 1
+						deletedItem.push(ColumnsOptions[i])
+						const {collectDeletedItem} = this.props
+						collectDeletedItem(deletedItem)                		
+
+                	}else if(json.data.count > 0){
+                		//已使用不可删除
+	                    message.config({
+	                      top: 250
+	                    });             
+	                    message.error(json.data.message);                	
+	                }
+
+                }else{
+                    message.config({
+                      top: 250
+                    });             
+                    message.error(json.error);           
+                }
+            }
+        })
+
+
+
+
+
+
+
+
+
+
+
 	}
 	handleChangeInput(i,e){
 		let value = e.currentTarget.value;

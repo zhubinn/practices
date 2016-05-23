@@ -11,16 +11,28 @@ import {searchKeyWord,getAccountDeptSummaryData} from 'actions/Business/Account/
 import { Table, Icon ,Button,Input, Row, Col} from 'antd';
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
+import getQueryString from 'components/Business/GetQueryString'
+
 import 'containers/Business/index.less'
 
 let deptSummaryColumns = [
 
     {title: '部门名称', dataIndex: 'Name', key: 'Name', width: 150,render: function(text, record, index){
-        const  peneUrl = SCRM.url('/scrmweb/accounts/deptsummarydetail?id=' + record.ID + '&name='+record.Name);
-        if(record.ID == 0){
+        const  peneUrl = SCRM.url('/scrmweb/accounts/deptsummarydetail?id=' + record.ID + '&name='+ record.Name);
+        const linkHref = SCRM.url('/scrmweb/accounts/deptsummary?deptID=' + record.ID);
+        const sumHref = SCRM.url('/scrmweb/accounts/deptsummary');
+        if(record.Name == "小计"){
         return (
-          <span>{text}</span>
+          <span>
+            <a href = {linkHref}>{text}</a>
+          </span>
           );
+        }else if(record.Name == "合计"){
+          return (
+            <span>
+              <a href = {sumHref}>{text}</a>
+            </span>
+            );        
         }else{
             return (
             <span>
@@ -66,7 +78,8 @@ let deptSummaryColumns = [
 let summaryParams = {
     url: SCRM.url('/scrmweb/accounts/getDeptSummary'),
     data: {
-      keyword:''
+      keyword:'',
+      deptID:getQueryString("deptID")
     }
 }
 
