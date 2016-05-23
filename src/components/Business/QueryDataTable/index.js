@@ -257,9 +257,11 @@ export default class QueryDataTable extends React.Component {
                 case 18:
 
                     return (<FormItem >
-                        <Input autoComplete="off" {...getFieldProps(queryCol['searchType'] + '_19_' + col['key'], {
-                            initialValue: queryCol['renderData']['defaultValue']
-                        })} />
+                        <Input autoComplete="off"
+                               maxLength="30"
+                            {...getFieldProps(queryCol['searchType'] + '_19_' + col['key'], {
+                                initialValue: queryCol['renderData']['defaultValue']
+                            })} />
                     </FormItem>)
 
 
@@ -353,7 +355,7 @@ export default class QueryDataTable extends React.Component {
             pageSize: pageSize,
             total: parseInt(total),
             showTotal: (total) => {
-                return   `共 ${total} 条`
+                return `共 ${total} 条`
             },
             showSizeChanger: true,
             showQuickJumper: true,
@@ -431,7 +433,7 @@ export default class QueryDataTable extends React.Component {
                 <div ref="TableBoxModel" style={{width: '880px', overflow: "auto"}}>
                     <div style={{width: this.calculateWidth(), position: 'relative'}} id={this.identity}>
 
-                        <div className="ant-noneWe" >
+                        <div className="ant-noneWe">
                             <div className="ant-table ant-table-large"
                                  onSubmit={this.handleSubmit }>
                                 <div className="ant-table-body">
