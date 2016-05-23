@@ -40,40 +40,49 @@ class DivEdit extends React.Component{
         if(ColumnsOptions.length ==1){
         	IsLast =1
         }
-        reqwest({
-            url: SCRM.url('/scrmdefined/account/checkEnumAttr'),
-            method: 'post',
-            data: 'params='+JSON.stringify({data:currentDeletedItem}),
-            type: 'json',
-            success: (json) => {
-                if(json.rs){
-                	if(json.data.count == 0){
-                		//未使用可删除
 
-				        deletItem(i,IsLast);
-						let  deletedItem  = this.props.$$mapState.toJS().deletedItem;
-						ColumnsOptions[i].IsDeleted = 1
-						deletedItem.push(ColumnsOptions[i])
-						const {collectDeletedItem} = this.props
-						collectDeletedItem(deletedItem)                		
+        if(currentDeletedItem.Val){
+	        reqwest({
+	            url: SCRM.url('/scrmdefined/account/checkEnumAttr'),
+	            method: 'post',
+	            data: 'params='+JSON.stringify({data:currentDeletedItem}),
+	            type: 'json',
+	            success: (json) => {
+	                if(json.rs){
+	                	if(json.data.count == 0){
+	                		//未使用可删除
 
-                	}else if(json.data.count > 0){
-                		//已使用不可删除
+					        deletItem(i,IsLast);
+							let  deletedItem  = this.props.$$mapState.toJS().deletedItem;
+							ColumnsOptions[i].IsDeleted = 1
+							deletedItem.push(ColumnsOptions[i])
+							const {collectDeletedItem} = this.props
+							collectDeletedItem(deletedItem)                		
+
+	                	}else if(json.data.count > 0){
+	                		//已使用不可删除
+		                    message.config({
+		                      top: 250
+		                    });             
+		                    message.error(json.data.message);                	
+		                }
+
+	                }else{
 	                    message.config({
 	                      top: 250
 	                    });             
-	                    message.error(json.data.message);                	
+	                    message.error(json.error);           
 	                }
-
-                }else{
-                    message.config({
-                      top: 250
-                    });             
-                    message.error(json.error);           
-                }
-            }
-        })
-
+	            }
+	        })
+        }else{
+					        deletItem(i,IsLast);
+							let  deletedItem  = this.props.$$mapState.toJS().deletedItem;
+							ColumnsOptions[i].IsDeleted = 1
+							deletedItem.push(ColumnsOptions[i])
+							const {collectDeletedItem} = this.props
+							collectDeletedItem(deletedItem) 
+        }
 
 
 
