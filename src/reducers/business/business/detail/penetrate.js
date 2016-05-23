@@ -10,7 +10,7 @@ import {    GET_TABLE_DATA,
     GET_TABLE_QUERY_SUCCESS,
     GET_TABLE_QUERY_FAILURE,
 
-} from 'actions/business/business/list/penetrate'
+} from 'actions/business/business/detail/penetrate'
 const $$initialState = Immutable.fromJS({
     rows: [],
     current: 1,
@@ -21,7 +21,7 @@ const $$initialState = Immutable.fromJS({
 
 })
 
-export default function business_list_penetrate($$state = $$initialState, action) {
+export default function business_detail_penetrate($$state = $$initialState, action) {
     switch (action.type) {
 
         case GET_TABLE_DATA:

@@ -15,7 +15,10 @@ let COUNT = 0
 let daterValue
 let WEEK_END_DATER
 let WEEK_DATER
-const TEMP_DATA = $('#viewNumList').data() || {}
+const TEMP_DATA = {
+        nptype:document.querySelector('#npType') ? document.querySelector('#npType').value : null,
+        templateid:document.querySelector('#templateId') ? document.querySelector('#templateId').value : null,
+    }
 
 
 
@@ -62,13 +65,11 @@ export default class InputDater extends React.Component {
     }
 
     componentDidMount() {
-        //console.log($(findDOMNode(this.refs.rangePicker)))
-        $(function () {
-            if (TEMP_DATA.nptype == 'week') {
-                $('.ck-Calendar-date').width('256px')
-                $('.ck-Calendar').width('316px')
-            }
-        })
+
+        /*if (TEMP_DATA.nptype == 'week') {
+            document.querySelector('.ck-Calendar-date').style.width = '256px';
+            document.querySelector('.ck-Calendar').style.width = '316px';
+        }*/
     }
 
     handlePrevNextBtn(dir) {
@@ -108,17 +109,7 @@ export default class InputDater extends React.Component {
             dateType: TEMP_DATA.nptype
         })
 
-        /*$.post(SCRM.url('/scrmnumreport/index/listAjax'),{
-            templateID: TEMP_DATA.templateid,
-            date: TEMP_DATA.nptype !== 'week' ? dater : dater[0],
-            dateType: TEMP_DATA.nptype
-        }, function (data) {
-            if (data.rs === true) {
-                actions.fetchData(true, data.data)
-            } else {
-                message.error('服务器错误，请联系客服')
-            }
-        }, 'json');*/
+
 
     }
 
@@ -178,17 +169,6 @@ export default class InputDater extends React.Component {
             date: TEMP_DATA.nptype === 'week'? daterValue.split('~')[0] : daterValue,
             dateType: TEMP_DATA.nptype
         })
-        /*$.post(SCRM.url('/scrmnumreport/index/listAjax'), {
-            templateID: TEMP_DATA.templateid,//TODO 18为测试数据
-            date: TEMP_DATA.nptype === 'week'? daterValue.split('~')[0] : daterValue,
-            dateType: TEMP_DATA.nptype
-        }, function (data) {
-            if (data.rs === true) {
-                actions.fetchData(true, data.data)
-            } else {
-                message.error('服务器错误，请联系客服')
-            }
-        }, 'json');*/
 
     }
 
@@ -243,14 +223,14 @@ export default class InputDater extends React.Component {
     renderDatePicker() {
         const { numberReportViewState ,actions } = this.props;
         const date = new Date()
-        const npType = $('#viewNumList').data().nptype
+        const npType = document.querySelector('#npType').value
         //debugger;
         switch (npType) {
             case 'day':
                 const curDay = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
                 return (
                     <DatePicker
-                        style={{"width":"160px"}}
+                        style={{width:160}}
                         value={ numberReportViewState.toJS().dater ? numberReportViewState.toJS().dater : curDay }
                         format="yyyy-MM-dd"
                         onChange={ this.handleChange.bind(this) }
@@ -262,7 +242,7 @@ export default class InputDater extends React.Component {
 
                 return (
                     <MonthPicker
-                        style={{"width":"160px"}}
+                        style={{width:160}}
                         value={ numberReportViewState.toJS().dater ? numberReportViewState.toJS().dater : curMonth }
                         onChange={this.handleChange.bind(this)}
                     />
@@ -274,7 +254,7 @@ export default class InputDater extends React.Component {
 
                     <ChaocerWeekCalendar
                         ref="rangePicker"
-                        style={{"width":"250px"}}
+                        style={{width:250}}
                         value={ numberReportViewState.toJS().dater ? numberReportViewState.toJS().dater.split('~') : [this.weekDater()[0],this.weekDater()[1]]}
                         onChange={ this.handleChange.bind(this) }
                     />
@@ -289,11 +269,11 @@ export default class InputDater extends React.Component {
         const { numberReportViewState ,actions } = this.props;
 
         return (
-            <div className="ck-Calendar clearfix">
+            <div className="ck-Calendar clearfix" style = { TEMP_DATA.nptype === 'week' ? {width:316} : null } >
                 <button className="ck-Calendar-pre" onClick={ this.handlePrevNextBtn.bind(this,'left') }>
 
                 </button>
-                <div className="ck-Calendar-date">
+                <div className="ck-Calendar-date" style = { TEMP_DATA.nptype === 'week' ? {width:256} : null }>
                     { this.renderDatePicker() }
                 </div>
                 <button className="ck-Calendar-next" onClick={ this.handlePrevNextBtn.bind(this,'right') }>
@@ -301,6 +281,8 @@ export default class InputDater extends React.Component {
                 </button>
             </div>
         )
+
+
 
 
     }
