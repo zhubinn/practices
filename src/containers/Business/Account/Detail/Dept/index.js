@@ -8,7 +8,7 @@ import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery, table_params } from 'actions/business/account/detail/dept'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
-import {columns} from 'containers/Business/Account/common/constant'
+import {detail_columns} from 'containers/Business/Account/common/constant'
 
 
 const FormItem = Form.Item;
@@ -238,7 +238,7 @@ class Account_Detail_Dept_Page extends React.Component {
                     </TabPane>
                 </Tabs>
                 <QueryDataTable
-                    columns={columns}
+                    columns={detail_columns}
                     expandedRowRender={this.expandedRowRender}
                     {...queryDataTable}
                     onGetTableData={

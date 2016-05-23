@@ -18,7 +18,7 @@ import QueryDataTable from 'components/Business/QueryDataTable'
 import SelectPeople from 'components/Business/SelectPeople'
 import 'containers/Business/index.less'
 
-import {columns} from 'containers/Business/Account/common/constant'
+import {list_columns} from 'containers/Business/Account/common/constant'
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
@@ -517,7 +517,7 @@ class Account_List_Dept_Page extends React.Component {
 
 
                 <QueryDataTable
-                    columns={columns}
+                    columns={list_columns}
                     checkMode={true}
                     {...queryDataTable}
                     onGetTableData={

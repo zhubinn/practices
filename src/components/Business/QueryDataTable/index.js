@@ -52,7 +52,7 @@ export default class QueryDataTable extends React.Component {
         this.identity = 'queryDataTable_' + randomString()
 
         // todo: 默认的列宽度, 有bug ...
-        this.defaultColWidth = 200
+        this.defaultColWidth = 150
         this.queryForm = ''
 
         this.state = {
