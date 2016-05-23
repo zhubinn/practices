@@ -161,6 +161,7 @@ class CustomizablePage extends  React.Component{
 
 
             clickapplyBtn(applyParam)
+            
 
         }
         
