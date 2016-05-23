@@ -19,7 +19,7 @@ import getQueryString from 'components/Business/GetQueryString'
 let deptstatisticColumns = [
 
     {title: '部门名称', dataIndex: 'Name', key: 'Name', width: 220,render: function(text, record, index){
-        const  peneUrl = SCRM.url('/scrmweb/accounts/deptstatisticdetail?id=' + record.ID + '&name='+ record.Name);
+        const  peneUrl = SCRM.url('/scrmweb/accounts/deptstatisticdetail?id=' + record.ID + '&name='+ escape(record.Name).replace(/%u/gi, '\\u'));
         const linkHref = SCRM.url('/scrmweb/accounts/deptstatistic?deptID=' + record.ID);
         const sumHref = SCRM.url('/scrmweb/accounts/deptstatistic');
         if(record.Name == "小计"){
