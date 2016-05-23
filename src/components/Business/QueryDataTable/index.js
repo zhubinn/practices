@@ -122,7 +122,7 @@ export default class QueryDataTable extends React.Component {
             isSearchShow: !this.state.isSearchShow
         })
     }
-    renderQueryTable = (columns, queryColumns, checkMode) => {
+    renderQueryTable = (columns, queryColumns, checkMode, needExpand) => {
 
 
         if (isEmpty(queryColumns)) return null
@@ -191,6 +191,7 @@ export default class QueryDataTable extends React.Component {
 
                                 <tr className="ant-table-row">
                                     {checkMode ? (<td className="ant-table-selection-column"></td>) : null}
+                                    {needExpand ? (<td style={{width:34}}></td>) : null}
 
                                     {
                                         columns.map((col, i) => (
@@ -457,7 +458,7 @@ export default class QueryDataTable extends React.Component {
                                     </table>
 
                                     {/*搜索部分*/}
-                                    {this.renderQueryTable(columns, queryColumns, checkMode)}
+                                    {this.renderQueryTable(columns, queryColumns, checkMode, expandedRowRender)}
 
 
                                 </div>
