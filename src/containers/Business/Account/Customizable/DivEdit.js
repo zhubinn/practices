@@ -41,7 +41,7 @@ class DivEdit extends React.Component{
         	IsLast =1
         }
 
-        if(currentDeletedItem.Val){
+        if(currentDeletedItem.Key){
 	        reqwest({
 	            url: SCRM.url('/scrmdefined/account/checkEnumAttr'),
 	            method: 'post',
@@ -76,12 +76,13 @@ class DivEdit extends React.Component{
 	            }
 	        })
         }else{
-					        deletItem(i,IsLast);
-							let  deletedItem  = this.props.$$mapState.toJS().deletedItem;
-							ColumnsOptions[i].IsDeleted = 1
-							deletedItem.push(ColumnsOptions[i])
-							const {collectDeletedItem} = this.props
-							collectDeletedItem(deletedItem) 
+        	//删除空数据不需要请求接口 直接删除即可
+		        deletItem(i,IsLast);
+				let  deletedItem  = this.props.$$mapState.toJS().deletedItem;
+				ColumnsOptions[i].IsDeleted = 1
+				deletedItem.push(ColumnsOptions[i])
+				const {collectDeletedItem} = this.props
+				collectDeletedItem(deletedItem) 
         }
 
 
