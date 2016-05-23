@@ -10,6 +10,7 @@ import { Row, Col, Button } from 'antd'
 import { getDeptSummaryData }  from 'actions/business/business/summary/DeptSummary'
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
+import getQueryString from 'components/Business/GetQueryString'
 import 'containers/Business/index.less'
 
 //获取table列表数据接口
@@ -17,7 +18,8 @@ let DeptSummaryParams = {
     //url: SCRM.url('/front/js/scrm/fakeData/deptStatistic.php'),
     url: SCRM.url('/scrmweb/business/getDeptSummary'),
     data: {
-        keyword:''
+        keyword:'',
+        deptID:getQueryString("deptID")
     }
 };
 
