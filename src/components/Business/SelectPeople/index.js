@@ -19,14 +19,16 @@ export default class SelectPeople extends React.Component {
         data: React.PropTypes.array,
         IsMultiselect: React.PropTypes.number,
         selectPeopleModal: React.PropTypes.bool,
-        checkedRowsLength: React.PropTypes.number
+        checkedRowsLength: React.PropTypes.number,
+        isShowChangeTogether:React.PropTypes.bool
     }
 
     static defaultProps = {
         IsMultiselect: 0,
         data: [],
         selectPeopleModal: false,
-        checkedRowsLength: 0
+        checkedRowsLength: 0,
+        isShowChangeTogether:true
     }
 
 
@@ -181,7 +183,7 @@ export default class SelectPeople extends React.Component {
                                 <span className="nameSpan" key={i}
                                       onClick={this.clickNameTag.bind(this,i)}>{item.itemName}
                                     <a className="tagClose"></a>
-                                    </span>
+                                </span>
                             )
                         })
                     }
@@ -248,9 +250,7 @@ export default class SelectPeople extends React.Component {
         const scroll_top = ReactDOM.findDOMNode(this.refs.BombBoxList).scrollTop;
         const searchValue = this.state.value
         if (searchValue == '' && (scroll_height - win_height - scroll_top) == 0) {
-            console.log(scroll_height)
-            console.log(win_height)
-            console.log(scroll_top)
+
 
             let currentpage = this.state.currentPage
             currentpage++
@@ -285,9 +285,9 @@ export default class SelectPeople extends React.Component {
                             peopleListData.map((item, i) => {
                                 return (
                                     <li key={i} onClick={this.clickListItem.bind(this,i)}>
-                                        <a href="#" target="_blank"><img src={item.Avatar} width="60" height="60"/></a>
+                                        <a href="javascript:;"><img src={item.Avatar} width="60" height="60"/></a>
                                         <h5 >{item.Name}</h5>
-                                        <div className="zhiwei"><a href="#" target="_blank">{item.Dept}</a></div>
+                                        <div className="zhiwei"><a href="javascript:;">{item.Dept}</a></div>
                                     </li>
                                 )
                             })
@@ -413,7 +413,7 @@ export default class SelectPeople extends React.Component {
     render() {
         const selectPeopleModal = this.props.selectPeopleModal
         const checkedRowsLength = this.props.checkedRowsLength
-
+        const showStatus = this.props.showStatus
         return (
 
             <Modal ref="modal"
@@ -428,7 +428,7 @@ export default class SelectPeople extends React.Component {
                 <div>{this.peopleList()}</div>
                 <div style={{marginTop: '10px'}}>
                     <span style={{marginRight: '10px'}}>已选{checkedRowsLength}个客户</span>
-                              <span>同时变更相关业务的负责人：                            
+                              <span style={{display:showStatus?'block':'none'}}>同时变更相关业务的负责人：                            
                                <label>
                                    <Checkbox ref="checkboxInput" checked={this.state.isChangeBusiness}
                                              onChange={this.handleChangeBusiness.bind(this)}/>

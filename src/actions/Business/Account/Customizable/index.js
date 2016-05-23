@@ -138,7 +138,8 @@ export const selectedRowData = (selectedRow,editColumnsOptions)=>{
                 IsSys:0,//是否是系统属性.
                 IsDeleted:0
             }
-        ]        
+        ]   
+     
         return {
             type:ACCOUNT_CUSTOM_SELECTEDROWDATA,
             payload: {
@@ -228,6 +229,30 @@ export const clickapplyBtn = (applyParam)=> {
                 success: (data) => {
                     if(data.rs){
                         dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data))
+                        //点击应用按钮更新完毕报表数据之后 重新更新state状态数据
+                        const applyID = applyParam.data.ID
+                        let applyCurrentNewData  = {}
+
+                        data.data.map((r,i)=>{
+                            if(r.ID === applyID){
+                                applyCurrentNewData = r
+                            }
+                        })
+
+                        //console.log(applyCurrentNewData)
+                        let selectedRow={}
+                        selectedRow.Label = applyCurrentNewData.Label
+                        selectedRow.AttrType = applyCurrentNewData.AttrType
+                        selectedRow.IsMust = applyCurrentNewData.IsMust
+                        selectedRow.col_Remark = applyCurrentNewData.col_Remark
+                        selectedRow.ID = applyCurrentNewData.ID
+                        selectedRow.Name= applyCurrentNewData.Name
+
+                        let editColumnsOptions = []
+                        editColumnsOptions = applyCurrentNewData.Enums 
+
+                        dispatch(selectedRowData(selectedRow,editColumnsOptions))
+
                     }else{
                         message.config({
                           top: 250
