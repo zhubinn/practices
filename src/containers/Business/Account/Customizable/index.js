@@ -85,9 +85,8 @@ class CustomizablePage extends  React.Component{
         const {clickapplyBtn} = this.props
         let num = 0
         localeditColumnsOptions.map((r,i)=>{
-            r.Val==''?num++:(num=0)
+            r.Val==''?num++:''
         })
-
         message.config({
           top: 250
         });  
@@ -118,7 +117,7 @@ class CustomizablePage extends  React.Component{
         /*点击应用  只有一条且内容为空 可以提交; 
         若多条且内容为空 或者多条中有空内容，则警告提示*/
         if(num>0 && localeditColumnsOptions.length>1){
-            
+
                 message.warn('请填写选项信息');
 
         }else if(localeditColumnsOptions.length == 1 
@@ -202,7 +201,7 @@ class CustomizablePage extends  React.Component{
 
             return (
                 <div className = "col_right" >
-                    <div >
+                    <div className = "customsTableWrap">
                         <Table ref = "dataTable"
                          columns={columns} 
                          dataSource={dataSource} 
