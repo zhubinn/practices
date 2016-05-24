@@ -146,8 +146,11 @@ class DispatchCluesPage extends Component {
         this.refs.queryDataTable.resetQueryForm()
         this.refs.queryDataTable.clearCheckedAndExpanded()
 
-        console.log(this.refs.queryDataTable.props)
-        //this.refs.queryDataTable.props.
+
+        /*this.setState({
+            tabActive:!this.state.tabActive
+        })*/
+
 
         this.setState({
             type
@@ -170,6 +173,17 @@ class DispatchCluesPage extends Component {
             })
         }
 
+
+    }
+
+    componentDidUpdate(prevProps,prevState){
+
+        /*console.log(prevProps,prevState,this.state.tabActive)
+
+        if(prevState.tabActive){
+            console.log(findDOMNode(this.refs.queryDataTable))
+            document.querySelector('.ant-pagination-options-quick-jumper input').value = '1';
+        }*/
 
     }
 
