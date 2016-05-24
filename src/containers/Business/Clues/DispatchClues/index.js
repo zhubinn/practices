@@ -40,57 +40,46 @@ const columns = [{
     title: '客户名称',
     dataIndex: 'Company',
     key: 'Company',
-    width: 180
 },{
     title: '导入来源',
     dataIndex: 'ImportSource',
     key: 'ImportSource',
-    width: 180
 }, {
     title: '创建时间',
     dataIndex: 'CreatedTime',
     key: 'CreatedTime',
-    width: 140
 },  {
     title: '线索负责人',
     dataIndex: 'OwnerID',
     key: 'OwnerID',
-    width: 180
 }, {
     title: '线索录入人',
     dataIndex: 'CreatedByID',
     key: 'CreatedByID',
-    width: 180
 }, {
     title: '微信',
     dataIndex: 'Wechat',
     key: 'Wechat',
-    width: 160
 }, {
     title: 'QQ',
     dataIndex: 'QQ',
     key: 'QQ',
-    width: 160
 }, {
     title: '线索来源',
     dataIndex: 'Source',
     key: 'Source',
-    width: 260
 }, {
     title: '描述',
     dataIndex: 'Description',
     key: 'Description',
-    width:160
 }, {
     title: '电话',
     dataIndex: 'Phone',
     key: 'Phone',
-    width: 160
 }, {
     title: '已转化客户',
     dataIndex: 'TransedAccountID',
     key: 'TransedAccountID',
-    width: 280
 }, {
     title: '已转化联系人',
     dataIndex: 'TransedContactID',
@@ -248,12 +237,10 @@ class DispatchCluesPage extends Component {
         const selectIDs = selectData.map((item) => item.ID)
 
 
-
         if(!selectedRadioID){
             message.warn('请选择要分派的人员')
             return false;
         }
-
 
 
         reqwest({
@@ -279,27 +266,25 @@ class DispatchCluesPage extends Component {
                         visible:false
                     },() => {
                         message.success('分派成功！')
-                        this.props.updateTableData(selectIDs);
+                        //this.props.updateTableData(selectIDs);
 
                         this.setState({
                             flag:true
                         },()=>{
+
+                            let data = {}
                             //当当前页面数据为空时，刷新页面
-                            if(this.state.flag){
-
-                                if(!this.props.$$dispatchCluesState.toJS().rows.length){
-                                    //window.location.reload()
-                                    this.props.getTableData({
-                                        url: SCRM.url('/scrmlead/index/getAssignList'),
-                                        data:{
-                                            page:1
-                                        }
-
-                                    })
-                                }
-
+                            if(!this.props.$$dispatchCluesState.toJS().rows.length){
+                                //window.location.reload()
+                                data.page = 1
 
                             }
+
+                            this.props.getTableData({
+                                url: SCRM.url('/scrmlead/index/getAssignList'),
+                                data
+
+                            })
                         })
 
 

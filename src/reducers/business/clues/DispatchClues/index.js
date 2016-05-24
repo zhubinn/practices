@@ -37,7 +37,7 @@ const $$initialState = {
             rows: [],
             current: 1,
             total: 20,
-            pageSize: 20,
+            pageSize: 0,
             queryColumns: {},
             loading: false,
             assigned: 0,
@@ -45,8 +45,6 @@ const $$initialState = {
             showModal:false,
             selectData:[],
             deptData:[],
-            suggestData:[],
-
 }
 
 
