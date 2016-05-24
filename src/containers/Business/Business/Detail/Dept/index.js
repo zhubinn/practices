@@ -77,7 +77,6 @@ const columns = [
         "dataIndex": "PaymentAmount",
         "key": "PaymentAmount",
         "title": "回款金额",
-        "width":240
     },
     {
         "dataIndex": "EndDate",

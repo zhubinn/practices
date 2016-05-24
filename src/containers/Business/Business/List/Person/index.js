@@ -102,7 +102,6 @@ const columns = [
         "dataIndex": "PaymentAmount",
         "key": "PaymentAmount",
         "title": "回款金额",
-        "width":240
     },
     {
         "dataIndex": "EndDate",
@@ -199,7 +198,7 @@ class PersonList extends React.Component {
         const checkedRows = this.refs.queryDataTable.getCheckedRows()
         if (checkedRows.length == 0) {
             Modal.info({
-                title: '请先选择客户',
+                title: '请先选择生意',
                 onOk() {
                 },
             });
@@ -440,6 +439,7 @@ class PersonList extends React.Component {
                     handleClickCancle={this.handleChangeStatus.bind(this)}
                     requestData={this.requestPDList.bind(this)}
                     requestNextData={this.requestNextPoepleData.bind(this)}
+                    isShowChangeTogether = {false}
 
                     />
 

@@ -9,9 +9,17 @@ import { connect } from 'react-redux'
 import fetch from 'isomorphic-fetch'
 import { findDOMNode } from 'react-dom'
 import reqwest from 'reqwest'
-import { Table,Row , Col, Modal, Spin,  Button, Radio, message, Input } from 'antd'
+import { Table,Row , Col, Modal, Spin,  Button, Radio,Tabs, message, Input } from 'antd'
 const RadioGroup = Radio.Group;
+const TabPane = Tabs.TabPane;
+
+
 import SearchInput from 'components/Business/SearchInput'
+import { getTableData, getTableQuery,selectChange, selectDeptChange,fetchDeptData, showDispatchModal,updateTableData, table_params } from 'actions/business/clues/DispatchClues'
+
+import QueryDataTable from 'components/Business/QueryDataTable'
+import getQueryString from 'components/Business/GetQueryString'
+
 import 'containers/Business/index.less'
 //less
 import './less/clues.less'
@@ -32,57 +40,46 @@ const columns = [{
     title: '客户名称',
     dataIndex: 'Company',
     key: 'Company',
-    width: 180
 },{
     title: '导入来源',
     dataIndex: 'ImportSource',
     key: 'ImportSource',
-    width: 180
 }, {
     title: '创建时间',
     dataIndex: 'CreatedTime',
     key: 'CreatedTime',
-    width: 140
 },  {
     title: '线索负责人',
     dataIndex: 'OwnerID',
     key: 'OwnerID',
-    width: 180
 }, {
     title: '线索录入人',
     dataIndex: 'CreatedByID',
     key: 'CreatedByID',
-    width: 180
 }, {
     title: '微信',
     dataIndex: 'Wechat',
     key: 'Wechat',
-    width: 160
 }, {
     title: 'QQ',
     dataIndex: 'QQ',
     key: 'QQ',
-    width: 160
 }, {
     title: '线索来源',
     dataIndex: 'Source',
     key: 'Source',
-    width: 260
 }, {
     title: '描述',
     dataIndex: 'Description',
     key: 'Description',
-    width:160
 }, {
     title: '电话',
     dataIndex: 'Phone',
     key: 'Phone',
-    width: 160
 }, {
     title: '已转化客户',
     dataIndex: 'TransedAccountID',
     key: 'TransedAccountID',
-    width: 280
 }, {
     title: '已转化联系人',
     dataIndex: 'TransedContactID',
@@ -97,179 +94,88 @@ class DispatchCluesPage extends Component {
         super(props, context)
 
         this.state = {
-            pagination: {},
-            loading: false,
-            visible: false,
-            selectedRowKeys:[]
+            type:0,
+            flag:false
         }
     }
 
 
 
     componentDidMount(){
-        const { dispatchCluesState,actions } = this.props
-        const dispatchState = dispatchCluesState.toJS().dispatchState
 
-        this.fetchTableData({
+        // todo: url包装
+        this.props.getTableData({
+            url: SCRM.url('/scrmlead/index/getAssignList'),
+            data:{}
+
+        })
+        //this.props.getTableQuery(SCRM.url('/scrmweb/business/getOpportunityFilter'))
+
+        /*this.fetchTableData({
             assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
             rowsPerPage: 10
-        })
+        })*/
 
 
 
     }
 
-    fetchTableData(params = {canAssign:1}){
-        const { dispatchCluesState,actions } = this.props
+    // 普通搜索和筛选(高级搜索)互斥
+    normalSearch = (value) => {
+        // 重置筛选(高级搜索)
+        this.refs.queryDataTable.resetQueryForm()
 
-
-        //console.log('请求参数：', params);
-        this.setState({ loading: true });
-        reqwest({
-            url:SCRM.url('/scrmlead/index/getAssignList'),
-            method:'post',
-            data:params,
-            type:'json',
-            error:  (result) => {
-                message.error('服务器错误,请联系客服!')
-            },
-            success:(result) => {
-
-                if(result.rs){
-                    const pagination = this.state.pagination;
-                    const rowData = result.data.rowData;
-                    pagination.total = result.data.total*1;
-
-                    this.setState({
-                        loading:false,
-                        pagination,
-                    })
-                    actions.fetchData(true,rowData)
-                }else{
-                    message.error(result.error)
-                }
-
-
+        this.refs.queryDataTable.clearCheckedAndExpanded()
+        this.props.getTableData({
+            data: {
+                searchData: [],
+                owner: value,
+                page: 1,
             }
         })
 
 
-    }
 
-    handleTableChange(pagination) {
-        const { dispatchCluesState,actions } = this.props
-        const dispatchState = dispatchCluesState.toJS().dispatchState
-        const pager = this.state.pagination;
-        const owner = this.state.owner;
+
+    }
+    changeType = (type) => {
+
+
+        // 重置筛选(高级搜索)
+        this.refs.searchInput.emptyInput()
+        this.refs.queryDataTable.resetQueryForm()
+        this.refs.queryDataTable.clearCheckedAndExpanded()
+
+        this.setState({
+            type
+        })
+
+        this.props.getTableData({
+            data: {
+                searchData: [],
+                owner: '',
+                page: 1,
+                pageSize: 0,
+                assigned:type
+            }
+        })
+
         //  清空select状态
-        if(this.refs.tableList){
-            this.refs.tableList.setState({
+        if(this.refs.queryDataTable){
+            this.refs.queryDataTable.setState({
                 selectedRowKeys:[]
             })
         }
 
 
-        pager.current = pagination.current;
-
-        this.setState({
-            pagination: pager
-        });
-
-        this.fetchTableData({
-            rowsPerPage : pagination.pageSize,
-            page : pagination.current,
-            assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
-            owner,
-        });
     }
 
-    renderTableList(){
-        const { dispatchCluesState ,actions } = this.props
-        const { rowData, loading, dispatchState } = dispatchCluesState.toJS()
-
-        //未分派0
-        if(dispatchState === 0){
-            const rowSelection = {
-                onChange: this.onSelectChange.bind(this)
-            };
-            return (
-                loading  ? <Table ref="tableList"
-                                  onChange={this.handleTableChange.bind(this)}
-                                  loading={this.state.loading}
-                                  pagination={this.state.pagination}
-                                  rowSelection={rowSelection}
-                                  columns={columns}
-                                  dataSource={rowData} /> : <div className="loading-box"><Spin  /></div>
-            )
-        }else if(dispatchState === 1){
-            return (
-                loading  ? <Table ref="tableList"
-                                  onChange={this.handleTableChange.bind(this)}
-                                  loading={this.state.loading}
-                                  pagination={this.state.pagination}
-                                  columns={columns}
-                                  dataSource={rowData} /> : <div className="loading-box"><Spin  /></div>
-            )
-        }
-
-    }
-
-    handClickTab(state){
-        const { dispatchCluesState,actions } = this.props
-        const dispatchState = dispatchCluesState.toJS().dispatchState
-
-        if(state === dispatchState) return;
-
-        this.setState({
-            pagination: {},
-            owner:''
-        })
-
-        actions.clickTab(state,false)
-
-        if(this.refs.searchInput){
-            this.refs.searchInput.setState({
-                value:''
-            })
-        }
-
-        this.fetchTableData({
-            assigned:state,//0未分派,1已分派未处理 不传默认0
-        })
-
-
-
-    }
-
-    clickSearch(value){
-        const val = value.trim()
-
-        this.setState({
-            owner:val,
-            pagination:{
-                current:1
-            }
-        })
-
-        this.searchFetchData(val)
-    }
-
-    searchFetchData(value){
-        const { dispatchCluesState ,actions } = this.props
-        const dispatchState = dispatchCluesState.toJS().dispatchState
-
-
-        this.fetchTableData({
-            assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
-            owner:value
-        })
-
-    }
 
     showModal(){
-        const { dispatchCluesState ,actions } = this.props
-        const rowData = dispatchCluesState.toJS().selectData
-        const deptData = dispatchCluesState.toJS().deptData
+        const { $$dispatchCluesState  } = this.props
+
+        const rowData = this.refs.queryDataTable.getCheckedRows()
+        const deptData = $$dispatchCluesState.toJS().deptData
 
         if(!rowData.length ) {
             message.warn('请先选择要分派的线索!');
@@ -277,8 +183,18 @@ class DispatchCluesPage extends Component {
         }
 
         this.setState({
-            visible:true
+            visible:true,
+            selectOwner:null,
         })
+
+
+        this.props.selectDeptChange(null)
+        if(this.refs.radioGroup){
+            this.refs.radioGroup.setState({
+                value:null
+            })
+        }
+
 
         if(!this.state.visible && !deptData.length){
 
@@ -288,7 +204,7 @@ class DispatchCluesPage extends Component {
                 type:'json',
                 success:(result) => {
                     if(result.rs){
-                        actions.fetchDeptData(true,result.data)
+                        this.props.fetchDeptData(true,result.data)
                     }else{
                         message.error(result.error)
                     }
@@ -305,25 +221,27 @@ class DispatchCluesPage extends Component {
     }
 
     onDeptRadioChange(e){
-        const { actions } = this.props
+
 
         this.setState({
             selectOwner:e.target['data-name']
         })
-        actions.selectDeptChange(e.target.value)
+        this.props.selectDeptChange(e.target.value)
     }
 
-    handleDispatchOk(){
-        const { dispatchCluesState ,actions } = this.props
-        const { selectedRadioID, selectData} = dispatchCluesState.toJS()
-        const selectIDs = selectData.map((item) => item.ID)
 
+    handleDispatchOk(){
+        const { $$dispatchCluesState  } = this.props
+        const { selectedRadioID } = $$dispatchCluesState.toJS()
+        const selectData = this.refs.queryDataTable.getCheckedRows()
+        const selectIDs = selectData.map((item) => item.ID)
 
 
         if(!selectedRadioID){
             message.warn('请选择要分派的人员')
             return false;
         }
+
 
         reqwest({
             url:SCRM.url('/scrmlead/index/changeOwner'),
@@ -336,30 +254,56 @@ class DispatchCluesPage extends Component {
             success:(result) => {
                 if(result.rs){
                     //  清空select状态
-                    if(this.refs.tableList){
-                        this.refs.tableList.setState({
+                    if(this.refs.queryDataTable){
+                        this.refs.queryDataTable.setState({
                             selectedRowKeys:[]
                         })
                     }
 
-                    actions.updateTableData(selectIDs);
+
+                    this.props.selectChange([], []);
                     this.setState({
                         visible:false
                     },() => {
-                        actions.selectChange([], [])
                         message.success('分派成功！')
+                        //this.props.updateTableData(selectIDs);
+
+                        this.setState({
+                            flag:true
+                        },()=>{
+
+                            let data = {}
+                            //当当前页面数据为空时，刷新页面
+                            if(!this.props.$$dispatchCluesState.toJS().rows.length){
+                                //window.location.reload()
+                                data.page = 1
+
+                            }
+
+                            this.props.getTableData({
+                                url: SCRM.url('/scrmlead/index/getAssignList'),
+                                data
+
+                            })
+                        })
+
+
                     })
+
+
                 }else{
                     message.error(result.error)
                 }
             }
         })
 
+
+
     }
 
     renderModalBox(){
-        const { dispatchCluesState ,actions } = this.props
-        const deptData = dispatchCluesState.toJS().deptData
+        const { $$dispatchCluesState  } = this.props
+        const deptData = $$dispatchCluesState.toJS().deptData
 
         return (
             <div>
@@ -382,7 +326,7 @@ class DispatchCluesPage extends Component {
                                 <div  className = { !deptData.length ? "loading-box" : "loading-box hidden" }>
                                     <Spin  />
                                 </div>
-                                <RadioGroup onChange={this.onDeptRadioChange.bind(this)} >
+                                <RadioGroup ref = "radioGroup" onChange={this.onDeptRadioChange.bind(this)} >
                                     {
                                         deptData.map((item, index) => {
                                             return (
@@ -405,15 +349,25 @@ class DispatchCluesPage extends Component {
         )
     }
 
-    onSelectChange(selectedRowKeys,selectedRows){
-        const { dispatchCluesState ,actions } = this.props
-        actions.selectChange(selectedRowKeys, selectedRows)
-    }
 
 
     render() {
-        const { dispatchCluesState ,actions } = this.props
-        const dispatchState = dispatchCluesState.toJS().dispatchState
+
+        const {
+                $$dispatchCluesState,
+                getTableData
+
+            } = this.props
+
+        let queryDataTable = {};
+
+        queryDataTable.dataSource = $$dispatchCluesState.toJS().rows
+        queryDataTable.current = $$dispatchCluesState.toJS().current
+        queryDataTable.total = $$dispatchCluesState.toJS().total
+        queryDataTable.pageSize = $$dispatchCluesState.toJS().pageSize
+        queryDataTable.queryColumns = $$dispatchCluesState.toJS().queryColumns
+        queryDataTable.loading = $$dispatchCluesState.toJS().loading
+
 
         return (
             <div className="ck-root-main">
@@ -421,24 +375,41 @@ class DispatchCluesPage extends Component {
                     <div className="ck-root-title">
 
                         <Row>
-                            <Col span="16">
-                                <SearchInput ref="searchInput"  placeholder="输入线索负责人" style={{ width: 200 }} onSearch = { this.clickSearch.bind(this) } {...this.props}  />
-                            </Col>
+                            <Col span="8"><SearchInput ref="searchInput" placeholder="请输入线索负责人" onSearch={(value)=>{this.normalSearch(value)}}/> </Col>
 
-                            <Col span="8">
-                                <button className = { dispatchState === 0 ? "col-cktop-btn " : "col-cktop-btn hidden" }  onClick = { this.showModal.bind(this) }>分派</button>
+                            <Col span="10" offset="6" style = {{textAlign: 'right'}}>
+                                <button className = "col-cktop-btn "  onClick = { this.showModal.bind(this) }>分派</button>
                             </Col>
                         </Row>
                     </div>
                     <div className="ck-tab-hd">
-                        <ul className="clearfix">
-                            <li className = { dispatchState === 0 ? "active" : null } onClick = { this.handClickTab.bind(this,0) }><a>未分派</a></li>
-                            <li className = { dispatchState === 1 ? "active" : null } onClick = { this.handClickTab.bind(this,1) }><a>已分派</a></li>
-                        </ul>
+                        <Tabs defaultActiveKey="all"
+                              type="card"
+                              onChange={i => {this.changeType(i)}}>
+                            <TabPane tab="未分派" key="0">
+                            </TabPane>
+                            <TabPane tab="已分派" key="1">
+                            </TabPane>
+
+                        </Tabs>
                     </div>
-                    <div className="clues-table">
-                        { this.renderTableList() }
-                    </div>
+                    <QueryDataTable
+                        columns={columns}
+                        checkMode={true}
+                        {...queryDataTable}
+
+                        onGetTableData={
+
+                                (obj)=>{
+
+                                    getTableData({
+                                        data: obj
+                                    })
+                                }
+                            }
+                        ref="queryDataTable"
+                        >
+                    </QueryDataTable>
 
                 </div>
                 { this.renderModalBox() }
@@ -452,14 +423,11 @@ class DispatchCluesPage extends Component {
 
 
 
-DispatchCluesPage.propTypes = {
-    dispatchCluesState: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired
-}
+
 
 function mapStateToProps(state) {
     return {
-        dispatchCluesState: state.business.dispatchCluesState //所有的业务页面state，都在state.business下
+        $$dispatchCluesState: state.business.dispatchCluesState //所有的业务页面state，都在state.business下
     }
 }
 
@@ -468,11 +436,23 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 
     return {
-        actions: bindActionCreators(DispatchCluesActions, dispatch)
+        actions: bindActionCreators(DispatchCluesActions, dispatch),
     }
 }
 
+
+
+
+
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    {
+        getTableData,
+        getTableQuery,
+        selectChange,
+        fetchDeptData,
+        selectDeptChange,
+        showDispatchModal,
+        updateTableData
+    }
 )(DispatchCluesPage)
