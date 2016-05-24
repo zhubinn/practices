@@ -159,6 +159,7 @@ class PersonDetail extends React.Component {
         e.preventDefault();
         const exportParam = {
             objName: 'OpportunityList',
+            title:'明细',
             ...(table_params.data)
         }
 

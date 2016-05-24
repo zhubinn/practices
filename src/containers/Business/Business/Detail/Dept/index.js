@@ -163,6 +163,7 @@ class DeptDetail extends React.Component {
 
         const exportParam = {
                     objName: 'OpportunityList',
+                    title:'明细',
                     ...(table_params.data),
             }
 

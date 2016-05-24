@@ -175,8 +175,10 @@ class PenetrateDetail extends React.Component {
 
         const exportParam = {
                     objName: 'OpportunityList',
+                    title:'明细',
                     ...(table_params.data)
             }
+        console.log(exportParam)
 
         const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
         window.open(exportUrl);

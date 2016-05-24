@@ -146,6 +146,8 @@ class DispatchCluesPage extends Component {
         this.refs.queryDataTable.resetQueryForm()
         this.refs.queryDataTable.clearCheckedAndExpanded()
 
+        console.log(this.refs.queryDataTable)
+
         this.setState({
             type
         })
@@ -266,25 +268,30 @@ class DispatchCluesPage extends Component {
                         visible:false
                     },() => {
                         message.success('分派成功！')
-                        //this.props.updateTableData(selectIDs);
+                        this.props.updateTableData(selectIDs);
 
                         this.setState({
                             flag:true
                         },()=>{
 
-                            let data = {}
                             //当当前页面数据为空时，刷新页面
+                            //console.log(this.props.$$dispatchCluesState.toJS().rows.length)
                             if(!this.props.$$dispatchCluesState.toJS().rows.length){
                                 //window.location.reload()
-                                data.page = 1
+                                this.props.getTableData({
+                                    url: SCRM.url('/scrmlead/index/getAssignList'),
+                                    data:{
+                                        page:1
+                                    }
 
+                                })
+
+                            }else{
+                                this.props.getTableData({
+                                    url: SCRM.url('/scrmlead/index/getAssignList'),
+
+                                })
                             }
-
-                            this.props.getTableData({
-                                url: SCRM.url('/scrmlead/index/getAssignList'),
-                                data
-
-                            })
                         })
 
 
