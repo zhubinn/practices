@@ -204,12 +204,14 @@ export default class QueryDataTable extends React.Component {
                                 </tbody>
                             </table>
                             <div className="QueryDataTable-formFooter">
+                                <div id={"formFooterWrap"+that.identity}  >
+                                    <div className="QueryDataTable-formbtn">
+                                        <Button type="ghost" onClick={(e) => {this.resetForm(e)}}>重置</Button>
+                                    </div>
 
-                                <div className="QueryDataTable-formbtn">
-                                    <Button type="ghost" onClick={(e) => {this.resetForm(e)}}>重置</Button>
+                                    <Button type="primary" onClick={(e) => {this.handleSubmit(e)}}>确定</Button>
                                 </div>
 
-                                <Button type="primary" onClick={(e) => {this.handleSubmit(e)}}>确定</Button>
 
 
                             </div>
@@ -429,7 +431,11 @@ export default class QueryDataTable extends React.Component {
 
             <div className="QueryDataTable">
 
-                <div ref="TableBoxModel" style={{width: '880px', overflow: "auto"}}>
+                <div ref="TableBoxModel" style={{width: '880px', overflow: "auto"}} onScroll={() =>{
+                    console.log(this.refs.TableBoxModel.getDOMNode().scrollLeft)
+                    document.getElementById("formFooterWrap"+this.identity).style.paddingLeft = this.refs.TableBoxModel.getDOMNode().scrollLeft + 'px'
+
+                }}>
                     <div style={{width: this.calculateWidth(), position: 'relative'}} id={this.identity}>
 
                         <div className="ant-noneWe">
@@ -465,7 +471,7 @@ export default class QueryDataTable extends React.Component {
                             </div>
                         </div>
 
-                        <div style={{ maxHeight: '500px', minHeight:'250px', overflow: "auto"}}>
+                        <div style={{ maxHeight: '500px', minHeight:'250px', overflow: "auto"}} >
                             {table}
                         </div>
 
