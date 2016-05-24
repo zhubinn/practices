@@ -201,7 +201,7 @@ class CustomizablePage extends  React.Component{
 
             return (
                 <div className = "col_right" >
-                    <div >
+                    <div className = "customsTableWrap">
                         <Table ref = "dataTable"
                          columns={columns} 
                          dataSource={dataSource} 

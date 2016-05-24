@@ -49,7 +49,7 @@ class TabListRun extends React.Component{
                                         return (
                                             <li key = {i}>
                                                 <div className = "ck-gongn02cnt-first">{opt.Val}</div>
-                                                <div className = "ck-gongn02cnt-third">{opt.IsStop==1?'未启用':'启用'}</div>
+                                                <div className = "ck-gongn02cnt-third">{opt.IsStop==1?'停用':'启用'}</div>
                                             </li>
                                             )
                                         }

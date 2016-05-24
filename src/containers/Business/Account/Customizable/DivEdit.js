@@ -186,9 +186,9 @@ class DivEdit extends React.Component{
 													<button className={opt.IsSys=='1'?'disableCut':'cut'} disabled = {opt.IsSys=='1'?'disabled':''} onClick = {this.handleDeletItem.bind(this,i)}>-</button>
 												</div>
 												<div className = "ck-gongncnt-third">
-													 <Select  value = {opt.IsStop==0?'启用':'未启用'} style={{ width: 90 }} 
+													 <Select  value = {opt.IsStop==0?'启用':'停用'} style={{ width: 90 }} 
 													 onChange={this.handleChangeselect.bind(this,i)} disabled = {opt.IsSys=='1'?true:false}>
-													      <Option value = "1" >未启用</Option>
+													      <Option value = "1" >停用</Option>
 													      <Option value = "0" >启用</Option>
 													  </Select>
 												</div>
