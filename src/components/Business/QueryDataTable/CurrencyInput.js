@@ -19,7 +19,7 @@ export default class CurrencyInput extends React.Component {
         this.state = {
             value: [
                 0,
-                ''
+                '6'
             ]
         };
     }

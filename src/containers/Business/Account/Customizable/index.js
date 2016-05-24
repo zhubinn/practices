@@ -18,11 +18,11 @@ let columns = [
     {title: '字段类型', dataIndex: 'AttrType',key: 'AttrType', width: 160,render: function(text, record, index){
         return (<div>{text==13?'单选':''}</div>);
     }},
-    {title: '是否必填', dataIndex: 'IsMust',key: 'IsMust', width: 130,render: function(text, record, index){
+    {title: '是否必填', dataIndex: 'IsMust',key: 'IsMust', width: 100,render: function(text, record, index){
         return (<div>{text==1?'是':'否'}</div>);
     }},
-    {title: '备注说明', dataIndex: 'Content',key: 'Content', width: 170 },
-    {title: '操作', dataIndex: 'ID',key: 'ID' , width: 170, render: function(text, record, index){ 
+    {title: '备注说明', dataIndex: 'Content',key: 'Content', width: 230 },
+    {title: '操作', dataIndex: 'ID',key: 'ID' , width: 140, render: function(text, record, index){ 
         //let self = new  CustomizablePage()
          console.log(currentText)
         return (<button className = "ck-customize-bnt01" onClick={e=>currentText.handleSelectSet(record)}>设置</button>)

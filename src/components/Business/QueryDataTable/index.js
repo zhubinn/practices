@@ -425,7 +425,6 @@ export default class QueryDataTable extends React.Component {
             </Table>)
         }
 
-
         return (
 
             <div className="QueryDataTable">

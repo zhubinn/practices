@@ -70,11 +70,14 @@ let summaryDetailColumns = [
 
 
 /*统计页面的请求接口*/
+let id = getQueryString("id")?getQueryString("id"): -1
+let name = getQueryString("name")? getQueryString("name"):''
+
 let summaryDetailParams = {
     url: SCRM.url('/scrmweb/accounts/getDeptSummaryDetail'),
     data: {
-      deptID: typeof id === 'undefined' ? -1 :id,
-      deptName:typeof name === 'undefined' ? '':name,
+      deptID: id,
+      deptName:unescape(name.replace(/\\u/gi, '%u')),
       keyword:''
     }
 }
