@@ -46,22 +46,22 @@ let perSummaryColumns = [
     }},
     {title: '全部预计销售金额', dataIndex: 'AmountPlan', key: 'AmountPlan',width: 200,className: 'column-money',render: function(text, record, index){
         return (
-          <span>{parseFloat(text).toFixed(2)}</span>
+          <span>{text}</span>
           );
     }},
     {title: '全部成交金额', dataIndex: 'Amount', key: 'Amount',width: 200,className: 'column-money',render: function(text, record, index){
         return (
-          <span>{parseFloat(text).toFixed(2)}</span>
+          <span>{text}</span>
           );
     }},
     {title: '全部回款金额', dataIndex: 'Payment', key: 'Payment',width: 200,className: 'column-money',render: function(text, record, index){
         return (
-          <span>{parseFloat(text).toFixed(2)}</span>
+          <span>{text}</span>
           );
     }},
     {title: '全部输单金额', dataIndex: 'Failed', key: 'Failed',width: 200,className: 'column-money',render: function(text, record, index){
         return (
-          <span>{parseFloat(text).toFixed(2)}</span>
+          <span>{text}</span>
           );
     }}
 ];
