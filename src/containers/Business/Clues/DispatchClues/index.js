@@ -146,7 +146,8 @@ class DispatchCluesPage extends Component {
         this.refs.queryDataTable.resetQueryForm()
         this.refs.queryDataTable.clearCheckedAndExpanded()
 
-        console.log(this.refs.queryDataTable)
+        console.log(this.refs.queryDataTable.props)
+        //this.refs.queryDataTable.props.
 
         this.setState({
             type

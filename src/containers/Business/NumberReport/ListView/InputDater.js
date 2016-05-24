@@ -117,18 +117,18 @@ export default class InputDater extends React.Component {
         const { actions } = this.props
 
         reqwest({
-            url:SCRM.url('/scrmnumreport/index/listAjax'),
+            url:SCRM.url('/scrmweb/numreport/listAjaxOfAdmin'),
             method:'post',
             data:param,
             type:'json',
             error: function (result) {
-                message.error(result.error)
+                message.error('服务器错误,请联系客服！')
             },
             success:(result) => {
                 if (result.rs === true) {
                     actions.fetchData(true, result.data)
                 } else {
-                    message.error('服务器错误，请联系客服')
+                    message.error(result.error)
                 }
             }
         })

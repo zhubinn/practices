@@ -56,7 +56,7 @@ class NumberReportViewPage extends Component {
         //TODO 异步請求
 
         reqwest({
-            url: SCRM.url('/scrmnumreport/index/listAjax'),
+            url: SCRM.url('/scrmweb/numreport/listAjaxOfAdmin'),
             method: 'post',
             data:{
                 templateID:obj.templateid,
@@ -65,13 +65,13 @@ class NumberReportViewPage extends Component {
             },
             type: 'json',
             error: function (result) {
-                message.error(result.error)
+                message.error('服务器错误，请联系客服')
             },
             success: (result) => {
                 if (result.rs) {
                     actions.fetchData(true, result.data)
                 } else {
-                    message.error('服务器错误，请联系客服')
+                    message.error(result.error)
                 }
             }
         })
