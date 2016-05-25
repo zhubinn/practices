@@ -130,7 +130,7 @@ class CustomizablePage extends  React.Component{
 
         }else if(isStopNum == localeditColumnsOptions.length && selectedRow.IsMust == '1'){
 
-                message.warn('请将是否必填设置为否');
+                message.warn('必填时，至少有一个启用的选项');
 
 
         }else if(hasRepeat==0){
