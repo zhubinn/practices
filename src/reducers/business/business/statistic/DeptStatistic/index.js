@@ -23,11 +23,10 @@ let deptStatistic = {
             render(text, record, index) {
                 const  peneUrl = SCRM.url('/scrmweb/business/deptstatisticdetail?deptID=' + record.ID + '&deptName=' + escape(record.Name).replace(/%u/gi, '\\u'));
                 const  staUrl = SCRM.url('/scrmweb/business/deptstatistic?deptID=' + record.ID);
-                const  Url = SCRM.url('/scrmweb/business/deptstatistic');
                 if( record.Name == '小计'){
                     return <a href={staUrl}>{text}</a>;
                 }else if( record.Name == '合计' ){
-                    return <a href={Url}>{text}</a>;
+                    return <span>{text}</span>;
                 }else{
                     return <a href={peneUrl}>{text}</a>;
                 }
