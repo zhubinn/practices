@@ -30,9 +30,7 @@ let deptstatisticColumns = [
           );
         }else if(record.Name == "合计"){
           return (
-            <span>
-                <a href = {sumHref}>{text}</a>
-            </span>
+            <span>{text}</span>
           );        
         }else{
             return (
