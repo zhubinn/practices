@@ -84,8 +84,10 @@ class CustomizablePage extends  React.Component{
         //数据可能需要过滤 如果没有任何选项就应用  则提示要先选择应用
         const {clickapplyBtn} = this.props
         let num = 0
+        let isStopNum = 0
         localeditColumnsOptions.map((r,i)=>{
             r.Val==''?num++:''
+            r.IsStop == 1?isStopNum++:''
         })
         message.config({
           top: 250
@@ -125,6 +127,11 @@ class CustomizablePage extends  React.Component{
                  && selectedRow.IsMust == '1'){
 
                 message.warn('请将是否必填设置为否');
+
+        }else if(isStopNum == localeditColumnsOptions.length && selectedRow.IsMust == '1'){
+
+                message.warn('请将是否必填设置为否');
+
 
         }else if(hasRepeat==0){
 
