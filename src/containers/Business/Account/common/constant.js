@@ -49,50 +49,92 @@ const detail_columns = [{
     dataIndex: 'Address',
     key: 'Address',
 
+    render: function (text, record, index) {
+        let cell = (<p>{record.Address}</p>)
+        if (!!record.Lat) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng, record.Lat, '客户公司地址')}}>{record.Address}</a>)
+        }
+        return cell
+    }
+
 }, {
     title: '销售地址',
     dataIndex: 'Address2',
     key: 'Address2',
 
+    render: function (text, record, index) {
+        let cell = (<p>{record.Address2}</p>)
+        if (!!record.Lat2) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng2, record.Lat2, '销售地址')}}>{record.Address2}</a>)
+        }
+        return cell
+    }
 }, {
     title: '工厂地址',
     dataIndex: 'Address3',
     key: 'Address3',
+
+    render: function (text, record, index) {
+        let cell = (<p>{record.Address3}</p>)
+        if (!!record.Lat3) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng3, record.Lat3, '工厂地址')}}>{record.Address3}</a>)
+        }
+        return cell
+    }
 
 }, {
     title: '库房地址',
     dataIndex: 'Address4',
     key: 'Address4',
 
+    render: function (text, record, index) {
+        let cell = (<p>{record.Address4}</p>)
+        if (!!record.Lat4) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng4, record.Lat4, '库房地址')}}>{record.Address4}</a>)
+        }
+        return cell
+    }
+
 }, {
     title: '收货地址',
     dataIndex: 'Address5',
     key: 'Address5',
 
+    render: function (text, record, index) {
+        let cell = (<p>{record.Address5}</p>)
+        if (!!record.Lat5) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng5, record.Lat5, '收货地址')}}>{record.Address5}</a>)
+        }
+        return cell
+    }
+
 }, {
     title: '门店地址',
     dataIndex: 'Address6',
     key: 'Address6',
+    width: 100,
+    render: function (text, record, index) {
+        let cell = (<p>{record.Address6}</p>)
+        if (!!record.Lat6) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng6, record.Lat6, '门店地址')}}>{record.Address6}</a>)
+        }
+        return cell
+    }
 
 }, {
     title: '其他地址',
     dataIndex: 'Address7',
     key: 'Address7',
 
-}, {
-    title: '客户地理坐标',
-    dataIndex: 'ID',
-    key: 'ID',
-    width: 100,
     render: function (text, record, index) {
-        let cell = (<p>未设置</p>)
-        if (!!record.Lat) {
-            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng, record.Lat, '客户地理坐标')}}>已设置</a>)
+        let cell = (<p>{record.Address7}</p>)
+        if (!!record.Lat7) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng7, record.Lat7, '其他地址')}}>{record.Address7}</a>)
         }
         return cell
     }
 
-}, {
+},  {
     title: '客户公司电话',
     dataIndex: 'Phone',
     key: 'Phone',
@@ -261,45 +303,87 @@ const list_columns = [{
     dataIndex: 'Address',
     key: 'Address',
 
+    render: function (text, record, index) {
+        let cell = (<p>{record.Address}</p>)
+        if (!!record.Lat) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng, record.Lat, '客户公司地址')}}>{record.Address}</a>)
+        }
+        return cell
+    }
+
 }, {
     title: '销售地址',
     dataIndex: 'Address2',
     key: 'Address2',
 
+    render: function (text, record, index) {
+        let cell = (<p>{record.Address2}</p>)
+        if (!!record.Lat2) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng2, record.Lat2, '销售地址')}}>{record.Address2}</a>)
+        }
+        return cell
+    }
 }, {
     title: '工厂地址',
     dataIndex: 'Address3',
     key: 'Address3',
+
+    render: function (text, record, index) {
+        let cell = (<p>{record.Address3}</p>)
+        if (!!record.Lat3) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng3, record.Lat3, '工厂地址')}}>{record.Address3}</a>)
+        }
+        return cell
+    }
 
 }, {
     title: '库房地址',
     dataIndex: 'Address4',
     key: 'Address4',
 
+    render: function (text, record, index) {
+        let cell = (<p>{record.Address4}</p>)
+        if (!!record.Lat4) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng4, record.Lat4, '库房地址')}}>{record.Address4}</a>)
+        }
+        return cell
+    }
+
 }, {
     title: '收货地址',
     dataIndex: 'Address5',
     key: 'Address5',
+
+    render: function (text, record, index) {
+        let cell = (<p>{record.Address5}</p>)
+        if (!!record.Lat5) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng5, record.Lat5, '收货地址')}}>{record.Address5}</a>)
+        }
+        return cell
+    }
 
 }, {
     title: '门店地址',
     dataIndex: 'Address6',
     key: 'Address6',
 
+    render: function (text, record, index) {
+        let cell = (<p>{record.Address6}</p>)
+        if (!!record.Lat6) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng6, record.Lat6, '门店地址')}}>{record.Address6}</a>)
+        }
+        return cell
+    }
+
 }, {
     title: '其他地址',
     dataIndex: 'Address7',
     key: 'Address7',
 
-}, {
-    title: '客户地理坐标',
-    dataIndex: 'ID',
-    key: 'ID',
-    width: 100,
     render: function (text, record, index) {
-        let cell = (<p>未设置</p>)
-        if (!!record.Lat) {
-            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng, record.Lat, '客户地理坐标')}}>已设置</a>)
+        let cell = (<p>{record.Address7}</p>)
+        if (!!record.Lat7) {
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng7, record.Lat7, '其他地址')}}>{record.Address7}</a>)
         }
         return cell
     }
