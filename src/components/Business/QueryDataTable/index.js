@@ -432,9 +432,11 @@ export default class QueryDataTable extends React.Component {
             <div className="QueryDataTable">
 
                 <div ref="TableBoxModel" style={{width: '880px', overflow: "auto"}} onScroll={() =>{
-                    console.log(this.refs.TableBoxModel.getDOMNode().scrollLeft)
-                    document.getElementById("formFooterWrap"+this.identity).style.paddingLeft = this.refs.TableBoxModel.getDOMNode().scrollLeft + 'px'
-
+                    console.log(ReactDOM.findDOMNode(this.refs.TableBoxModel).scrollLeft)
+                    const formFooterWrapNode = document.getElementById("formFooterWrap"+this.identity)
+                    if(formFooterWrapNode){
+                        formFooterWrapNode.style.paddingLeft = ReactDOM.findDOMNode(this.refs.TableBoxModel).scrollLeft + 'px'
+                    }
                 }}>
                     <div style={{width: this.calculateWidth(), position: 'relative'}} id={this.identity}>
 
