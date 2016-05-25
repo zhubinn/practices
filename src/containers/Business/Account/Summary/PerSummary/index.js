@@ -13,6 +13,7 @@ import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import 'containers/Business/index.less'
 import getQueryString from 'components/Business/GetQueryString'
+
 let perSummaryColumns = [
 
     {title: '部门名称', dataIndex: 'Dept', key: 'Dept', width: 150,render: function(text, record, index){
