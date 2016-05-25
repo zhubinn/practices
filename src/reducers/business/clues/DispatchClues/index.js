@@ -81,7 +81,7 @@ export default function dispatchCluesState($$state = Immutable.fromJS($$initialS
 
         case FETCH_DEPT_DATA:
             return $$state.merge({
-                "loading":action.loading,
+                "loading":false,
                 "deptData":action.data
             });
 
