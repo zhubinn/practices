@@ -20,8 +20,15 @@ import 'containers/Business/index.less'
 
 import {list_columns} from 'containers/Business/Account/common/constant'
 
+// 提示信息框全局配置
+message.config({
+    duration: 5
+});
+
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
+const ProgressLine = Progress.Line;
+
 
 // 变更负责人选择人组件调用
 let getPeopleParams = {
