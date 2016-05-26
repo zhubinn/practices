@@ -487,6 +487,7 @@ class Account_List_Person_Page extends React.Component {
                                             <p>2、其中客户名称为必填项，其他均为选填项；</p>
 
                                             <p>3、填写客户地址时，特别行政区名称需填写在模板中的省份字段下，由省/自治区直辖的县级行政区划，需将其名称直接填写在模板中的市字段下。</p>
+                                            <p>4、填写银行账号类时，请将列设置为文本类型</p>
                                         </div>
                                     </div>
                                     <div>
@@ -501,6 +502,8 @@ class Account_List_Person_Page extends React.Component {
                                             <p>2、为保证较好性能，请将导入条数控制在2000条以内；</p>
 
                                             <p>3、请不要在同一时间导入多个文件。</p>
+
+
                                         </div>
                                     </div>
                                     {this.state.inImport ? (<div>
