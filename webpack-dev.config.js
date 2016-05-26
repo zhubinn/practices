@@ -8,7 +8,7 @@ module.exports = {
     entry: './src/index.js',
     output: {
         publicPath: 'http://localhost:8082/lib/',
-        filename: '[name].js',
+        filename: '[name].min.js',
     },
     resolve: {
         extensions: ["", ".js", ".jsx"],
