@@ -36,7 +36,6 @@ let statisticDetail = {
             render(text, record, index) {
                 const  peneUrl = SCRM.url('/scrmweb/business/deptlist?deptID=' + deptID + '&sub=0');
                 if(record.DeptName == '小计' || record.DeptName == '合计'){
-                    //return {text};
                     return <span>{text}</span>;
                 }else{
                     return <a href={peneUrl}>{text}</a>;
