@@ -44,13 +44,17 @@ function renderFullPage(html, initialState) {
     <html>
       <head>
         <title>loading</title>
+        <link rel="stylesheet" type="text/css" href="//localhost:8082/lib/main.min.css" />
       </head>
       <body>
         <div id="root">loading</div>
         <script>
           //window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>
-        <script src="http://localhost:8082/lib/main.js"></script>
+        <script src="//cdn.bootcss.com/react/0.14.7/react.min.js"></script>
+        <script src="//cdn.bootcss.com/react/0.14.7/react-dom.min.js"></script>
+        <script src="//cdn.bootcss.com/immutable/3.8.1/immutable.min.js"></script>
+        <script src="//localhost:8082/lib/main.js"></script>
       </body>
     </html>
     `
