@@ -17,7 +17,7 @@ const $$initialState = Immutable.fromJS({
 const  perStatistic = ($$state = $$initialState, action)=>{
     switch(action.type) {
         case account_Pertatistic_GETDATA:
-            return $$state
+            return $$state.merge({loading:true})
         case account_Pertatistic_GETDATA_SUCCESS:
             return $$state.merge({rowData:action.payload,loading:false})
     	case account_Pertatistic_INPUTVAL:

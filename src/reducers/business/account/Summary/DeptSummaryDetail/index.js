@@ -17,7 +17,7 @@ const $$initialState = Immutable.fromJS({
 const  deptSummaryDetail = ($$state = $$initialState, action)=>{
     switch(action.type) {
         case account_SummaryDetail_GETDATA:
-            return $$state
+            return $$state.merge({loading:true})
         case account_SummaryDetail_GETDATA_SUCCESS:
             return $$state.merge({rowData:action.payload,loading:false})
     	case account_SummaryDetail_INPUTVAL:
