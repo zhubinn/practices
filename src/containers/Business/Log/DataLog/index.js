@@ -49,7 +49,7 @@ class DataLog extends React.Component {
                 searchData: [],
                 keyword: value,
                 page: 1,
-                pageSize: 10
+                pageSize: 0
             }
         })
     }
