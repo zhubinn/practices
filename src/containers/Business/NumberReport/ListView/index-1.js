@@ -7,11 +7,6 @@ import { findDOMNode } from 'react-dom'
 import reqwest from 'reqwest'
 import { message, notification } from 'antd'
 
-//import { getTableData, getTableQuery,selectChange, selectDeptChange,fetchDeptData, showDispatchModal,updateTableData, table_params } from 'actions/business/clues/DispatchClues'
-
-import QueryDataTable from 'components/Business/QueryDataTable'
-import getQueryString from 'components/Business/GetQueryString'
-
 import * as NumberReportViewActions from 'actions/business/numberReport/ListView'
 
 import InfoPath from './InfoPath'
@@ -33,24 +28,17 @@ const openNotification = function () {
 };
 
 
-let columns = []
-
-
 class NumberReportViewPage extends Component {
 
 
     constructor(props, context) {
         super(props, context)
 
-
-
     }
 
 
     componentWillMount(){
-        const { $$numberReportViewState ,actions } = this.props
-
-
+        const { numberReportViewState ,actions } = this.props
     }
 
     fillZero(v){
@@ -58,29 +46,16 @@ class NumberReportViewPage extends Component {
     }
 
     componentDidMount(){
-        const { $$numberReportViewState ,actions } = this.props
+        const { numberReportViewState ,actions } = this.props
         const myDate = new Date()
-
-        console.log(this.props)
 
         const obj = {
             nptype:document.querySelector('#npType').value,
             templateid:document.querySelector('#templateId').value,
         }
-
-
-        // todo: url包装
-        actions.getTableData({
-            url: SCRM.url('/scrmweb/numreport/listAjaxOfAdmin'),
-            data:{
-                templateID:obj.templateid,
-                date:myDate.getFullYear() +'-'+ this.fillZero(myDate.getMonth()+1) +'-'+ this.fillZero(myDate.getDate()),
-                dateType:obj.nptype
-            }
-
-        })
         //TODO 异步請求
-        /*reqwest({
+
+        reqwest({
             url: SCRM.url('/scrmweb/numreport/listAjaxOfAdmin'),
             method: 'post',
             data:{
@@ -99,15 +74,15 @@ class NumberReportViewPage extends Component {
                     message.error(result.error)
                 }
             }
-        })*/
+        })
 
     }
 
     importExcel(){
-        const { $$numberReportViewState  } = this.props
+        const { numberReportViewState  } = this.props
         const date = new Date()
         const curDay = date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate()
-        const dater = $$numberReportViewState.toJS().dater
+        const dater = numberReportViewState.toJS().dater
 
         const obj = {
             nptype:document.querySelector('#npType').value,
@@ -140,64 +115,7 @@ class NumberReportViewPage extends Component {
     }
 
     render() {
-
-        const {
-            $$numberReportViewState,
-            actions
-
-            } = this.props
-
-        let queryDataTable = {};
-
-        queryDataTable.dataSource = $$numberReportViewState.toJS().rows
-        queryDataTable.current = $$numberReportViewState.toJS().current*1
-        queryDataTable.total = $$numberReportViewState.toJS().total
-        queryDataTable.pageSize = $$numberReportViewState.toJS().pageSize
-        queryDataTable.queryColumns = $$numberReportViewState.toJS().queryColumns
-        queryDataTable.loading = $$numberReportViewState.toJS().loading
-        let columns = $$numberReportViewState.toJS().columns
-
-
-        if(queryDataTable.dataSource.length){
-            const reportItems = queryDataTable.dataSource[0].reportItems
-
-            /*columns = [{
-                title: '所属部门',
-                dataIndex: 'dept',
-                key: 'dept',
-
-            },{
-                title: '姓名',
-                dataIndex: 'name',
-                key: 'name',
-
-            }]
-
-            reportItems.forEach((item) => {
-                columns.push({
-                    title:item.Name,
-                    dataIndex:item.Attr,
-                })
-            })*/
-
-            queryDataTable.dataSource.forEach((item1) => {
-                item1.reportItems.forEach((item2) => {
-                    item1[item2.Attr] = item2.Value
-                })
-            })
-
-        }
-
-        const len = columns.length
-
-        if(len && len <7){
-            columns.map((item) => {
-                Object.assign(item,{width:(1/len)*100 + '%'})
-            })
-        }
-        //console.log(columns)
-
-
+        const { numberReportViewState ,actions } = this.props
 
         return (
             <div>
@@ -211,29 +129,13 @@ class NumberReportViewPage extends Component {
                                 <button className="ck-Function-btnreturn" onClick = { () => { history.back(-1) } }>返回</button>
                                 <InputDater
                                     actions = { actions }
-                                    $$numberReportViewState = { $$numberReportViewState }
+                                    numberReportViewState = { numberReportViewState }
                                     />
                                 <button className="ck-Function-Export" onClick = { this.importExcel.bind(this) } >导出EXCEL</button>
 
                             </div>
                         </div>
-                        <QueryDataTable
-                            columns={columns}
-                            checkMode={false}
-                            {...queryDataTable}
-
-                            onGetTableData={
-
-                                (obj)=>{
-
-                                    actions.getTableData({
-                                        data: obj
-                                    })
-                                }
-                            }
-                            ref="queryDataTable"
-                            >
-                        </QueryDataTable>
+                        <TableList actions = { actions } numberReportViewState = { numberReportViewState } />
                     </div>
                 </div>
             </div>
@@ -246,13 +148,13 @@ class NumberReportViewPage extends Component {
 
 
 NumberReportViewPage.propTypes = {
-    $$numberReportViewState: PropTypes.object.isRequired,
+    numberReportViewState: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
     return {
-        $$numberReportViewState: state.business.numberReportViewState //所有的业务页面state，都在state.business下
+        numberReportViewState: state.business.numberReportViewState //所有的业务页面state，都在state.business下
     }
 }
 
@@ -269,12 +171,3 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(NumberReportViewPage)
-
-/*export default connect(
-    mapStateToProps,
-    {
-        getTableData,
-        getTableQuery,
-
-    }
-)(DispatchCluesPage)*/
