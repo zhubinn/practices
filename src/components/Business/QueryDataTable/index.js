@@ -320,7 +320,7 @@ export default class QueryDataTable extends React.Component {
             width += 17
         }
 
-        return width
+        return width || '100%'
     }
 
 
