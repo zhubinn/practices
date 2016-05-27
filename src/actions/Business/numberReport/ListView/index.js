@@ -5,6 +5,8 @@
     IMPORT_BUTTON
 } from '../../../constants/numberReport/numberReportViewTypes'*/
 
+import { message, notification } from 'antd'
+
 const FETCH_DATA = 'FETCH_DATA'
 const CLICK_PREV_NEXT_BUTTON = 'CLICK_PREV_NEXT_BUTTON'
 const CLICK_SURE_DATER_BUTTON = 'CLICK_SURE_DATER_BUTTON'
@@ -125,6 +127,7 @@ const getTableData = (params)=> {
                     loading: false,
                 }))
             }else{
+                message.error('服务器错误,请联系客服!')
                 dispatch(fetchData(GET_TABLE_DATA_FAILURE,{loading: false}))
             }
 

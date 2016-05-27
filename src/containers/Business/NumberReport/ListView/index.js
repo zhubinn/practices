@@ -33,7 +33,7 @@ const openNotification = function () {
 };
 
 
-let columns = []
+//let columns = []
 
 
 class NumberReportViewPage extends Component {
@@ -61,7 +61,11 @@ class NumberReportViewPage extends Component {
         const { $$numberReportViewState ,actions } = this.props
         const myDate = new Date()
 
-        console.log(this.props)
+        //$('.ant-noneWe').parent().width('100%')
+
+        //console.dir(findDOMNode(document.querySelector('.ant-noneWe')))
+
+        findDOMNode(document.querySelector('.ant-noneWe')).parentNode.style.width = '100%';
 
         const obj = {
             nptype:document.querySelector('#npType').value,
@@ -139,6 +143,10 @@ class NumberReportViewPage extends Component {
         window.open(SCRM.url('/common/scrmExport/export')+'?param='+parmStr)
     }
 
+    componentDidUpdate(){
+        
+    }
+
     render() {
 
         const {
@@ -156,6 +164,14 @@ class NumberReportViewPage extends Component {
         queryDataTable.queryColumns = $$numberReportViewState.toJS().queryColumns
         queryDataTable.loading = $$numberReportViewState.toJS().loading
         let columns = $$numberReportViewState.toJS().columns
+
+        if(columns.length && columns.length <7){
+            columns.map((item) => {
+                Object.assign(item,{width:880/columns.length})
+            })
+        }
+
+
 
 
         if(queryDataTable.dataSource.length){
@@ -188,16 +204,8 @@ class NumberReportViewPage extends Component {
 
         }
 
-        const len = columns.length
 
-        if(len && len <7){
-            columns.map((item) => {
-                Object.assign(item,{width:(1/len)*100 + '%'})
-            })
-        }
         //console.log(columns)
-
-
 
         return (
             <div>
