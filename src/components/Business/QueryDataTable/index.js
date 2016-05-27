@@ -315,11 +315,13 @@ export default class QueryDataTable extends React.Component {
             width += item.width || this.defaultColWidth
         })
 
-        // 修复错位问题: Mac与Windows下滚动条差异
+       /* // 修复错位问题: Mac与Windows下滚动条差异
         if (navigator.platform.indexOf("Mac") == 0) {
             width += 17
-        }
+        }*/
 
+
+        width += 17
         return width || '100%'
     }
 
