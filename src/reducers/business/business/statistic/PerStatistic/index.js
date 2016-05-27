@@ -19,7 +19,11 @@ let perStatistic = {
             "title": "用户名称",
             "width": 150,
             "dataIndex": "Name",
-            "key": "Name"
+            "key": "Name",
+            render(text, record, index) {
+                const  staUrl = SCRM.url('/scrmweb/business/list?userID=' + record.ID);
+                return <a href={staUrl}>{text}</a>;
+            }
         },
         {
             "title": "全部生意数量",
