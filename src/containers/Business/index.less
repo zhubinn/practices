@@ -1,69 +1,148 @@
-
 /*Account-Detail-Dept*/
-.ckDetail-deptfilter{ display: inline-block; margin-right: 10px; margin-left: 136px;}
-.ant-table-body{ font-size: 14px;}
-.ant-pagination{ margin-top: 10px; }
-.ant-noneWe .ant-table th{ font-weight: normal;}
-.ckDetil-depttable table  th{ font-weight: normal; background: none;}
+.ckDetail-deptfilter {
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 136px;
+}
+
+.ant-table-body {
+  font-size: 14px;
+}
+
+.ant-pagination {
+  margin-top: 10px;
+}
+
+.ant-noneWe {
+  .ant-table {
+    th, td{
+      font-weight: normal;
+      padding: 0;
+      &>div {
+        padding: 16px 8px;
+      }
+    }
+  }
+}
+
+.ant-table th {
+  font-weight: normal;
+  padding: 0
+}
+
+.ant-noneWe .ant-table th div {
+  padding: 16px 8px
+}
+
+.ckDetil-depttable table th {
+  font-weight: normal;
+  background: none;
+}
 
 /*Account-List-Dept*/
-.cklist-deptfilter{display: inline-block; margin-right: 10px; margin-left: 35px;}
-.cklist-depChange{display: inline-block; margin-right: 10px;}
+.cklist-deptfilter {
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 35px;
+}
+
+.cklist-depChange {
+  display: inline-block;
+  margin-right: 10px;
+}
+
 /*Account-List-Person*/
-.cklist-Persontfilter{display: inline-block; margin-right: 10px; }
-.cklist-PersonChange{display: inline-block; margin-right: 10px; }
-.cklist-Persondaoru{display: inline-block; margin-right: 10px;}
+.cklist-Persontfilter {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.cklist-PersonChange {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.cklist-Persondaoru {
+  display: inline-block;
+  margin-right: 10px;
+}
+
 /*客户列表导入*/
-.account-import{ line-height: 25px;}
-.account-import{ padding: 0px 45px;}
+.account-import {
+  line-height: 25px;
+}
+
+.account-import {
+  padding: 0px 45px;
+}
+
 /*todo: 客户导入modal内嵌提示modal框*/
-.ck-modal-nested{
+.ck-modal-nested {
   border: 1px solid #1eb7bc;
 }
 
 /*筛选*/
-.QueryDataTable-formFooter{ margin-top: 10px; margin-bottom: 10px; margin-left: 350px;}
-.QueryDataTable-formbtn{ margin-right: 10px; display: inline-block;}
+.QueryDataTable-formFooter {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 350px;
+}
 
+.QueryDataTable-formbtn {
+  margin-right: 10px;
+  display: inline-block;
+}
 
-.ant-table-nonebtn01  .ant-form-item{margin-bottom: 0px;}
+.ant-table-nonebtn01 .ant-form-item {
+  margin-bottom: 0px;
+}
 
 /*小计&合计样式 ytm*/
-.amountClassName {background-color: #F9F9F9;}
-.amountClassName span {color:#1eb7bc;}
-.ck-root-main {margin:0 10px;}
-.ck-root-title {margin-top: 14px; margin-bottom: 14px}
+.amountClassName {
+  background-color: #F9F9F9;
+}
 
+.amountClassName span {
+  color: #1eb7bc;
+}
 
+.ck-root-main {
+  margin: 0 10px;
+}
 
-.ant-select-dropdown-menu{
+.ck-root-title {
+  margin-top: 14px;
+  margin-bottom: 14px
+}
+
+.ant-select-dropdown-menu {
   min-width: 100px;
 }
 
-
-.QueryDataTable .ant-calendar-today-btn{
-  display: none!important;
+.QueryDataTable .ant-calendar-today-btn {
+  display: none !important;
 }
 
 /*金额类型搜索框开始*/
-.QueryDataTable .currencyInput-select .ant-select-selection--single{
+.QueryDataTable .currencyInput-select .ant-select-selection--single {
   border-radius: 6px;
-  border-bottom-right-radius:0;
-  border-top-right-radius:0;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
   height: 28px;
 }
-.QueryDataTable .currencyInput-inputNumber{
-  border-bottom-left-radius:0;
-  border-top-left-radius:0;
+
+.QueryDataTable .currencyInput-inputNumber {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
 }
 
-.QueryDataTable .currencyInput-select .ant-select-selection--single .ant-select-selection__rendered{
+.QueryDataTable .currencyInput-select .ant-select-selection--single .ant-select-selection__rendered {
   line-height: 27px;
 }
+
 /*金额类型搜索框结束*/
 
-
 .ant-calendar-range .ant-calendar-today-btn {
-    color: #fff;
-    cursor: default;
+  color: #fff;
+  cursor: default;
 }

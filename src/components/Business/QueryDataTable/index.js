@@ -309,19 +309,19 @@ export default class QueryDataTable extends React.Component {
     calculateWidth = ()=> {
         console.log(this.props.columns)
         let width = 0
-        this.props.checkMode && (width = width + 41)
+        this.props.checkMode && (width = width + 60)
         this.props.expandedRowRender && (width = width + 34)
         this.props.columns.forEach((item, i) => {
             width += item.width || this.defaultColWidth
         })
 
-       /* // 修复错位问题: Mac与Windows下滚动条差异
-        if (navigator.platform.indexOf("Mac") == 0) {
-            width += 17
-        }*/
+        /* // 修复错位问题: Mac与Windows下滚动条差异
+         if (navigator.platform.indexOf("Mac") == 0) {
+         width += 17
+         }*/
 
 
-        width += 17
+        //width += 17
         return width || '100%'
     }
 
@@ -459,8 +459,14 @@ export default class QueryDataTable extends React.Component {
                                                             (e)=>{this.handleSelectAll(e, dataSource)}}/></th>) : null }
                                             {this.props.expandedRowRender ? (<th style={{width: 34}}></th>) : null}
                                             {
-                                                columns.map((col, i) => <th key={i}
-                                                                            width={col.width||this.defaultColWidth}>{col.title}</th>)
+                                                columns.map((col, i) => <th key={i}>
+
+                                                    <div style={{width: col.width||this.defaultColWidth}}>
+                                                        {col.title}
+                                                    </div>
+
+
+                                                </th>)
                                             }
                                         </tr>
                                         </thead>
