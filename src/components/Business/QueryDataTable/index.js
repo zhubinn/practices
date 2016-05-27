@@ -204,14 +204,13 @@ export default class QueryDataTable extends React.Component {
                                 </tbody>
                             </table>
                             <div className="QueryDataTable-formFooter">
-                                <div id={"formFooterWrap"+that.identity}  >
+                                <div id={"formFooterWrap"+that.identity}>
                                     <div className="QueryDataTable-formbtn">
                                         <Button type="ghost" onClick={(e) => {this.resetForm(e)}}>重置</Button>
                                     </div>
 
                                     <Button type="primary" onClick={(e) => {this.handleSubmit(e)}}>确定</Button>
                                 </div>
-
 
 
                             </div>
@@ -308,6 +307,7 @@ export default class QueryDataTable extends React.Component {
     }
 
     calculateWidth = ()=> {
+        console.log(this.props.columns)
         let width = 0
         this.props.checkMode && (width = width + 41)
         this.props.expandedRowRender && (width = width + 34)
@@ -315,11 +315,13 @@ export default class QueryDataTable extends React.Component {
             width += item.width || this.defaultColWidth
         })
 
-        // 修复错位问题: Mac与Windows下滚动条差异
+       /* // 修复错位问题: Mac与Windows下滚动条差异
         if (navigator.platform.indexOf("Mac") == 0) {
             width += 17
-        }
+        }*/
 
+
+        width += 17
         return width || '100%'
     }
 
@@ -388,7 +390,7 @@ export default class QueryDataTable extends React.Component {
                    dataSource={dataSource.map((item, i) =>  Object.assign(item, {key: i})
                                )}
                    columns={columns.map((item, i, cols) => {
-                            if (i==cols.length-1) return  Object.assign(item, {width: ''})
+                            if (i==cols.length-1) return  Object.assign({}, item, {width: ''})
 
                             return Object.assign(item, {width: item.width || this.defaultColWidth})
 
@@ -407,7 +409,7 @@ export default class QueryDataTable extends React.Component {
                             dataSource={dataSource.map((item, i) =>  Object.assign(item, {key: i})
                                )}
                             columns={columns.map((item, i, cols) => {
-                            if (i==cols.length-1) return  Object.assign(item, {width: ''})
+                            if (i==cols.length-1) return  Object.assign({}, item, {width: ''})
 
                             return Object.assign(item, {width: item.width || this.defaultColWidth})
 
@@ -473,7 +475,7 @@ export default class QueryDataTable extends React.Component {
                             </div>
                         </div>
 
-                        <div style={{ maxHeight: '500px', minHeight:'250px', overflow: "auto"}} >
+                        <div style={{ maxHeight: '500px', minHeight:'250px', overflow: "auto"}}>
                             {table}
                         </div>
 
