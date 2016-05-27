@@ -35,20 +35,9 @@ const columns = [
         "title": "销售阶段"
     },
     {
-        "dataIndex": "CreatedByID",
-        "key": "CreatedByID",
-        "title": "创建人"
-    },
-    {
         "dataIndex": "OwnerID",
         "key": "OwnerID",
         "title": "负责人"
-    },
-    {
-        "dataIndex": "CreatedTime",
-        "key": "CreatedTime",
-        "title": "创建时间",
-        "width":260
     },
     {
         "dataIndex": "DiscoverDate",
@@ -93,6 +82,12 @@ const columns = [
         "dataIndex": "Amount",
         "key": "Amount",
         "title": "销售金额"
+    },
+    {
+        "dataIndex": "CreatedTime",
+        "key": "CreatedTime",
+        "title": "创建时间",
+        "width":260
     }
 ]
 
@@ -232,17 +227,17 @@ class PenetrateDetail extends React.Component {
                       onChange={i => {this.changeType(i)}}>
                     <TabPane tab="全部生意" key="all">
                     </TabPane>
+                    <TabPane tab="进行中的生意" key="loading">
+                    </TabPane>
+                    <TabPane tab="重要的生意" key="important">
+                    </TabPane>
                     <TabPane tab="赢单的生意" key="win">
                     </TabPane>
                     <TabPane tab="输单的生意" key="fail">
                     </TabPane>
-                    <TabPane tab="进行中的生意" key="loading">
-                    </TabPane>
-                    <TabPane tab="作废的生意" key="throw">
-                    </TabPane>
                     <TabPane tab="停滞的生意" key="stop">
                     </TabPane>
-                    <TabPane tab="重要的生意" key="important">
+                    <TabPane tab="作废的生意" key="throw">
                     </TabPane>
                 </Tabs>
 

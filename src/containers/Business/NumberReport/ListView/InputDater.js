@@ -44,8 +44,8 @@ export default class InputDater extends React.Component {
     }
 
     getInputDate(i, type) {
-        const { numberReportViewState ,actions } = this.props;
-        const dater = numberReportViewState.toJS().dater
+        const { $$numberReportViewState ,actions } = this.props;
+        const dater = $$numberReportViewState.toJS().dater
 
         const myDate = daterValue ? new Date(daterValue) : new Date()
 
@@ -103,10 +103,20 @@ export default class InputDater extends React.Component {
 
         //TODO 异步請求
         //console.log(TEMP_DATA.nptype === 'week',dater)
-        this.fetchData({
+        /*this.fetchData({
             templateID: TEMP_DATA.templateid,
             date: TEMP_DATA.nptype === 'week' ? dater.split('~')[0] : dater,
             dateType: TEMP_DATA.nptype
+        })*/
+
+        actions.getTableData({
+            url: SCRM.url('/scrmweb/numreport/listAjaxOfAdmin'),
+            data:{
+                templateID: TEMP_DATA.templateid,
+                date: TEMP_DATA.nptype === 'week' ? dater.split('~')[0] : dater,
+                dateType: TEMP_DATA.nptype
+            }
+
         })
 
 
@@ -164,10 +174,20 @@ export default class InputDater extends React.Component {
         COUNT = 0;
         //TODO 异步請求
 
-        this.fetchData({
+        /*this.fetchData({
             templateID: TEMP_DATA.templateid,//TODO 18为测试数据
             date: TEMP_DATA.nptype === 'week'? daterValue.split('~')[0] : daterValue,
             dateType: TEMP_DATA.nptype
+        })*/
+
+        actions.getTableData({
+            url: SCRM.url('/scrmweb/numreport/listAjaxOfAdmin'),
+            data:{
+                templateID: TEMP_DATA.templateid,//TODO 18为测试数据
+                date: TEMP_DATA.nptype === 'week'? daterValue.split('~')[0] : daterValue,
+                dateType: TEMP_DATA.nptype
+            }
+
         })
 
     }
@@ -221,7 +241,7 @@ export default class InputDater extends React.Component {
     }
 
     renderDatePicker() {
-        const { numberReportViewState ,actions } = this.props;
+        const { $$numberReportViewState ,actions } = this.props;
         const date = new Date()
         const npType = document.querySelector('#npType').value
         //debugger;
@@ -231,7 +251,7 @@ export default class InputDater extends React.Component {
                 return (
                     <DatePicker
                         style={{width:160}}
-                        value={ numberReportViewState.toJS().dater ? numberReportViewState.toJS().dater : curDay }
+                        value={ $$numberReportViewState.toJS().dater ? $$numberReportViewState.toJS().dater : curDay }
                         format="yyyy-MM-dd"
                         onChange={ this.handleChange.bind(this) }
                     />
@@ -243,7 +263,7 @@ export default class InputDater extends React.Component {
                 return (
                     <MonthPicker
                         style={{width:160}}
-                        value={ numberReportViewState.toJS().dater ? numberReportViewState.toJS().dater : curMonth }
+                        value={ $$numberReportViewState.toJS().dater ? $$numberReportViewState.toJS().dater : curMonth }
                         onChange={this.handleChange.bind(this)}
                     />
                 );
@@ -255,7 +275,7 @@ export default class InputDater extends React.Component {
                     <ChaocerWeekCalendar
                         ref="rangePicker"
                         style={{width:250}}
-                        value={ numberReportViewState.toJS().dater ? numberReportViewState.toJS().dater.split('~') : [this.weekDater()[0],this.weekDater()[1]]}
+                        value={ $$numberReportViewState.toJS().dater ? $$numberReportViewState.toJS().dater.split('~') : [this.weekDater()[0],this.weekDater()[1]]}
                         onChange={ this.handleChange.bind(this) }
                     />
                 );
@@ -266,7 +286,7 @@ export default class InputDater extends React.Component {
 
     render() {
 
-        const { numberReportViewState ,actions } = this.props;
+        const { $$numberReportViewState ,actions } = this.props;
 
         return (
             <div className="ck-Calendar clearfix" style = { TEMP_DATA.nptype === 'week' ? {width:316} : null } >
