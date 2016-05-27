@@ -114,8 +114,8 @@ class NumberReportViewPage extends Component {
         const dater = $$numberReportViewState.toJS().dater
 
         const obj = {
-            nptype:document.querySelector('#npType').value,
-            templateid:document.querySelector('#templateId').value,
+            nptype:document.getElementById('npType').value,
+            templateid:document.getElementById('templateId').value,
         }
         let dateTime
 
@@ -144,7 +144,7 @@ class NumberReportViewPage extends Component {
     }
 
     componentDidUpdate(){
-        
+
     }
 
     render() {
