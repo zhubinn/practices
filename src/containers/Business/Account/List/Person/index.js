@@ -527,6 +527,8 @@ class Account_List_Person_Page extends React.Component {
                     </TabPane>
                     <TabPane tab="负责的客户" key="owner">
                     </TabPane>
+                    <TabPane tab="参与的客户" key="relation">
+                    </TabPane>
                     <TabPane tab="重点客户" key="important">
                     </TabPane>
                     <TabPane tab="关注的客户" key="follow">
