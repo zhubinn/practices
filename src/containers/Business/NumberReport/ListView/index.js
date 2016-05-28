@@ -115,7 +115,7 @@ class NumberReportViewPage extends Component {
 
         const obj = {
             nptype:document.querySelector('#npType').value,
-            templateid:document.querySelector('templateId').value,
+            templateid:document.querySelector('#templateId').value,
         }
         let dateTime
 
@@ -141,6 +141,11 @@ class NumberReportViewPage extends Component {
         const parmStr = JSON.stringify(parm)
 
         window.open(SCRM.url('/common/scrmExport/export')+'?param='+parmStr)
+    }
+
+    goBack(){
+
+        window.location.href = SCRM.url('/scrmweb/numreport/index')
     }
 
     componentDidUpdate(){
@@ -177,25 +182,6 @@ class NumberReportViewPage extends Component {
         if(queryDataTable.dataSource.length){
             const reportItems = queryDataTable.dataSource[0].reportItems
 
-            /*columns = [{
-                title: '所属部门',
-                dataIndex: 'dept',
-                key: 'dept',
-
-            },{
-                title: '姓名',
-                dataIndex: 'name',
-                key: 'name',
-
-            }]
-
-            reportItems.forEach((item) => {
-                columns.push({
-                    title:item.Name,
-                    dataIndex:item.Attr,
-                })
-            })*/
-
             queryDataTable.dataSource.forEach((item1) => {
                 item1.reportItems.forEach((item2) => {
                     item1[item2.Attr] = item2.Value
@@ -216,7 +202,7 @@ class NumberReportViewPage extends Component {
                         <div className="ck-numberReport-top">
 
                             <div className="ck-numberReport-Function clearfix">
-                                <button className="ck-Function-btnreturn" onClick = { () => { history.back(-1) } }>返回</button>
+                                <button className="ck-Function-btnreturn" onClick = { this.goBack  }>返回</button>
                                 <InputDater
                                     actions = { actions }
                                     $$numberReportViewState = { $$numberReportViewState }

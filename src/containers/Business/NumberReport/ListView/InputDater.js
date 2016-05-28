@@ -16,8 +16,8 @@ let daterValue
 let WEEK_END_DATER
 let WEEK_DATER
 const TEMP_DATA = {
-        nptype:document.querySelector('npType') ? document.querySelector('npType').value : null,
-        templateid:document.querySelector('templateId') ? document.querySelector('templateId').value : null,
+        nptype:document.querySelector('#npType') ? document.querySelector('#npType').value : null,
+        templateid:document.querySelector('#templateId') ? document.querySelector('#templateId').value : null,
     }
 
 
@@ -243,7 +243,7 @@ export default class InputDater extends React.Component {
     renderDatePicker() {
         const { $$numberReportViewState ,actions } = this.props;
         const date = new Date()
-        const npType = document.querySelector('npType').value
+        const npType = document.querySelector('#npType').value
         //debugger;
         switch (npType) {
             case 'day':

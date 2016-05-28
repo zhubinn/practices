@@ -307,7 +307,7 @@ export default class QueryDataTable extends React.Component {
     }
 
     calculateWidth = ()=> {
-        console.log(this.props.columns)
+
         let width = 0
         this.props.checkMode && (width = width + 60)
         this.props.expandedRowRender && (width = width + 34)
@@ -434,7 +434,7 @@ export default class QueryDataTable extends React.Component {
             <div className="QueryDataTable">
 
                 <div ref="TableBoxModel" style={{width: '880px', overflow: "auto"}} onScroll={() =>{
-                    console.log(ReactDOM.findDOMNode(this.refs.TableBoxModel).scrollLeft)
+                    //console.log(ReactDOM.findDOMNode(this.refs.TableBoxModel).scrollLeft)
                     const formFooterWrapNode = document.getElementById("formFooterWrap"+this.identity)
                     if(formFooterWrapNode){
                         formFooterWrapNode.style.paddingLeft = ReactDOM.findDOMNode(this.refs.TableBoxModel).scrollLeft + 'px'
