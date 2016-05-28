@@ -31,7 +31,6 @@ export const searchKeyWord = (value)=>{
 //获取数据
 
 export const getAccountDeptSummaryData = (params) => {
-    console.log(params.url)
     const _getAccountDeptSummaryData = (type, data)=> {
         return {
             type,

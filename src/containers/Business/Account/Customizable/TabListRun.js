@@ -21,7 +21,6 @@ class TabListRun extends React.Component{
                         return showColumnsOptions.push(r)
                     }
             })
-             console.log(showColumnsOptions)
              //如果
 
              if(showColumnsOptions.length ==0 ||
