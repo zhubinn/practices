@@ -21,8 +21,8 @@ const detail_columns = [{
     key: 'OptntyCount',
 },{
     title: '成交金额',
-    dataIndex: 'TradingAmout',
-    key: 'TradingAmout',
+    dataIndex: 'TradingAmount',
+    key: 'TradingAmount',
 },{
     title: '回款金额',
     dataIndex: 'PaymentAmount',
