@@ -31,7 +31,6 @@ export const searchKeyWord = (value)=>{
 //获取数据
 
 export const getAccountPerSummaryData = (params) => {
-    console.log(params.url)
     const _getAccountPerSummaryData = (type, data)=> {
         return {
             type,

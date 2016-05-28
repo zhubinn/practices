@@ -95,7 +95,6 @@ class AccountPerSummary extends React.Component{
     let exportParamStr = JSON.stringify(exportParam);
     let p = 'param='+exportParamStr;
     const exportUrl = SCRM.url('/common/scrmExport/export')+'?'+p;
-    console.log(exportUrl);
     window.open(exportUrl);
   }
   //搜索

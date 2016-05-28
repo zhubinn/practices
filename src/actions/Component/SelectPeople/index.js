@@ -49,7 +49,6 @@ export const getPeopleData = (params) => {
         const url = params.url;
         //dispatch(_getPeopleData(COMPONENTS_GETPEOPLEDATA, {}));
 
-        console.log('请求参数：', params);
         reqwest({
             url: url,
             method: 'post',
@@ -267,7 +266,6 @@ export const getNextPagePeopleData = (params) => {
         const url = params.url;
         //dispatch(_getNextPagePeopleData(COMPONENTS_GETNEXTPEOPLEDATA, {}));
 
-        console.log('请求参数：', params);
         reqwest({
             url: url,
             method: 'post',

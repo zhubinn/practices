@@ -131,12 +131,10 @@ export default class SelectPeople extends React.Component {
 
                     if (textValue == '') {
                         if (nameItemData.length == 0) {
-                            console.log('按kong关键词进行搜索')
                             this.props.requestData(page, textValue, rowsPerPage)
                         }
 
                     } else {
-                        console.log('按关键词进行搜索')
                         //debugger
                         this.props.requestData(page, textValue, rowsPerPage)
                     }

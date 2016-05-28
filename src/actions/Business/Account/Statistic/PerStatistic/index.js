@@ -31,7 +31,6 @@ export const searchKeyWord = (value)=>{
 //获取数据
 
 export const getAccountPerStatisticData = (params) => {
-    console.log(params.url)
     const _getAccountPerStatisticData = (type, data)=> {
         return {
             type,

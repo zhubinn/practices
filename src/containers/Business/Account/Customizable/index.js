@@ -24,7 +24,6 @@ let columns = [
     {title: '备注说明', dataIndex: 'Content',key: 'Content', width: 230 },
     {title: '操作', dataIndex: 'ID',key: 'ID' , width: 140, render: function(text, record, index){ 
         //let self = new  CustomizablePage()
-         console.log(currentText)
         return (<button className = "ck-customize-bnt01" onClick={e=>currentText.handleSelectSet(record)}>设置</button>)
     }}
 ];
