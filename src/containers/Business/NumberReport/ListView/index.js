@@ -14,7 +14,7 @@ import getQueryString from 'components/Business/GetQueryString'
 
 import * as NumberReportViewActions from 'actions/business/numberReport/ListView'
 
-import InfoPath from './InfoPath'
+
 import InputDater from './InputDater'
 import TableList from './TableList'
 
@@ -114,8 +114,8 @@ class NumberReportViewPage extends Component {
         const dater = $$numberReportViewState.toJS().dater
 
         const obj = {
-            nptype:document.getElementById('npType').value,
-            templateid:document.getElementById('templateId').value,
+            nptype:document.querySelector('#npType').value,
+            templateid:document.querySelector('templateId').value,
         }
         let dateTime
 
