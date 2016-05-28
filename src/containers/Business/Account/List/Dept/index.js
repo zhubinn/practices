@@ -117,8 +117,7 @@ class Account_List_Dept_Page extends React.Component {
     }
     //变更负责人选人
     changeOwner = (e) => {
-        console.log('获取已经选择的row')
-        console.log(this.refs.queryDataTable.getCheckedRows())
+
         const checkedRows = this.refs.queryDataTable.getCheckedRows()
         if (checkedRows.length == 0) {
             Modal.info({
@@ -176,8 +175,7 @@ class Account_List_Dept_Page extends React.Component {
     //点击确定按钮获取所选人员信息
     getFilterData (PeopleInfor) {
         const checkedRows = this.refs.queryDataTable.getCheckedRows()
-        console.log('所选人员信息')
-        console.log(PeopleInfor)
+
         const {changeIsShowStatus} = this.props
         changeIsShowStatus()
 
@@ -199,7 +197,7 @@ class Account_List_Dept_Page extends React.Component {
 
             success: function (r) {
 
-                console.log(r)
+
                 if (r.rs) {
                     message.destroy()
                     message.success(`操作成功`);
@@ -224,7 +222,7 @@ class Account_List_Dept_Page extends React.Component {
 
         Object.assign(getPeopleParams.data, paramData);
 
-        console.log('搜索关键词请求')
+
         const {getPeopleData} = this.props
         getPeopleData(getPeopleParams)
 
@@ -244,7 +242,7 @@ class Account_List_Dept_Page extends React.Component {
 
         Object.assign(getPeopleParams.data, paramData);
 
-        console.log('请求下一页数据')
+
         const {getNextPagePeopleData} = this.props
         getNextPagePeopleData(getPeopleParams)
 
@@ -260,13 +258,13 @@ class Account_List_Dept_Page extends React.Component {
     }
 
     handleOk = () => {
-        console.log('点击了确定');
+
         this.setState({
             importModalVisible: false
         });
     }
     handleCancel = (e) => {
-        console.log(e);
+
         this.setState({
             importModalVisible: false
         });
@@ -286,7 +284,7 @@ class Account_List_Dept_Page extends React.Component {
         }
 
         const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
-        console.log(exportUrl);
+
         window.open(exportUrl);
 
     }

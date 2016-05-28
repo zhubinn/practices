@@ -43,7 +43,7 @@ const SearchInput = React.createClass({
         });
     },
     handleSearch() {
-        console.log('search')
+
         if (this.props.onSearch) {
             this.props.onSearch();
 

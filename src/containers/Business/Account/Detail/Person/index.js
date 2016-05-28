@@ -166,8 +166,7 @@ class Account_Detail_Person_Page extends React.Component {
 
     }
     changeOwner = (e) => {
-        console.log('获取已经选择的row')
-        console.log(this.refs.queryDataTable.getCheckedRows())
+
 
     }
     expandedRowRender = (row) => {
@@ -195,7 +194,7 @@ class Account_Detail_Person_Page extends React.Component {
         }
 
         const exportUrl = SCRM.url('/common/scrmExport/export') + '?param=' + JSON.stringify(exportParam);
-        console.log(exportUrl);
+
         window.open(exportUrl);
 
     }
