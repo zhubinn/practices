@@ -13,7 +13,7 @@ import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import getQueryString from 'components/Business/GetQueryString'
 
-import 'containers/Business/index.less'
+import 'containers/styles/default/less/index.less'
 
 let deptSummaryColumns = [
 

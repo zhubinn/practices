@@ -8,7 +8,7 @@ import React ,{findDOMNode} from 'react'
 import { Modal,message, Button,Row,Checkbox } from 'antd';
 
 import { isEmpty } from 'lodash'
-import './search.less'
+import 'components/styles/default/components/SelectPeople/search.less'
 
 import {domAlign} from 'dom-align';
 
