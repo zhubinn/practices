@@ -11,7 +11,7 @@ import { getDeptSummaryData }  from 'actions/business/business/summary/DeptSumma
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import getQueryString from 'components/Business/GetQueryString'
-import 'containers/Business/index.less'
+import 'containers/styles/default/less/index.less'
 
 //获取table列表数据接口
 let DeptSummaryParams = {
