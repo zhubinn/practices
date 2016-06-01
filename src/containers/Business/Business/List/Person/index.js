@@ -3,11 +3,11 @@
  */
 import { connect } from 'react-redux'
 import {
-    changeIsMultiselect,
-    getPeopleData,
-    changeIsShowStatus,
-    getNextPagePeopleData
-    } from 'actions/Component/SelectPeople'
+            changeIsMultiselect,
+            getPeopleData,
+            changeIsShowStatus,
+            getNextPagePeopleData
+        } from 'actions/Component/SelectPeople'
 
 import SelectPeople from 'components/Business/SelectPeople'
 import reqwest from 'reqwest'
@@ -20,8 +20,9 @@ import { getTableData, getTableQuery, getPermission, table_params } from 'action
 import QueryDataTable from 'components/Business/QueryDataTable'
 import getQueryString from 'components/Business/GetQueryString'
 
-import 'containers/Business/index.less'
-import 'containers/Business/lsx-index.less'
+//less
+import 'containers/styles/default/less/index.less'
+import 'containers/styles/default/less/lsx-index.less'
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;

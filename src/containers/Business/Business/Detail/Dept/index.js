@@ -9,8 +9,10 @@ import { getTableData, getTableQuery, table_params } from 'actions/business/busi
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import getQueryString from 'components/Business/GetQueryString'
-import 'containers/Business/index.less'
-import 'containers/Business/lsx-index.less'
+
+//less
+import 'containers/styles/default/less/index.less'
+import 'containers/styles/default/less/lsx-index.less'
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
