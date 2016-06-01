@@ -9,7 +9,7 @@ import { getTableData, getTableQuery, table_params } from 'actions/business/acco
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import {detail_columns} from 'containers/Business/Account/common/constant'
-
+import 'containers/styles/default/less/index.less'
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;

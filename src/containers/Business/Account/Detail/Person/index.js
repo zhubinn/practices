@@ -10,8 +10,7 @@ import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import {detail_columns} from 'containers/Business/Account/common/constant'
 import {GLOBAL_INFO} from 'components/Business/Global_info'
-import 'containers/Business/index.less'
-
+import 'containers/styles/default/less/index.less'
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 

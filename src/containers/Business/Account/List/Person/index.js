@@ -17,7 +17,7 @@ import {
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import SelectPeople from 'components/Business/SelectPeople'
-import 'containers/Business/index.less'
+import 'containers/styles/default/less/index.less'
 
 import {list_columns} from 'containers/Business/Account/common/constant'
 
