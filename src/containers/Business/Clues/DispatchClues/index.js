@@ -10,9 +10,9 @@ import fetch from 'isomorphic-fetch'
 import { findDOMNode } from 'react-dom'
 import reqwest from 'reqwest'
 import { Table,Row , Col, Modal, Spin,  Button, Radio,Tabs, message, Input } from 'antd'
+
 const RadioGroup = Radio.Group;
 const TabPane = Tabs.TabPane;
-
 
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery,selectChange, selectDeptChange,fetchDeptData, showDispatchModal,updateTableData, table_params } from 'actions/business/clues/DispatchClues'
@@ -20,9 +20,8 @@ import { getTableData, getTableQuery,selectChange, selectDeptChange,fetchDeptDat
 import QueryDataTable from 'components/Business/QueryDataTable'
 import getQueryString from 'components/Business/GetQueryString'
 
-import 'containers/Business/index.less'
 //less
-import './less/clues.less'
+import 'containers/styles/default/less/clues.less'
 
 import * as DispatchCluesActions from 'actions/business/clues/DispatchClues'
 
