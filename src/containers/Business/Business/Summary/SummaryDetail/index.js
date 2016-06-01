@@ -10,7 +10,7 @@ import { Row, Col, Button, Modal} from 'antd'
 import { getSummaryDetailData, getSummaryDetailQuery }  from 'actions/business/business/summary/summaryDetail'
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
-import 'containers/Business/index.less'
+import 'containers/styles/default/less/index.less'
 import getQueryString from 'components/Business/GetQueryString'
 
 //获取table列表数据接口
