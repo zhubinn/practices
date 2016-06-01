@@ -11,7 +11,7 @@ import {searchKeyWord,getAccountPerStatisticData} from 'actions/Business/Account
 import { Table, Icon ,Button,Input, Row, Col} from 'antd';
 import SearchInput from 'components/Business/SearchInput'
 import QueryDataTable from 'components/Business/QueryDataTable'
-import 'containers/Business/index.less'
+import 'containers/styles/default/less/index.less'
 import getQueryString from 'components/Business/GetQueryString'
 
 let statisticColumns = [

@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import './CustomizablePage.less'
+import 'containers/styles/default/less/CustomizablePage.less'
 
 import DivTab from './DivTab'
 
