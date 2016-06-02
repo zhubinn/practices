@@ -10,23 +10,15 @@
     UPDATE_TABLE_DATA
 } from '../../../constants/clues/dispatchCluesTypes'*/
 
-const FETCH_DATA = 'FETCH_DATA'
-const FETCH_DEPT_DATA = 'FETCH_DEPT_DATA'
-const CLICK_DISPATCH_BUTTON = 'CLICK_DISPATCH_BUTTON'
-const SELECT_CHANGE = 'SELECT_CHANGE'
-const SELECTED_DEPT_CHANGE = 'SELECTED_DEPT_CHANGE'
-const CLICK_TAB_HEADER = 'CLICK_TAB_HEADER'
-const CHANGE_SEARCH_SUGGEST = 'CHANGE_SEARCH_SUGGEST'
-const FETCH_SEARCH_SUGGEST = 'FETCH_SEARCH_SUGGEST'
-const UPDATE_TABLE_DATA = 'UPDATE_TABLE_DATA'
 
 import {
     GET_TABLE_DATA,
     GET_TABLE_DATA_SUCCESS,
     GET_TABLE_DATA_FAILURE,
-    GET_TABLE_QUERY,
-    GET_TABLE_QUERY_SUCCESS,
-    GET_TABLE_QUERY_FAILURE,
+    FETCH_DEPT_DATA,
+    SELECT_CHANGE,
+    UPDATE_TABLE_DATA,
+    SELECTED_DEPT_CHANGE,
 
     } from 'actions/business/clues/DispatchClues'
 
@@ -68,16 +60,6 @@ export default function dispatchCluesState($$state = Immutable.fromJS($$initialS
             return $$state.merge({
                 loading: action.payload.loading
             })
-        case GET_TABLE_QUERY:
-            return $$state.merge({
-                queryColumns: {}
-            })
-        case GET_TABLE_QUERY_SUCCESS:
-            return $$state.merge({
-                queryColumns: action.payload.queryColumns
-            })
-        case GET_TABLE_QUERY_FAILURE:
-            return $$state
 
         case FETCH_DEPT_DATA:
             return $$state.merge({

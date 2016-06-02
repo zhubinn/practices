@@ -5,28 +5,17 @@
     IMPORT_BUTTON
 } from '../../../constants/numberReport/numberReportViewTypes'*/
 
-import { message, notification } from 'antd'
+import reqwest from 'components/Business/Reqwest'
+import { Modal  } from 'antd'
 
-const FETCH_DATA = 'FETCH_DATA'
+
 const CLICK_PREV_NEXT_BUTTON = 'CLICK_PREV_NEXT_BUTTON'
-const CLICK_SURE_DATER_BUTTON = 'CLICK_SURE_DATER_BUTTON'
-const IMPORT_BUTTON = 'IMPORT_BUTTON'
 
-export function fetchData(loading,data) {
-    return { type: FETCH_DATA,loading, data  }
-}
-
-export function prevNextClick(curInputValue) {
+const prevNextClick = (curInputValue) => {
     return { type: CLICK_PREV_NEXT_BUTTON, curInputValue }
 }
 
-export function nextClick(curInputValue,data) {
-    return { type: CLICK_PREV_NEXT_BUTTON, curInputValue, data }
-}
 
-export function importClick(curInputValue) {
-    return { type: IMPORT_BUTTON, curInputValue }
-}
 
 
 // 获取数据
@@ -35,17 +24,6 @@ const GET_TABLE_DATA = 'GET_TABLE_DATA'
 const GET_TABLE_DATA_SUCCESS = 'GET_TABLE_DATA_SUCCESS'
 // 获取数据失败
 const GET_TABLE_DATA_FAILURE = 'GET_TABLE_DATA_FAILURE'
-
-// 获取数据
-const GET_TABLE_QUERY = 'GET_TABLE_QUERY'
-// 获取数据成功
-const GET_TABLE_QUERY_SUCCESS = 'GET_TABLE_QUERY_SUCCESS'
-// 获取数据失败
-const GET_TABLE_QUERY_FAILURE = 'GET_TABLE_QUERY_FAILURE'
-
-
-
-
 
 
 
@@ -77,117 +55,60 @@ const getTableData = (params)=> {
 
 
 
-    /*    const p = new Promise(function (resolve, reject) {
-     setTimeout(function () {
-     resolve({
-     rows: rowsData,
-     pending: false
-     })
-     }, 1000)
-     })*/
 
 
-    /*
-     *     body:  Object.assign(table_params.data, params.data)
-     *    */
     return (dispatch, getState) => {
 
         dispatch(fetchData(GET_TABLE_DATA, {rows: [], loading: true}))
-        // todo: 封装
-        var data = new FormData();
-        data.append( "json", 1);
-        data.append( "json2", 1);
-        fetch(table_params.url = params.url || table_params.url, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-                //'Content-Type': 'application/json'
-            },
-            //body: JSON.stringify(Object.assign(table_params.data, params.data))
-            //body: data
-            //body: [['key', 'value'].join('='), ['key', 'value'].join('=')].join('&')
-            body: 'params=' +JSON.stringify(Object.assign(table_params.data, params.data))
-        }).then(function(response) {
-            if (response.status >= 400) {
-                throw new Error("Bad response from server")
+
+        reqwest({
+            url: table_params.url = params.url || table_params.url,
+            type: 'json',
+            method: 'post',
+            data: {
+                params: JSON.stringify(Object.assign(table_params.data, params.data))
             }
-            return response.json()
         }).then(function (data) {
-
-            if(data.rs){
-
+            if (data.rs) {
                 dispatch(fetchData(GET_TABLE_DATA_SUCCESS, {
 
                     rows: data.data.list,
                     current: data.data.current,
                     total: data.data.total,
                     pageSize: data.data.pageSize,
-                    columns: data.data.columns,
-                    loading: false,
+                    columns:data.data.columns,
+                    loading: false
                 }))
-            }else{
-                message.error('服务器错误,请联系客服!')
+            } else {
                 dispatch(fetchData(GET_TABLE_DATA_FAILURE,{loading: false}))
+                Modal.error({
+                    title: '出错了',
+                    content: data.error || '',
+                });
             }
 
+        }).fail(function (err, msg) {
 
+            dispatch(fetchData(GET_TABLE_DATA_FAILURE,{loading: false}))
+            Modal.error({
+                title: '出错了',
+                content: '服务器错误, 请联系管理员',
+            });
 
         })
 
+
     }
+
 }
-const getTableQuery = (url)=> {
-    const fetchData = (type, payload)=> {
 
-        return {
-            type,
-            payload
-        }
-    }
-
-
-
-    /*
-     *     body:  Object.assign(table_params.data, params.data)
-     *    */
-    return (dispatch, getState) => {
-
-        dispatch(fetchData(GET_TABLE_QUERY, {queryColumns: {}}))
-
-        fetch(table_query_url = url || table_query_url, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-
-            body: ''
-        }).then(function(response) {
-            if (response.status >= 400) {
-                throw new Error("Bad response from server")
-            }
-            return response.json()
-        }).then(function (data) {
-
-            dispatch(fetchData(GET_TABLE_QUERY_SUCCESS, {
-                queryColumns: data.data
-            }))
-
-        })
-
-    }
-}
 
 export {
     GET_TABLE_DATA,
     GET_TABLE_DATA_SUCCESS,
     GET_TABLE_DATA_FAILURE,
     getTableData,
-    getTableQuery,
-
-    GET_TABLE_QUERY,
-    GET_TABLE_QUERY_SUCCESS,
-    GET_TABLE_QUERY_FAILURE,
     table_params,
+    CLICK_PREV_NEXT_BUTTON,
+    prevNextClick,
     }
