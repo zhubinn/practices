@@ -102,12 +102,6 @@ export default class InputDater extends React.Component {
 
 
         //TODO 异步請求
-        //console.log(TEMP_DATA.nptype === 'week',dater)
-        /*this.fetchData({
-            templateID: TEMP_DATA.templateid,
-            date: TEMP_DATA.nptype === 'week' ? dater.split('~')[0] : dater,
-            dateType: TEMP_DATA.nptype
-        })*/
 
         actions.getTableData({
             url: SCRM.url('/scrmweb/numreport/listAjaxOfAdmin'),
@@ -172,13 +166,6 @@ export default class InputDater extends React.Component {
         actions.prevNextClick(daterValue)
         //初始化COUNT为0
         COUNT = 0;
-        //TODO 异步請求
-
-        /*this.fetchData({
-            templateID: TEMP_DATA.templateid,//TODO 18为测试数据
-            date: TEMP_DATA.nptype === 'week'? daterValue.split('~')[0] : daterValue,
-            dateType: TEMP_DATA.nptype
-        })*/
 
         actions.getTableData({
             url: SCRM.url('/scrmweb/numreport/listAjaxOfAdmin'),
@@ -244,7 +231,7 @@ export default class InputDater extends React.Component {
         const { $$numberReportViewState ,actions } = this.props;
         const date = new Date()
         const npType = document.querySelector('#npType').value
-        //debugger;
+
         switch (npType) {
             case 'day':
                 const curDay = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()

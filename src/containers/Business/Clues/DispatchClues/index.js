@@ -15,7 +15,7 @@ const RadioGroup = Radio.Group;
 const TabPane = Tabs.TabPane;
 
 import SearchInput from 'components/Business/SearchInput'
-import { getTableData, getTableQuery,selectChange, selectDeptChange,fetchDeptData, showDispatchModal,updateTableData, table_params } from 'actions/business/clues/DispatchClues'
+//import { getTableData, getTableQuery,selectChange, selectDeptChange,fetchDeptData,updateTableData, table_params } from 'actions/business/clues/DispatchClues'
 
 import QueryDataTable from 'components/Business/QueryDataTable'
 import getQueryString from 'components/Business/GetQueryString'
@@ -101,31 +101,25 @@ class DispatchCluesPage extends Component {
 
 
     componentDidMount(){
-
+        const { actions } = this.props
         // todo: url包装
-        this.props.getTableData({
+        actions.getTableData({
             url: SCRM.url('/scrmlead/index/getAssignList'),
             data:{}
 
         })
-        //this.props.getTableQuery(SCRM.url('/scrmweb/business/getOpportunityFilter'))
-
-        /*this.fetchTableData({
-            assigned:dispatchState,//0未分派,1已分派未处理 不传默认0
-            rowsPerPage: 10
-        })*/
-
 
 
     }
 
     // 普通搜索和筛选(高级搜索)互斥
     normalSearch = (value) => {
+        const { actions } = this.props
         // 重置筛选(高级搜索)
         this.refs.queryDataTable.resetQueryForm()
 
         this.refs.queryDataTable.clearCheckedAndExpanded()
-        this.props.getTableData({
+        actions.getTableData({
             data: {
                 searchData: [],
                 owner: value,
@@ -133,12 +127,9 @@ class DispatchCluesPage extends Component {
             }
         })
 
-
-
-
     }
     changeType = (type) => {
-
+        const { actions } = this.props
 
         // 重置筛选(高级搜索)
         this.refs.searchInput.emptyInput()
@@ -146,16 +137,11 @@ class DispatchCluesPage extends Component {
         this.refs.queryDataTable.clearCheckedAndExpanded()
 
 
-        /*this.setState({
-            tabActive:!this.state.tabActive
-        })*/
-
-
         this.setState({
             type
         })
 
-        this.props.getTableData({
+        actions.getTableData({
             data: {
                 searchData: [],
                 owner: '',
@@ -177,18 +163,12 @@ class DispatchCluesPage extends Component {
 
     componentDidUpdate(prevProps,prevState){
 
-        /*console.log(prevProps,prevState,this.state.tabActive)
-
-        if(prevState.tabActive){
-            console.log(findDOMNode(this.refs.queryDataTable))
-            document.querySelector('.ant-pagination-options-quick-jumper input').value = '1';
-        }*/
 
     }
 
 
     showModal(){
-        const { $$dispatchCluesState  } = this.props
+        const { $$dispatchCluesState, actions  } = this.props
 
         const rowData = this.refs.queryDataTable.getCheckedRows()
         const deptData = $$dispatchCluesState.toJS().deptData
@@ -204,7 +184,7 @@ class DispatchCluesPage extends Component {
         })
 
 
-        this.props.selectDeptChange(null)
+        actions.selectDeptChange(null)
         if(this.refs.radioGroup){
             this.refs.radioGroup.setState({
                 value:null
@@ -220,7 +200,7 @@ class DispatchCluesPage extends Component {
                 type:'json',
                 success:(result) => {
                     if(result.rs){
-                        this.props.fetchDeptData(true,result.data)
+                        actions.fetchDeptData(true,result.data)
                     }else{
                         message.error(result.error)
                     }
@@ -237,17 +217,17 @@ class DispatchCluesPage extends Component {
     }
 
     onDeptRadioChange(e){
-
+        const { actions  } = this.props
 
         this.setState({
             selectOwner:e.target['data-name']
         })
-        this.props.selectDeptChange(e.target.value)
+        actions.selectDeptChange(e.target.value)
     }
 
 
     handleDispatchOk(){
-        const { $$dispatchCluesState  } = this.props
+        const { $$dispatchCluesState, actions  } = this.props
         const { selectedRadioID } = $$dispatchCluesState.toJS()
         const selectData = this.refs.queryDataTable.getCheckedRows()
         const selectIDs = selectData.map((item) => item.ID)
@@ -277,12 +257,12 @@ class DispatchCluesPage extends Component {
                     }
 
 
-                    this.props.selectChange([], []);
+                    actions.selectChange([], []);
                     this.setState({
                         visible:false
                     },() => {
                         message.success('分派成功！')
-                        this.props.updateTableData(selectIDs);
+                        actions.updateTableData(selectIDs);
 
                         this.setState({
                             flag:true
@@ -292,7 +272,7 @@ class DispatchCluesPage extends Component {
                             //console.log(this.props.$$dispatchCluesState.toJS().rows.length)
                             if(!this.props.$$dispatchCluesState.toJS().rows.length){
                                 //window.location.reload()
-                                this.props.getTableData({
+                                actions.getTableData({
                                     url: SCRM.url('/scrmlead/index/getAssignList'),
                                     data:{
                                         page:1
@@ -301,7 +281,7 @@ class DispatchCluesPage extends Component {
                                 })
 
                             }else{
-                                this.props.getTableData({
+                                actions.getTableData({
                                     url: SCRM.url('/scrmlead/index/getAssignList'),
 
                                 })
@@ -376,7 +356,7 @@ class DispatchCluesPage extends Component {
 
         const {
                 $$dispatchCluesState,
-                getTableData
+                actions
 
             } = this.props
 
@@ -423,7 +403,7 @@ class DispatchCluesPage extends Component {
 
                                 (obj)=>{
 
-                                    getTableData({
+                                    actions.getTableData({
                                         data: obj
                                     })
                                 }
@@ -462,18 +442,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-
-
-
 export default connect(
     mapStateToProps,
-    {
-        getTableData,
-        getTableQuery,
-        selectChange,
-        fetchDeptData,
-        selectDeptChange,
-        showDispatchModal,
-        updateTableData
-    }
+    mapDispatchToProps
 )(DispatchCluesPage)

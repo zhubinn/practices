@@ -76,27 +76,6 @@ class NumberReportViewPage extends Component {
             }
 
         })
-        //TODO 异步請求
-        /*reqwest({
-         url: SCRM.url('/scrmweb/numreport/listAjaxOfAdmin'),
-         method: 'post',
-         data:{
-         templateID:obj.templateid,
-         date:myDate.getFullYear() +'-'+ this.fillZero(myDate.getMonth()+1) +'-'+ this.fillZero(myDate.getDate()),
-         dateType:obj.nptype
-         },
-         type: 'json',
-         error: function (result) {
-         message.error('服务器错误，请联系客服')
-         },
-         success: (result) => {
-         if (result.rs) {
-         actions.fetchData(true, result.data)
-         } else {
-         message.error(result.error)
-         }
-         }
-         })*/
 
     }
 
