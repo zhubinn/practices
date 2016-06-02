@@ -4,6 +4,7 @@
 
 import fetch from 'isomorphic-fetch'
 
+import reqwest from 'components/Business/Reqwest'
 
 // 获取数据
 const GET_TABLE_DATA = 'GET_TABLE_DATA'
@@ -77,6 +78,31 @@ const getTableData = (params)=> {
         var data = new FormData();
         data.append("json", 1);
         data.append("json2", 1);
+
+        reqwest({
+            url: table_params.url = params.url || table_params.url,
+            type: 'json',
+            method: 'post',
+            data: {
+                params: JSON.stringify(Object.assign(table_params.data, params.data))
+            }
+        }).then(function (data) {
+            dispatch(fetchData(GET_TABLE_DATA_SUCCESS, {
+
+                rows: data.data.rowData,
+                current: data.data.current,
+                total: data.data.total,
+                pageSize: data.data.pageSize,
+                loading: false
+            }))
+        }).fail(function (err, msg) {
+            if (response.status >= 400) {
+                throw new Error("Bad response from server")
+            }
+            return response.json()
+        })
+
+
         fetch(table_params.url = params.url || table_params.url, {
             method: 'POST',
             credentials: 'include',
@@ -175,7 +201,7 @@ const getPermission = (params)=> {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
 
-            body: 'params=' + JSON.stringify({type:params.type})
+            body: 'params=' + JSON.stringify({type: params.type})
         }).then(function (response) {
             if (response.status >= 400) {
                 throw new Error("Bad response from server")
@@ -188,10 +214,10 @@ const getPermission = (params)=> {
                     permission: data.data
                 }))
 
-            }else{
+            } else {
                 Modal.error({
                     title: '发生异常',
-                    content: data.message||data.error||''
+                    content: data.message || data.error || ''
                 });
             }
 
