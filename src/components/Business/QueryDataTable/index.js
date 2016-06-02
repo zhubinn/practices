@@ -51,7 +51,7 @@ export default class QueryDataTable extends React.Component {
         super(props)
         this.identity = 'queryDataTable_' + randomString()
 
-        // todo: 默认的列宽度, 有bug ...
+
         this.defaultColWidth = 150
         this.queryForm = ''
 
@@ -176,7 +176,6 @@ export default class QueryDataTable extends React.Component {
                     this.props.form.resetFields()
 
 
-                    //this.handleSubmit(e)
                 },
 
                 render() {
@@ -342,7 +341,7 @@ export default class QueryDataTable extends React.Component {
     }
 
     render() {
-        const {dataSource, columns, queryColumns,  current, pageSize, total, checkMode, loading, expandedRowRender} = this.props
+        const {dataSource, columns, queryColumns,  current, pageSize, total, checkMode, loading, expandedRowRender, ...other} = this.props
         const {isSearchShow, selectedRowKeys} = this.state
         let rowSelection = null
         if (checkMode) {
@@ -384,9 +383,10 @@ export default class QueryDataTable extends React.Component {
             }
         }
 
+
         let table = (
             <Table ref='dataTable'
-                {...this.props}
+                {...other}
                    dataSource={dataSource.map((item, i) =>  Object.assign(item, {key: i})
                                )}
                    columns={columns.map((item, i, cols) => {
@@ -403,30 +403,31 @@ export default class QueryDataTable extends React.Component {
             </Table>
         )
         if (this.props.expandedRowRender) {
-            table = (<Table ref='dataTable'
+            table = (
+                <Table ref='dataTable'
 
-                {...this.props}
-                            dataSource={dataSource.map((item, i) =>  Object.assign(item, {key: i})
+                    {...other}
+                       dataSource={dataSource.map((item, i) =>  Object.assign(item, {key: i})
                                )}
-                            columns={columns.map((item, i, cols) => {
+                       columns={columns.map((item, i, cols) => {
                             if (i==cols.length-1) return  Object.assign({}, item, {width: ''})
 
                             return Object.assign(item, {width: item.width || this.defaultColWidth})
 
                             })}
-                            rowSelection={rowSelection}
-                            pagination={false}
-                            showHeader={false}
-                            loading={loading}
+                       rowSelection={rowSelection}
+                       pagination={false}
+                       showHeader={false}
+                       loading={loading}
 
-                            expandIconAsCell
-                            expandedRowRender={this.props.expandedRowRender}
-                            expandedRowKeys={this.state.expandedRowKeys}
-                            onExpandedRowsChange={this.onExpandedRowsChange}
-                            onExpand={this.onExpand}
-                            rowKey={this.getRowKey}
-            >
-            </Table>)
+                       expandIconAsCell
+                       expandedRowRender={this.props.expandedRowRender}
+                       expandedRowKeys={this.state.expandedRowKeys}
+                       onExpandedRowsChange={this.onExpandedRowsChange}
+                       onExpand={this.onExpand}
+                       rowKey={this.getRowKey}
+                >
+                </Table>)
         }
 
         return (
