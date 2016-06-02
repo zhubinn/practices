@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 import { Modal ,message} from 'antd';
+import reqwest from 'components/Business/Reqwest'
 
 //关键词搜索
 const account_StatisticDetail_SEARCH = 'account_StatisticDetail_SEARCH'
@@ -41,32 +42,30 @@ export const getAccountStatisticDetailData = (params) => {
 
     return (dispatch, getState) => {
         const url = params.url;
-        dispatch(_getAccountStatisticDetailData(account_StatisticDetail_GETDATA,{}));
+        dispatch(_getAccountStatisticDetailData(account_StatisticDetail_GETDATA,{}));        
 
-            fetch(params.url, {
-                credentials: 'include',
-                method: 'post',
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body:'params='+JSON.stringify(params.data) 
-            }).then(function(response) {
-                if (response.status >= 400) {
-                    throw new Error("Bad response from server")
-                }
-                return response.json()
-            }).then(function (data) {
-
-                if(data.rs){
-                    dispatch(_getAccountStatisticDetailData(account_StatisticDetail_GETDATA_SUCCESS, data.data))
-                }else{
-                    message.config({
-                      top: 250
-                    });             
-                    message.error(data.error);
-                }
+        reqwest({
+            url: params.url,
+            type: 'json',
+            method: 'post',
+            data: {
+                params: JSON.stringify(params.data)
+            }
+        }).then(function (data) {
+            if(data.rs){
+                dispatch(_getAccountStatisticDetailData(account_StatisticDetail_GETDATA_SUCCESS, data.data))
+            }else{
+                message.config({
+                  top: 250
+                });             
+                message.error(data.error);
+            }
+        }).fail(function (err, msg) {
+            Modal.error({
+                title:"出错了",
+                content:"服务器错误，请联系管理员",
             })
-        
+        })
     
     }
 }
