@@ -2,7 +2,7 @@
 /**
  * Created by ytm on 4/17/16
  */
-import fetch from 'isomorphic-fetch'
+import reqwest from 'components/Business/Reqwest'
 import { routerMiddleware, push } from 'react-router-redux'
 import {Modal} from 'antd'
 
@@ -40,20 +40,16 @@ const getFuncLogData = (params)=> {
 
     return (dispatch, getState) => {
         dispatch(fetchData(GET_FUNCLOG_DATA))
-        fetch(table_params.url = params.url || table_params.url, {
-            credentials: 'include',
+
+        reqwest({
+            url: table_params.url = params.url || table_params.url,
+            type: 'json',
             method: 'post',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: 'params=' +JSON.stringify(Object.assign(table_params.data, params.data))
-        }).then(function(response) {
-            if (response.status >= 400) {
-                throw new Error("Bad response from server")
+            data: {
+                params: JSON.stringify(Object.assign(table_params.data, params.data))
             }
-            return response.json()
-        }).then(function (data) {
-            
+        })
+        .then(function (data) {
             if(data.rs){
                 data.data.rowData = data.data.rowData || []
                 data.data.total = data.data.total || 0;
@@ -61,14 +57,17 @@ const getFuncLogData = (params)=> {
                 data.data.pageSize = data.data.pageSize || 10;
                 dispatch(fetchData(GET_FUNCLOG_SUCCESS, {data: data}))
             }else{
-                Modal.info({
-                    title: '错误信息',
-                    content: data.error,
-                    onOk() {
-                        dispatch(fetchData("PAGE_NO_DATA"))
-                    }
+                Modal.error({
+                    title: '出错了',
+                    content: data.error
                 });
             }
+        })
+        .fail(function (err, msg) {
+            Modal.error({
+                title: '出错了',
+                content: '服务器错误，请联系管理员',
+            });
         })
     }
 }
@@ -82,31 +81,33 @@ const getFuncLogQuery = (url)=> {
         }
     }
 
-    /**
-     *  body:  Object.assign(table_params.data, params.data)
-    **/
     return (dispatch, getState) => {
 
         dispatch(fetchData(GET_FUNCLOG_QUERY, {queryColumns: {}}))
 
-        fetch(table_query_url = url || table_query_url, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-
-            body: ''
-        }).then(function(response) {
-            if (response.status >= 400) {
-                throw new Error("Bad response from server")
+        reqwest({
+            url: table_query_url = url || table_query_url,
+            type: 'json',
+            method: 'post',
+            data: {}
+        })
+        .then(function (data) {
+            if(data.rs){
+                dispatch(fetchData(GET_FUNCLOG_QUERY_SUCCESS, {
+                    data: data.data
+                }))
+            }else{
+                Modal.error({
+                    title: '出错了',
+                    content: data.error
+                });
             }
-            return response.json()
-        }).then(function (data) {
-            dispatch(fetchData(GET_FUNCLOG_QUERY_SUCCESS, {
-                data: data.data
-            }))
-
+        })
+        .fail(function (err, msg) {
+            Modal.error({
+                title: '出错了',
+                content: '服务器错误，请联系管理员',
+            });
         })
 
     }

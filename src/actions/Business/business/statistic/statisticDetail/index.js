@@ -2,7 +2,7 @@
 /**
  * Created by ytm on 4/17/16
  */
-import fetch from 'isomorphic-fetch'
+import reqwest from 'components/Business/Reqwest'
 import { routerMiddleware, push } from 'react-router-redux'
 
 // 获取生意部门统计数据
@@ -37,69 +37,78 @@ const getStatisticDetailData = (params ,val) => {
 
     return (dispatch, getState) => {
         dispatch(fetchData(GET_STATISTICDETAIL_DATA))
-        fetch(table_params.url = params.url || table_params.url, {
-            credentials: 'include',
+
+        reqwest({
+            url: table_params.url = params.url || table_params.url,
+            type: 'json',
             method: 'post',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: 'params=' +JSON.stringify(Object.assign(table_params.data, params.data))
-        }).then(function(response) {
-            if (response.status >= 400) {
-                throw new Error("Bad response from server")
+            data: {
+                params: JSON.stringify(Object.assign(table_params.data, params.data))
             }
-            return response.json()
-        }).then(function (data) {
-            dispatch( fetchData(GET_STATISTICDETAIL_SUCCESS, {data: data}) )
+        })
+        .then(function (data) {
+            if(data.rs){
+                dispatch(fetchData(GET_STATISTICDETAIL_SUCCESS, {data: data}))
+            }else{
+                Modal.error({
+                    title: '出错了',
+                    content: data.error
+                });
+            }
+        })
+        .fail(function (err, msg) {
+            Modal.error({
+                title: '出错了',
+                content: '服务器错误，请联系管理员',
+            });
         })
     }
 }
 
 
-const getStatisticDetailQuery = (url)=> {
-    const fetchData = (type, payload)=> {
+// const getStatisticDetailQuery = (url)=> {
+//     const fetchData = (type, payload)=> {
 
-        return {
-            type,
-            payload
-        }
-    }
+//         return {
+//             type,
+//             payload
+//         }
+//     }
 
-    /**
-     *  body:  Object.assign(table_params.data, params.data)
-    **/
-    return (dispatch, getState) => {
+//     /**
+//      *  body:  Object.assign(table_params.data, params.data)
+//     **/
+//     return (dispatch, getState) => {
 
-        dispatch(fetchData(GET_STATISTICDETAIL_QUERY, {queryColumns: {}}))
+//         dispatch(fetchData(GET_STATISTICDETAIL_QUERY, {queryColumns: {}}))
 
-        fetch(table_query_url = url || table_query_url, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
+//         fetch(table_query_url = url || table_query_url, {
+//             method: 'POST',
+//             credentials: 'include',
+//             headers: {
+//                 'Content-Type': 'application/x-www-form-urlencoded'
+//             },
 
-            body: ''
-        }).then(function(response) {
-            if (response.status >= 400) {
-                throw new Error("Bad response from server")
-            }
-            return response.json()
-        }).then(function (data) {
-            dispatch(fetchData(GET_STATISTICDETAILQUERY_SUCCESS, {
-                data: data.data
-            }))
+//             body: ''
+//         }).then(function(response) {
+//             if (response.status >= 400) {
+//                 throw new Error("Bad response from server")
+//             }
+//             return response.json()
+//         }).then(function (data) {
+//             dispatch(fetchData(GET_STATISTICDETAILQUERY_SUCCESS, {
+//                 data: data.data
+//             }))
 
-        })
+//         })
 
-    }
-}
+//     }
+// }
 export {
     GET_STATISTICDETAIL_DATA,
     GET_STATISTICDETAIL_SUCCESS,
     GET_STATISTICDETAIL_FAILURE,
     GET_STATISTICDETAIL_QUERY,
     GET_STATISTICDETAILQUERY_SUCCESS,
-    getStatisticDetailData,
-    getStatisticDetailQuery,
+    getStatisticDetailData
 }

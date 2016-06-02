@@ -2,7 +2,7 @@
 /**
  * Created by ytm on 4/17/16
  */
-import fetch from 'isomorphic-fetch'
+import reqwest from 'components/Business/Reqwest'
 import { routerMiddleware, push } from 'react-router-redux'
 
 // 获取生意部门统计数据
@@ -23,21 +23,32 @@ const getDeptstatisticData = (params ,val) => {
 
     return (dispatch, getState) => {
         dispatch(fetchData(GET_DEPTSTATISTIC_DATA))
-        fetch(params.url, {
-            credentials: 'include',
+        
+        reqwest({
+            url: params.url,
+            type: 'json',
             method: 'post',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: 'params=' + JSON.stringify(params.data)
-        }).then(function(response) {
-            if (response.status >= 400) {
-                throw new Error("Bad response from server")
+            data: {
+                params: JSON.stringify(params.data)
             }
-            return response.json()
-        }).then(function (data) {
-            dispatch( fetchData(GET_DEPTSTATISTIC_SUCCESS, {data: data}) )
         })
+        .then(function (data) {
+            if(data.rs){
+                dispatch(fetchData(GET_DEPTSTATISTIC_SUCCESS, {data: data}))
+            }else{
+                Modal.error({
+                    title: '出错了',
+                    content: data.error
+                });
+            }
+        })
+        .fail(function (err, msg) {
+            Modal.error({
+                title: '出错了',
+                content: '服务器错误，请联系管理员',
+            });
+        })
+
     }
 }
 
