@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch'
 import { routerMiddleware, push } from 'react-router-redux'
 import { message, Button,Modal } from 'antd';
 import {FormData} from 'form-data'
-import reqwest from 'reqwest';
+import reqwest from 'components/Business/Reqwest'
 
 // 选择某一个字段编辑
 const ACCOUNT_CUSTOM_SELECTEDROWDATA = 'ACCOUNT_CUSTOM_SELECTEDROWDATA'
@@ -77,28 +77,28 @@ export const HasRepeatData = (status)=>{
         const url = params.url;
         //dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA,'req='));
 
-            fetch(params.url, {
-                credentials: 'include',
-                method: 'post',
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: 'req='+JSON.stringify(params.data)
-            }).then(function(response) {
-                if (response.status >= 400) {
-                    throw new Error("Bad response from server")
-                }
-                return response.json()
-            }).then(function (data) {
-                if(data.rs){
-                    dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data))
-                }else{
-                    message.config({
-                      top: 250
-                    });             
-                    message.error(data.error);                    
-                }
+        reqwest({
+            url: params.url,
+            type: 'json',
+            method: 'post',
+            data: {
+                req: JSON.stringify(params.data)
+            }
+        }).then(function (data) {
+            if(data.rs){
+                dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data))
+            }else{
+                message.config({
+                  top: 250
+                });             
+                message.error(data.error);                    
+            }
+        }).fail(function (err, msg) {
+            Modal.error({
+                title:"出错了",
+                content:"服务器错误，请联系管理员",
             })
+        })
         
     
     }
@@ -170,10 +170,8 @@ export const clickCancleBtn = ()=>{
         payload: ''
     }
 }
+
 //点击应用按钮
-
-
-
 
 export const clickapplyBtn = (applyParam)=> {
     const applyBtn = (type, data)=> {
@@ -187,19 +185,14 @@ export const clickapplyBtn = (applyParam)=> {
 
     return (dispatch, getState) => {
 
-        fetch(applyParam.url, {
-            method: 'POST',
-            credentials: 'include', 
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body:'req='+JSON.stringify(applyParam.data) 
-        }).then(function(response) {
-            if (response.status >= 400) {
-                throw new Error("Bad response from server")
+        reqwest({
+            url: applyParam.url,
+            type: 'json',
+            method: 'post',
+            data: {
+                req: JSON.stringify(applyParam.data)
             }
-            return response.json()
-        }).then(function(json) {
+        }).then(function (json) {
             if(json.rs){
                 dispatch(applyBtn(ACCOUNT_CUSTOM_APPLY_BTN,applyParam.data))
                 message.config({
@@ -221,49 +214,57 @@ export const clickapplyBtn = (applyParam)=> {
                     payload: data
                 }
             }
+            
             reqwest({
                 url: SCRM.url('/scrmdefined/account/getAccountEnumAttrList'),
                 method: 'post',
-                data: 'req='+JSON.stringify({}),
-                type: 'json',
-                success: (data) => {
-                    if(data.rs){
-                        dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data))
-                        //点击应用按钮更新完毕报表数据之后 重新更新state状态数据
-                        const applyID = applyParam.data.ID
-                        let applyCurrentNewData  = {}
+                data: {
+                    req:JSON.stringify({})
+                },
+                type: 'json'
+            }).then(function (data) {
+                if(data.rs){
+                    dispatch(_getTableData(ACCOUNT_CUSTOM_TABLE_GETDATA_SUCCESS, data.data))
+                    //点击应用按钮更新完毕报表数据之后 重新更新state状态数据
+                    const applyID = applyParam.data.ID
+                    let applyCurrentNewData  = {}
 
-                        data.data.map((r,i)=>{
-                            if(r.ID === applyID){
-                                applyCurrentNewData = r
-                            }
-                        })
+                    data.data.map((r,i)=>{
+                        if(r.ID === applyID){
+                            applyCurrentNewData = r
+                        }
+                    })
 
-                        //console.log(applyCurrentNewData)
-                        let selectedRow={}
-                        selectedRow.Label = applyCurrentNewData.Label
-                        selectedRow.AttrType = applyCurrentNewData.AttrType
-                        selectedRow.IsMust = applyCurrentNewData.IsMust
-                        selectedRow.col_Remark = applyCurrentNewData.col_Remark
-                        selectedRow.ID = applyCurrentNewData.ID
-                        selectedRow.Name= applyCurrentNewData.Name
+                    let selectedRow={}
+                    selectedRow.Label = applyCurrentNewData.Label
+                    selectedRow.AttrType = applyCurrentNewData.AttrType
+                    selectedRow.IsMust = applyCurrentNewData.IsMust
+                    selectedRow.col_Remark = applyCurrentNewData.col_Remark
+                    selectedRow.ID = applyCurrentNewData.ID
+                    selectedRow.Name= applyCurrentNewData.Name
 
-                        let editColumnsOptions = []
-                        editColumnsOptions = applyCurrentNewData.Enums 
+                    let editColumnsOptions = []
+                    editColumnsOptions = applyCurrentNewData.Enums 
 
-                        dispatch(selectedRowData(selectedRow,editColumnsOptions))
+                    dispatch(selectedRowData(selectedRow,editColumnsOptions))
 
-                    }else{
-                        message.config({
-                          top: 250
-                        });             
-                        message.error(data.error);           
-                    }
+                }else{
+                    message.config({
+                      top: 250
+                    });             
+                    message.error(data.error);           
                 }
             })
-        })
 
+
+        }).fail(function (err, msg) {
+            Modal.error({
+                title:"出错了",
+                content:"服务器错误，请联系管理员",
+            })
+        })
     }
+   
 }
 
 
