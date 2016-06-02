@@ -4,7 +4,7 @@
 import { connect } from 'react-redux'
 import {Button, Icon, Input, Row, Col, Tabs, Table, Pagination,Modal, Form, Upload, message, Progress  } from 'antd'
 
-import reqwest from 'reqwest'
+import reqwest from 'components/Business/Reqwest'
 
 import SearchInput from 'components/Business/SearchInput'
 import { getTableData, getTableQuery, getPermission, table_params } from 'actions/business/account/list/person'

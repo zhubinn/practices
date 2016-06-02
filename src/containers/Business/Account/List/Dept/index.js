@@ -12,7 +12,7 @@ import {
     changeIsShowStatus,
     getNextPagePeopleData
 } from 'actions/Component/SelectPeople'
-import reqwest from 'reqwest'
+import reqwest from 'components/Business/Reqwest'
 import { isEmpty } from 'lodash'
 import QueryDataTable from 'components/Business/QueryDataTable'
 import SelectPeople from 'components/Business/SelectPeople'
