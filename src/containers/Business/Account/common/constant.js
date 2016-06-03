@@ -135,7 +135,7 @@ const detail_columns = [{
     }
 
 },  {
-    title: '客户公司电话',
+    title: '公司电话',
     dataIndex: 'Phone',
     key: 'Phone',
 
@@ -216,7 +216,7 @@ const detail_columns = [{
     key: 'Industry',
 
 }, {
-    title: '客户公司网址',
+    title: '公司网址',
     dataIndex: 'WebSite',
     key: 'WebSite',
 
@@ -389,7 +389,7 @@ const list_columns = [{
     }
 
 }, {
-    title: '客户公司电话',
+    title: '公司电话',
     dataIndex: 'Phone',
     key: 'Phone',
 
@@ -470,7 +470,7 @@ const list_columns = [{
     key: 'Industry',
 
 }, {
-    title: '客户公司网址',
+    title: '公司网址',
     dataIndex: 'WebSite',
     key: 'WebSite',
 
