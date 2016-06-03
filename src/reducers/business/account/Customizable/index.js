@@ -29,7 +29,7 @@ const $$initialState = Immutable.fromJS({
     isApplySuccess:false
 })
 
-const  Customizable = ($$state = $$initialState, action)=>{
+const  customizable = ($$state = $$initialState, action)=>{
     switch(action.type) {
         case ACCOUNT_CUSTOM_ISREPEAT:
             return $$state.merge({isRepeat:action.payload})
@@ -193,4 +193,4 @@ const  Customizable = ($$state = $$initialState, action)=>{
     }
 }
 
-export default Customizable
+export default customizable

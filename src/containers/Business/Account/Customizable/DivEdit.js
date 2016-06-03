@@ -85,20 +85,11 @@ class DivEdit extends React.Component{
 				collectDeletedItem(deletedItem) 
         }
 
-
-
-
-
-
-
-
-
-
 	}
 	handleChangeInput(i,e){
 		let value = e.currentTarget.value;
 		const {changeInputValue} = this.props;
-			changeInputValue(i,value)
+		changeInputValue(i,value)
 	}
 	handleChangeselect(i,e){
         const ColumnsOptions = this.props.$$mapState.toJS().localeditColumnsOptions[i];
@@ -167,36 +158,36 @@ class DivEdit extends React.Component{
 				<div className ="ck-customize-gongWrap" >
 					<ul className = "ck-customize-gongncnt">
 						{
-								localeditColumnsOptions.map((opt,i)=>{
-									if(opt.IsDeleted==0){
-										return (
-											<li key = {i}>
-						                         <div className="Sequence clearfix">
-							                          <div className={i==0?'Sequence-none':'Sequence-top'} onClick = {this.handleItemUp.bind(this,i)}></div>
-							                          <div className={i==lastLen?'Sequence-none02':'Sequence-bottom'} onClick = {this.handleItemDown.bind(this,i)}></div>
-						                         </div>
-												<div className = "ck-gongncnt-first">
-													<input type = 'text' value = {opt.Val} placeholder = "最多输入10个汉字"  
-													 onChange = {this.handleChangeInput.bind(this,i)} 
-													 onBlur = {this.handleRepeatData.bind(this)}
-													 readOnly = {opt.IsSys =='1'?true:false}/>
-												</div>
-												<div className = "ck-gongncnt-second clearfix">
-													<button className='add' onClick = {this.handleAddItem.bind(this,i)}>+</button>
-													<button className={opt.IsSys=='1'?'disableCut':'cut'} disabled = {opt.IsSys=='1'?'disabled':''} onClick = {this.handleDeletItem.bind(this,i)}>-</button>
-												</div>
-												<div className = "ck-gongncnt-third">
-													 <Select  value = {opt.IsStop==0?'启用':'停用'} style={{ width: 90 }} 
-													 onChange={this.handleChangeselect.bind(this,i)} disabled = {opt.IsSys=='1'?true:false}>
-													      <Option value = "1" >停用</Option>
-													      <Option value = "0" >启用</Option>
-													  </Select>
-												</div>
-											</li>
-										)
-									}
+							localeditColumnsOptions.map((opt,i)=>{
+								if(opt.IsDeleted==0){
+									return (
+										<li key = {i}>
+					                         <div className="Sequence clearfix">
+						                          <div className={i==0?'Sequence-none':'Sequence-top'} onClick = {this.handleItemUp.bind(this,i)}></div>
+						                          <div className={i==lastLen?'Sequence-none02':'Sequence-bottom'} onClick = {this.handleItemDown.bind(this,i)}></div>
+					                         </div>
+											<div className = "ck-gongncnt-first">
+												<input type = 'text' value = {opt.Val} placeholder = "最多输入10个汉字"  
+												 onChange = {this.handleChangeInput.bind(this,i)} 
+												 onBlur = {this.handleRepeatData.bind(this)}
+												 readOnly = {opt.IsSys =='1'?true:false}/>
+											</div>
+											<div className = "ck-gongncnt-second clearfix">
+												<button className='add' onClick = {this.handleAddItem.bind(this,i)}>+</button>
+												<button className={opt.IsSys=='1'?'disableCut':'cut'} disabled = {opt.IsSys=='1'?'disabled':''} onClick = {this.handleDeletItem.bind(this,i)}>-</button>
+											</div>
+											<div className = "ck-gongncnt-third">
+												 <Select  value = {opt.IsStop==0?'启用':'停用'} style={{ width: 90 }} 
+												 onChange={this.handleChangeselect.bind(this,i)} disabled = {opt.IsSys=='1'?true:false}>
+												      <Option value = "1" >停用</Option>
+												      <Option value = "0" >启用</Option>
+												  </Select>
+											</div>
+										</li>
+									)
+								}
 
-								})							
+							})							
 						}
 					</ul>
 				</div>	

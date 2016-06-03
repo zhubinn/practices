@@ -44,10 +44,6 @@ export default class SelectPeople extends React.Component {
         }
     }
 
-    componentDidMount() {
-
-    }
-
     /*搜索框部分方法开始*/
 
 
@@ -104,7 +100,7 @@ export default class SelectPeople extends React.Component {
         // }
     }
 
-    //keyUp 搜索
+    //实时搜索
     handleKeyUp(e) {
         e = e || window.event
         const textValue = e.currentTarget.value;
@@ -264,9 +260,6 @@ export default class SelectPeople extends React.Component {
         }
     }
 
-    componentDidMount() {
-    }
-
     /*人员展示列表方法结束*/
 
     //人员列表展示部分
@@ -388,7 +381,7 @@ export default class SelectPeople extends React.Component {
         }, 0)
         this.props.handleClickCancle()
     }
-//是否勾选改变生意
+    //是否勾选改变生意
     handleChangeBusiness(e){
         const isChangeBusiness =  this.state.isChangeBusiness
         setTimeout(()=>{
@@ -426,19 +419,18 @@ export default class SelectPeople extends React.Component {
                 <div>{this.peopleList()}</div>
                 <div style={{marginTop: '10px'}}>
                     <span style={{marginRight: '10px'}}>已选{checkedRowsLength}个客户</span>
-                              <span style={{display:isShowChangeTogether?'inline-block':'none'}}>同时变更相关业务的负责人：                            
-                               <label>
-                                   <Checkbox ref="checkboxInput" checked={this.state.isChangeBusiness}
-                                             onChange={this.handleChangeBusiness.bind(this)}/>
-                                   生意
-                               </label>
-                               <label>
-                                   <Checkbox ref="checkboxInput" checked={this.state.isChangeContact}
-
-                                             onChange={this.handleChangeContact.bind(this)}/>
-                                   联系人
-                               </label>
-                                </span>
+                    <span style={{display:isShowChangeTogether?'inline-block':'none'}}>同时变更相关业务的负责人：                            
+                        <label>
+                            <Checkbox ref="checkboxInput" checked={this.state.isChangeBusiness}
+                                        onChange={this.handleChangeBusiness.bind(this)}/>
+                            生意
+                        </label>
+                        <label>
+                            <Checkbox ref="checkboxInput" checked={this.state.isChangeContact}
+                                onChange={this.handleChangeContact.bind(this)}/>
+                                联系人
+                        </label>
+                    </span>
                 </div>
             </Modal>
 

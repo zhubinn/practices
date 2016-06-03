@@ -118,8 +118,6 @@ class AccountPerSummary extends React.Component{
          queryDataTable.dataSource = dataSource
          queryDataTable.loading = $$account_persummary.toJS().loading
 
-
-
           return (
           <div className="ck-root-main">
               <div className="ck-root-title">

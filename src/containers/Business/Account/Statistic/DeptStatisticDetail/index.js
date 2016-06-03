@@ -51,11 +51,6 @@ let statisticDetailColumns = [
           <span>{text}</span>
           );
     }},
-    // {title: '参与的客户数量', dataIndex: 'Relation', key: 'Relation',width: 150,render: function(text, record, index){
-    //     return (
-    //       <span>{text}</span>
-    //       );
-    // }},
     {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width:176,className: 'column-money',render: function(text, record, index){
         return (
           <span>{text}</span>

@@ -10,13 +10,13 @@ import numberReportViewState from './numberReport/ListView'
 import dispatchCluesState from './clues/DispatchClues'
 
 
-import account_Customizable from './account/Customizable'
-import account_deptstatistic from './account/Statistic/DeptStatistic'
-import account_deptstatisticdetail from './account/Statistic/DeptStatisticDetail'
-import account_perstatistic from './account/Statistic/PerStatistic'
-import account_deptsummary from './account/Summary/DeptSummary'
-import account_persummary from './account/Summary/PerSummary'
-import account_deptsummarydetail from './account/Summary/DeptSummaryDetail'
+import account_customizable from './account/customizable'
+import account_deptstatistic from './account/statistic/deptStatistic'
+import account_deptstatisticdetail from './account/statistic/deptStatisticDetail'
+import account_perstatistic from './account/statistic/perStatistic'
+import account_deptsummary from './account/summary/deptSummary'
+import account_persummary from './account/summary/perSummary'
+import account_deptsummarydetail from './account/summary/deptSummaryDetail'
 
 import account_list_dept from './account/list/dept'
 import account_list_person from './account/list/person'
@@ -42,7 +42,7 @@ import business_detail_person from './business/detail/person'
 
 
 const businessReducers = combineReducers({
-    account_Customizable,
+    account_customizable,
     account_deptstatistic,
     account_perstatistic,
     account_deptstatisticdetail,

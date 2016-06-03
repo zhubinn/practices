@@ -4,9 +4,22 @@ import 'containers/styles/default/less/CustomizablePage.less'
 
 import DivTab from './DivTab'
 
-import { selectedRowData,clickCloseBtn,selectedTabIndex,changeIsRequired,getTableData,
-    addItem,deletItem,changeInputValue,ChangeStatus,clickapplyBtn,DownItem,UpItem,
-    clickCancleBtn,dataItem,collectDeletedItem,HasRepeatData} from 'actions/Business/Account/Customizable'
+import { selectedRowData,
+        clickCloseBtn,
+        selectedTabIndex,
+        changeIsRequired,
+        getTableData,
+        addItem,
+        deletItem,
+        changeInputValue,
+        ChangeStatus,
+        clickapplyBtn,
+        DownItem,
+        UpItem,
+        clickCancleBtn,
+        dataItem,
+        collectDeletedItem,
+        HasRepeatData} from 'actions/Business/Account/Customizable'
 
 import { Table, Icon,message ,Modal,Button,Row,Col} from 'antd';
 
@@ -27,7 +40,6 @@ let columns = [
         return (<div>{text}</div>);
     } },
     {title: '操作', dataIndex: 'ID',key: 'ID' , width: 140, render: function(text, record, index){ 
-        //let self = new  CustomizablePage()
         return (<button className = "ck-customize-bnt01" onClick={e=>currentText.handleSelectSet(record)}>设置</button>)
     }}
 ];
@@ -197,73 +209,67 @@ class CustomizablePage extends  React.Component{
 
 
         const Footer = (
-                <div className = "ck-customizeBtn clearfix" style={{display:currentTabIndex=='2'?'none':'block'}}>
-                    <Row justify="center" align="middle">
-                        <Col span="10" >
-                            <Button className = "ck-customizeBtnL" type = 'primary' onClick = {this.handleApply.bind(this)}>应用</Button>
-                        </Col>
-                        <Col span="10" >
-                            <Button className = "ck-customizeBtnR" type = 'primary' onClick = {this.handleCancle.bind(this)}>取消</Button>
-                        </Col>
-                    </Row>
-                </div>          
-            )
+            <div className = "ck-customizeBtn clearfix" style={{display:currentTabIndex=='2'?'none':'block'}}>
+                <Row justify="center" align="middle">
+                    <Col span="10" >
+                        <Button className = "ck-customizeBtnL" type = 'primary' onClick = {this.handleApply.bind(this)}>应用</Button>
+                    </Col>
+                    <Col span="10" >
+                        <Button className = "ck-customizeBtnR" type = 'primary' onClick = {this.handleCancle.bind(this)}>取消</Button>
+                    </Col>
+                </Row>
+            </div>          
+        )
 
-            return (
-                <div className = "col_right" >
-                    <div className = "customsTableWrap">
-                        <Table ref = "dataTable"
-                         columns={columns} 
-                         dataSource={dataSource} 
-                         useFixedHeader 
-                         pagination = {false}
-                         selectedRowData = {selectedRowData}
-                         getTableData = {getTableData}
-                        />
-
-                    </div>
-
-
-                        <Modal ref="modal"
-                              className="customizableSettingModal"
-                              visible={IsShow}
-                              title={label+'设置'} 
-                              width = '600'
-                              footer = {Footer}
-                              onCancel = {this.handleClose.bind(this)}                   
-                              >
-                              <div>
-                                <DivTab 
-                                    $$mapState={$$mapState} 
-                                    selectedTabIndex={selectedTabIndex} 
-                                    changeIsRequired = {changeIsRequired} 
-                                    addItem={addItem} 
-                                    deletItem={deletItem} 
-                                    changeInputValue={changeInputValue} 
-                                    ChangeStatus={ChangeStatus}
-                                    DownItem = {DownItem} 
-                                    UpItem={UpItem} 
-                                    clickapplyBtn={clickapplyBtn} 
-                                    clickCancleBtn={clickCancleBtn}
-                                    getTableData= {getTableData}  
-                                    collectDeletedItem={collectDeletedItem}                              
-                                    HasRepeatData = {HasRepeatData}
-                                    >
-                                </DivTab>
-                             </div>
-                        </Modal>
-
-
-
+        return (
+            <div className = "col_right" >
+                <div className = "customsTableWrap">
+                    <Table ref = "dataTable"
+                     columns={columns} 
+                     dataSource={dataSource} 
+                     useFixedHeader 
+                     pagination = {false}
+                     selectedRowData = {selectedRowData}
+                     getTableData = {getTableData}
+                    />
 
                 </div>
-                )
+                <Modal ref="modal"
+                      className="customizableSettingModal"
+                      visible={IsShow}
+                      title={label+'设置'} 
+                      width = '600'
+                      footer = {Footer}
+                      onCancel = {this.handleClose.bind(this)}                   
+                      >
+                      <div>
+                        <DivTab 
+                            $$mapState={$$mapState} 
+                            selectedTabIndex={selectedTabIndex} 
+                            changeIsRequired = {changeIsRequired} 
+                            addItem={addItem} 
+                            deletItem={deletItem} 
+                            changeInputValue={changeInputValue} 
+                            ChangeStatus={ChangeStatus}
+                            DownItem = {DownItem} 
+                            UpItem={UpItem} 
+                            clickapplyBtn={clickapplyBtn} 
+                            clickCancleBtn={clickCancleBtn}
+                            getTableData= {getTableData}  
+                            collectDeletedItem={collectDeletedItem}                              
+                            HasRepeatData = {HasRepeatData}
+                            >
+                        </DivTab>
+                     </div>
+                </Modal>
+            </div>
+        )
 	}
 }
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$mapState: state.business.account_Customizable
+        $$mapState: state.business.account_customizable
     }
 }
 

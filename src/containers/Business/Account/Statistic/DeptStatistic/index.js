@@ -21,7 +21,6 @@ let deptstatisticColumns = [
     {title: '部门名称', dataIndex: 'Name', key: 'Name', width: 220,render: function(text, record, index){
         const  peneUrl = SCRM.url('/scrmweb/accounts/deptstatisticdetail?id=' + record.ID + '&name='+ escape(record.Name).replace(/%u/gi, '\\u'));
         const linkHref = SCRM.url('/scrmweb/accounts/deptstatistic?deptID=' + record.ID);
-        const sumHref = SCRM.url('/scrmweb/accounts/deptstatistic');
         if(record.Name == "小计"){
         return (
           <span>
@@ -52,11 +51,6 @@ let deptstatisticColumns = [
           <span>{text}</span>
           );
     }},
-    // {title: '参与的客户数量', dataIndex: 'Relation', key: 'Relation',width: 150,render: function(text, record, index){
-    //     return (
-    //       <div>{text}</div>
-    //       );
-    // }},
     {title: '重点客户数量', dataIndex: 'Focus', key: 'Focus',width: 220,className: 'column-money',
     render: function(text, record, index){
         return (
