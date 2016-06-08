@@ -45,14 +45,14 @@ const detail_columns = [{
     width: 100
 
 }, {
-    title: '客户公司地址',
+    title: '公司地址',
     dataIndex: 'Address',
     key: 'Address',
 
     render: function (text, record, index) {
         let cell = (<p>{record.Address}</p>)
         if (!!record.Lat) {
-            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng, record.Lat, '客户公司地址')}}>{record.Address}</a>)
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng, record.Lat, '公司地址')}}>{record.Address}</a>)
         }
         return cell
     }
@@ -135,7 +135,7 @@ const detail_columns = [{
     }
 
 },  {
-    title: '客户公司电话',
+    title: '公司电话',
     dataIndex: 'Phone',
     key: 'Phone',
 
@@ -216,7 +216,7 @@ const detail_columns = [{
     key: 'Industry',
 
 }, {
-    title: '客户公司网址',
+    title: '公司网址',
     dataIndex: 'WebSite',
     key: 'WebSite',
 
@@ -299,14 +299,14 @@ const list_columns = [{
     width: 100
 
 }, {
-    title: '客户公司地址',
+    title: '公司地址',
     dataIndex: 'Address',
     key: 'Address',
 
     render: function (text, record, index) {
         let cell = (<p>{record.Address}</p>)
         if (!!record.Lat) {
-            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng, record.Lat, '客户公司地址')}}>{record.Address}</a>)
+            cell = (<a href="javascript:;" onClick={()=>{MapModal(record.Lng, record.Lat, '公司地址')}}>{record.Address}</a>)
         }
         return cell
     }
@@ -389,7 +389,7 @@ const list_columns = [{
     }
 
 }, {
-    title: '客户公司电话',
+    title: '公司电话',
     dataIndex: 'Phone',
     key: 'Phone',
 
@@ -470,7 +470,7 @@ const list_columns = [{
     key: 'Industry',
 
 }, {
-    title: '客户公司网址',
+    title: '公司网址',
     dataIndex: 'WebSite',
     key: 'WebSite',
 
