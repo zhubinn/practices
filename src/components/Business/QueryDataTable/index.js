@@ -9,6 +9,8 @@ import { isEmpty } from 'lodash'
 import CurrencyInput from  'components/Business/QueryDataTable/CurrencyInput'
 import randomString  from 'random-string'
 
+import 'components/styles/default/components/QueryDataTable/index.less'
+
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 const createForm = Form.create;
@@ -17,8 +19,28 @@ const RangePicker = DatePicker.RangePicker;
 const InputGroup = Input.Group;
 
 
+
+
 function noop() {
 }
+
+
+const styles = {
+    // 嵌套加号占位宽度
+    expandedIconWidth: {
+        width: 34
+    },
+    tableBoxModel: {
+        width: 880,
+        overflow: 'auto'
+    },
+    tableWrap:{
+        maxHeight: 500,
+        minHeight: 250,
+        overflow: 'auto'
+    }
+}
+
 
 
 export default class QueryDataTable extends React.Component {
@@ -190,7 +212,7 @@ export default class QueryDataTable extends React.Component {
 
                                 <tr className="ant-table-row">
                                     {checkMode ? (<td className="ant-table-selection-column"></td>) : null}
-                                    {needExpand ? (<td style={{width:34}}></td>) : null}
+                                    {needExpand ? (<td style={styles.expandedIconWidth}></td>) : null}
 
                                     {
                                         columns.map((col, i) => (
@@ -309,7 +331,7 @@ export default class QueryDataTable extends React.Component {
 
         let width = 0
         this.props.checkMode && (width = width + 60)
-        this.props.expandedRowRender && (width = width + 34)
+        this.props.expandedRowRender && (width = width + styles.expandedIconWidth)
         this.props.columns.forEach((item, i) => {
             width += item.width || this.defaultColWidth
         })
@@ -434,7 +456,7 @@ export default class QueryDataTable extends React.Component {
 
             <div className="QueryDataTable">
 
-                <div ref="TableBoxModel" style={{width: '880px', overflow: "auto"}} onScroll={() =>{
+                <div ref="TableBoxModel" style={styles.tableBoxModel} onScroll={() =>{
 
                     const formFooterWrapNode = document.getElementById("formFooterWrap"+this.identity)
                     if(formFooterWrapNode){
@@ -458,7 +480,7 @@ export default class QueryDataTable extends React.Component {
                                                         checked={ !!dataSource.length && this.state.selectedRowKeys.length === dataSource.length }
                                                         onChange={
                                                             (e)=>{this.handleSelectAll(e, dataSource)}}/></th>) : null }
-                                            {this.props.expandedRowRender ? (<th style={{width: 34}}></th>) : null}
+                                            {this.props.expandedRowRender ? (<th style={{width: styles.expandedIconWidth}}></th>) : null}
                                             {
                                                 columns.map((col, i) => <th key={i}>
 
@@ -482,7 +504,7 @@ export default class QueryDataTable extends React.Component {
                             </div>
                         </div>
 
-                        <div style={{ maxHeight: '500px', minHeight:'250px', overflow: "auto"}}>
+                        <div  style={styles.tableWrap}>
                             {table}
                         </div>
 
@@ -506,3 +528,4 @@ export default class QueryDataTable extends React.Component {
         )
     }
 }
+
