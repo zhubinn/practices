@@ -50,6 +50,16 @@ function renderFullPage(html, initialState) {
         <div id="root">loading</div>
         <script>
           //window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
+          var SCRM = {
+            url:function(){
+
+            }
+          },
+          GLOBAL_INFO = {
+            userinfo:{
+                ID:""
+            }
+          }
         </script>
         <script src="//cdn.bootcss.com/react/0.14.7/react.min.js"></script>
         <script src="//cdn.bootcss.com/react/0.14.7/react-dom.min.js"></script>

@@ -21,6 +21,8 @@ import ModulePage from 'containers/Master/Module'
 
 import Error_404 from 'containers/Error/404'
 
+import DemoPagination from 'containers/__demo/DemoPagination'
+
 
 
 //客户
@@ -62,8 +64,7 @@ import DataLog from 'containers/Business/Log/DataLog'
 export default (
     <Route path="/">
         <Route path="__demo" component={MasterPage}>
-
-
+           <Route path="Pagination" component={DemoTodoList}/>
         </Route>
 
 

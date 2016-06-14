@@ -48,7 +48,7 @@ class IndexPage extends React.Component {
                     </li>                    
                     <li>
                         <Link to="/__demo/selectPeople">
-                            选人组件
+                            选人组件111
                         </Link>
                     </li>
                 </ul>
