@@ -24,7 +24,7 @@ class IndexPage extends React.Component {
                         </li>
                         <li>
                             <Link to="/numberReport/NumberReportViewPage">
-                                报数---查看报数
+                                报数---查看报数1
                             </Link>
                         </li>
                     </ul>
@@ -48,7 +48,12 @@ class IndexPage extends React.Component {
                     </li>                    
                     <li>
                         <Link to="/__demo/selectPeople">
-                            选人组件111
+                            选人组件
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/__demo/DemoFullCalender">
+                            日期
                         </Link>
                     </li>
                 </ul>

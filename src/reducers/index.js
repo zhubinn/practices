@@ -8,10 +8,13 @@ import components from './components'
 
 import business from './business'
 
+import __demo from './__demo'
+
 
 const rootReducer = combineReducers({
     components,
     business,
     routing,
+    __demo,
 })
 export default rootReducer

@@ -16,8 +16,7 @@ const __demoReducers = combineReducers({
     report,
     user,
     DemoPagination,
-    DemoTodoList,
-    selectPeople
+    DemoTodoList
 })
 
 export default __demoReducers
