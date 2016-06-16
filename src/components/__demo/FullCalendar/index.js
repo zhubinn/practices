@@ -7,7 +7,7 @@ import classNames from 'classnames/dedupe'
 
 import CalendarHeader from './CalendarHeader'
 import CalendarBody from './CalendarBody'
-// import './FullCalender.css'
+import './FullCalendar.less'
 
 
 class FullCalender extends React.Component {
@@ -16,7 +16,7 @@ class FullCalender extends React.Component {
   }
   render() {
       return ( 
-      <div className = "FullCalender" > 
+      <div className="FullCalender"> 
         <CalendarHeader />
         <CalendarBody />
       </div>

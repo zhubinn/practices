@@ -3,9 +3,9 @@
  */
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import FullCalender from 'components/__demo/FullCalender'
+import FullCalender from 'components/__demo/FullCalendar'
 
-class DemoFullCalender extends React.Component {
+class DemoFullCalendar extends React.Component {
 	constructor(){
         super()
     }
@@ -21,9 +21,9 @@ class DemoFullCalender extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        $$mapState: state.__demo.DemoFullCalender
+        $$mapState: state.__demo.DemoFullCalendar
     }
 }
 
 export default connect (mapStateToProps, {
-}) (DemoFullCalender)
+}) (DemoFullCalendar)

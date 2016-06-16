@@ -23,7 +23,7 @@ import Error_404 from 'containers/Error/404'
 
 import DemoTodoList from 'containers/__demo/DemoTodoList'
 
-import DemoFullCalender from 'containers/__demo/DemoFullCalender'
+import DemoFullCalendar from 'containers/__demo/DemoFullCalendar'
 
 
 
@@ -67,7 +67,7 @@ export default (
     <Route path="/">
         <Route path="__demo" component={MasterPage}>
            <Route path="DemoTodoList" component={DemoTodoList}/>
-           <Route path="DemoFullCalender" component={DemoFullCalender}/>
+           <Route path="DemoFullCalendar" component={DemoFullCalendar}/>
         </Route>
 
 
